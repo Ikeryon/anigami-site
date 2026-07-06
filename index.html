@@ -7,7 +7,7 @@
 <meta name="description" content="Il sito di Anigami è in fase di restyling. Torniamo presto con una nuova veste.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-deep: #0b0b10;
@@ -28,9 +28,7 @@
   body {
     font-family: 'Inter', sans-serif;
     color: var(--text-soft);
-    background: radial-gradient(circle at 50% 20%, var(--bg-mid) 0%, var(--bg-deep) 70%);
-    background-size: 200% 200%;
-    animation: drift 18s ease-in-out infinite;
+    background-color: #050507;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -39,18 +37,20 @@
     position: relative;
   }
 
-  @keyframes drift {
-    0%   { background-position: 50% 10%; }
-    50%  { background-position: 50% 40%; }
-    100% { background-position: 50% 10%; }
-  }
-
-  .grain {
+  .network {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.14;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='300'%20height='300'%3E%3Cg%20fill='none'%20stroke='%23cbd0d6'%20stroke-width='0.6'%3E%3Cline%20x1='24'%20y1='38'%20x2='96'%20y2='18'/%3E%3Cline%20x1='96'%20y1='18'%20x2='168'%20y2='54'/%3E%3Cline%20x1='168'%20y1='54'%20x2='252'%20y2='30'/%3E%3Cline%20x1='24'%20y1='38'%20x2='58'%20y2='104'/%3E%3Cline%20x1='96'%20y1='18'%20x2='58'%20y2='104'/%3E%3Cline%20x1='58'%20y1='104'%20x2='136'%20y2='98'/%3E%3Cline%20x1='136'%20y1='98'%20x2='168'%20y2='54'/%3E%3Cline%20x1='136'%20y1='98'%20x2='204'%20y2='132'/%3E%3Cline%20x1='168'%20y1='54'%20x2='204'%20y2='132'/%3E%3Cline%20x1='204'%20y1='132'%20x2='252'%20y2='30'/%3E%3Cline%20x1='58'%20y1='104'%20x2='40'%20y2='188'/%3E%3Cline%20x1='136'%20y1='98'%20x2='150'%20y2='198'/%3E%3Cline%20x1='150'%20y1='198'%20x2='204'%20y2='132'/%3E%3Cline%20x1='40'%20y1='188'%20x2='150'%20y2='198'/%3E%3Cline%20x1='40'%20y1='188'%20x2='90'%20y2='252'/%3E%3Cline%20x1='150'%20y1='198'%20x2='90'%20y2='252'/%3E%3Cline%20x1='150'%20y1='198'%20x2='214'%20y2='248'/%3E%3Cline%20x1='204'%20y1='132'%20x2='214'%20y2='248'/%3E%3Cline%20x1='90'%20y1='252'%20x2='214'%20y2='248'/%3E%3C/g%3E%3Cg%20fill='%23e5e8ec'%3E%3Ccircle%20cx='24'%20cy='38'%20r='1.6'/%3E%3Ccircle%20cx='96'%20cy='18'%20r='1.6'/%3E%3Ccircle%20cx='168'%20cy='54'%20r='1.6'/%3E%3Ccircle%20cx='252'%20cy='30'%20r='1.6'/%3E%3Ccircle%20cx='58'%20cy='104'%20r='1.6'/%3E%3Ccircle%20cx='136'%20cy='98'%20r='1.6'/%3E%3Ccircle%20cx='204'%20cy='132'%20r='1.6'/%3E%3Ccircle%20cx='40'%20cy='188'%20r='1.6'/%3E%3Ccircle%20cx='150'%20cy='198'%20r='1.6'/%3E%3Ccircle%20cx='90'%20cy='252'%20r='1.6'/%3E%3Ccircle%20cx='214'%20cy='248'%20r='1.6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 300px 300px;
+  }
+
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 45%, transparent 30%, #050507 88%);
   }
 
   .content {
@@ -88,19 +88,13 @@
     margin: 0 0 1.4rem;
   }
 
-  .rule {
-    width: 64px;
-    height: 1px;
-    margin: 1.6rem auto;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  }
-
   .tagline {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    letter-spacing: 0.02em;
     color: var(--text-soft);
-    margin: 0 0 1.4rem;
+    margin: 0 0 1.6rem;
     line-height: 1.5;
   }
 
@@ -144,12 +138,12 @@
 </style>
 </head>
 <body>
-  <div class="grain"></div>
+  <div class="network"></div>
+  <div class="vignette"></div>
   <main class="content">
     <img class="logo" src="logo-imagina.svg" alt="Imagina" onerror="this.style.display='none'; document.querySelector('.mark-fallback').style.display='inline-block';">
     <h1 class="mark mark-fallback" style="display:none;">Ani<span>gami</span></h1>
-    <div class="rule"></div>
-    <p class="tagline">Stiamo raccontando qualcosa di nuovo.</p>
+    <p class="tagline">Un nuovo capitolo si apre.</p>
     <p class="note">Il sito è momentaneamente in fase di restyling.<br>
     Torneremo presto con una nuova veste — grazie per la pazienza.</p>
   </main>
