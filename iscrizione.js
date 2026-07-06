@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contest La Trota e il Verdicchio 2026 - Imagina</title>
+<meta name="description" content="Hai una ricetta a base di trota? Falla uscire dal cassetto. Partecipa al Contest La Trota e il Verdicchio 2026: racconta la tua ricetta in un video e prova ad arrivare alla finale dal vivo.">
+<link rel="stylesheet" href="/assets/contest.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <img src="/contest-assets/logo-trota-verdicchio.png" alt="La Trota e il Verdicchio" style="height:64px;">
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">Contest 2026 · Gratuito · Aperto a tutta Italia</span>
+      <h1 class="hero-title">Hai una ricetta a base di trota?<br>Falla uscire dal cassetto.</h1>
+      <p class="hero-sub">
+        Racconta la tua ricetta in un video, mettiti in gioco e prova ad arrivare alla finale dal vivo al Food Lab UNICAM. Che tu sia alle prime armi o un professionista dei fornelli, qui c'è spazio per tutti.
+      </p>
+      <div class="hero-meta">
+        <span>📅 Candidature entro il 15 settembre 2026</span>
+        <span>🎬 Video di massimo 2 minuti</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#iscrizione" class="btn-primary">Voglio partecipare</a>
+        <a href="/regolamento-contest/" class="btn-secondary">Leggi il regolamento</a>
+      </div>
+      <p class="hero-sub" style="margin-top:20px; font-size:0.92rem;">
+        Non serve avere già il video pronto: pre-iscriviti ora, riceverai via email le istruzioni e il link per completare la candidatura.
+      </p>
+      <div class="hero-photo">
+        <img src="/contest-assets/hero.jpg" alt="Un partecipante racconta la sua ricetta al microfono durante l'edizione 2025" style="border-radius:20px; width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- COME FUNZIONA -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Tre passaggi. Una ricetta.<br>Una finale dal vivo.</h2>
+      <p class="section-sub">Il percorso è semplice: prima ti pre-iscrivi, poi prepari il video, infine completi la candidatura con il link.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Pre-iscrizione</h3>
+            <p>Lascia i tuoi contatti: riceverai subito via email il link per completare la candidatura.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Prepara il video</h3>
+            <p>Racconta in massimo 2 minuti una ricetta a base di trota: tradizionale, creativa o completamente nuova.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Pubblica e completa</h3>
+            <p>Pubblica il video in modalità pubblica con l'hashtag #latrotaeilverdicchio2026 e inviaci il link entro il 15 settembre 2026.</p>
+          </div>
+        </div>
+      </div>
+      <p class="section-sub" style="margin-top:24px; margin-bottom:0;">I video correttamente iscritti saranno pubblicati online e votabili dal 16 al 25 settembre 2026.</p>
+    </div>
+  </section>
+
+  <!-- PERCHÉ LA TROTA -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">La trota è il pesce contemporaneo.</h2>
+      <p class="section-sub">Ha un profilo nutrizionale da urlo, è delicata, versatile, sostenibile e sorprendentemente attuale. Dalle cucine di casa alle tavole gourmet, dalla tradizione alle contaminazioni più creative, la trota sa diventare antipasto, secondo, finger food, comfort food o piatto da fine dining. Dipende solo da chi la interpreta.</p>
+      <div class="grid-3">
+        <div class="pillar">
+          <div class="emoji">💪</div>
+          <h3>Nutraceutica</h3>
+          <p>Ricca di proprietà benefiche, leggera e adatta a ogni tavola.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🎨</div>
+          <h3>Versatile</h3>
+          <p>Si presta a mille interpretazioni, dalla tradizione alla creatività più libera.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🌱</div>
+          <h3>Sostenibile</h3>
+          <p>Un ingrediente a km0, legato al territorio e all'acquacoltura locale.</p>
+        </div>
+      </div>
+      <div style="margin-top:24px; border-radius:20px; overflow:hidden;">
+        <img src="/contest-assets/piatto-trota.jpg" alt="Piatto gourmet a base di trota presentato durante l'edizione 2025" style="width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- CHE RICETTA -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Che ricetta puoi candidare?</h2>
+      <p class="section-sub">Non serve essere chef: la giuria valuta l'idea, il racconto e la voglia di mettersi in gioco.</p>
+      <div class="grid-3">
+        <div class="pillar">
+          <div class="emoji">👵</div>
+          <h3>Ricetta della tradizione</h3>
+          <p>Un piatto familiare, una memoria di casa, un sapore che merita di essere rimesso in circolo.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">✨</div>
+          <h3>Reinterpretazione creativa</h3>
+          <p>Una trota riletta con un twist personale: aperitivo, finger food, secondo piatto o contaminazione.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🚀</div>
+          <h3>Idea originale</h3>
+          <p>Un'idea nuova, anche audace, purché raccontabile in video e replicabile dal vivo in caso di finale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIA / GALLERY -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">Un evento ricco di storie e sapori.</h2>
+      <p class="section-sub">Il contest nasce dentro una storia più ampia: quella de La Trota e il Verdicchio, appuntamento che negli anni ha acceso i riflettori su Sefro, sulla trota e su un modo originale di raccontare l'entroterra marchigiano.</p>
+      <div class="gallery">
+        <img src="/contest-assets/gallery-1.jpg" alt="Momenti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-2.jpg" alt="La giuria dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-3.jpg" alt="Ospiti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-4.jpg" alt="Momenti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-5.jpg" alt="La giuria dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-6.jpg" alt="Un assaggio dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+      </div>
+    </div>
+  </section>
+
+  <!-- FINALE E PREMIO -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Dallo schermo alla finale.</h2>
+      <p class="section-sub">Dal 16 al 25 settembre 2026 i video saranno visibili e votabili online. I tre partecipanti più votati accederanno alla finale dal vivo, il 1° ottobre 2026 a Camerino, presso il Food Lab del Corso di Laurea in Scienze Gastronomiche UNICAM, dove presenteranno la propria ricetta davanti a una giuria tecnica.</p>
+      <div class="prize-card">
+        <h3>🏆 Il premio</h3>
+        <p>Una targa speciale e una Sefro Experience per due persone: un weekend dedicato alla scoperta del territorio, dei sapori e del valore dell'acquacoltura.</p>
+      </div>
+      <div style="margin-top:20px; border-radius:20px; overflow:hidden;">
+        <img src="/contest-assets/premiazione.jpg" alt="La premiazione del contest edizione 2025" style="width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- SEFRO EXPERIENCE -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">E poi c'è Sefro.</h2>
+      <p class="section-sub">Acqua, natura, silenzi, sapori: la Sefro Experience è il premio che porta il contest fuori dalla cucina e dentro il paesaggio che lo ispira. Un assaggio di entroterra marchigiano, tra acquacoltura, biodiversità e meraviglia.</p>
+      <div class="photo-placeholder" style="background:linear-gradient(135deg, #2c7a7b, #1f5b5c); border-style:solid; color:#fff;">
+        💧 FOTO — Cascate di Sefro<br><span style="font-weight:400;">(da caricare)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Domande veloci prima di iniziare.</h2>
+      <details class="faq-item">
+        <summary>Devo avere già il video pronto?</summary>
+        <p>No. Puoi pre-iscriverti ora e completare la candidatura dopo, entro il 15 settembre.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quanto deve durare il video?</summary>
+        <p>Massimo 2 minuti.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Dove devo pubblicarlo?</summary>
+        <p>Su Instagram, Facebook, TikTok o YouTube, in modalità pubblica.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quale hashtag devo usare?</summary>
+        <p>#latrotaeilverdicchio2026</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quando si vota?</summary>
+        <p>Dal 16 al 25 settembre 2026.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Dove trovo il regolamento?</summary>
+        <p>Consulta il <a href="/regolamento-contest/">regolamento ufficiale</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="block" id="iscrizione">
+    <div class="container">
+      <h2 class="section-title">Pre-iscriviti ora.</h2>
+      <p class="section-sub">Compila il modulo: riceverai subito via email il link per completare la candidatura con nome della ricetta, ingredienti e video.</p>
+
+      <div class="form-card">
+        <form id="form-iscrizione" novalidate>
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" autocomplete="family-name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="whatsapp">Numero WhatsApp / cellulare</label>
+            <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="city">Città di provenienza</label>
+            <input type="text" id="city" name="city" autocomplete="address-level2" required>
+          </div>
+
+          <div class="field">
+            <label>A che punto sei con la tua ricetta?</label>
+            <div class="field-radio">
+              <label><input type="radio" name="statoRicetta" value="Ho gia l'idea" required> Ho già l'idea della ricetta</label>
+              <label><input type="radio" name="statoRicetta" value="Sto ancora decidendo"> Sto ancora decidendo cosa preparare</label>
+              <label><input type="radio" name="statoRicetta" value="Video gia pronto"> Ho già girato (o quasi finito) il video</label>
+            </div>
+          </div>
+
+          <div class="field-check">
+            <input type="checkbox" id="privacy" name="consensoPrivacy" required>
+            <label for="privacy">Autorizzo il trattamento dei dati per la gestione della partecipazione al contest, secondo l'<a href="/privacy/" target="_blank">informativa privacy</a>.</label>
+          </div>
+          <div class="field-check">
+            <input type="checkbox" id="newsletter" name="consensoNewsletter">
+            <label for="newsletter">Voglio ricevere aggiornamenti sul contest e sulle iniziative di Imagina.</label>
+          </div>
+
+          <button type="submit" id="submit-btn">Voglio partecipare</button>
+          <div class="form-message error" id="form-error"></div>
+        </form>
+
+        <p class="support-note">Hai dubbi? La segreteria è a disposizione anche su <a href="https://wa.me/390737685623">WhatsApp al numero 0737 685623</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRAND TOUR PARTNERSHIP -->
+  <section class="block alt">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title">Tappa ufficiale del Grand Tour delle Marche.</h2>
+      <p class="section-sub">Un viaggio tra eventi, borghi, sapori e comunità per scoprire le Marche da cittadini temporanei.</p>
+      <div class="partner-strip">
+        <div class="photo-placeholder small" style="width:140px;">Logo Grand Tour</div>
+      </div>
+      <p style="margin-top:20px;"><a href="/" class="btn-secondary">Scopri tutti gli eventi</a></p>
+    </div>
+  </section>
+
+  <div class="logo-band">
+    <img src="/contest-assets/logo-band-galpa.jpg" alt="GALPA Marche · Unione Europea · FEAMPA · Ministero dell'Agricoltura · Regione Marche" style="height:auto; max-width:100%; width:420px;">
+  </div>
+
+  <footer class="site-footer">
+    Iniziativa promossa dal Comune di Sefro e cofinanziata dal GALPA Marche nell'ambito del Programma FEAMPA.<br>
+    <a href="/regolamento-contest/">Regolamento ufficiale</a> · <a href="/privacy/">Privacy policy</a><br><br>
+    Imagina Srl Società Benefit · Viale Giacomo Leopardi, 14 – Camerino (MC)<br>
+    <a href="mailto:info@anigami.it">info@anigami.it</a> · Tel 0737.685623 · P.IVA/C.F. IT 01115460436
+  </footer>
+
+  <script>
+    const form = document.getElementById('form-iscrizione');
+    const btn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('form-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = {
+        nome: form.nome.value.trim(),
+        cognome: form.cognome.value.trim(),
+        email: form.email.value.trim(),
+        whatsapp: form.whatsapp.value.trim(),
+        city: form.city.value.trim(),
+        statoRicetta: form.statoRicetta.value,
+        consensoPrivacy: form.consensoPrivacy.checked,
+        consensoNewsletter: form.consensoNewsletter.checked,
+      };
+
+      btn.disabled = true;
+      btn.textContent = 'Invio in corso...';
+
+      try {
+        const res = await fetch('/api/iscrizione', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) throw new Error('Richiesta non riuscita');
+
+        window.location.href = '/conferma-iscrizione-contest/';
+      } catch (err) {
+        errorBox.textContent = 'Qualcosa non ha funzionato. Riprova tra qualche istante o scrivici su WhatsApp al numero indicato qui sopra.';
+        errorBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Voglio partecipare';
+      }
+    });
+  </script>
+</body>
+</html>

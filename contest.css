@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invio materiale Contest La Trota e il Verdicchio 2026 - Imagina</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/assets/contest.css">
+</head>
+<body>
+  <section class="block" style="padding-top:40px;">
+    <div class="container">
+      <div class="topbar" style="padding-top:0;">
+        <img src="/contest-assets/logo-trota-verdicchio.png" alt="La Trota e il Verdicchio" style="height:56px;">
+      </div>
+      <h2 class="section-title">Completa la candidatura</h2>
+      <p class="section-sub">Ultimo passaggio: raccontaci la tua ricetta e mandaci il link al video pubblicato.</p>
+
+      <div class="form-card">
+        <p style="font-size:0.9rem; color:var(--ink-soft); margin-top:0; line-height:1.6;">
+          Prima di inviare, controlla di aver: pubblicato il video in modalità pubblica · inserito l'hashtag <strong>#latrotaeilverdicchio2026</strong> · preparato titolo, descrizione e ingredienti della ricetta · verificato che il link al video sia raggiungibile da chiunque.
+        </p>
+
+        <form id="form-materiale" novalidate>
+          <div class="field">
+            <label for="email">Email (la stessa usata in iscrizione)</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="nomeRicetta">Nome della ricetta</label>
+            <input type="text" id="nomeRicetta" name="nomeRicetta" required>
+          </div>
+          <div class="field">
+            <label for="descrizione">Descrizione della ricetta</label>
+            <textarea id="descrizione" name="descrizione" required></textarea>
+          </div>
+          <div class="field">
+            <label for="ingredienti">Ingredienti utilizzati</label>
+            <textarea id="ingredienti" name="ingredienti" required></textarea>
+          </div>
+          <div class="field">
+            <label for="videoLink">Link al video pubblicato</label>
+            <input type="url" id="videoLink" name="videoLink" placeholder="https://" required>
+          </div>
+
+          <div class="field-check">
+            <input type="checkbox" id="regolamento" name="consensoRegolamento" required>
+            <label for="regolamento">Dichiaro di aver preso visione e di accettare integralmente il <a href="/regolamento-contest/" target="_blank">regolamento ufficiale del contest</a>.</label>
+          </div>
+          <div class="field-check">
+            <input type="checkbox" id="privacy" name="consensoPrivacy" required>
+            <label for="privacy">Dichiaro di aver preso visione dell'<a href="/privacy/" target="_blank">informativa privacy</a> e autorizzo il trattamento dei dati.</label>
+          </div>
+
+          <button type="submit" id="submit-btn">Completa la candidatura</button>
+          <div class="form-message error" id="form-error"></div>
+        </form>
+
+        <p class="support-note">Serve aiuto? Scrivici su <a href="https://wa.me/390737685623">WhatsApp al 0737 685623</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="logo-band">
+    <img src="/contest-assets/logo-band-galpa.jpg" alt="GALPA Marche · Unione Europea · FEAMPA · Ministero dell'Agricoltura · Regione Marche" style="height:auto; max-width:100%; width:380px;">
+  </div>
+
+  <footer class="site-footer">
+    Imagina Srl Società Benefit · <a href="mailto:info@anigami.it">info@anigami.it</a> · P.IVA/C.F. IT 01115460436
+  </footer>
+
+  <script>
+    const form = document.getElementById('form-materiale');
+    const btn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('form-error');
+
+    const params = new URLSearchParams(window.location.search);
+    const prefillEmail = params.get('email');
+    if (prefillEmail) form.email.value = prefillEmail;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = {
+        email: form.email.value.trim(),
+        nomeRicetta: form.nomeRicetta.value.trim(),
+        descrizione: form.descrizione.value.trim(),
+        ingredienti: form.ingredienti.value.trim(),
+        videoLink: form.videoLink.value.trim(),
+        consensoRegolamento: form.consensoRegolamento.checked,
+        consensoPrivacy: form.consensoPrivacy.checked,
+      };
+
+      btn.disabled = true;
+      btn.textContent = 'Invio in corso...';
+
+      try {
+        const res = await fetch('/api/materiale', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) throw new Error('Richiesta non riuscita');
+
+        window.location.href = '/materiale-ricevuto/';
+      } catch (err) {
+        errorBox.textContent = 'Qualcosa non ha funzionato. Riprova tra qualche istante o scrivici su WhatsApp.';
+        errorBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Completa la candidatura';
+      }
+    });
+  </script>
+</body>
+</html>
