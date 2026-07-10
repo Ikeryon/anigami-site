@@ -1,5 +1,93 @@
 ---
 import BrandLayout from '../../layouts/BrandLayout.astro';
+import VideoCard from '../../components/VideoCard.astro';
+
+// NOTA PER PAOLO — struttura "The Blue Way" (10/07/2026):
+// Come indicato, The Blue Way è presentato qui come piattaforma
+// internazionale — non si esaurisce negli hackathon, che sono uno dei
+// formati/esempi di progettualità che genera. Tre livelli:
+//   1) Essenza — cos'è la piattaforma (testo tuo)
+//   2) Pillole — condivisione di conoscenza: progetti europei, esempi,
+//      buone pratiche (target: europrogettisti, ricercatori, operatori
+//      blue economy) — video dalla playlist "The Blue Way" del canale
+//      Tipicità + alcuni video di progetto del Polo Tecnologico
+//   3) Hackathon — tre esempi concreti di progettualità nata dentro The
+//      Blue Way: Ancona 2024, Ancona 2025 (edizione nautica), Trieste/
+//      Barcolana57 2025
+// I testi dei fatti (date, luoghi, partner) sono bozze basate sui
+// materiali che mi hai inviato (comunicati stampa, programmi, PDF) —
+// sostituiscili pure, li ho lasciati solo per non montare la sezione
+// vuota. Fonti: CS1/CS2/CS3 The Blue Way Hack, Hackathon_Spoke_8.pdf,
+// Hackathon.docx, CS8giornate Blue economy, Voiceover1/2,
+// SintesiTBWH25_traccia, BLUESLINKS Call of interest.
+//
+// Punto aperto: i materiali sull'edizione 2025 di Ancona parlano di un
+// programma Interreg Italia-Croazia (Blueslinks) con team italo-croati,
+// mentre il testo "Tracce" più sotto parla di studenti UNIVPM/Trieste —
+// da riconciliare quando scrivi il testo definitivo.
+
+const bluePillole = [
+  { id: 'e7TnD5orNR0', title: 'Reloaded Materials — A Virtuous Chain', meta: '5:33' },
+  { id: 'DR14eK82zlM', title: 'Blue Coast Agreements 2030', meta: '5:50' },
+  { id: 'UVyXUUTgsHE', title: 'Advanced Training for Shipwrights', meta: '5:02' },
+  { id: 'ytD52UB5AfM', title: 'Biodiversity and Alien Species', meta: '5:16' },
+  { id: 'SU1TInSVU-E', title: 'Capacity Building', meta: '6:29' },
+  { id: 'cB0iVeYEa9I', title: 'Green New Deal', meta: '4:57' },
+  { id: 'MkGWbkoyYJ4', title: 'The Birth of a Flag', meta: '2:51' },
+  { id: '7jxwlv3Lfyw', title: 'Sea Tourism Sector', meta: '7:51' },
+  { id: 'nkd4TodlLn0', title: 'Blueslinks — KIC One Water', meta: '4:56' },
+  { id: 'MzrlPIrV24o', title: 'Blueslinks — 1st & 2nd Nautical Info Days', meta: '7:13' },
+  { id: '-k-tta-0tqc', title: 'Blueslinks — Learning the Blue Economy through AI', meta: '1:49' },
+  { id: '8UJftzvRfIk', title: 'Blueslinks — Project Meeting & Steering Committee, Ecomondo 2024', meta: '2:23' },
+];
+
+const hackathons = [
+  {
+    id: 'ancona-2024',
+    title: 'Ancona 2024 — 48 ore per decifrare il mare',
+    when: '23–24 maggio 2024',
+    where: 'Sala Eventi Unicorn, Passetto, Ancona — nella settimana di Tipicità in Blu',
+    facts:
+      "Organizzato da Polo Tecnologico Alto Adriatico, Università Politecnica delle Marche, Università di Trieste, IRBIM CNR e OGS, co-finanziato dal progetto EIT Reginna 4.0 e dal PNRR iNEST, in collaborazione con Tipicità in Blu, Comune di Ancona e Confindustria Ancona Piccola Industria. 50 tra studenti maggiorenni, neolaureati e dottorandi. Conduzione di Marco Ardemagni (RAI Caterpillar AM).",
+    main: { id: 'iypiTFOGyBk', title: 'The Blue Way Hackathon — 48 ore per decifrare il mare', meta: '3:15' },
+    related: [
+      { id: 'LnubZd1h3u8', title: 'The Blue Way Hackathon — Le voci dei protagonisti', meta: '5:41' },
+      { id: 'aJ2kiPim2q4', title: 'The Blue Way Hackathon — Trailer', meta: '0:46' },
+      { id: 'CYjcJINBLUQ', title: 'The Blue Way Hackathon 2024 — documentario completo', meta: '17:34' },
+    ],
+  },
+  {
+    id: 'ancona-2025',
+    title: 'Ancona 2025 — edizione nautica',
+    when: 'maggio 2025, settimana di Tipicità in Blu',
+    where: 'Mole Vanvitelliana, Ancona',
+    facts:
+      'Inquadrato nel progetto Interreg Italia-Croazia Blueslinks, focus su Transition 4.0/5.0 e principi ESG applicati al settore nautico e alla portualità turistica. Quattro team al lavoro su altrettante sfide proposte da PMI del settore: WAVE, PORT PULSE, BLUE ACCESS, KNOT.',
+    main: { id: 'xmwevSIJNwY', title: 'The Blue Way Hackathon — Nautical Edition', meta: '4:55' },
+    related: [
+      { id: 'cH1PlMpigLM', title: 'The Blue Way Hackathon 2025 — WAVE', meta: '3:39' },
+      { id: 'eRJNYEPIOR4', title: 'The Blue Way Hackathon 2025 — PORT PULSE', meta: '4:03' },
+      { id: '1so4BMui_68', title: 'The Blue Way Hackathon 2025 — BLUE ACCESS', meta: '2:36' },
+      { id: 'xcqPtoV4iqg', title: 'The Blue Way Hackathon 2025 — KNOT', meta: '2:52' },
+    ],
+  },
+  {
+    id: 'trieste-2025',
+    title: 'Trieste 2025 — Sfide per l’Adriatico del Futuro',
+    when: '13–14 ottobre 2025, dentro Barcolana57',
+    where: 'Urban Center, Corso Cavour 2/2, Trieste',
+    facts:
+      "Proposto dal progetto PNRR iNEST (Spoke 8) in collaborazione con Barcolana57. 30 partecipanti in rappresentanza di 15 startup e spin-off universitari, cinque team intitolati ai venti dell'Adriatico. Classifica finale: 1° Scirocco (AQUATWIN), 2° Libeccio (Barcolà), 3° ex aequo Tramontana (B.E.M.) e Bora (SCOVAZ), 4° Maestrale (Blue Echo). Giuria: Elena Grech (Commissione Europea), Carlo Bagnoli (iNEST), Franco Scolari (Polo Tecnologico Alto Adriatico), Piero Zecchini (Direttore Barcolana), Sonia Lussi (Confindustria Alto Adriatico).",
+    main: { id: 'aEM526rP08Q', title: 'The Blue Way Hack — Sfide per l’Adriatico del Futuro', meta: '3:13' },
+    related: [
+      { id: '-5aOGey7Aco', title: 'Team Scirocco — AquaTwin (1°)', meta: '2:02' },
+      { id: '5zF-WP9ELIk', title: 'Team Libeccio — Barcolà (2°)', meta: '2:19' },
+      { id: 'GMhwh01De2Q', title: 'Team Tramontana — B.E.M. (3° ex aequo)', meta: '3:22' },
+      { id: 'SiNLWE3-y9M', title: 'Team Bora — Scovaz (3° ex aequo)', meta: '1:45' },
+      { id: 'Na-TwzLKaJI', title: 'Team Maestrale — Blue Echo (4°)', meta: '3:25' },
+    ],
+  },
+];
 
 const chapters = [
   { id: 'essenza', label: 'Essenza' },
@@ -21,6 +109,8 @@ const chapters = [
   brandName="Tipicità in Blu"
   chapters={chapters}
   logoSrc="/logos/tipicita-in-blu.svg"
+  kicker="Ancona · ogni anno a maggio"
+  heroLine="Mare, laboratorio di futuro."
 >
   <Fragment slot="practical">
     <span><strong>Quando</strong> ogni anno, una settimana a maggio</span>
@@ -36,12 +126,56 @@ const chapters = [
     <p data-reveal>Tipicità in Blu doveva essere la versione costiera di Tipicità. Non lo è mai diventata — è diventata altro: un contenitore di progetti e una piattaforma di confronto sui grandi temi della blue economy. Non è un caso che sia nata ad Ancona: qui, nel 2000, è stata firmata la Dichiarazione che ha dato origine alla cooperazione adriatico-ionica, la stessa area di cui Ancona resta, ancora oggi, il punto più centrale.</p>
 
     <p data-reveal>Da qui, negli anni, è diventata un punto di incontro naturale per chi arriva dal Nord Est, dall'Emilia, da tutto il bacino adriatico e oltre — un riferimento per il lancio di nuovi progetti, per la formazione, per il confronto internazionale sul futuro del mare.</p>
+
+    <!-- PLACEHOLDER PER PAOLO: foto reali del festival — la Mole
+         Vanvitelliana, il porto, la Sailing Chef, le giornate blue economy. -->
+    <div class="media-strip" data-reveal>
+      <div class="media-ph"><span>Foto · La Mole Vanvitelliana</span></div>
+      <div class="media-ph"><span>Foto · Il porto di Ancona</span></div>
+      <div class="media-ph"><span>Foto · Le giornate blu</span></div>
+    </div>
   </section>
 
   <section class="chapter" id="the-blue-way">
     <h2 data-reveal>The Blue Way</h2>
 
     <p data-reveal>The Blue Way è la visione che connette blue economy, economia circolare, transizione ecologica e digitale e valorizzazione delle competenze territoriali. Nasce dall'incontro tra Tipicità in Blu e il Polo Tecnologico Alto Adriatico di Trieste, come laboratorio fisico e digitale per attivare un ecosistema di talenti, energie e competenze — nella convinzione che ogni elemento acquisti valore attraverso la relazione con gli altri.</p>
+
+    <p data-reveal>Non è un'entità giuridica, ma — per usare le parole con cui il progetto si descrive — un "cantiere in movimento": una piattaforma permanente che dal 2022 collega Trieste a Bari e le comunità dell'Adriatico orientale, oggi oltre 50 tra enti di ricerca, atenei, poli tecnologici, amministrazioni pubbliche e imprese.</p>
+
+    <div class="blue-pillole">
+      <h3 data-reveal>Pillole — progetti e buone pratiche</h3>
+      <p class="pillole-intro" data-reveal>Una raccolta pensata per chi lavora nella blue economy — europrogettisti, ricercatori, operatori — con casi, progetti europei e buone pratiche condivisi dalla rete The Blue Way.</p>
+      <div class="video-grid" data-reveal>
+        {bluePillole.map((v) => (
+          <VideoCard youtubeId={v.id} title={v.title} meta={v.meta} />
+        ))}
+      </div>
+    </div>
+
+    <div class="blue-hackathons">
+      <h3 data-reveal>Hackathon — esempi di progettualità</h3>
+      <p class="pillole-intro" data-reveal>Tra i formati che The Blue Way attiva per trasformare ricerca e idee in soluzioni concrete, l'hackathon: tre edizioni, tre territori.</p>
+
+      {hackathons.map((h) => (
+        <article class="hack-card" data-reveal>
+          <h4>{h.title}</h4>
+          <div class="hack-meta">
+            <span><strong>Quando</strong> {h.when}</span>
+            <span><strong>Dove</strong> {h.where}</span>
+          </div>
+          <p class="hack-facts">{h.facts}</p>
+          <div class="hack-main-video">
+            <VideoCard youtubeId={h.main.id} title={h.main.title} meta={h.main.meta} />
+          </div>
+          <div class="video-grid video-grid--related">
+            {h.related.map((v) => (
+              <VideoCard youtubeId={v.id} title={v.title} meta={v.meta} />
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
   </section>
 
   <section class="chapter" id="tracce">
@@ -49,3 +183,77 @@ const chapters = [
     <p data-reveal>The Blue Way Hackathon, Ancona, 2024 — 48 ore per decifrare il mare. The Blue Way Hackathon, Ancona, 2025, Mole Vanvitelliana — l'edizione nautica, focus su transizione 5.0 ed ESG, team di studenti dell'Università Politecnica delle Marche e dell'Università di Trieste. The Blue Way Hack, Trieste, ottobre 2025 — "Sfide per l'Adriatico del Futuro", dentro Barcolana57, la storica regata internazionale di Trieste.</p>
   </section>
 </BrandLayout>
+
+<style>
+  .blue-pillole,
+  .blue-hackathons {
+    margin-top: 2.4rem;
+  }
+
+  .blue-pillole h3,
+  .blue-hackathons h3 {
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  }
+
+  .pillole-intro {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    max-width: 56ch;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.6rem 1.2rem;
+    margin: 1.4rem 0 0.4rem;
+  }
+
+  .video-grid--related {
+    margin-top: 1rem;
+  }
+
+  .hack-card {
+    border-top: 1px solid var(--hairline);
+    padding: 2.2rem 0;
+  }
+
+  .hack-card:first-of-type {
+    margin-top: 1.8rem;
+  }
+
+  .hack-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--brand-accent);
+    margin: 0 0 0.5rem;
+  }
+
+  .hack-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.4rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .hack-meta strong {
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+
+  .hack-facts {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    max-width: 62ch;
+  }
+
+  .hack-main-video {
+    max-width: 360px;
+    margin: 1.2rem 0 0.6rem;
+  }
+</style>

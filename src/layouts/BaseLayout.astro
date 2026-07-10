@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 import Footer from '../components/Footer.astro';
 
 interface Props {
@@ -41,6 +42,8 @@ const { title, description, accent, structuredData } = Astro.props;
   {accent && (
     <style set:html={`:root { --brand-accent: ${accent}; }`} />
   )}
+
+  <ViewTransitions />
 </head>
 <body>
   <slot name="header" />
@@ -49,9 +52,15 @@ const { title, description, accent, structuredData } = Astro.props;
 
   <script>
     // Reveal allo scroll — progressive enhancement, vedi global.css.
-    // Se IntersectionObserver non è disponibile, i blocchi restano visibili
-    // (nessun contenuto dipende da questo script per essere leggibile).
-    if ('IntersectionObserver' in window) {
+    // Con le View Transitions attive, il DOM viene sostituito a ogni
+    // navigazione: l'inizializzazione va rifatta su astro:page-load
+    // (che scatta anche al primo caricamento).
+    function initReveal() {
+      const els = document.querySelectorAll('[data-reveal]:not([data-reveal-init])');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('is-visible'));
+        return;
+      }
       const io = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
@@ -63,10 +72,13 @@ const { title, description, accent, structuredData } = Astro.props;
         },
         { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
       );
-      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
-    } else {
-      document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+      els.forEach((el) => {
+        el.setAttribute('data-reveal-init', '');
+        io.observe(el);
+      });
     }
+    document.addEventListener('astro:page-load', initReveal);
+    initReveal();
   </script>
 </body>
 </html>

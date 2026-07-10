@@ -53,8 +53,9 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: clamp(2.4rem, 6vw, 3.6rem);
-  line-height: 1.1;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
 }
 
 h2 {
@@ -216,44 +217,19 @@ header.imagina-header img {
   display: block;
 }
 
-/* Header di marchio — ogni landing ha la propria identità: logo proprio
-   (placeholder testuale finché non arrivano i file reali), palette propria,
-   nessuna nav condivisa con gli altri marchi. Solo un rimando discreto ad
-   anigami.it, coerente con "rimando discreto in fondo" del brief (sez. 5). */
+/* Header di marchio — ora ridotto a un velo sopra l'hero: il logo del
+   marchio non sta più in una barra, sta al centro dell'hero a piena
+   altezza (vedi .brand-hero). Qui resta solo il rimando discreto ad
+   Anigami, in alto a destra, coerente col brief (sez. 5). */
 header.brand-header {
-  position: relative;
-  padding: 2rem 0 1.8rem;
-}
-
-header.brand-header .bar {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-header.brand-header .brand-logo {
-  height: 46px;
-  width: auto;
-  display: block;
-}
-
-header.brand-header .back-link {
   position: absolute;
-  top: 0.2rem;
-  right: 1.6rem;
-}
-
-header.brand-header .brand-mark {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 1.5rem;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  color: var(--brand-accent);
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  padding: 1.6rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 header.brand-header .back-link {
@@ -327,4 +303,257 @@ header.brand-header .back-link:hover {
 .no-js [data-reveal] {
   opacity: 1;
   transform: none;
+}
+
+/* ============================================================
+   UPGRADE OSSATURA — 10/07/2026
+   Hero cinematici per i marchi, capitoli numerati, barra capitoli
+   sticky, placeholder visivi, grana filmica, utilità comuni.
+   ============================================================ */
+
+/* Grana filmica su tutto il sito: quasi invisibile, ma toglie la
+   "piattezza digitale" dei fondi scuri uniformi. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Etichetta piccola, maiuscola, spaziata — il "sussurro" prima del titolo. */
+.eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand-accent);
+  margin: 0 0 1.4rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Hero di marchio: ogni landing si apre come un manifesto a piena
+   altezza. Logo grande al centro, atmosfera nel colore del marchio,
+   una sola riga di apertura. --- */
+.brand-hero {
+  position: relative;
+  min-height: 92svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.6rem 6.5rem;
+  overflow: hidden;
+}
+
+.brand-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 95% 65% at 50% 0%, color-mix(in srgb, var(--brand-accent) 24%, transparent), transparent 72%),
+    radial-gradient(ellipse 75% 55% at 50% 115%, color-mix(in srgb, var(--brand-accent) 13%, transparent), transparent 70%);
+}
+
+.brand-hero > * {
+  position: relative;
+}
+
+.brand-hero .hero-logo {
+  height: clamp(76px, 13vw, 140px);
+  width: auto;
+  margin: 0 0 2.2rem;
+  filter: drop-shadow(0 10px 46px color-mix(in srgb, var(--brand-accent) 50%, transparent));
+}
+
+.brand-hero .hero-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: clamp(3rem, 9vw, 5.4rem);
+  color: var(--text-soft);
+  margin: 0 0 1.6rem;
+  line-height: 1.05;
+}
+
+.brand-hero .hero-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.28;
+  max-width: 24ch;
+  margin: 0 auto;
+  color: var(--text-soft);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 50%;
+  width: 1px;
+  height: 58px;
+  background: linear-gradient(var(--brand-accent), transparent);
+  animation: cue 2.4s ease-in-out infinite;
+}
+
+@keyframes cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}
+
+/* --- Barra dei capitoli: resta agganciata in alto dopo l'hero, con
+   il logo piccolo del marchio e il rimando ad Anigami. È la spina
+   dorsale della navigazione interna. --- */
+.chapter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--bg-void) 78%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.chapter-bar .inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.85rem 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.chapter-bar .bar-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+  flex: none;
+}
+
+.chapter-bar nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.3rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.chapter-bar nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.chapter-bar nav a:hover {
+  color: var(--brand-accent);
+}
+
+.chapter-bar .bar-home {
+  margin-left: auto;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-faint);
+  flex: none;
+}
+
+.chapter-bar .bar-home:hover {
+  color: var(--text-dim);
+}
+
+/* --- Capitoli numerati: il numero è generato via CSS, nessuna
+   modifica ai contenuti delle pagine. --- */
+main.brand-main {
+  counter-reset: chapter;
+}
+
+main.brand-main section.chapter {
+  counter-increment: chapter;
+  padding: 4.4rem 0;
+}
+
+main.brand-main section.chapter > h2::before {
+  content: counter(chapter, decimal-leading-zero);
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  color: var(--text-faint);
+  margin-bottom: 1rem;
+}
+
+/* --- Placeholder visivi: dove andranno foto e girato reale.
+   Non un rettangolo grigio: un'atmosfera nel colore del marchio,
+   con etichetta discreta, così l'ossatura si giudica già completa. --- */
+.media-ph {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 120% 90% at 20% 0%, color-mix(in srgb, var(--brand-accent) 22%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--bg-deep), var(--bg-void) 70%);
+  border: 1px solid var(--hairline);
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem 1.2rem;
+}
+
+.media-ph::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    115deg,
+    transparent 0 26px,
+    color-mix(in srgb, var(--brand-accent) 6%, transparent) 26px 27px
+  );
+}
+
+.media-ph span {
+  position: relative;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.media-ph--tall { aspect-ratio: 3 / 4; }
+.media-ph--wide { aspect-ratio: 21 / 9; }
+
+.media-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  margin: 2.2rem 0 0.6rem;
+}
+
+.media-strip .media-ph {
+  border: none;
 }

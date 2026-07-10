@@ -1,21 +1,10 @@
 ---
-// Header di marchio — identità autonoma per ogni landing (nota di Paolo,
-// 10/07/2026): logo proprio al centro, nessuna nav condivisa con gli altri
-// marchi, solo un rimando discreto ad anigami.it.
-interface Props {
-  brandName: string;
-  /** Percorso del logo reale (public/logos/...). Se assente, wordmark testuale provvisorio. */
-  logoSrc?: string;
-}
-const { brandName, logoSrc } = Astro.props;
+// Velo sopra l'hero di marchio (nota di Paolo, 10/07/2026): il logo del
+// marchio non sta più in una barra — vive grande al centro dell'hero a
+// piena altezza (vedi BrandLayout). Qui resta solo il rimando discreto
+// ad Anigami, in alto a destra, coerente col brief (sez. 5).
 ---
+
 <header class="brand-header">
-  <div class="bar">
-    {logoSrc ? (
-      <img class="brand-logo" src={logoSrc} alt={brandName} />
-    ) : (
-      <span class="brand-mark">{brandName}</span>
-    )}
-    <a class="back-link trace-link" href="/">Anigami</a>
-  </div>
+  <a class="back-link trace-link" href="/">Anigami</a>
 </header>

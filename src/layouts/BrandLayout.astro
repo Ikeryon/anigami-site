@@ -2,6 +2,12 @@
 import BaseLayout from './BaseLayout.astro';
 import BrandHeader from '../components/BrandHeader.astro';
 
+// Ogni landing di marchio è un manifesto autonomo (brief, sez. 5):
+// si apre a piena altezza con il logo grande al centro e una sola riga
+// di apertura — la frase più forte del racconto, non uno slogan.
+// Poi la barra dei capitoli resta agganciata in alto per tutta la
+// lettura: è la spina dorsale della navigazione interna.
+
 interface Chapter {
   id: string;
   label: string;
@@ -15,24 +21,54 @@ interface Props {
   chapters: Chapter[];
   structuredData?: Record<string, unknown>;
   logoSrc?: string;
+  /** Riga di apertura nell'hero — la frase-chiave del marchio. */
+  heroLine?: string;
+  /** Etichetta piccola sopra il logo: luogo, anno di nascita. */
+  kicker?: string;
 }
 
-const { title, description, accent, brandName, chapters, structuredData, logoSrc } = Astro.props;
+const {
+  title,
+  description,
+  accent,
+  brandName,
+  chapters,
+  structuredData,
+  logoSrc,
+  heroLine,
+  kicker,
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} accent={accent} structuredData={structuredData}>
-  <BrandHeader slot="header" brandName={brandName} logoSrc={logoSrc} />
+  <BrandHeader slot="header" />
 
-  <main class="container">
-    <h1 data-reveal>{brandName}</h1>
+  <section class="brand-hero">
+    <h1 class="sr-only">{brandName}</h1>
+    {kicker && <p class="eyebrow" data-reveal>{kicker}</p>}
+    {logoSrc ? (
+      <img class="hero-logo" src={logoSrc} alt={brandName} data-reveal />
+    ) : (
+      <span class="hero-mark" data-reveal>{brandName}</span>
+    )}
+    {heroLine && <p class="hero-line" data-reveal>{heroLine}</p>}
+    <div class="scroll-cue" aria-hidden="true"></div>
+  </section>
 
+  <div class="chapter-bar">
+    <div class="inner">
+      {logoSrc && <img class="bar-logo" src={logoSrc} alt="" />}
+      <nav aria-label={`Capitoli di ${brandName}`}>
+        {chapters.map((c) => <a href={`#${c.id}`}>{c.label}</a>)}
+      </nav>
+      <a class="bar-home" href="/">Anigami</a>
+    </div>
+  </div>
+
+  <main class="container brand-main">
     <div class="practical-info" data-reveal>
       <slot name="practical" />
     </div>
-
-    <nav class="chapter-nav" aria-label={`Capitoli di ${brandName}`}>
-      {chapters.map((c) => <a class="trace-link" href={`#${c.id}`}>{c.label}</a>)}
-    </nav>
 
     <slot />
   </main>
