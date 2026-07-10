@@ -1,0 +1,232 @@
+/* Anigami — stile condiviso.
+   Palette di base scura, coerente con la pagina "in restyling" già online.
+   Ogni marchio riceve un accento cromatico proprio tramite --brand-accent,
+   sovrascritto a livello di pagina — vedi nota nei singoli file .astro.
+   NB: questi accenti sono provvisori; andrebbero verificati con l'identità
+   visiva reale di ciascun marchio (loghi/palette propri) prima del lancio. */
+
+:root {
+  --bg-deep: #0b0b10;
+  --bg-mid: #171622;
+  --bg-void: #050507;
+  --text-soft: #ece7db;
+  --text-dim: rgba(236, 231, 219, 0.62);
+  --text-faint: rgba(236, 231, 219, 0.38);
+  --hairline: rgba(236, 231, 219, 0.14);
+
+  /* Gradiente proprio del marchio Imagina — usato solo per il logo/home,
+     non per i marchi figli (vedi brief, sezione 8: va tenuto distinto). */
+  --imagina-grad-a: #e9464e;
+  --imagina-grad-b: #e6007e;
+
+  /* Accento di default; ogni landing di marchio lo sovrascrive. */
+  --brand-accent: #d9c48a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  color: var(--text-soft);
+  background-color: var(--bg-void);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.6em;
+  color: var(--text-soft);
+}
+
+h1 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.2vw, 2rem);
+  color: var(--brand-accent);
+}
+
+p {
+  margin: 0 0 1.2em;
+  font-weight: 300;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
+}
+
+/* Blocco informazioni pratiche (sezione 9bis del brief):
+   asciutto, mai in stile box pubblicitario, leggibile subito. */
+.practical-info {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 1.1rem 0;
+  margin: 1.6rem 0 2.4rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+}
+
+.practical-info strong {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+/* Navigazione interna ad ancore, per chi arriva da ricerca con
+   un'intenzione precisa (sezione 9bis del brief). */
+.chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 2.8rem;
+}
+
+.chapter-nav a {
+  text-decoration: none;
+  color: var(--text-dim);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.chapter-nav a:hover {
+  color: var(--brand-accent);
+  border-color: var(--brand-accent);
+}
+
+section.chapter {
+  padding: 3.2rem 0;
+  border-top: 1px solid var(--hairline);
+}
+
+section.chapter:first-of-type {
+  border-top: none;
+}
+
+.numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem 3rem;
+  margin: 1.6rem 0;
+}
+
+.numbers .stat {
+  min-width: 140px;
+}
+
+.numbers .stat strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--brand-accent);
+  font-weight: 600;
+}
+
+.numbers .stat span {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-family: 'Manrope', sans-serif;
+}
+
+footer.site-footer {
+  border-top: 1px solid var(--hairline);
+  padding: 2.4rem 0 3rem;
+  text-align: center;
+  font-family: 'Manrope', sans-serif;
+}
+
+footer.site-footer .company {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  margin: 0 0 0.3rem;
+}
+
+footer.site-footer .details {
+  font-size: 0.72rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  margin: 0 0 0.8rem;
+}
+
+footer.site-footer .details a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer.site-footer nav a {
+  color: var(--text-faint);
+  text-decoration: none;
+  font-size: 0.72rem;
+  margin: 0 0.6rem;
+}
+
+header.site-header {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+header.site-header .bar {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header.site-header .wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-soft);
+}
+
+header.site-header nav {
+  display: flex;
+  gap: 1.2rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+}
+
+header.site-header nav a {
+  text-decoration: none;
+  color: var(--text-dim);
+}
+
+header.site-header nav a:hover {
+  color: var(--brand-accent);
+}

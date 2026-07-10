@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Chapter {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  accent: string;
+  brandName: string;
+  chapters: Chapter[];
+  structuredData?: Record<string, unknown>;
+}
+
+const { title, description, accent, brandName, chapters, structuredData } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} accent={accent} structuredData={structuredData}>
+  <main class="container">
+    <h1>{brandName}</h1>
+
+    <div class="practical-info">
+      <slot name="practical" />
+    </div>
+
+    <nav class="chapter-nav" aria-label={`Capitoli di ${brandName}`}>
+      {chapters.map((c) => <a href={`#${c.id}`}>{c.label}</a>)}
+    </nav>
+
+    <slot />
+  </main>
+</BaseLayout>

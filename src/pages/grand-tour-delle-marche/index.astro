@@ -1,0 +1,43 @@
+---
+import BrandLayout from '../../layouts/BrandLayout.astro';
+
+const chapters = [
+  { id: 'laboratorio-di-comunita', label: 'Laboratorio di comunità' },
+  { id: 'geometria-variabile', label: 'Geometria variabile' },
+  { id: 'incubatore', label: 'Incubatore' },
+];
+---
+
+<BrandLayout
+  title="Grand Tour delle Marche — itinerario diffuso tra borghi e comunità"
+  description="Grand Tour delle Marche: dal 2015 un laboratorio di comunità a geometria variabile tra i borghi marchigiani. 13ª edizione, 2026."
+  accent="#7a8f5e"
+  brandName="Grand Tour delle Marche"
+  chapters={chapters}
+>
+  <Fragment slot="practical">
+    <span><strong>Dal</strong> 2015</span>
+    <span><strong>Edizione</strong> 13ª (2026)</span>
+    <span><strong>Formato</strong> itinerario diffuso tra borghi e comunità delle Marche</span>
+  </Fragment>
+
+  <section class="chapter" id="laboratorio-di-comunita">
+    <h2>Laboratorio di comunità</h2>
+
+    <p>Le Guaite del Gusto porta a Visso tre giorni a luglio, sei elementi che raccontano il territorio attraverso terra, acqua, pascoli e boschi: legumi, miele, tartufo, trota, salumi, formaggi. Quello che il programma non dice è che è stato il primo evento a riportare l'intera comunità nello stesso posto dopo il terremoto del 2016 — non per ricordare cosa è crollato, ma per ritrovarsi attorno a quello che a Visso è sempre stato vero, sisma o non sisma.</p>
+
+    <p>Prima di ogni programma, mesi di mappatura e incontri uno a uno con chi a Visso ci vive — lavoro che nella promozione del Grand Tour non compare mai, e non deve comparire: quello che arriva al pubblico è la punta, il resto resta in dote alla comunità che lo ospita. Qui lo raccontiamo perché parliamo del formato, non dell'evento.</p>
+  </section>
+
+  <section class="chapter" id="geometria-variabile">
+    <h2>Geometria variabile</h2>
+
+    <p>A Sefro, borgo di poche centinaia di persone, il Grand Tour inventa un contest da zero — La Trota e il Verdicchio, oggi un appuntamento fisso ogni estate. Nello stesso anno entra nel Parco Gola della Rossa e Frasassi con un format esperienziale che copre un intero areale, non un paese. E partecipa, da ospite, a due festival che non ha creato e che esistevano prima di lui — Ascoliva ad Ascoli Piceno, festival mondiale dell'oliva ascolana, e Leguminaria ad Appignano, oltre 30.000 visitatori. Non è lo stesso evento replicato quattro volte: è lo stesso principio applicato in quattro forme diverse, perché nessuna comunità somiglia abbastanza a un'altra da meritare lo stesso formato.</p>
+  </section>
+
+  <section class="chapter" id="incubatore">
+    <h2>Incubatore</h2>
+
+    <p>Non tutto quello che il Grand Tour fa nascere resta legato al suo calendario. La Trota e il Verdicchio, inventato a Sefro, torna ogni estate anche quando il Grand Tour è altrove — un progetto nato dentro il format che ha imparato a camminare da solo. Il segno che il laboratorio ha funzionato non è quanto dura l'evento, è cosa resta quando il Grand Tour è già ripartito.</p>
+  </section>
+</BrandLayout>

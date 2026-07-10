@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// NOTA PER PAOLO: questa è una prima versione essenziale della home, senza
+// la sequenza video/logo-reveal di cui avevamo parlato — quel concept resta
+// da progettare a parte (tecnicamente più complesso). Qui per ora: apertura
+// breve, i quattro marchi come poster, un accenno numerico alla rete. La
+// sezione "rete/connessioni" con mappa/grafo interattivo (brief, sezione 5)
+// resta anch'essa da costruire — qui c'è solo un numero, non la visualizzazione.
+
+const brands = [
+  {
+    href: '/tipicita/',
+    name: 'Tipicità',
+    tagline: 'Il festival delle traiettorie indigene. Dal 1993, Fermo.',
+  },
+  {
+    href: '/grand-tour-delle-marche/',
+    name: 'Grand Tour delle Marche',
+    tagline: 'Un laboratorio di comunità a geometria variabile. Dal 2015.',
+  },
+  {
+    href: '/tipicita-in-blu/',
+    name: 'Tipicità in Blu',
+    tagline: 'Mare, laboratorio di futuro. Ancona.',
+  },
+  {
+    href: '/evo/',
+    name: 'EVO',
+    tagline: 'I linguaggi del terzo millennio. Macerata.',
+  },
+];
+---
+
+<BaseLayout
+  title="Anigami"
+  description="Anigami: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO — quattro festival, un unico metodo."
+>
+  <main class="container home">
+    <p class="intro">Quattro festival. Un'unica rete che continua a muoversi.</p>
+
+    <div class="brand-grid">
+      {brands.map((b) => (
+        <a class="brand-card" href={b.href}>
+          <h2>{b.name}</h2>
+          <p>{b.tagline}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="numbers">
+      <div class="stat"><strong>~300</strong><span>realtà pubbliche e private in rete</span></div>
+      <div class="stat"><strong>4</strong><span>festival, un unico metodo</span></div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .home {
+    padding: 3.5rem 1.6rem 2rem;
+  }
+
+  .intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    color: var(--text-soft);
+    max-width: 32rem;
+    margin: 0 0 2.6rem;
+  }
+
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    margin-bottom: 2.4rem;
+  }
+
+  .brand-card {
+    background: var(--bg-void);
+    padding: 2rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .brand-card:hover {
+    background: var(--bg-deep);
+  }
+
+  .brand-card h2 {
+    color: var(--text-soft);
+    margin-bottom: 0.4rem;
+  }
+
+  .brand-card p {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    margin: 0;
+  }
+</style>
