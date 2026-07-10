@@ -1,15 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImaginaHeader from '../../components/ImaginaHeader.astro';
 // NOTA PER PAOLO: pagina contatti minima — da rifinire (form? indirizzo
 // specifico per collaborazioni vs stampa? ancora da decidere insieme).
 ---
 <BaseLayout
-  title="Entra in scena — Anigami"
+  title="Entra in scena — Imagina Srl Società Benefit"
   description="Contatti Imagina Srl Società Benefit, Camerino."
 >
-  <main class="container">
+  <ImaginaHeader slot="header" />
+
+  <main class="container" style="padding-top: 6rem;">
     <h1>Entra in scena</h1>
-    <p><a href="mailto:info@anigami.it">info@anigami.it</a></p>
+    <p><a class="trace-link" href="mailto:info@anigami.it">info@anigami.it</a></p>
     <p>Viale Giacomo Leopardi, 14 – Camerino (MC)</p>
   </main>
 </BaseLayout>

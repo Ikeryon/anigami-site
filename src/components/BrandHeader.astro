@@ -1,0 +1,18 @@
+---
+// Header di marchio — identità autonoma per ogni landing (nota di Paolo,
+// 10/07/2026): logo proprio al centro, nessuna nav condivisa con gli altri
+// marchi, solo un rimando discreto ad anigami.it.
+//
+// TODO: sostituire il wordmark testuale con il logo reale del marchio non
+// appena Paolo lo fornisce (vedi task "Obtain real brand logos").
+interface Props {
+  brandName: string;
+}
+const { brandName } = Astro.props;
+---
+<header class="brand-header">
+  <div class="bar">
+    <span class="brand-mark">{brandName}</span>
+    <a class="back-link trace-link" href="/">Anigami</a>
+  </div>
+</header>

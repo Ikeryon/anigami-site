@@ -1,47 +1,78 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ImaginaHeader from '../components/ImaginaHeader.astro';
 
-// NOTA PER PAOLO: questa è una prima versione essenziale della home, senza
-// la sequenza video/logo-reveal di cui avevamo parlato — quel concept resta
-// da progettare a parte (tecnicamente più complesso). Qui per ora: apertura
-// breve, i quattro marchi come poster, un accenno numerico alla rete. La
-// sezione "rete/connessioni" con mappa/grafo interattivo (brief, sezione 5)
-// resta anch'essa da costruire — qui c'è solo un numero, non la visualizzazione.
+// NOTA PER PAOLO: l'hero punta a /hero-imagina.mp4 — il video che stai
+// preparando. Finché non esiste, il browser semplicemente non mostra nulla
+// lì (nessuna icona rotta) e resta visibile il gradiente di sfondo, quindi
+// va già online in sicurezza anche senza il file. Basta caricare il video
+// con questo nome in public/ quando è pronto, nessun'altra modifica.
+//
+// Il bordo irregolare che separa l'hero dal resto della pagina è un gesto
+// disegnato a mano, non un'onda geometrica — eco della pennellata bianca
+// del logo Imagina (brief, sez. 8: contrasto fra gesto organico e geometria
+// fredda), non un divisore a onda standard da template.
 
 const brands = [
   {
     href: '/tipicita/',
     name: 'Tipicità',
     tagline: 'Il festival delle traiettorie indigene. Dal 1993, Fermo.',
+    accent: '#c98a4b',
   },
   {
     href: '/grand-tour-delle-marche/',
     name: 'Grand Tour delle Marche',
     tagline: 'Un laboratorio di comunità a geometria variabile. Dal 2015.',
+    accent: '#7a8f5e',
   },
   {
     href: '/tipicita-in-blu/',
     name: 'Tipicità in Blu',
     tagline: 'Mare, laboratorio di futuro. Ancona.',
+    accent: '#3f6d8e',
   },
   {
     href: '/evo/',
     name: 'EVO',
     tagline: 'I linguaggi del terzo millennio. Macerata.',
+    accent: '#8b5fa8',
   },
 ];
 ---
 
 <BaseLayout
-  title="Anigami"
-  description="Anigami: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO — quattro festival, un unico metodo."
+  title="Imagina Srl Società Benefit"
+  description="Imagina Srl Società Benefit: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO — quattro festival, un unico metodo."
 >
-  <main class="container home">
-    <p class="intro">Quattro festival. Un'unica rete che continua a muoversi.</p>
+  <ImaginaHeader slot="header" />
 
+  <section class="hero">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="/logo-imagina.svg"
+    >
+      <source src="/hero-imagina.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-line">Quattro festival. Un'unica rete che continua a muoversi.</p>
+    </div>
+
+    <svg class="hero-edge" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,40 C 60,10 130,55 210,35 C 300,12 360,60 460,38 C 560,15 610,58 700,40 C 800,20 860,62 960,36 C 1060,10 1120,58 1220,34 C 1310,14 1370,50 1440,30 L1440,100 L0,100 Z" />
+    </svg>
+  </section>
+
+  <main class="container home-main">
     <div class="brand-grid">
       {brands.map((b) => (
-        <a class="brand-card" href={b.href}>
+        <a class="brand-card" href={b.href} style={`--card-accent: ${b.accent}`}>
           <h2>{b.name}</h2>
           <p>{b.tagline}</p>
         </a>
@@ -56,16 +87,66 @@ const brands = [
 </BaseLayout>
 
 <style>
-  .home {
-    padding: 3.5rem 1.6rem 2rem;
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 480px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 30% 20%, var(--imagina-grad-a) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 80%, var(--imagina-grad-b) 0%, transparent 55%),
+      var(--bg-void);
   }
 
-  .intro {
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 5, 7, 0.25) 0%, rgba(5, 5, 7, 0.55) 70%, var(--bg-void) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 1.6rem 4.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-line {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-size: clamp(1.4rem, 3.4vw, 2.1rem);
     color: var(--text-soft);
-    max-width: 32rem;
-    margin: 0 0 2.6rem;
+    max-width: 30rem;
+    margin: 0;
+  }
+
+  .hero-edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 60px;
+    z-index: 3;
+  }
+
+  .hero-edge path {
+    fill: var(--bg-void);
+  }
+
+  .home-main {
+    padding: 1rem 1.6rem 2rem;
   }
 
   .brand-grid {
@@ -79,13 +160,33 @@ const brands = [
 
   .brand-card {
     background: var(--bg-void);
-    padding: 2rem 1.6rem;
+    padding: 2.4rem 1.6rem;
     text-decoration: none;
-    transition: background 0.2s ease;
+    transition: background 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brand-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--card-accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s ease;
   }
 
   .brand-card:hover {
     background: var(--bg-deep);
+  }
+
+  .brand-card:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
   }
 
   .brand-card h2 {
@@ -93,10 +194,20 @@ const brands = [
     margin-bottom: 0.4rem;
   }
 
+  .brand-card:hover h2 {
+    color: var(--card-accent);
+  }
+
   .brand-card p {
     font-family: 'Manrope', sans-serif;
     font-size: 0.88rem;
     color: var(--text-dim);
     margin: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video {
+      display: none;
+    }
   }
 </style>

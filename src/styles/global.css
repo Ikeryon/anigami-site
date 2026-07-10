@@ -192,12 +192,39 @@ footer.site-footer nav a {
   margin: 0 0.6rem;
 }
 
-header.site-header {
-  padding: 1.4rem 0;
-  border-bottom: 1px solid var(--hairline);
+/* Header Imagina — solo su home ed eventuale pagina contatti (vedi nota di
+   Paolo, 10/07/2026: chi cerca "Imagina" e atterra sul sito deve capire
+   subito dove si trova). */
+header.imagina-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 1.8rem 0;
 }
 
-header.site-header .bar {
+header.imagina-header .bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.6rem;
+}
+
+header.imagina-header img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+/* Header di marchio — ogni landing ha la propria identità: logo proprio
+   (placeholder testuale finché non arrivano i file reali), palette propria,
+   nessuna nav condivisa con gli altri marchi. Solo un rimando discreto ad
+   anigami.it, coerente con "rimando discreto in fondo" del brief (sez. 5). */
+header.brand-header {
+  padding: 2.2rem 0 1.4rem;
+}
+
+header.brand-header .bar {
   max-width: 760px;
   margin: 0 auto;
   padding: 0 1.6rem;
@@ -206,27 +233,84 @@ header.site-header .bar {
   justify-content: space-between;
 }
 
-header.site-header .wordmark {
+header.brand-header .brand-mark {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--brand-accent);
+}
+
+header.brand-header .back-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--text-soft);
+  color: var(--text-faint);
 }
 
-header.site-header nav {
-  display: flex;
-  gap: 1.2rem;
-  font-family: 'Manrope', sans-serif;
-  font-size: 0.82rem;
-}
-
-header.site-header nav a {
-  text-decoration: none;
+header.brand-header .back-link:hover {
   color: var(--text-dim);
 }
 
-header.site-header nav a:hover {
-  color: var(--brand-accent);
+/* --- Trace-hover: il dettaglio d'interazione che rende letterale il
+   principio "traccia che resta" (brief, sez. 4/8) — il segno sotto un link
+   non scompare di colpo, si dissolve con un piccolo ritardo, come una piega
+   che non torna mai perfettamente piatta. Applicato ai link di navigazione
+   e ai capitoli. --- */
+.trace-link {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.trace-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: var(--brand-accent);
+  transition: right 0.25s ease-out;
+}
+
+.trace-link:hover::after,
+.trace-link:focus-visible::after {
+  right: 0;
+  transition: right 0.3s ease-out;
+}
+
+.trace-link:not(:hover):not(:focus-visible)::after {
+  transition: right 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- Reveal allo scroll: i blocchi di testo "Essenza" si rivelano uno alla
+   volta, coerente con l'impianto cinematico già annotato per Tipicità.
+   Progressive enhancement: senza JS, il contenuto resta semplicemente
+   visibile (nessuna dipendenza critica dall'animazione). --- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.no-js [data-reveal] {
+  opacity: 1;
+  transform: none;
 }

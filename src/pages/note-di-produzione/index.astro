@@ -1,15 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImaginaHeader from '../../components/ImaginaHeader.astro';
 // Colophon — fattuale, datato, senza aggettivi di merito (brief, sezione 5).
 // Qui, in chiusura, il principio del "metodo" (brief, sezione 8ter): non una
 // dichiarazione su di sé, ma un'osservazione fattuale — lo stesso schema che
 // si ripete guardando i quattro marchi fianco a fianco.
 ---
 <BaseLayout
-  title="Note di produzione — Anigami"
+  title="Note di produzione — Imagina Srl Società Benefit"
   description="Imagina Srl Società Benefit, Camerino. Dati, rete, storia societaria dietro Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO."
 >
-  <main class="container">
+  <ImaginaHeader slot="header" />
+
+  <main class="container" style="padding-top: 6rem;">
     <h1>Note di produzione</h1>
 
     <section class="chapter">

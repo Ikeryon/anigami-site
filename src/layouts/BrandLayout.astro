@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import BrandHeader from '../components/BrandHeader.astro';
 
 interface Chapter {
   id: string;
@@ -19,15 +20,17 @@ const { title, description, accent, brandName, chapters, structuredData } = Astr
 ---
 
 <BaseLayout title={title} description={description} accent={accent} structuredData={structuredData}>
-  <main class="container">
-    <h1>{brandName}</h1>
+  <BrandHeader slot="header" brandName={brandName} />
 
-    <div class="practical-info">
+  <main class="container">
+    <h1 data-reveal>{brandName}</h1>
+
+    <div class="practical-info" data-reveal>
       <slot name="practical" />
     </div>
 
     <nav class="chapter-nav" aria-label={`Capitoli di ${brandName}`}>
-      {chapters.map((c) => <a href={`#${c.id}`}>{c.label}</a>)}
+      {chapters.map((c) => <a class="trace-link" href={`#${c.id}`}>{c.label}</a>)}
     </nav>
 
     <slot />
