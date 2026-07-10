@@ -14,13 +14,14 @@ interface Props {
   brandName: string;
   chapters: Chapter[];
   structuredData?: Record<string, unknown>;
+  logoSrc?: string;
 }
 
-const { title, description, accent, brandName, chapters, structuredData } = Astro.props;
+const { title, description, accent, brandName, chapters, structuredData, logoSrc } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} accent={accent} structuredData={structuredData}>
-  <BrandHeader slot="header" brandName={brandName} />
+  <BrandHeader slot="header" brandName={brandName} logoSrc={logoSrc} />
 
   <main class="container">
     <h1 data-reveal>{brandName}</h1>

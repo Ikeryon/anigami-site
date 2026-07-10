@@ -221,7 +221,8 @@ header.imagina-header img {
    nessuna nav condivisa con gli altri marchi. Solo un rimando discreto ad
    anigami.it, coerente con "rimando discreto in fondo" del brief (sez. 5). */
 header.brand-header {
-  padding: 2.2rem 0 1.4rem;
+  position: relative;
+  padding: 2rem 0 1.8rem;
 }
 
 header.brand-header .bar {
@@ -230,7 +231,20 @@ header.brand-header .bar {
   padding: 0 1.6rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  position: relative;
+}
+
+header.brand-header .brand-logo {
+  height: 46px;
+  width: auto;
+  display: block;
+}
+
+header.brand-header .back-link {
+  position: absolute;
+  top: 0.2rem;
+  right: 1.6rem;
 }
 
 header.brand-header .brand-mark {
