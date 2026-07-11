@@ -1,6 +1,20 @@
 ---
 import BrandLayout from '../../layouts/BrandLayout.astro';
 
+// PAGINA-ECO DELLA BROCHURE TF27 (nota di Paolo, 10/07/2026):
+// la landing riecheggia la brochure ufficiale — copertina come campo
+// pieno teal con wordmark bianco (heroVariant="field"), interni su
+// bianco luminoso, capitoli introdotti dal punto (".Trama" come
+// ".TRAMA" della brochure), un box a campo pieno per la definizione
+// di tipicità, e le Tracce come timeline con gli anni.
+// I testi restano quelli lavorati insieme.
+//
+// ⚠️ DISCREPANZA DA RISOLVERE: la brochure fa partire la timeline dal
+// 1991 ("Festival dei prodotti tipici delle Marche") e parla di 35ª
+// edizione nel 2027; i testi che abbiamo scritto insieme dicono 1993.
+// Qui in timeline seguo la brochure, nel testo resta 1993 — dimmi tu
+// quale data è quella giusta e uniformo.
+
 const chapters = [
   { id: 'trama', label: 'Trama' },
   { id: 'essenza', label: 'Essenza' },
@@ -33,6 +47,32 @@ const structuredData = {
     url: 'https://anigami.it',
   },
 };
+
+// Cromia dalla brochure: interni bianchi, teal ufficiale come accento.
+const theme = {
+  '--bg-void': '#fcfcfa',
+  '--bg-deep': '#eef4f4',
+  '--bg-mid': '#e2eded',
+  '--text-soft': '#1e2a2c',
+  '--text-dim': 'rgba(30, 42, 44, 0.68)',
+  '--text-faint': 'rgba(30, 42, 44, 0.44)',
+  '--hairline': 'rgba(3, 95, 106, 0.16)',
+};
+
+// Timeline delle Tracce — dati dalla brochure TF27.
+const timeline = [
+  { year: '1991', text: 'Festival dei prodotti tipici delle Marche — l’evento pionieristico', key: true },
+  { year: '2011', text: 'Made in Marche Festival — turismo, moda e artigianato accanto all’enogastronomia', key: true },
+  { year: '2015–16', text: 'Dubai, EAU — Italian Cuisine World Summit' },
+  { year: '2017', text: 'Abu Dhabi, EAU — Italian Cuisine World Summit' },
+  { year: '2018', text: 'New York, USA · Tirana e Valona, Albania' },
+  { year: '2019', text: 'Ottawa e Montréal, Canada' },
+  { year: '2022', text: 'Semplicemente "Festival" — ecosistema nazionale delle "micro-Italie" · EXPO2020 Dubai · Dar Es Salaam e Zanzibar, Tanzania', key: true },
+  { year: '2023', text: 'Parigi, Francia — presentazione della candidatura Unesco della cucina italiana' },
+  { year: '2024', text: 'Tokyo e Osaka, Giappone' },
+  { year: '2025', text: 'EXPO2025 Osaka · Bahia Blanca, Buenos Aires e Ushuaia, Argentina' },
+  { year: '2027', text: '35ª edizione — Fermo, 12–14 marzo', key: true },
+];
 ---
 
 <BrandLayout
@@ -43,8 +83,11 @@ const structuredData = {
   chapters={chapters}
   structuredData={structuredData}
   logoSrc="/logos/tipicita.svg"
-  kicker="Fermo · dal 1993"
+  kicker="Fermo · 12–14 marzo 2027"
   heroLine="Il festival delle traiettorie indigene. Racconta il globale attraverso il locale."
+  theme={theme}
+  heroVariant="field"
+  variant="v-tipicita"
 >
   <Fragment slot="practical">
     <span><strong>Quando</strong> 12–14 marzo 2027</span>
@@ -68,7 +111,9 @@ const structuredData = {
   <section class="chapter" id="essenza">
     <h2 data-reveal>Essenza</h2>
 
-    <p data-reveal>Il ciauscolo è tipico delle Marche non perché qualcuno lo abbia deciso, ma perché qualcuno, prima di chiunque altro, ha interpretato in quella forma le condizioni di un territorio preciso — il clima, l'allevamento, i tempi di stagionatura di quella collina e non di un'altra. La tipicità non è un'etichetta che si mette su un prodotto già finito: è la traccia che il territorio lascia dentro le cose che genera. Per lo stesso motivo, una software house di Mumbai e una di Tolentino non lavoreranno mai allo stesso modo — non è una differenza di competenza, è una differenza di territorio.</p>
+    <div class="callout" data-reveal>
+      <p>Il ciauscolo è tipico delle Marche non perché qualcuno lo abbia deciso, ma perché qualcuno, prima di chiunque altro, ha interpretato in quella forma le condizioni di un territorio preciso — il clima, l'allevamento, i tempi di stagionatura di quella collina e non di un'altra. La tipicità non è un'etichetta che si mette su un prodotto già finito: è la traccia che il territorio lascia dentro le cose che genera. Per lo stesso motivo, una software house di Mumbai e una di Tolentino non lavoreranno mai allo stesso modo — non è una differenza di competenza, è una differenza di territorio.</p>
+    </div>
 
     <p data-reveal>Ma nessuna tipicità resta viva da sola. La pizza napoletana nasce da un incontro — il pomodoro arriva da un altro continente, prima di diventare più napoletano del napoletano stesso. La cucina italiana è patrimonio immateriale Unesco non perché sia rimasta uguale nei secoli, ma per il motivo opposto: perché è un prodotto globale, mutato e mutevole, figlio delle dominazioni e delle aperture che hanno attraversato l'Italia. Il locale non sopravvive isolandosi dal mondo — sopravvive attraversandolo.</p>
 
@@ -78,9 +123,8 @@ const structuredData = {
 
     <p data-reveal>Oggi Tipicità sta diventando qualcos'altro ancora — il festival delle traiettorie indigene: i percorsi e le esperienze che raccontano la tipicità di oggi, non quella di trent'anni fa.</p>
 
-    <!-- PLACEHOLDER PER PAOLO: qui andranno le immagini reali del festival
-         (percorsi espositivi, showcooking, i vicoli del "borgo" di Fermo).
-         Sostituisci ogni .media-ph con <img> quando hai gli scatti. -->
+    <!-- PLACEHOLDER PER PAOLO: qui andranno le immagini reali del festival —
+         nella brochure questo ruolo lo gioca il mosaico di foto della Trama. -->
     <div class="media-strip" data-reveal>
       <div class="media-ph"><span>Foto · Percorsi espositivi</span></div>
       <div class="media-ph"><span>Foto · Aree eventi</span></div>
@@ -109,6 +153,118 @@ const structuredData = {
 
   <section class="chapter" id="tracce">
     <h2>Tracce</h2>
-    <p>Trentadue anni di edizioni, dal 1993 a oggi. Dalle Marche a Dubai, Norvegia, Federazione Russa, New York, Albania, Canada, Tanzania, Parigi, Tokyo e Osaka, Argentina — una rotta che si allunga edizione dopo edizione, non una serie di trasferte isolate.</p>
+    <p data-reveal>Una rotta che si allunga edizione dopo edizione, non una serie di trasferte isolate.</p>
+
+    <ol class="timeline">
+      {timeline.map((t) => (
+        <li class={t.key ? 'key' : ''} data-reveal>
+          <span class="year">{t.year}</span>
+          <span class="event">{t.text}</span>
+        </li>
+      ))}
+    </ol>
   </section>
 </BrandLayout>
+
+<style is:global>
+  /* Eco brochure: la barra dei capitoli su Tipicità è una banda teal
+     piena — il wordmark bianco ci vive sopra, come in copertina. */
+  .chapter-bar.v-tipicita {
+    background: color-mix(in srgb, var(--brand-accent) 94%, black);
+    border-color: transparent;
+  }
+
+  .chapter-bar.v-tipicita nav a {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .chapter-bar.v-tipicita nav a:hover {
+    color: #fff;
+  }
+
+  .chapter-bar.v-tipicita .bar-home {
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .chapter-bar.v-tipicita .bar-home:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Capitoli col punto, come ".TRAMA" nella brochure: al posto del
+     numero, il punto nel teal del marchio. */
+  main.brand-main.v-tipicita section.chapter > h2::before {
+    content: '.';
+    display: inline;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--brand-accent);
+    margin: 0 0.04em 0 0;
+  }
+</style>
+
+<style>
+  /* Box a campo pieno per la definizione — eco del "Cos'è la
+     Tipicità?" della brochure: teal pieno, testo bianco. */
+  .callout {
+    background: var(--brand-accent);
+    padding: 1.8rem 2rem;
+    margin: 0 0 1.6rem;
+  }
+
+  .callout p {
+    color: rgba(255, 255, 255, 0.94);
+    margin: 0;
+  }
+
+  /* Timeline delle Tracce — gli anni in colonna, i punti pieni,
+     i momenti-chiave marcati, come nella brochure. */
+  .timeline {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    border-left: 2px solid var(--hairline);
+  }
+
+  .timeline li {
+    position: relative;
+    padding: 0 0 1.6rem 1.8rem;
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0.42em;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--brand-accent);
+  }
+
+  .timeline li.key::before {
+    background: #a52257;
+  }
+
+  .timeline .year {
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--text-soft);
+    margin-bottom: 0.15rem;
+  }
+
+  .timeline li.key .year {
+    color: #a52257;
+  }
+
+  .timeline .event {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    max-width: 56ch;
+  }
+</style>

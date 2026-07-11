@@ -5,10 +5,22 @@ import ImaginaHeader from '../../components/ImaginaHeader.astro';
 // Qui, in chiusura, il principio del "metodo" (brief, sezione 8ter): non una
 // dichiarazione su di sé, ma un'osservazione fattuale — lo stesso schema che
 // si ripete guardando i quattro marchi fianco a fianco.
+
+// Pagine Imagina su bianco luminoso (cromie 10/07/2026).
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
 ---
 <BaseLayout
   title="Note di produzione — Imagina Srl Società Benefit"
   description="Imagina Srl Società Benefit, Camerino. Dati, rete, storia societaria dietro Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO."
+  theme={theme}
 >
   <ImaginaHeader slot="header" />
 

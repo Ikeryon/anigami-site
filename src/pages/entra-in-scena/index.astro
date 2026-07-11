@@ -3,10 +3,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImaginaHeader from '../../components/ImaginaHeader.astro';
 // NOTA PER PAOLO: pagina contatti minima — da rifinire (form? indirizzo
 // specifico per collaborazioni vs stampa? ancora da decidere insieme).
+
+// Pagine Imagina su bianco luminoso (cromie 10/07/2026).
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
 ---
 <BaseLayout
   title="Entra in scena — Imagina Srl Società Benefit"
   description="Contatti Imagina Srl Società Benefit, Camerino."
+  theme={theme}
 >
   <ImaginaHeader slot="header" />
 

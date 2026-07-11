@@ -6,17 +6,33 @@ const chapters = [
   { id: 'geometria-variabile', label: 'Geometria variabile' },
   { id: 'incubatore', label: 'Incubatore' },
 ];
+
+// CROMIA (10/07/2026): il Grand Tour vive su una carta calda, il colore
+// dei borghi d'estate — con i corallo ufficiali (ee726c / f6ac7c) come
+// accento. Nota: per i testi uso #d1544c, tono leggermente scurito di
+// ee726c per leggibilità su fondo chiaro; l'ufficiale resta nelle
+// atmosfere. Logo: variante fullcolor (quella bianca sparirebbe qui).
+const theme = {
+  '--bg-void': '#fbf4ec',
+  '--bg-deep': '#f4e8da',
+  '--bg-mid': '#eeddc9',
+  '--text-soft': '#2b1d16',
+  '--text-dim': 'rgba(43, 29, 22, 0.68)',
+  '--text-faint': 'rgba(43, 29, 22, 0.44)',
+  '--hairline': 'rgba(43, 29, 22, 0.14)',
+};
 ---
 
 <BrandLayout
   title="Grand Tour delle Marche — itinerario diffuso tra borghi e comunità"
   description="Grand Tour delle Marche: dal 2015 un laboratorio di comunità a geometria variabile tra i borghi marchigiani. 13ª edizione, 2026."
-  accent="#ee726c"
+  accent="#d1544c"
   brandName="Grand Tour delle Marche"
   chapters={chapters}
-  logoSrc="/logos/grand-tour.svg"
+  logoSrc="/logos/grand-tour-color.svg"
   kicker="Marche · dal 2015"
   heroLine="Ciò che resta quando il Grand Tour è già ripartito."
+  theme={theme}
 >
   <Fragment slot="practical">
     <span><strong>Dal</strong> 2015</span>

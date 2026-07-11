@@ -557,3 +557,41 @@ main.brand-main section.chapter > h2::before {
 .media-strip .media-ph {
   border: none;
 }
+
+/* ============================================================
+   CROMIE PER PAGINA — 10/07/2026
+   Ogni landing gioca sulla cromia del proprio marchio (theme prop
+   in BaseLayout); le pagine Imagina stanno su bianco luminoso.
+   ============================================================ */
+
+/* Hero "a campo pieno": la copertina della brochure — un campo di
+   colore pieno del marchio, logo bianco al centro. Eco diretta della
+   brochure TF27 di Tipicità. */
+.brand-hero--field {
+  background: var(--brand-accent);
+}
+
+.brand-hero--field::before {
+  /* Onde concentriche in punta di pennello, come le linee fluide
+     della brochure — quasi invisibili, danno profondità al campo. */
+  background:
+    repeating-radial-gradient(circle at 112% 118%, transparent 0 20px, rgba(255, 255, 255, 0.07) 20px 21px),
+    repeating-radial-gradient(circle at -10% -14%, transparent 0 26px, rgba(255, 255, 255, 0.05) 26px 27px),
+    radial-gradient(ellipse 90% 70% at 50% 30%, rgba(255, 255, 255, 0.08), transparent 70%);
+}
+
+.brand-hero--field .eyebrow {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.brand-hero--field .hero-line {
+  color: #fff;
+}
+
+.brand-hero--field .hero-logo {
+  filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.25));
+}
+
+.brand-hero--field .scroll-cue {
+  background: linear-gradient(rgba(255, 255, 255, 0.85), transparent);
+}

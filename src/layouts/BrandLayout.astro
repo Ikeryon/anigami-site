@@ -7,6 +7,11 @@ import BrandHeader from '../components/BrandHeader.astro';
 // di apertura — la frase più forte del racconto, non uno slogan.
 // Poi la barra dei capitoli resta agganciata in alto per tutta la
 // lettura: è la spina dorsale della navigazione interna.
+//
+// CROMIE (10/07/2026): ogni landing gioca sulla cromia del proprio
+// marchio via `theme` (variabili CSS) e, per Tipicità, l'hero è un
+// campo pieno di colore come la copertina della brochure TF27
+// (heroVariant="field").
 
 interface Chapter {
   id: string;
@@ -25,6 +30,13 @@ interface Props {
   heroLine?: string;
   /** Etichetta piccola sopra il logo: luogo, anno di nascita. */
   kicker?: string;
+  /** Cromia della pagina (variabili CSS, vedi BaseLayout). */
+  theme?: Record<string, string>;
+  /** 'atmosphere' (default): alone del colore marchio sul fondo pagina.
+      'field': campo pieno del colore marchio, stile copertina brochure. */
+  heroVariant?: 'atmosphere' | 'field';
+  /** Classe-gancio per gli stili specifici della pagina (es. 'v-tipicita'). */
+  variant?: string;
 }
 
 const {
@@ -37,13 +49,18 @@ const {
   logoSrc,
   heroLine,
   kicker,
+  theme,
+  heroVariant = 'atmosphere',
+  variant = '',
 } = Astro.props;
+
+const heroClass = `brand-hero${heroVariant === 'field' ? ' brand-hero--field' : ''}${variant ? ` ${variant}` : ''}`;
 ---
 
-<BaseLayout title={title} description={description} accent={accent} structuredData={structuredData}>
+<BaseLayout title={title} description={description} accent={accent} structuredData={structuredData} theme={theme}>
   <BrandHeader slot="header" />
 
-  <section class="brand-hero">
+  <section class={heroClass}>
     <h1 class="sr-only">{brandName}</h1>
     {kicker && <p class="eyebrow" data-reveal>{kicker}</p>}
     {logoSrc ? (
@@ -55,7 +72,7 @@ const {
     <div class="scroll-cue" aria-hidden="true"></div>
   </section>
 
-  <div class="chapter-bar">
+  <div class={`chapter-bar${variant ? ` ${variant}` : ''}`}>
     <div class="inner">
       {logoSrc && <img class="bar-logo" src={logoSrc} alt="" />}
       <nav aria-label={`Capitoli di ${brandName}`}>
@@ -65,7 +82,7 @@ const {
     </div>
   </div>
 
-  <main class="container brand-main">
+  <main class={`container brand-main${variant ? ` ${variant}` : ''}`}>
     <div class="practical-info" data-reveal>
       <slot name="practical" />
     </div>

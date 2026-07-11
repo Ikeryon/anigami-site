@@ -18,6 +18,15 @@ import ImaginaHeader from '../components/ImaginaHeader.astro';
 // contenitore di poster autonomi, e la home è il corridoio del cinema.
 // Tra hero e pannelli, una sola dichiarazione di metodo.
 // Le righe di testo sono bozze mie: sostituiscile con parole tue.
+//
+// CORREZIONE (10/07/2026, nota di Paolo): questi NON sono "quattro
+// festival" e Imagina non si esaurisce in essi — sono i progetti
+// principali di una rete che fa marketing territoriale, comunicazione
+// integrata, networking tra filiere dal 1991. Copy aggiornato ovunque.
+//
+// CROMIA: la home sta su un bianco luminoso; ogni progetto porta il
+// proprio colore. Gli accenti dei pannelli sono in tono "inchiostro"
+// (leggibili su chiaro); gli ufficiali restano sulle rispettive landing.
 
 const brands = [
   {
@@ -30,13 +39,13 @@ const brands = [
     href: '/grand-tour-delle-marche/',
     name: 'Grand Tour delle Marche',
     tagline: 'Un laboratorio di comunità a geometria variabile. Dal 2015.',
-    accent: '#ee726c',
+    accent: '#d1544c',
   },
   {
     href: '/tipicita-in-blu/',
     name: 'Tipicità in Blu',
     tagline: 'Mare, laboratorio di futuro. Ancona.',
-    accent: '#209fb6',
+    accent: '#17849b',
   },
   {
     href: '/evo/',
@@ -45,11 +54,24 @@ const brands = [
     accent: '#7f1244',
   },
 ];
+
+// Bianco luminoso: non un #fff da laboratorio, una carta calda che fa
+// respirare il gradiente Imagina e i colori dei progetti.
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
 ---
 
 <BaseLayout
   title="Imagina Srl Società Benefit"
-  description="Imagina Srl Società Benefit: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO — quattro festival, un unico metodo."
+  description="Imagina Srl Società Benefit, Camerino: marketing territoriale e comunicazione integrata dal 1991. Una rete di circa 300 realtà. I progetti principali: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO."
+  theme={theme}
 >
   <ImaginaHeader slot="header" />
 
@@ -68,7 +90,7 @@ const brands = [
 
     <div class="hero-content">
       <p class="hero-kicker">Imagina · dal 1991, Camerino</p>
-      <p class="hero-line">Quattro festival.<br />Un'unica rete che continua a muoversi.</p>
+      <p class="hero-line">Una rete che continua a muoversi.</p>
     </div>
 
     <svg class="hero-edge" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
@@ -77,10 +99,11 @@ const brands = [
   </section>
 
   <section class="manifesto">
-    <p data-reveal>Non organizziamo eventi: coltiviamo reti.<br />Circa trecento realtà pubbliche e private, un unico metodo — e ogni festival che impara a camminare da solo.</p>
+    <p data-reveal>Dal 1991 Imagina attiva reti tra filiere e territori — marketing territoriale, comunicazione integrata, grandi eventi.<br />Una partnership pubblico-privata di circa trecento realtà che si riconoscono nel valore territorio.</p>
   </section>
 
-  <section class="brand-panels" aria-label="I quattro festival">
+  <section class="brand-panels" aria-label="I progetti principali">
+    <p class="panels-eyebrow eyebrow" data-reveal>I progetti principali</p>
     {brands.map((b, i) => (
       <a class="brand-panel" href={b.href} style={`--card-accent: ${b.accent}`} data-reveal>
         <div class="panel-inner">
@@ -98,7 +121,7 @@ const brands = [
   <section class="home-numbers">
     <div class="numbers">
       <div class="stat" data-reveal><strong>~300</strong><span>realtà pubbliche e private in rete</span></div>
-      <div class="stat" data-reveal><strong>4</strong><span>festival, un unico metodo</span></div>
+      <div class="stat" data-reveal><strong>4</strong><span>progetti principali, un unico metodo</span></div>
       <div class="stat" data-reveal><strong>1991</strong><span>l'anno in cui tutto comincia</span></div>
     </div>
   </section>
@@ -110,8 +133,10 @@ const brands = [
     height: 100svh;
     min-height: 480px;
     overflow: hidden;
-    background: radial-gradient(ellipse at 30% 20%, var(--imagina-grad-a) 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 80%, var(--imagina-grad-b) 0%, transparent 55%),
+    /* Il gradiente Imagina come luce sul bianco, non come notte: due
+       aloni rosso/magenta che si dissolvono nella carta. */
+    background: radial-gradient(ellipse at 28% 18%, color-mix(in srgb, var(--imagina-grad-a) 34%, transparent) 0%, transparent 58%),
+      radial-gradient(ellipse at 78% 82%, color-mix(in srgb, var(--imagina-grad-b) 26%, transparent) 0%, transparent 58%),
       var(--bg-void);
   }
 
@@ -127,7 +152,7 @@ const brands = [
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(5, 5, 7, 0.25) 0%, rgba(5, 5, 7, 0.55) 70%, var(--bg-void) 100%);
+    background: linear-gradient(180deg, rgba(250, 249, 246, 0) 0%, rgba(250, 249, 246, 0.5) 70%, var(--bg-void) 100%);
   }
 
   .hero-content {
@@ -190,9 +215,16 @@ const brands = [
     margin: 0;
   }
 
-  /* --- I quattro pannelli-manifesto --- */
+  /* --- I pannelli-manifesto dei progetti --- */
   .brand-panels {
     border-top: 1px solid var(--hairline);
+  }
+
+  .panels-eyebrow {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.2rem 1.6rem 0.6rem;
+    color: var(--text-faint);
   }
 
   .brand-panel {

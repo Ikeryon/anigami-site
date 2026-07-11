@@ -95,6 +95,20 @@ const chapters = [
   { id: 'tracce', label: 'Tracce' },
 ];
 
+// CROMIA (10/07/2026): Tipicità in Blu vive nel blu profondo della sua
+// palette ufficiale (112f49), con il 209fb6 come accento luminoso.
+// Logo: variante bianca (la versione a colori, 065082, sparirebbe sul
+// blu profondo).
+const theme = {
+  '--bg-void': '#0a1a2b',
+  '--bg-deep': '#112438',
+  '--bg-mid': '#173049',
+  '--text-soft': '#e9eef2',
+  '--text-dim': 'rgba(233, 238, 242, 0.64)',
+  '--text-faint': 'rgba(233, 238, 242, 0.4)',
+  '--hairline': 'rgba(233, 238, 242, 0.14)',
+};
+
 // NOTA PER PAOLO: edizione 2026 già conclusa (fonti trovate risalgono ad
 // aprile/maggio 2026) — evito quindi di annunciarla come "prossima edizione"
 // e uso un formato ricorrente generico. Stesso discorso di Tipicità: appena
@@ -108,9 +122,10 @@ const chapters = [
   accent="#209fb6"
   brandName="Tipicità in Blu"
   chapters={chapters}
-  logoSrc="/logos/tipicita-in-blu.svg"
+  logoSrc="/logos/tipicita-in-blu-white.svg"
   kicker="Ancona · ogni anno a maggio"
   heroLine="Mare, laboratorio di futuro."
+  theme={theme}
 >
   <Fragment slot="practical">
     <span><strong>Quando</strong> ogni anno, una settimana a maggio</span>

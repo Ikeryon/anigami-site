@@ -10,9 +10,17 @@ interface Props {
   accent?: string;
   /** JSON-LD schema.org da iniettare invisibile in pagina (sezione 9bis del brief). */
   structuredData?: Record<string, unknown>;
+  /** Cromia della pagina: variabili CSS che sovrascrivono i token di base
+      (--bg-void, --text-soft, ecc.). Ogni landing gioca sulle cromie del
+      proprio marchio; le pagine Imagina stanno su bianco luminoso. */
+  theme?: Record<string, string>;
 }
 
-const { title, description, accent, structuredData } = Astro.props;
+const { title, description, accent, structuredData, theme } = Astro.props;
+
+const themeCss = theme
+  ? `:root { ${Object.entries(theme).map(([k, v]) => `${k}: ${v};`).join(' ')} }`
+  : null;
 ---
 
 <!DOCTYPE html>
@@ -42,6 +50,8 @@ const { title, description, accent, structuredData } = Astro.props;
   {accent && (
     <style set:html={`:root { --brand-accent: ${accent}; }`} />
   )}
+
+  {themeCss && <style set:html={themeCss} />}
 
   <ViewTransitions />
 </head>

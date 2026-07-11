@@ -10,6 +10,18 @@ const chapters = [
 // già passata. Numero di edizione ancora da confermare (fonti discordanti:
 // 4ª o 5ª). Uso quindi un formato ricorrente generico e ometto il numero di
 // edizione, in attesa di conferma.
+//
+// CROMIA (10/07/2026): EVO vive in un vinaccia profondo derivato dal suo
+// 7f1244 ufficiale. Nota: per i testi accentati uso #b8497a, tono
+// schiarito del 7f1244 per leggibilità sul fondo scuro — l'ufficiale
+// resta il colore del marchio (home, atmosfere). Dimmi se preferisci
+// un'altra strada (es. pagina chiara con 7f1244 pieno sui titoli).
+const theme = {
+  '--bg-void': '#190712',
+  '--bg-deep': '#240b1a',
+  '--bg-mid': '#301023',
+  '--brand-accent': '#b8497a',
+};
 ---
 
 <BrandLayout
@@ -21,6 +33,7 @@ const chapters = [
   logoSrc="/logos/evo.svg"
   kicker="Macerata · ogni anno a dicembre"
   heroLine="Non EVO come olio d'oliva. EVO come Evoluzione."
+  theme={theme}
 >
   <Fragment slot="practical">
     <span><strong>Quando</strong> ogni anno, dicembre</span>
