@@ -1,108 +1,115 @@
-# Anigami — Concept generativo "Il foglio e la piega"
+# Anigami — Concept generativo "Anāgāmi: ciò che cambia non torna indietro"
 
 > **Cos'è.** Il modello generativo del nuovo anigami.it, sul metodo che ha
-> funzionato per evo.ooo: non un tema grafico, ma un'idea-madre che genera
-> navigazione, transizioni, naming, micro-interazioni e (in prospettiva)
-> un'esperienza dentro il sito. Per EVO l'idea-madre è "il festival è un
-> gioco" → il sito è un Tabellone. Per Anigami la proposta è:
+> funzionato per evo.ooo: un'idea-madre che genera navigazione, transizioni,
+> naming, micro-interazioni — non un tema grafico. Per EVO: "il festival è
+> un gioco" → il sito è un Tabellone. Per Anigami:
 >
-> **anigami è l'anagramma di imagina — le stesse lettere, piegate in una
-> forma nuova.** Il sito è un foglio che si piega.
+> **anāgāmi** — nel buddhismo, "colui che non ritorna": il terzo stadio del
+> risveglio, chi è trasformato al punto che non tornerà mai alla forma di
+> prima. Da qui l'idea-madre, laica e concreta:
+> **la trasformazione irreversibile. Ciò che cambia non torna indietro.**
 >
-> **Stato.** PROPOSTA da discutere con Paolo (2026-07-30). Niente è
-> approvato. Prototipo di riferimento: `mockup-piega-home.html` (in questa
-> cartella).
+> **Stato.** PROPOSTA v2 (2026-07-30) — sostituisce la v1 "foglio e piega",
+> scartata da Paolo. Prototipo: `mockup-anagami-home.html`.
+> ⚠️ Il riferimento buddhista è la radice del nome, non l'estetica: niente
+> iconografia religiosa, niente zen da spa. Il principio si vive
+> nell'interazione, non si dichiara.
 
 ---
 
-## 1. L'idea-madre
+## 1. Perché è l'idea giusta (è già nei contenuti)
 
-Imagina lavora così da trent'anni: lo stesso foglio — una rete di ~300
-realtà, un metodo — piegato ogni volta in una figura diversa. Tipicità,
-Grand Tour, Tipicità in Blu, EVO non sono capitoli di un catalogo: sono
-**figure diverse dello stesso foglio**. E una piega non torna mai piatta:
-ogni progetto lascia una traccia nel metodo (principio già nel brief:
-"traccia che resta", oggi reso letterale dal trace-link).
+- EVO non sta per olio d'oliva: sta per **Evoluzione**.
+- Il Grand Tour si misura da **"ciò che resta quando è già ripartito"**.
+- I festival "smettono di essere quello che chi li organizza ha scritto" e
+  **non somigliano a se stessi dieci anni fa**.
+- La pizza col pomodoro: il locale che attraversa il mondo **non torna**
+  quello di prima.
+- Il payoff di Imagina già scelto per la home: *"Una rete che continua a
+  muoversi."*
 
-Il nome dice già tutto: **imagina → anigami** è una piegatura di lettere
-(con l'eco evidente di *origami*). Il sito non deve raccontare questa idea:
-deve **farla succedere sotto le dita** di chi naviga.
-
-In una riga (per la home): **"Un solo foglio, molte figure."**
+Il sito non deve raccontare questo principio: deve **farlo accadere**
+mentre lo si naviga.
 
 ## 2. Come l'idea genera l'esperienza
 
-- **La home è il foglio.** Bianco luminoso, grana di carta (già in essere).
-  I quattro progetti non sono card ma **pieghe del foglio**: pannelli che
-  si sollevano/aprono come falde di carta (vedi mockup). Aprirne uno =
-  piegare il foglio in quella figura.
-- **Le transizioni sono pieghe.** Il passaggio home → landing non è un
-  fade ma una **piegatura** (View Transitions con trasformazione a falda,
-  fallback dissolvenza + `prefers-reduced-motion`). Da landing a landing
-  il foglio si ri-piega, non si ricarica.
-- **Ogni landing è una figura compiuta.** Resta l'impianto attuale (poster
-  autonomo, cromia propria — la brochure per Tipicità, il blu per TIB…):
-  la figura finita NON deve mostrare il foglio; è il gesto di arrivarci
-  che lo mostra. Nulla del lavoro fatto si butta.
-- **Le micro-interazioni sono creste di piega.** Il trace-link (la riga
-  che resta e si dissolve lentamente) è già la firma; si estende con:
-  angoli che si sollevano al passaggio (corner-fold sui pannelli), bordi
-  vivi tipo battitura del foglio, ombre di falda (mai drop-shadow
-  generiche: sempre ombra "di carta piegata", direzionale).
-- **Il lessico.** Le news dell'universo (feed da Directus `articles`)
-  sulla home diventano **"Ultime pieghe"**; le pagine già approvate
-  restano ("Note di produzione", "Entra in scena" — registri compatibili:
-  la produzione è di chi piega). Il footer può chiudere con la riga:
-  *"Lo stesso foglio, dal 1991."*
-- **Il suono del gesto (opzionale, da discutere):** nessun suono. La
-  carta di Anigami è silenziosa — l'eleganza sta nel movimento.
+1. **Il segno resta (firma del sistema).** Le micro-interazioni sono
+   irreversibili nella sessione: dove passi, lasci un segno che non si
+   cancella. Il trace-link cambia natura: la riga sotto il link **non si
+   dissolve più — resta** (oggi si dissolve lentamente; nel nuovo modello
+   il passaggio è un cambiamento compiuto). I pannelli dei progetti
+   visitati/toccati conservano il filo del proprio colore: a fine visita
+   la home porta i segni del tuo percorso. (Vedi mockup: hover su un
+   pannello → il segno rimane.)
+2. **La metamorfosi del nome (una sola volta).** Alla prima visita, in
+   hero, le lettere di **imagina** si riordinano in **anigami** — sono le
+   stesse lettere, è un fatto: il nome è Imagina trasformata. Succede una
+   volta sola, mai replay (come il sipario di EVO: `localStorage`), perché
+   una trasformazione vera non si ripete. Ai ritorni il nome è già, e per
+   sempre, anigami.
+3. **Mai la stessa pagina due volte.** A ogni navigazione l'atmosfera
+   varia impercettibilmente (posizione degli aloni del gradiente, seed per
+   sessione): tornare alla home non è tornare indietro — è arrivare in un
+   posto leggermente diverso. Sottile, sotto la soglia del "effetto", ma
+   percepibile come vita.
+4. **Moto sempre in avanti.** Transizioni direzionali (View Transitions):
+   entrare in un progetto spinge avanti; tornare alla home NON è
+   l'animazione inversa (nessun "rewind" visivo — si prosegue, non si
+   torna). Il reveal allo scroll resta one-way: ciò che è apparso non
+   ri-scompare (già così, ora diventa principio dichiarato).
+5. **Lessico.** Feed news in home = **"Mutamenti"** (dry, fattuale: ogni
+   notizia è un cambiamento di stato dell'universo). Footer: *"Ciò che
+   cambia non torna indietro. Imagina, dal 1991."* Restano "Note di
+   produzione" ed "Entra in scena".
+6. **Cosa NON si fa.** Niente simboli buddhisti, niente loto/ensō/mandala,
+   niente citazioni. La radice del nome può vivere in UNA riga discreta
+   nelle Note di produzione (etimologia), non in home.
 
 ## 3. L'equivalente di "Conquest" (prospettiva, NON MVP)
 
-EVO ha l'inside-game; Anigami può avere **"La piegatura"**: un percorso
-guidato in cui il visitatore "piega" il proprio itinerario nell'universo —
-risponde a 3 gesti/domande (che cerco? un territorio, un tema, una data) e
-il foglio si piega davanti a lui in un percorso personale tra i progetti
-(eventi da Directus, già modellati: events → editions → initiatives).
-Zero backend nuovo: legge ciò che lo Studio già pubblica. Da valutare solo
-quando il feed news e le landing sono a regime.
+**"Il passaggio"**: un percorso nell'universo in cui ogni scelta chiude
+la precedente — il visitatore attraversa 3 soglie (territorio, tema,
+stagione) e ottiene un itinerario personale tra gli eventi dei progetti
+(da Directus: events → editions → initiatives, già modellati). Alla fine
+il percorso è suo e non si rifà uguale: seed registrato, itinerario
+"non-ritornante". Zero backend nuovo. Da valutare a landing e feed a
+regime.
 
 ## 4. Cosa resta fermo (vincoli)
 
-- I **testi approvati** e l'impianto delle landing (cromie, hero, capitoli).
-- Il tono: asciutto, cinematico, niente linguaggio pubblicitario.
-- Imagina presente solo su home/note/entra-in-scena.
-- Stack: Astro su Vercel; contenuti condivisi da Directus (articles con
-  `target_sites`) secondo l'architettura della Bibbia (§10). Il sito resta
-  statico con rebuild via Deploy Hook, come Perla.
-- Accessibilità: ogni piega ha fallback statico; `prefers-reduced-motion`
-  = nessuna piegatura, solo dissolvenze.
+- Testi approvati, impianto e cromie delle landing (brochure Tipicità,
+  blu TIB, ecc.): la trasformazione è il **gesto di attraversare il
+  sito**, non un restyling delle figure.
+- Tono asciutto/cinematico; Imagina solo su home/note/entra-in-scena.
+- Stack: Astro su Vercel; news da Directus `articles` con `target_sites`
+  (architettura Bibbia §10), rebuild via Deploy Hook.
+- Accessibilità: `prefers-reduced-motion` = niente metamorfosi né derive
+  d'atmosfera, contenuto identico; la metamorfosi del nome ha fallback
+  statico ("anigami" già composto) e non blocca nulla (SEO: il DOM
+  contiene il nome finale).
 
-## 5. Metodo di lavoro (copiato da EVO, che ha funzionato)
+## 5. Metodo di lavoro (come per EVO)
 
-1. **Cowork**: prototipi HTML da vedere e correggere insieme
-   (`mockup-piega-home.html` è il primo; se l'idea piace seguono:
-   mockup transizione-piega tra pagine, mockup "Ultime pieghe").
-2. Ad approvazione: **handoff** (`ANIGAMI-HANDOFF-*.md`) + prompt per la
-   sessione **Claude Code** che implementa nel repo con dev server.
-3. Decisioni che toccano l'universo → **Bibbia** (`anigami-studio-new/
-   docs/PROGETTO-ANIGAMI.md`): dopo l'approvazione del concept aggiungere
-   una sezione per il sito anigami.it (oggi non esiste), rileggendo
-   sempre la Bibbia dal disco prima di scriverla.
+1. **Cowork**: prototipi HTML da vedere prima di codare —
+   `mockup-anagami-home.html` (metamorfosi + segni che restano); se la
+   direzione piace: mockup transizione-avanti tra pagine e "Mutamenti".
+2. Ad approvazione: handoff `ANIGAMI-HANDOFF-*.md` + prompt per la
+   sessione Claude Code (repo con dev server).
+3. Decisioni di livello universo → Bibbia (`anigami-studio-new/docs/
+   PROGETTO-ANIGAMI.md`), sezione nuova per anigami.it, rileggendo sempre
+   il file dal disco prima di scrivere.
 
 ## 6. Punti da chiarire con Paolo
 
-1. **Dove vive il repo**: il lavoro recente è in
-   `C:\Users\User\OneDrive\Documenti Personali\GitHub\anigami-site`;
-   in `C:\Progetti\anigami` c'è una copia vecchia (aprile). Gli altri
-   progetti sono migrati su `C:\Progetti` — spostiamo anche questo?
-   (OneDrive + git è anche una fonte nota di conflitti di sync.)
-2. L'anagramma imagina→anigami è **il** significato del nome, o il nome
-   ha un'altra storia che l'idea-madre deve rispettare?
-3. Le news in home ("Ultime pieghe") arrivano dal feed Directus
-   `articles` con target anigami.it: confermiamo che anigami.it è tra i
-   `sites` e che il feed lo predispone l'agente della chat news (brief
-   già consegnato — da aggiornare: il backend ESISTE, è Directus).
-4. Quanto spingere la piega nell'hero home rispetto al video
-   `hero-imagina.mp4` in arrivo: convivono (video dentro la falda) o il
-   video diventa la texture del foglio?
+1. Conferma dell'idea-madre **anāgāmi / trasformazione irreversibile** e
+   del tono (radice buddhista come etimologia discreta, non estetica).
+2. Il trace-link che **resta** invece di dissolversi: ok al cambio di
+   firma? (È il rovescio del principio attuale "si dissolve con ritardo".)
+3. "Mutamenti" come nome del feed news in home: convince?
+4. La metamorfosi imagina→anigami una-sola-volta-per-sempre: ok, o
+   preferisci una volta **per sessione**?
+5. Dove vive il repo: OneDrive (attuale, recente) vs `C:\Progetti`
+   (migrazione già fatta per gli altri; lì c'è solo una copia di aprile).
+6. Brief per l'agente del feed news: da aggiornare col backend reale
+   (Directus/`articles` esiste già — il mio brief diceva "da scegliere").
