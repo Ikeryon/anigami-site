@@ -23,42 +23,25 @@
 
 <link rel="stylesheet" href="/assets/contest.css">
 
-<!-- Tracciamento (GA4 + Meta Pixel) caricato SOLO dopo consenso cookie -->
-<script>
+<!-- Consenso cookie gestito da CookieYes -->
+<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/07bc8b3a4b1da0fac9ea02b8022bf82d/script.js"></script>
+
+<!-- Google Analytics 4 — attivato da CookieYes (categoria "analytics") -->
+<script type="text/plain" data-cookieyes="cookieyes-analytics" async src="https://www.googletagmanager.com/gtag/js?id=G-8BLXLHZXZN"></script>
+<script type="text/plain" data-cookieyes="cookieyes-analytics">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  var GA_ID = 'G-8BLXLHZXZN';
-  var META_PIXEL_ID = '2852415708396585';
-  var __trkLoaded = false;
-  function caricaTracking(){
-    if (__trkLoaded) return; __trkLoaded = true;
-    // Google Analytics 4
-    var s = document.createElement('script'); s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-    document.head.appendChild(s);
-    gtag('js', new Date());
-    gtag('config', GA_ID);
-    // Meta Pixel
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', META_PIXEL_ID);
-    fbq('track', 'PageView');
-  }
-  function consensoCookie(v){
-    try { localStorage.setItem('consenso_tracking', v); } catch(e){}
-    var b = document.getElementById('cookie-banner'); if (b) b.style.display = 'none';
-    if (v === 'si') caricaTracking();
-  }
-  (function(){
-    var c = null; try { c = localStorage.getItem('consenso_tracking'); } catch(e){}
-    if (c === 'si') { caricaTracking(); }
-    else if (c !== 'no') {
-      document.addEventListener('DOMContentLoaded', function(){
-        var b = document.getElementById('cookie-banner'); if (b) b.style.display = 'flex';
-      });
-    }
-  })();
+  gtag('js', new Date());
+  gtag('config', 'G-8BLXLHZXZN');
+</script>
+
+<!-- Meta Pixel — attivato da CookieYes (categoria "advertisement") -->
+<script type="text/plain" data-cookieyes="cookieyes-advertisement">
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2852415708396585');
+  fbq('track', 'PageView');
 </script>
 
 <style>
@@ -143,22 +126,6 @@
     text-decoration: none;
   }
   .btn-outline:active { transform: scale(0.98); }
-
-  /* --- Banner cookie --- */
-  #cookie-banner{
-    display:none; position:fixed; left:0; right:0; bottom:0; z-index:100;
-    align-items:center; justify-content:center; gap:16px; flex-wrap:wrap;
-    padding:14px 18px calc(14px + env(safe-area-inset-bottom));
-    background:var(--ink); color:#fff; font-size:.86rem; line-height:1.4;
-    box-shadow:0 -6px 20px rgba(0,0,0,.18);
-  }
-  #cookie-banner a{color:var(--verd);font-weight:700}
-  #cookie-banner .cb-btns{display:flex;gap:10px;flex-shrink:0}
-  #cookie-banner button{
-    border:none;border-radius:999px;padding:10px 20px;font-weight:800;font-size:.86rem;cursor:pointer;font-family:inherit;
-  }
-  #cookie-banner .cb-yes{background:var(--terra);color:#fff}
-  #cookie-banner .cb-no{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
 
   body { padding-bottom: 0; }
   @media (max-width: 720px) { body.has-sticky { padding-bottom: 76px; } }
@@ -487,15 +454,6 @@
     Imagina Srl Società Benefit · Viale Giacomo Leopardi, 14 – Camerino (MC)<br>
     <a href="mailto:info@anigami.it">info@anigami.it</a> · Tel 0737.685623 · P.IVA/C.F. IT 01115460436
   </footer>
-
-  <!-- BANNER COOKIE -->
-  <div id="cookie-banner">
-    <span>Usiamo cookie di misurazione (Google Analytics e Meta) per capire come migliorare il contest. Puoi accettarli o rifiutarli. Leggi l'<a href="/privacy/" target="_blank" rel="noopener">informativa privacy</a>.</span>
-    <span class="cb-btns">
-      <button class="cb-no" onclick="consensoCookie('no')">Rifiuta</button>
-      <button class="cb-yes" onclick="consensoCookie('si')">Accetta</button>
-    </span>
-  </div>
 
   <!-- CTA STICKY -->
   <div class="sticky-cta" id="stickyCta">
