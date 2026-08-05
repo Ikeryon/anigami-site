@@ -18,13 +18,18 @@ interface Props {
 
 const { title, description, accent, structuredData, theme } = Astro.props;
 
+const inlineVars = [
+  accent ? `--brand-accent: ${accent}` : null,
+  ...(theme ? Object.entries(theme).map(([k, v]) => `${k}: ${v}`) : []),
+].filter(Boolean).join('; ');
+
 const themeCss = theme
   ? `:root { ${Object.entries(theme).map(([k, v]) => `${k}: ${v};`).join(' ')} }`
   : null;
 ---
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" style={inlineVars || undefined}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

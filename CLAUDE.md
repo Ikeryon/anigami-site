@@ -81,8 +81,9 @@ BaseLayout/BrandLayout:
 
 ## Punti aperti (chiedere a Paolo, non decidere da soli)
 
-1. **1991 vs 1993**: la brochure TF27 fa nascere Tipicità nel 1991
-   (35ª edizione nel 2027); i testi dicono 1993. Da uniformare.
+1. ~~1991 vs 1993~~ RISOLTO (Paolo, 05/08/2026): la prima edizione di
+   Tipicità è il **1993**. Uniformare sempre a questa data (il "dal 1991"
+   della home si riferisce a IMAGINA azienda, non a Tipicità: quello resta).
 2. Numero edizione EVO (fonti discordanti 4ª/5ª) e date prossime
    edizioni GT/TIB (per schema.org Event reali).
 3. `public/hero-imagina.mp4` — video hero in preparazione da Paolo
@@ -119,3 +120,11 @@ Regole:
 - Nessuna dipendenza extra senza necessità: solo `astro`.
 - `color-mix()` usato diffusamente (ok browser moderni).
 - Rispettare `prefers-reduced-motion` in ogni animazione nuova.
+
+
+## Posizione del repo (AGGIORNATA 03/08/2026)
+
+Il repo vive in **C:\Progetti\anigami-site** (deciso da Paolo: tutto
+l'universo sta su C:\Progetti). La vecchia copia in
+C:\Users\User\OneDrive\Documenti Personali\GitHub\anigami-site è da
+considerare ARCHIVIATA: non lavorarci più (OneDrive + git = conflitti).

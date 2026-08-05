@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Imagina — bozza navigabile del nuovo sito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============ BASE ============ */
+  :root {
+    --paper: #faf9f6;
+    --ink: #1b1a1f;
+    --ink-dim: rgba(27,26,31,.66);
+    --ink-faint: rgba(27,26,31,.42);
+    --hair: rgba(27,26,31,.13);
+    --grad-a: #e9464e;
+    --grad-b: #e6007e;
+    --teal: #035f6a;
+    --rubino: #a52257;
+    --coral: #d1544c;
+    --navy: #0a1a2b;
+    --cyan: #209fb6;
+    --wine: #190712;
+    --wine-ink: #b8497a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Manrope', sans-serif; font-weight: 300;
+    background: var(--paper); color: var(--ink); line-height: 1.65;
+  }
+  body::after { /* grana */
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:90; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1,h2,h3 { font-family:'Cormorant Garamond', serif; font-weight:600; margin:0 0 .5em; }
+
+  /* Router: una vista per volta. Cambio vista = DISSOLVENZA (non-ritorno). */
+  .view { display:none; }
+  .view.on { display:block; animation: viewin .55s ease both; }
+  @keyframes viewin { from { opacity:0; } to { opacity:1; } }
+
+  .wrap { max-width:1100px; margin:0 auto; padding:0 1.6rem; }
+  .wrap-narrow { max-width:780px; margin:0 auto; padding:0 1.6rem; }
+
+  /* etichetta piccola */
+  .kicker { font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; margin:0 0 1.2rem; }
+
+  /* link ritorno (sempre in avanti, mai "back") */
+  .to-home { position:absolute; top:1.4rem; right:1.6rem; z-index:8; font-size:.7rem;
+    letter-spacing:.08em; text-transform:uppercase; text-decoration:none; opacity:.65; color:inherit; }
+  .to-home:hover { opacity:1; }
+
+  /* ============ PLACEHOLDER (sempre etichettati col TEMA) ============ */
+  .ph { position:relative; border:1px dashed currentColor; opacity:.92; display:flex;
+    align-items:flex-end; padding:1rem 1.2rem; min-height:120px; }
+  .ph::before { content:'⬚'; position:absolute; top:.8rem; left:1.1rem; opacity:.4; }
+  .ph small { font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; opacity:.75; line-height:1.5; }
+  .ph.v169 { aspect-ratio:16/9; } .ph.v45 { aspect-ratio:4/5; } .ph.v219 { aspect-ratio:21/9; }
+  .ph-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin:1.8rem 0; }
+
+  /* ====================================================== */
+  /* HOME — la casa: il controcampo                          */
+  /* ====================================================== */
+  #home { background:var(--paper); color:var(--ink); min-height:100svh; }
+  #home .hero-full { position:relative; }
+  #home .hero-full::before { content:''; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 26% 16%, color-mix(in srgb, var(--grad-a) 30%, transparent), transparent 58%),
+                radial-gradient(ellipse at 80% 84%, color-mix(in srgb, var(--grad-b) 22%, transparent), transparent 58%); }
+  #home .hero { min-height:82svh; display:flex; flex-direction:column; justify-content:center; position:relative; }
+  #home .kicker { color:var(--ink-dim); position:relative; }
+
+  /* IL NOME: solo imagina — il rovesciamento vive nel gesto d'ingresso delle lettere. */
+  .morph { position:relative; font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(3rem,10.5vw,7rem); line-height:1; height:auto; margin:0 0 1.2rem; }
+  .morph span { will-change:transform; backface-visibility:hidden; }
+  .hero-line { position:relative; font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.3rem,3.2vw,2rem); color:var(--ink-dim); max-width:24ch; margin:0;
+    opacity:0; transition:opacity 1.3s ease .3s; }
+  .hero-line.on { opacity:1; }
+
+  /* video hero backstage (placeholder col tema) */
+  .home-video { margin:0 0 3.5rem; }
+  .home-video .ph { min-height:38svh; color:var(--ink-dim); background:
+    linear-gradient(180deg, color-mix(in srgb, var(--grad-a) 7%, var(--paper)), var(--paper)); }
+
+  /* IL RETRO DEI MANIFESTI — la home non è una griglia: è il backstage.
+     I quattro progetti sono manifesti visti da dietro: il titolo traspare
+     in controluce, rovesciato (da dietro si legge al contrario — come
+     imagina/anigami). Per entrare bisogna GIRARE il manifesto: cambiare
+     punto di vista. La navigazione È il think reverse. */
+  .backstage { padding:1.5rem 0 4.5rem; }
+  .backstage .hint { text-align:center; font-size:.64rem; letter-spacing:.3em;
+    text-transform:uppercase; color:var(--ink-faint); margin:0 0 2.4rem; }
+  .posters { display:flex; justify-content:center; align-items:flex-end;
+    gap:clamp(1rem,3vw,2.4rem); flex-wrap:wrap; perspective:1500px; padding:0 1.6rem; }
+  .poster { width:min(44vw,265px); aspect-ratio:2/3; position:relative; cursor:pointer;
+    transform-style:preserve-3d; transform: rotateY(0deg) rotate(var(--lean,0deg));
+    transition: transform .9s cubic-bezier(.45,.05,.18,1); }
+  .poster:nth-child(1) { --lean:-2.4deg; margin-bottom:.6rem; }
+  .poster:nth-child(2) { --lean:1.6deg; margin-bottom:2.2rem; }
+  .poster:nth-child(3) { --lean:-1.1deg; margin-bottom:1rem; }
+  .poster:nth-child(4) { --lean:2.2deg; margin-bottom:1.8rem; }
+  .poster:hover:not(.turned) { transform: rotateY(-14deg) rotate(var(--lean)); } /* sbirci il bordo */
+  .poster.turned { transform: rotateY(180deg) rotate(0deg); }
+  .poster .face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+  /* il retro: carta, nastro, timbro di produzione, titolo in controluce */
+  .poster .back { background:#f6f3ec; border:1px solid rgba(27,26,31,.14);
+    box-shadow:0 22px 44px -24px rgba(27,26,31,.4); padding:1.2rem;
+    display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; }
+  .poster .back::before, .poster .back::after { content:''; position:absolute; top:-7px; width:58px; height:18px;
+    background:rgba(27,26,31,.07); border:1px solid rgba(27,26,31,.05); }
+  .poster .back::before { left:14px; transform:rotate(-38deg); }
+  .poster .back::after { right:14px; transform:rotate(38deg); }
+  .poster .ghost { font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(1.7rem,4.2vw,2.5rem); line-height:1.02; color:var(--pa); opacity:.15;
+    transform:scaleX(-1); word-break:break-word; margin-top:1.2rem; }
+  .poster .stamp { align-self:flex-start; border:1.5px solid rgba(27,26,31,.32);
+    color:rgba(27,26,31,.55); padding:.45rem .65rem; font-size:.54rem; letter-spacing:.16em;
+    text-transform:uppercase; line-height:1.8; transform:rotate(-5deg); }
+  /* il fronte: il manifesto vero, nel colore del progetto */
+  .poster .front { transform:rotateY(180deg); background:var(--pa); color:#fff;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:1.3rem;
+    box-shadow:0 22px 44px -24px color-mix(in srgb, var(--pa) 70%, black); }
+  .poster .front h2 { color:#fff; font-size:clamp(1.5rem,3.6vw,2.1rem); line-height:1.02; margin:0 0 .4rem; }
+  .poster .front p { font-size:.74rem; color:rgba(255,255,255,.82); margin:0 0 1rem; line-height:1.5; }
+  .poster .front .enter { font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+    color:#fff; border:1px solid rgba(255,255,255,.55); padding:.45rem .85rem; align-self:flex-start; }
+  @media (prefers-reduced-motion: reduce) { .poster { transition:none; } }
+
+  .mutamenti { padding:3.5rem 0 2.5rem; }
+  .mutamenti .label { font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 1.4rem; }
+  .mutamenti .ph { min-height:150px; color:var(--ink-dim); }
+
+  .firma { border-top:1px solid var(--hair); text-align:center; padding:2.4rem 1.6rem 2.8rem; }
+  .firma .line { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--ink-dim); margin:0 0 .4rem; }
+  .firma small { font-size:.68rem; color:var(--ink-faint); }
+
+  /* ====================================================== */
+  /* TIPICITÀ — menù a doppia codifica (mai spiegata)        */
+  /* ====================================================== */
+  #tipicita { background:#fcfcfa; color:#1e2a2c; }
+  #tipicita .field { position:relative; min-height:78svh; background:var(--teal);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    overflow:hidden; padding:4rem 1.6rem; }
+  #tipicita .field::before { content:''; position:absolute; inset:0;
+    background: repeating-radial-gradient(circle at 112% 118%, transparent 0 20px, rgba(255,255,255,.06) 20px 21px),
+                radial-gradient(ellipse 90% 70% at 50% 30%, rgba(255,255,255,.08), transparent 70%); }
+  #tipicita .field video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.34; }
+  #tipicita .field > * { position:relative; }
+  #tipicita .wordmark { color:#fff; font-size:clamp(3rem,9vw,5.6rem); line-height:.95; margin:0; }
+  #tipicita .wordmark em { display:block; font-style:italic; font-size:.32em; opacity:.9; }
+  #tipicita .field .kicker { color:rgba(255,255,255,.75); }
+  #tipicita .field .note-video { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%);
+    font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.5); }
+  #tipicita .chapbar { position:sticky; top:0; z-index:6; background:color-mix(in srgb, var(--teal) 94%, black); }
+  #tipicita .chapbar nav { max-width:1100px; margin:0 auto; padding:.8rem 1.6rem; display:flex; gap:1.4rem;
+    font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
+  #tipicita .chapbar a { color:rgba(255,255,255,.85); text-decoration:none; }
+  #tipicita section { padding:3.6rem 0; }
+  #tipicita h2 { color:var(--teal); font-size:clamp(1.6rem,3.4vw,2.1rem); }
+  #tipicita h2::before { content:'.'; font-weight:700; }
+  #tipicita .keyline { font-family:'Cormorant Garamond',serif; font-size:clamp(1.4rem,3vw,1.9rem);
+    color:var(--teal); border-left:3px solid var(--teal); padding-left:1.2rem; max-width:24ch; line-height:1.3; margin:2rem 0; }
+  #tipicita .ph { color:#3c5a5e; background:#eef4f4; border-color:rgba(3,95,106,.4); }
+  #tipicita .callout { background:var(--teal); color:rgba(255,255,255,.94); padding:1.8rem 2rem; margin:1.6rem 0; }
+  #tipicita .callout h3 { color:#fff; margin-bottom:.5em; }
+  #tipicita .callout p { margin:0; }
+  .draftnote { font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; opacity:.55; }
+
+  /* ====================================================== */
+  /* GRAND TOUR — il viaggio: barra-itinerario con tappe     */
+  /* ====================================================== */
+  #grand-tour { background:#fbf4ec; color:#2b1d16; }
+  #grand-tour .hero { min-height:62svh; display:flex; flex-direction:column; justify-content:center; position:relative; }
+  #grand-tour .hero::before { content:''; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 75% 20%, color-mix(in srgb, var(--coral) 22%, transparent), transparent 62%); }
+  #grand-tour .hero h1 { color:var(--coral); font-size:clamp(2.4rem,7vw,4.6rem); line-height:1; position:relative; }
+  #grand-tour .hero p { position:relative; font-family:'Cormorant Garamond',serif; font-size:clamp(1.2rem,2.8vw,1.7rem); color:rgba(43,29,22,.7); max-width:26ch; }
+  /* L'ITINERARIO: sticky, la linea si riempie con lo scroll, le tappe si accendono */
+  .route { position:sticky; top:0; z-index:6; background:color-mix(in srgb, #fbf4ec 88%, transparent);
+    backdrop-filter:blur(10px); border-bottom:1px solid rgba(43,29,22,.12); }
+  .route .in { max-width:1100px; margin:0 auto; padding:1rem 1.6rem 1.2rem; position:relative; }
+  .route .line { position:relative; height:2px; background:rgba(43,29,22,.15); }
+  .route .fill { position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--coral); transition:width .2s linear; }
+  .route .stops { display:flex; justify-content:space-between; margin-top:.55rem; }
+  .route .stop { font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(43,29,22,.45);
+    text-decoration:none; position:relative; padding-top:.35rem; }
+  .route .stop::before { content:''; position:absolute; top:-8px; left:50%; transform:translate(-50%,-50%);
+    width:9px; height:9px; border-radius:50%; background:#fbf4ec; border:2px solid rgba(43,29,22,.3); }
+  .route .stop.done { color:var(--coral); } .route .stop.done::before { background:var(--coral); border-color:var(--coral); }
+  #grand-tour section { padding:3.8rem 0; }
+  #grand-tour h2 { color:var(--coral); font-size:clamp(1.5rem,3.2vw,2rem); }
+  #grand-tour h2 small { display:block; font-family:'Manrope'; font-size:.62rem; letter-spacing:.3em; color:rgba(43,29,22,.45); margin-bottom:.5rem; }
+  #grand-tour .ph { color:#6b4a3e; background:#f4e8da; border-color:rgba(209,84,76,.5); }
+
+  /* ====================================================== */
+  /* TIPICITÀ IN BLU — il laboratorio: strumentazione        */
+  /* ====================================================== */
+  #tib { background:var(--navy); color:#e9eef2; }
+  #tib .console { border-bottom:1px solid rgba(233,238,242,.16); padding:5.5rem 0 2rem; position:relative; }
+  #tib .coords { font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--cyan); margin:0 0 1rem; }
+  #tib h1 { font-size:clamp(2.2rem,6.5vw,4rem); line-height:1; margin:0 0 .4rem; }
+  #tib .sub { font-family:'Cormorant Garamond',serif; font-size:clamp(1.2rem,2.6vw,1.6rem); color:rgba(233,238,242,.65); margin:0 0 2rem; }
+  #tib .data { display:flex; flex-wrap:wrap; gap:1.8rem 3rem; font-size:.72rem; letter-spacing:.1em;
+    text-transform:uppercase; color:rgba(233,238,242,.55); padding-bottom:1.4rem; }
+  #tib .data b { display:block; font-size:1.5rem; letter-spacing:0; color:var(--cyan); font-weight:500; }
+  #tib section { padding:3.4rem 0; border-bottom:1px solid rgba(233,238,242,.09); }
+  #tib h2 { font-family:'Manrope'; font-weight:500; font-size:.8rem; letter-spacing:.3em;
+    text-transform:uppercase; color:var(--cyan); margin-bottom:1.6rem; }
+  #tib .ph { color:rgba(233,238,242,.6); background:#112438; border-color:rgba(32,159,182,.45); }
+  #tib p.lede { max-width:62ch; color:rgba(233,238,242,.8); }
+
+  /* ====================================================== */
+  /* EVO — il linguaggio: dal segno alla parola              */
+  /* ====================================================== */
+  #evo { background:var(--wine); color:#efe6ea; }
+  #evo .signhero { min-height:72svh; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; position:relative; overflow:hidden; }
+  #evo .signhero::before { content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse 85% 60% at 50% 10%, color-mix(in srgb, var(--wine-ink) 26%, transparent), transparent 70%); }
+  #evo .signs { position:relative; font-size:clamp(2.2rem,7vw,4rem); letter-spacing:.35em; color:var(--wine-ink);
+    transition: opacity .9s ease, filter .9s ease; }
+  #evo .word { position:absolute; font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(2.6rem,8vw,5rem); color:#efe6ea; opacity:0; transition:opacity 1s ease .35s; }
+  #evo.spoke .signs { opacity:0; filter:blur(6px); }
+  #evo.spoke .word { opacity:1; }
+  #evo .signhero .kicker { position:absolute; bottom:2.2rem; color:rgba(239,230,234,.5); margin:0; }
+  #evo section { padding:3.6rem 0; border-top:1px solid rgba(239,230,234,.1); }
+  #evo h2 { color:var(--wine-ink); font-size:clamp(1.5rem,3.2vw,2rem); }
+  #evo .ph { color:rgba(239,230,234,.65); background:#240b1a; border-color:rgba(184,73,122,.5); }
+  #evo .keyline { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.3rem,2.8vw,1.8rem);
+    color:var(--wine-ink); max-width:26ch; margin:1.8rem 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .morph span, .hero-line, #evo .signs, #evo .word { transition:none !important; }
+    .view.on { animation:none; }
+  }
+  @media (max-width:640px) { .panel .face { flex-wrap:wrap; } }
+</style>
+</head>
+<body>
+
+<!-- ================= HOME ================= -->
+<div class="view" id="home">
+  <div class="hero-full"><div class="wrap hero">
+    <p class="kicker">Imagina · dal 1991, Camerino</p>
+    <h1 class="morph" id="morph" aria-label="imagina"></h1>
+    <p class="hero-line" id="heroline">Ciò che cambia non torna indietro.<br/>Una rete che continua a muoversi.</p>
+  </div></div>
+
+  <div class="wrap home-video">
+    <div class="ph v219"><small>VIDEO HERO — backstage documentario: allestimenti all'alba, sopralluoghi nei borghi, mani al lavoro, tavoli di regia, viaggi. Si fonde nel bianco della pagina, senza bordi. (Materiale: lista §3.A della Regia)</small></div>
+  </div>
+
+  <div class="backstage" aria-label="I progetti principali">
+    <p class="hint">gira i manifesti</p>
+    <div class="posters">
+      <div class="poster" data-go="tipicita" style="--pa:#035f6a" role="button" tabindex="0" aria-label="Tipicità — gira il manifesto">
+        <div class="face back">
+          <span class="stamp">Fermo · dal 1993<br/>8 mesi → 3 giorni<br/>~300 realtà in rete</span>
+          <span class="ghost">tipicità festival</span>
+        </div>
+        <div class="face front">
+          <h2>Tipicità</h2><p>Il festival delle traiettorie indigene. Racconta il globale attraverso il locale.</p>
+          <span class="enter">Entra →</span>
+        </div>
+      </div>
+      <div class="poster" data-go="grand-tour" style="--pa:#d1544c" role="button" tabindex="0" aria-label="Grand Tour delle Marche — gira il manifesto">
+        <div class="face back">
+          <span class="stamp">Marche · dal 2015<br/>mesi di ascolto<br/>formato variabile</span>
+          <span class="ghost">grand tour delle marche</span>
+        </div>
+        <div class="face front">
+          <h2>Grand Tour delle Marche</h2><p>Un laboratorio di comunità a geometria variabile. Il viaggio.</p>
+          <span class="enter">Entra →</span>
+        </div>
+      </div>
+      <div class="poster" data-go="tib" style="--pa:#0a1a2b" role="button" tabindex="0" aria-label="Tipicità in Blu — gira il manifesto">
+        <div class="face back">
+          <span class="stamp">Ancona · 43°37′N<br/>The Blue Way<br/>50+ enti, Trieste–Bari</span>
+          <span class="ghost" style="color:#209fb6">tipicità in blu</span>
+        </div>
+        <div class="face front" style="color:#e9eef2">
+          <h2 style="color:#e9eef2">Tipicità in Blu</h2><p style="color:rgba(233,238,242,.75)">Mare, laboratorio di futuro.</p>
+          <span class="enter" style="border-color:rgba(32,159,182,.7); color:#9fd8e2">Entra →</span>
+        </div>
+      </div>
+      <div class="poster" data-go="evo" style="--pa:#190712" role="button" tabindex="0" aria-label="EVO — gira il manifesto">
+        <div class="face back">
+          <span class="stamp">Macerata<br/>Tipicità Evo → EVO<br/>il gioco li contiene tutti</span>
+          <span class="ghost" style="color:#b8497a">evo</span>
+        </div>
+        <div class="face front">
+          <h2 style="color:#efe6ea">EVO</h2><p style="color:rgba(239,230,234,.75)">I linguaggi del terzo millennio.</p>
+          <span class="enter" style="border-color:rgba(184,73,122,.7); color:#e3a5c2">Entra →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap mutamenti">
+    <p class="label">Mutamenti</p>
+    <div class="ph-row">
+      <div class="ph"><small>NEWS dal feed Directus (articles → target sito Imagina) — titolo + progetto + data. Card come fogli appoggiati.</small></div>
+      <div class="ph"><small>NEWS — ogni notizia è un cambiamento di stato dell'universo. Colore del progetto sull'etichetta.</small></div>
+      <div class="ph"><small>NEWS — terza card. Max 3 in home, il resto in archivio.</small></div>
+    </div>
+  </div>
+
+  <footer class="firma">
+    <p class="line">Ciò che cambia non torna indietro. Imagina, dal 1991.</p>
+    <small>BOZZA NAVIGABILE — placeholder etichettati col tema · l'ingresso delle lettere qui riparte a ogni refresh; nel sito vero accade una volta sola</small>
+  </footer>
+</div>
+
+<!-- ================= TIPICITÀ ================= -->
+<div class="view" id="tipicita">
+  <a class="to-home" href="#home" style="color:#fff">Imagina</a>
+  <div class="field">
+    <video id="tipvideo" autoplay muted loop playsinline>
+      <source src="tipicita-loop.mp4" type="video/mp4" />
+    </video>
+    <p class="kicker">Fermo · 12–14 marzo 2027</p>
+    <h1 class="wordmark">tipicità <em>festival</em></h1>
+    <p style="color:rgba(255,255,255,.85); font-family:'Cormorant Garamond',serif; font-size:clamp(1.2rem,2.8vw,1.7rem); max-width:26ch; margin:1rem auto 0;">Il festival delle traiettorie indigene. Racconta il globale attraverso il locale.</p>
+    <span class="note-video">qui gira il loop video 2026 (già in cartella) — tinta teal, in trasparenza sotto il campo</span>
+  </div>
+  <div class="chapbar"><nav>
+    <a href="#c-trama">.Trama</a><a href="#c-essenza">.Essenza</a><a href="#c-motore">.Motore</a><a href="#c-tracce">.Tracce</a>
+  </nav></div>
+
+  <div class="wrap-narrow">
+    <section id="c-trama">
+      <h2>Trama</h2>
+      <p class="draftnote">— il codice: il tessile, la manifattura, le matrici —</p>
+      <p>Festival, rassegne e incontri tematici — enogastronomia, turismo, design, ricerca, sostenibilità. Non capitoli separati: la stessa domanda, vista da angolazioni diverse.</p>
+      <div class="ph-row">
+        <div class="ph v45"><small>FOTO — mani e manualità: artigianato, tessuti, manifattura</small></div>
+        <div class="ph v45"><small>FOTO — il mosaico del festival: tessere piccole e fitte (eco brochure)</small></div>
+      </div>
+    </section>
+    <section id="c-essenza">
+      <h2>Essenza</h2>
+      <p class="draftnote">— il codice: l'aroma, l'enogastronomia —</p>
+      <div class="callout"><h3>Cos'è la tipicità?</h3><p>Il ciauscolo è tipico delle Marche non perché qualcuno lo abbia deciso, ma perché qualcuno, prima di chiunque altro, ha interpretato in quella forma le condizioni di un territorio preciso… <span class="draftnote">[testo LAVORATO, integrale nel sito]</span></p></div>
+      <p class="keyline">Il locale non sopravvive isolandosi dal mondo — sopravvive attraversandolo.</p>
+      <div class="ph-row">
+        <div class="ph v169"><small>FOTO — materia prima, aromi, il prodotto e la mano</small></div>
+        <div class="ph v169"><small>FOTO — Fermo, i vicoli, il festival nel suo luogo</small></div>
+      </div>
+    </section>
+    <section id="c-motore">
+      <h2>Motore</h2>
+      <p class="draftnote">— il codice: le auto, la Ferrari, la formula —</p>
+      <p>Una partnership pubblico-privata di circa 300 realtà che co-progettano ogni edizione. <span class="draftnote">[testo LAVORATO, integrale nel sito]</span></p>
+      <div class="ph v219"><small>FOTO — persone al lavoro: la regia, le riunioni, le fiere estere</small></div>
+    </section>
+    <section id="c-tracce">
+      <h2>Tracce</h2>
+      <p class="draftnote">— il codice: la rotta, il viaggio —</p>
+      <p>1991 → 2027: da Fermo a Dubai, New York, Parigi, Tokyo, Buenos Aires. <span class="draftnote">[timeline della brochure TF27, con punti teal e rubino]</span></p>
+      <div class="ph v219"><small>FOTO — i viaggi: Dubai, Tokyo, New York (anche d'archivio)</small></div>
+    </section>
+  </div>
+</div>
+
+<!-- ================= GRAND TOUR ================= -->
+<div class="view" id="grand-tour">
+  <a class="to-home" href="#home">Imagina</a>
+  <div class="wrap hero">
+    <p class="kicker" style="color:rgba(43,29,22,.55)">Marche · dal 2015 · 13ª edizione</p>
+    <h1>Grand Tour<br/>delle Marche</h1>
+    <p>Ciò che resta quando il Grand Tour è già ripartito.</p>
+  </div>
+  <div class="route"><div class="in">
+    <div class="line"><div class="fill" id="gtfill"></div></div>
+    <div class="stops">
+      <a class="stop" href="#t1">Tappa 1 · Laboratorio</a>
+      <a class="stop" href="#t2">Tappa 2 · Geometria</a>
+      <a class="stop" href="#t3">Tappa 3 · Incubatore</a>
+    </div>
+  </div></div>
+  <div class="wrap-narrow">
+    <section id="t1">
+      <h2><small>TAPPA 01 · VISSO</small>Laboratorio di comunità</h2>
+      <p>Le Guaite del Gusto: il primo evento a riportare l'intera comunità nello stesso posto dopo il terremoto del 2016. <span class="draftnote">[testo LAVORATO, integrale nel sito]</span></p>
+      <div class="ph-row">
+        <div class="ph v45"><small>FOTO — il borgo: Visso, le pietre, le persone</small></div>
+        <div class="ph v45"><small>FOTO — la strada per arrivarci: il viaggio, non la cartolina</small></div>
+      </div>
+    </section>
+    <section id="t2">
+      <h2><small>TAPPA 02 · SEFRO / FRASASSI / ASCOLI / APPIGNANO</small>Geometria variabile</h2>
+      <p>Lo stesso principio in quattro forme diverse, perché nessuna comunità somiglia abbastanza a un'altra da meritare lo stesso formato. <span class="draftnote">[testo LAVORATO]</span></p>
+      <div class="ph v219"><small>FOTO — quattro luoghi, quattro formati: contest, parco, festival ospite</small></div>
+    </section>
+    <section id="t3">
+      <h2><small>TAPPA 03 · CIÒ CHE RESTA</small>Incubatore</h2>
+      <p>La Trota e il Verdicchio torna ogni estate anche quando il Grand Tour è altrove. <span class="draftnote">[testo LAVORATO]</span></p>
+      <div class="ph v169"><small>FOTO — il "dopo": il borgo quando il Grand Tour è ripartito e l'evento continua da solo</small></div>
+    </section>
+  </div>
+</div>
+
+<!-- ================= TIPICITÀ IN BLU ================= -->
+<div class="view" id="tib">
+  <a class="to-home" href="#home" style="color:#e9eef2">Imagina</a>
+  <div class="console"><div class="wrap">
+    <p class="coords">Ancona · 43°37′N 13°30′E · Adriatico</p>
+    <h1>Tipicità in Blu</h1>
+    <p class="sub">Mare, laboratorio di futuro.</p>
+    <div class="data">
+      <span><b>13ª</b>edizione</span>
+      <span><b>50+</b>enti · The Blue Way</span>
+      <span><b>2000</b>Dichiarazione di Ancona</span>
+      <span><b>3</b>hackathon realizzati</span>
+    </div>
+  </div></div>
+  <div class="wrap-narrow">
+    <section>
+      <h2>01 / Rotta</h2>
+      <p class="lede">Doveva essere la versione costiera di Tipicità. È diventata altro: un contenitore di progetti e una piattaforma di confronto sui grandi temi della blue economy. <span class="draftnote">[testo LAVORATO, integrale nel sito]</span></p>
+      <div class="ph v219"><small>FOTO — il porto di Ancona, la Mole Vanvitelliana: il luogo di lavoro, non la cartolina</small></div>
+    </section>
+    <section>
+      <h2>02 / Cantiere — The Blue Way</h2>
+      <p class="lede">Il "cantiere in movimento": da Trieste a Bari, oltre 50 entità dal 2022. Prima la piattaforma e le pillole di conoscenza; gli hackathon come esempi di progettualità.</p>
+      <div class="ph-row">
+        <div class="ph"><small>VIDEO — pillole: progetti UE, buone pratiche (playlist già mappata)</small></div>
+        <div class="ph"><small>SCHEDA — hackathon Ancona 2024 · foto lavori</small></div>
+        <div class="ph"><small>SCHEDA — Barcolana57 Trieste · foto premiazione (da mettere in cartella)</small></div>
+      </div>
+    </section>
+    <section>
+      <h2>03 / Giornale di bordo</h2>
+      <p class="lede draftnote">[timeline essenziale: 2013 prima edizione → 2022 The Blue Way → 2025 Trieste]</p>
+    </section>
+  </div>
+</div>
+
+<!-- ================= EVO ================= -->
+<div class="view" id="evo">
+  <a class="to-home" href="#home" style="color:#efe6ea">Imagina</a>
+  <div class="signhero">
+    <div class="signs" id="evosigns">○ △ ▢ ✕</div>
+    <div class="word">i linguaggi.</div>
+    <p class="kicker">Macerata · EVO — linguaggi del terzo millennio</p>
+  </div>
+  <div class="wrap-narrow">
+    <section>
+      <h2>Alfabeto</h2>
+      <p>EVO non sta per olio d'oliva. Sta per Evoluzione. <span class="draftnote">[testo LAVORATO, integrale nel sito]</span></p>
+      <p class="keyline">Il linguaggio è la base dell'evoluzione: il sapiens ha vinto cooperando. Il gioco è il linguaggio che li contiene tutti.</p>
+      <div class="ph-row">
+        <div class="ph v45"><small>FOTO — la piazza in gioco: tavoli, generazioni mischiate (ed. Nintendo)</small></div>
+        <div class="ph v45"><small>FOTO — il Giappone a Macerata: temporary restaurant, marionette</small></div>
+      </div>
+    </section>
+    <section>
+      <h2>Evoluzioni</h2>
+      <p class="draftnote">[le edizioni come evoluzione di un linguaggio: phygital → cibo → terzo millennio → gioco. Il payoff cambia ogni anno: al pubblico solo il tema corrente]</p>
+      <div class="ph v219"><small>FOTO — dietro le quinte dell'edizione: la piazza alle 7 di mattina (controcampo)</small></div>
+    </section>
+  </div>
+</div>
+
+<script>
+  /* ---- ROUTER: cambio vista = dissolvenza (il non-ritorno) ---- */
+  const views = ['home','tipicita','grand-tour','tib','evo'];
+  function show(id) {
+    if (!views.includes(id)) id = 'home';
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+    const el = document.getElementById(id);
+    el.classList.add('on');
+    window.scrollTo(0, 0);
+    if (id === 'evo') setTimeout(() => document.getElementById('evo').classList.add('spoke'), 1400);
+  }
+  window.addEventListener('hashchange', () => show(location.hash.replace('#','')));
+  show(location.hash.replace('#','') || 'home');
+
+  /* ---- IL NOME: solo "imagina" (regola di Paolo, 04/08/2026: la parola
+     anigami NON compare mai sul sito — vive solo nel dominio/email).
+     Il rovesciamento resta come GESTO: le lettere entrano girandosi,
+     come se arrivassero dall'altro lato del foglio. Una volta sola. ---- */
+  const SRC = 'imagina';
+  const morph = document.getElementById('morph');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let xoff = 0;
+  SRC.split('').forEach((ch, i) => {
+    const s = document.createElement('span');
+    s.textContent = ch;
+    s.style.position = 'static';
+    s.style.display = 'inline-block';
+    if (!reduced) {
+      s.style.transform = 'rotateY(180deg)';
+      s.style.opacity = '.15';
+      s.style.transition = `transform 1s cubic-bezier(.45,.05,.18,1) ${.55 + i * .09}s, opacity 1s ease ${.55 + i * .09}s`;
+    }
+    morph.appendChild(s);
+  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    morph.querySelectorAll('span').forEach(s => { s.style.transform = 'rotateY(0deg)'; s.style.opacity = '1'; });
+  }));
+  setTimeout(() => document.getElementById('heroline').classList.add('on'), reduced ? 0 : 1500);
+
+  /* ---- I MANIFESTI: primo click/tap = giri il manifesto (cambi punto
+     di vista); secondo click = entri nel progetto. Enter da tastiera ok. ---- */
+  document.querySelectorAll('.poster').forEach(p => {
+    function act() {
+      if (!p.classList.contains('turned')) p.classList.add('turned');
+      else location.hash = p.dataset.go;
+    }
+    p.addEventListener('click', act);
+    p.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+  });
+
+  /* ---- GRAND TOUR: la strada si percorre con lo scroll ---- */
+  const fill = document.getElementById('gtfill');
+  const stops = document.querySelectorAll('#grand-tour .stop');
+  const secs = ['t1','t2','t3'].map(id => document.getElementById(id));
+  window.addEventListener('scroll', () => {
+    if (!document.getElementById('grand-tour').classList.contains('on')) return;
+    const doc = document.documentElement;
+    const pct = Math.min(100, (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100 || 0);
+    fill.style.width = pct + '%';
+    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .6) stops[i].classList.add('done'); });
+  }, { passive: true });
+
+  /* ---- Video Tipicità: se il file non c'è ancora, nessun errore visibile ---- */
+  const tv = document.getElementById('tipvideo');
+  tv.addEventListener('error', () => tv.remove(), true);
+</script>
+</body>
+</html>
