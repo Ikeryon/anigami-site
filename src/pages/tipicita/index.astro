@@ -114,40 +114,60 @@ const stages = [
     </div>
   </section>
 
-  <!-- ══ QUADRO 3 · .Essenza ══
-       RISCRITTA su richiesta di Paolo (06/08/2026) dal tavolo
-       linguista+scrittore+web editor+UX: tesi in apertura, ciauscolo come
-       prova, battute brevi, kicker-guida, filo di avanzamento, reveal
-       progressivo. PROPOSTA DA VALIDARE (sostituisce il testo precedente,
-       stesse idee, ritmo nuovo). -->
-  <section class="quadro" id="essenza">
-    <div class="q-in narrow" id="ess-scroll">
-      <div class="ess-rail" aria-hidden="true"><span id="ess-fill"></span></div>
+  <!-- ══ QUADRO 3 · .Essenza — il capitolo che si sfoglia ══
+       v3 (06/08/2026, richiesta Paolo): card orizzontali con snap, frecce,
+       avanzamento; la rotella scorre le card e a fine capitolo prosegue.
+       Testi = riscrittura v2 approvata in lavorazione. -->
+  <section class="quadro q-ess" id="essenza">
+    <div class="ess-head">
       <h2>Essenza</h2>
-
-      <p class="lead beat">La tipicità non è un'etichetta.<br/>È <strong>la traccia che un territorio lascia</strong> dentro le cose che genera.</p>
-
-      <p class="kick beat">la traccia</p>
-      <p class="beat">Il ciauscolo non è tipico delle Marche perché qualcuno l'ha deciso. Lo è perché qualcuno, prima di chiunque altro, ha interpretato in quella forma <strong>il clima, l'allevamento, i tempi di una collina precisa</strong> — quella, e non un'altra.</p>
-      <p class="beat">E vale per un salume come per un software: una software house di Mumbai e una di Tolentino non lavoreranno mai allo stesso modo. Non è una differenza di competenza. <strong>È una differenza di territorio.</strong></p>
-
-      <figure class="ess-break beat"><img src="/tipicita/essenza-1.jpg" alt="Salumi e formaggi del territorio sui banchi del festival" loading="lazy" /></figure>
-
-      <p class="kick beat">l'attraversamento</p>
-      <p class="beat">Ma nessuna tipicità resta viva da sola. Il pomodoro arriva da un altro continente, prima di diventare <strong>più napoletano del napoletano stesso</strong>.</p>
-      <p class="beat">E la cucina italiana è patrimonio Unesco non perché sia rimasta uguale nei secoli — per il motivo opposto: è un prodotto globale, mutato e mutevole.</p>
-      <p class="keyline beat">Il locale non sopravvive isolandosi dal mondo — sopravvive attraversandolo.</p>
-
-      <p class="kick beat">la tensione</p>
-      <p class="beat"><strong>Traiettorie</strong> e <strong>indigene</strong>: due parole che tirano in direzioni opposte, e per questo si tengono in piedi a vicenda. Traiettoria è aerea — rotte, mercati, il mondo che si muove. Indigeno è caldo, quasi primordiale — l'istinto di un luogo, prima che diventi racconto.</p>
-      <p class="beat">Tipicità sta esattamente in mezzo: <strong>racconta il globale attraverso il locale</strong>.</p>
-
-      <p class="kick beat">la rotta</p>
-      <p class="beat">Nel 1993, quando tutto comincia, l'enogastronomia non è ancora un argomento da prima serata: il primo lavoro è convincere i marchigiani stessi che ciò che si produce sotto casa <strong>non vale meno di un marchio da supermercato</strong>.</p>
-      <p class="beat">Da lì il racconto si allarga — i territori, la manualità che attraversa artigianato e digitale — finché, dopo il 2020, il festival apre a chi viene da fuori: <strong>un fenomeno si capisce solo per confronto</strong>.</p>
-
-      <p class="keyline beat">Oggi Tipicità sta diventando qualcos'altro ancora: il festival delle traiettorie indigene.</p>
+      <span class="hint">scorri <span aria-hidden="true">→</span></span>
     </div>
+    <div class="hwrap">
+      <div class="hscroll" id="hscroll">
+        <article class="card lead-card"><span class="idx">01</span>
+          <p class="cl">La tipicità<br/>non è un'etichetta.</p>
+          <p class="cs">È <strong>la traccia che un territorio lascia</strong> dentro le cose che genera.</p>
+        </article>
+        <article class="card"><span class="idx">02</span><p class="kick">la traccia</p>
+          <p>Il ciauscolo non è tipico delle Marche perché qualcuno l'ha deciso. Lo è perché qualcuno, prima di chiunque altro, ha interpretato in quella forma <strong>il clima, l'allevamento, i tempi di una collina precisa</strong> — quella, e non un'altra.</p>
+        </article>
+        <article class="card"><span class="idx">03</span><p class="kick">la traccia</p>
+          <p>E vale per un salume come per un software: una software house di Mumbai e una di Tolentino non lavoreranno mai allo stesso modo.</p>
+          <p>Non è una differenza di competenza. <strong>È una differenza di territorio.</strong></p>
+        </article>
+        <article class="card photo-card"><span class="idx">04</span>
+          <img src="/tipicita/essenza-1.jpg" alt="Salumi e formaggi del territorio sui banchi del festival" loading="lazy" />
+        </article>
+        <article class="card"><span class="idx">05</span><p class="kick">l'attraversamento</p>
+          <p>Ma nessuna tipicità resta viva da sola. Il pomodoro arriva da un altro continente, prima di diventare <strong>più napoletano del napoletano stesso</strong>.</p>
+          <p>E la cucina italiana è patrimonio Unesco per il motivo opposto a quello che si crede: perché è un prodotto globale, mutato e mutevole.</p>
+        </article>
+        <article class="card key-card"><span class="idx">06</span>
+          <p>Il locale non sopravvive isolandosi dal mondo — <em>sopravvive attraversandolo</em>.</p>
+        </article>
+        <article class="card"><span class="idx">07</span><p class="kick">la tensione</p>
+          <p><strong>Traiettorie</strong> e <strong>indigene</strong>: due parole che tirano in direzioni opposte, e per questo si tengono in piedi a vicenda.</p>
+          <p>Traiettoria è aerea — rotte, mercati, il mondo che si muove. Indigeno è caldo, quasi primordiale — l'istinto di un luogo, prima che diventi racconto.</p>
+        </article>
+        <article class="card"><span class="idx">08</span><p class="kick">la tensione</p>
+          <p>Tipicità sta esattamente in mezzo:</p>
+          <p class="cl-small"><strong>racconta il globale attraverso il locale.</strong></p>
+        </article>
+        <article class="card"><span class="idx">09</span><p class="kick">la rotta</p>
+          <p>Nel 1993, quando tutto comincia, l'enogastronomia non è ancora un argomento da prima serata: il primo lavoro è convincere i marchigiani stessi che ciò che si produce sotto casa <strong>non vale meno di un marchio da supermercato</strong>.</p>
+        </article>
+        <article class="card"><span class="idx">10</span><p class="kick">la rotta</p>
+          <p>Da lì il racconto si allarga — i territori, la manualità che attraversa artigianato e digitale — finché, dopo il 2020, il festival apre a chi viene da fuori: <strong>un fenomeno si capisce solo per confronto</strong>.</p>
+        </article>
+        <article class="card key-card"><span class="idx">11</span>
+          <p>Oggi Tipicità sta diventando qualcos'altro ancora: <em>il festival delle traiettorie indigene</em>.</p>
+        </article>
+      </div>
+      <button class="hbtn hprev" id="hprev" aria-label="Card precedente">‹</button>
+      <button class="hbtn hnext" id="hnext" aria-label="Card successiva">›</button>
+    </div>
+    <div class="hprog" aria-hidden="true"><span id="hfill"></span></div>
   </section>
 
   <!-- ══ QUADRO 4 · .Motore ══ -->
@@ -292,26 +312,48 @@ const stages = [
   .duo img { width: 100%; height: 300px; object-fit: cover; display: block; }
   @media (max-width: 640px) { .duo { grid-template-columns: 1fr; } .duo img { height: 220px; } }
 
-  /* ── Essenza: lettura guidata ── */
-  .q-in.narrow { position: relative; padding-left: 2.4rem; }
-  .q-in.narrow p { font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.35em; max-width: 58ch; }
-  .q-in.narrow p strong { font-weight: 500; color: var(--brand-accent); }
-  .lead { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.8vw, 2.4rem); line-height: 1.25;
-    color: var(--text-soft); margin: 0 0 1.8em !important; max-width: 22ch !important; }
-  .lead strong { color: var(--brand-accent); font-weight: 600; }
-  .kick { font-family: 'Manrope', sans-serif; font-size: 0.66rem !important; letter-spacing: 0.32em;
-    text-transform: uppercase; color: var(--tiffany); margin: 2.4em 0 0.9em !important; }
-  .ess-break { margin: 2rem 0; }
-  .ess-break img { width: 100%; height: 240px; object-fit: cover; display: block; }
-  /* filo di avanzamento della lettura */
-  .ess-rail { position: absolute; left: 0.7rem; top: 0; bottom: 0; width: 2px; background: var(--hairline); }
-  .ess-rail span { display: block; width: 100%; height: 0%; background: var(--tiffany); transition: height 0.15s linear; }
-  /* rivelazione progressiva dei blocchi */
-  .beat { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .beat.vis { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .beat { opacity: 1; transform: none; transition: none; } }
-  .keyline { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.32;
-    color: var(--brand-accent); border-left: 3px solid var(--brand-accent); padding-left: 1.2rem; max-width: 24ch; margin: 2.2rem 0 !important; }
+  /* ── Essenza: il capitolo che si sfoglia ── */
+  .q-ess { background: var(--bg-deep); flex-direction: column; justify-content: center; align-items: stretch; }
+  .ess-head { max-width: 1050px; margin: 0 auto; padding: 0 1.6rem; width: 100%;
+    display: flex; align-items: baseline; justify-content: space-between; }
+  .ess-head h2 { margin-bottom: 0.6em; }
+  .hint { font-family: 'Manrope', sans-serif; font-size: 0.66rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--tiffany); }
+  .hwrap { position: relative; }
+  .hscroll { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 1.6rem max(calc((100vw - 1050px) / 2 + 1.6rem), 1.6rem) 1.2rem;
+    scrollbar-width: none; scroll-behavior: smooth; }
+  .hscroll::-webkit-scrollbar { display: none; }
+  .card { flex: 0 0 min(78vw, 420px); scroll-snap-align: center; background: #fff;
+    border: 1px solid var(--hairline); padding: 2rem 1.9rem 1.8rem; position: relative;
+    min-height: 380px; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; transform: translateX(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .card.vis { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .card { opacity: 1; transform: none; transition: none; } }
+  .card .idx { position: absolute; top: 0.9rem; right: 1.1rem; font-family: 'Manrope', sans-serif;
+    font-size: 0.62rem; letter-spacing: 0.2em; color: var(--text-faint); }
+  .card p { font-size: 1.02rem; line-height: 1.72; margin: 0 0 1em; }
+  .card p:last-child { margin-bottom: 0; }
+  .card p strong { font-weight: 500; color: var(--brand-accent); }
+  .card .kick { font-family: 'Manrope', sans-serif; font-size: 0.64rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--tiffany); margin-bottom: 1.2em; }
+  .lead-card .cl { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    line-height: 1.15; color: var(--text-soft); margin-bottom: 0.55em; }
+  .lead-card .cs { font-size: 1.05rem; }
+  .cl-small { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; line-height: 1.3; }
+  .key-card { background: var(--brand-accent); border-color: transparent; }
+  .key-card p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    line-height: 1.35; color: #fff; }
+  .key-card em { font-style: italic; color: #bfeff2; }
+  .photo-card { padding: 0; overflow: hidden; }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hbtn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px;
+    border-radius: 50%; border: 1px solid var(--tiffany); color: var(--brand-accent);
+    background: rgba(255, 255, 255, 0.9); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+  .hbtn:hover { background: var(--tiffany); color: #fff; }
+  .hprev { left: 0.9rem; } .hnext { right: 0.9rem; }
+  .hprog { max-width: 1050px; margin: 0.6rem auto 0; padding: 0 1.6rem; width: 100%; }
+  .hprog span { display: block; height: 2px; width: 0%; background: var(--tiffany); transition: width 0.15s linear; }
 
   /* ── Motore ── */
   .motor { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem 2.8rem; margin-bottom: 2rem; }
@@ -438,18 +480,28 @@ const stages = [
     e.preventDefault(); goQ(a.getAttribute('href').slice(1));
   }));
 
-  // ---- Essenza: reveal progressivo + filo di avanzamento ----
-  const essScroll = document.getElementById('ess-scroll');
-  const essFill = document.getElementById('ess-fill');
-  const beats = Array.from(document.querySelectorAll('.beat'));
-  const bObs = new IntersectionObserver((es) => {
-    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('vis'); bObs.unobserve(e.target); } });
-  }, { root: essScroll, threshold: 0.25 });
-  beats.forEach((b) => bObs.observe(b));
-  essScroll.addEventListener('scroll', () => {
-    const max = essScroll.scrollHeight - essScroll.clientHeight;
-    essFill.style.height = (max > 0 ? (essScroll.scrollTop / max) * 100 : 100) + '%';
+  // ---- Essenza: card orizzontali — snap, frecce, avanzamento, rotella ----
+  const hs = document.getElementById('hscroll');
+  const hfill = document.getElementById('hfill');
+  const cards = Array.from(hs.querySelectorAll('.card'));
+  const cObs = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('vis'); cObs.unobserve(e.target); } });
+  }, { root: hs, threshold: 0.35 });
+  cards.forEach((c) => cObs.observe(c));
+  function cardStep() { return cards[0].getBoundingClientRect().width + 19; }
+  document.getElementById('hprev').addEventListener('click', () => hs.scrollBy({ left: -cardStep() }));
+  document.getElementById('hnext').addEventListener('click', () => hs.scrollBy({ left: cardStep() }));
+  hs.addEventListener('scroll', () => {
+    const max = hs.scrollWidth - hs.clientWidth;
+    hfill.style.width = (max > 0 ? (hs.scrollLeft / max) * 100 : 100) + '%';
   }, { passive: true });
+  // la rotella sfoglia le card; a inizio/fine capitolo lo scroll prosegue nel deck
+  hs.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const max = hs.scrollWidth - hs.clientWidth;
+    const atEdge = (e.deltaY > 0 && hs.scrollLeft >= max - 2) || (e.deltaY < 0 && hs.scrollLeft <= 2);
+    if (!atEdge) { e.preventDefault(); hs.scrollLeft += e.deltaY; }
+  }, { passive: false });
 
   scrub.addEventListener('input', () => activate(+scrub.value));
   anni.forEach((a) => a.addEventListener('click', () => activate(+a.dataset.i)));
