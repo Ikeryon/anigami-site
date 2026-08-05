@@ -4,7 +4,7 @@
     <style>
       .cls-1 {
         fill: #14b5bd;
-        font-family: Harlekin, Harlekin;
+        font-family: Harlekin, 'Segoe Script', 'Brush Script MT', cursive;
         font-size: 55.08px;
       }
     </style>
