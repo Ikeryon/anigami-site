@@ -7,6 +7,21 @@
 
 const CONTEST_LIST_ID = 251;
 
+// Brevo rifiuta l'attributo WHATSAPP se il numero non e' in formato
+// internazionale (es. "+39..."). Gli utenti scrivono quasi sempre il numero
+// in formato locale (es. "333 123 4567"): senza questa normalizzazione ogni
+// iscrizione veniva rifiutata da Brevo con "400 invalid_parameter" (-> 502).
+function toInternational(raw) {
+  if (!raw) return '';
+  const trimmed = String(raw).trim();
+  const digits = trimmed.replace(/[^\d]/g, '');
+  if (!digits) return '';
+  if (trimmed.startsWith('+')) return '+' + digits;          // gia' internazionale (+39, +44, ...)
+  if (digits.startsWith('00')) return '+' + digits.slice(2); // prefisso 00 -> +
+  if (digits.startsWith('39') && digits.length >= 11) return '+' + digits; // prefisso 39 gia' presente
+  return '+39' + digits;                                     // numero italiano locale -> aggiungo +39
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -35,6 +50,8 @@ export default async function handler(req, res) {
     return;
   }
 
+  const whatsappIntl = toInternational(whatsapp);
+
   try {
     const brevoRes = await fetch('https://api.brevo.com/v3/contacts', {
       method: 'POST',
@@ -48,7 +65,7 @@ export default async function handler(req, res) {
         attributes: {
           NOME: nome,
           COGNOME: cognome,
-          WHATSAPP: whatsapp,
+          WHATSAPP: whatsappIntl,
           CITY: city,
           STATO_RICETTA: statoRicetta || '',
           CONSENSO_PRIVACY: !!consensoPrivacy,
@@ -62,7 +79,9 @@ export default async function handler(req, res) {
     if (!brevoRes.ok) {
       const errText = await brevoRes.text();
       console.error('Errore Brevo:', brevoRes.status, errText);
-      res.status(502).json({ error: 'Errore nel salvataggio dei dati' });
+      // Il motivo di Brevo resta nei log (utile per il debug); all'utente
+      // la pagina mostra comunque un messaggio generico.
+      res.status(502).json({ error: 'Errore nel salvataggio dei dati', brevoStatus: brevoRes.status });
       return;
     }
 
