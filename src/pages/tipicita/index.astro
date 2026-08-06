@@ -222,6 +222,7 @@ const stages = [
         <div class="mon mon-photo" id="mv-photo" data-mon="MON 04 · ARCHIVIO">
           <img id="mv-img-a" class="off" alt="" />
           <img id="mv-img-b" class="off" alt="" />
+          <video id="mv-video" class="off" muted loop playsinline preload="none" aria-hidden="true"></video>
           <span class="mcap" id="mv-cap">Foto d'archivio — in selezione</span>
         </div>
       </div>
@@ -449,37 +450,42 @@ const stages = [
 
   /* ── La moviola ── */
   .lede { color: var(--text-dim); margin: -0.6rem 0 1.6rem; }
-  .moviola { display: grid; gap: 8px; grid-template-columns: 1.6fr 1fr;
-    grid-template-areas: 'map title' 'map desc' 'photo photo'; background: #04191d; padding: 8px; }
+  /* Banco di regia: due monitor 16:9 affiancati (mappa · archivio) e sotto
+     la targhetta a due colonne (titolo · sintesi). Il monitor archivio
+     regge foto singola, slideshow o video sempre nello stesso frame 16:9. */
+  .moviola { display: grid; gap: 8px; grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'map photo' 'title desc'; background: #04191d; padding: 8px; }
   .mon { position: relative; overflow: hidden; }
   .mon::before { content: attr(data-mon); position: absolute; top: 0.55rem; left: 0.8rem; z-index: 2;
     font-family: 'Manrope', sans-serif; font-size: 0.56rem; letter-spacing: 0.24em;
     color: color-mix(in srgb, var(--tiffany) 75%, white); opacity: 0.85; }
-  .mon-map { grid-area: map; background: linear-gradient(180deg, #06272c, #04191d); min-height: 380px; }
+  .mon-map { grid-area: map; background: linear-gradient(180deg, #06272c, #04191d); aspect-ratio: 16 / 9; }
   .mon-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .pin { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: #a52257;
     transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); animation: pulse 2s infinite; pointer-events: none; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); } 70% { box-shadow: 0 0 0 16px rgba(165, 34, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0); } }
   @media (prefers-reduced-motion: reduce) { .pin { animation: none; } }
-  .mon-title { grid-area: title; background: #06272c; padding: 2.1rem 1.5rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
+  .mon-title { grid-area: title; background: #06272c; padding: 1.4rem 1.4rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
   .myear { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.3em; color: var(--tiffany); }
   .mon-title h3 { color: #fff; font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.2; margin: 0.4rem 0 0.35rem; }
   .mplace { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-  .mon-desc { grid-area: desc; background: #06272c; padding: 2rem 1.5rem 1.3rem; }
+  .mon-desc { grid-area: desc; background: #06272c; padding: 1.4rem 1.4rem 1.2rem; }
   .mon-desc p { color: rgba(255, 255, 255, 0.82); font-size: 0.92rem; line-height: 1.7; margin: 0; }
-  .mon-photo { grid-area: photo; background: #06272c; min-height: 210px; display: flex; align-items: center; justify-content: center; }
-  /* doppio buffer per lo slideshow: dissolvenza (il verbo del non-ritorno) */
-  .mon-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  .mon-photo { grid-area: photo; background: #06272c; aspect-ratio: 16 / 9; }
+  /* stesso frame per foto, slideshow (doppio buffer in dissolvenza) e video */
+  .mon-photo img, .mon-photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     opacity: 1; transition: opacity 0.9s ease; }
-  .mon-photo img.off { opacity: 0; }
-  @media (prefers-reduced-motion: reduce) { .mon-photo img { transition: none; } }
-  .mcap { position: relative; font-family: 'Manrope', sans-serif; font-size: 0.66rem; letter-spacing: 0.18em;
+  .mon-photo img.off, .mon-photo video.off { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .mon-photo img, .mon-photo video { transition: none; } }
+  /* stato vuoto: la targhetta "in selezione" resta centrata nel monitor */
+  .mon-photo.empty { display: flex; align-items: center; justify-content: center; }
+  .mcap { position: absolute; left: 0; bottom: 0; z-index: 2; font-family: 'Manrope', sans-serif; font-size: 0.66rem; letter-spacing: 0.18em;
     text-transform: uppercase; color: rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; background: rgba(4, 25, 29, 0.65); }
+  .mon-photo.empty .mcap { position: static; background: none; }
   /* smartphone: gli ANNI restano il gesto-firma → salgono sopra i monitor
      (regia §5: barra degli anni sempre a portata di pollice) */
   @media (max-width: 780px) {
-    .moviola { grid-template-columns: 1fr; grid-template-areas: 'map' 'title' 'desc' 'photo'; }
-    .mon-map { min-height: 240px; }
+    .moviola { grid-template-columns: 1fr; grid-template-areas: 'map' 'title' 'photo' 'desc'; }
     #tracce .q-in { display: flex; flex-direction: column; }
     #tracce h2 { order: 0; } #tracce .lede { order: 1; }
     #tracce .anni { order: 2; margin: 0 0 0.6rem; } #tracce .scrub { order: 3; margin: 0 0 1rem; }
@@ -489,10 +495,8 @@ const stages = [
   @media (min-width: 781px) and (max-height: 860px) {
     #tracce h2 { margin-bottom: 0.5em; }
     .lede { margin: -0.4rem 0 1rem; font-size: 0.92rem; }
-    .mon-map { min-height: 290px; }
-    .mon-photo { min-height: 150px; }
-    .mon-title { padding: 1.8rem 1.3rem 1rem; }
-    .mon-desc { padding: 1.7rem 1.3rem 0.9rem; }
+    .mon-title { padding: 1.1rem 1.3rem 0.9rem; }
+    .mon-desc { padding: 1.1rem 1.3rem 0.9rem; }
     .mon-desc p { font-size: 0.86rem; line-height: 1.55; }
     .anni { margin: 0.8rem 0 0.3rem; }
     .credits { margin: 0.8rem 0 0; }
@@ -520,6 +524,8 @@ const stages = [
   const placeEl = document.getElementById('mv-place');
   const descEl = document.getElementById('mv-desc');
   const imgs = [document.getElementById('mv-img-a'), document.getElementById('mv-img-b')];
+  const videoEl = document.getElementById('mv-video');
+  const photoMon = document.getElementById('mv-photo');
   const capEl = document.getElementById('mv-cap');
   const scrub = document.getElementById('mv-scrub');
   const anni = Array.from(document.querySelectorAll('.anno'));
@@ -540,7 +546,7 @@ const stages = [
     anni.forEach((a, j) => { a.classList.toggle('on', j === i); a.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
     document.getElementById('moviola').setAttribute('aria-labelledby', 'ytab-' + i);
     scrub.value = i;
-    showPhotos(s.photos || (s.photo ? [s.photo] : null), s);
+    showMedia(s);
     document.querySelectorAll('#mv-world path.on').forEach((p) => p.classList.remove('on'));
     const b = boxes[s.c];
     if (!b) return;
@@ -578,13 +584,35 @@ const stages = [
     back.src = list[i];
     if (back.complete) go(); else back.onload = go;
   }
+  // dispatcher del monitor archivio: video · slideshow · foto singola · vuoto.
+  // Lo stesso frame 16:9 accoglie tutti e tre i tipi (dati da Cowork/Paolo:
+  //   s.video (+ s.poster) · s.photos: [] · s.photo). Video muto/loop/inline.
+  function showMedia(s) {
+    if (s.video) {
+      clearInterval(slideTimer); slideTimer = null;
+      imgs.forEach((im) => { im.classList.add('off'); im.onload = null; });
+      photoMon.classList.remove('empty');
+      if (videoEl.getAttribute('src') !== s.video) videoEl.src = s.video;
+      if (s.poster) videoEl.poster = s.poster; else videoEl.removeAttribute('poster');
+      videoEl.setAttribute('aria-label', s.caption || s.t);
+      videoEl.classList.remove('off');
+      capEl.textContent = s.caption || '';
+      if (REDUCED) videoEl.pause();
+      else { const p = videoEl.play(); if (p && p.catch) p.catch(() => {}); }
+      return;
+    }
+    videoEl.classList.add('off'); videoEl.pause();
+    showPhotos(s.photos || (s.photo ? [s.photo] : null), s);
+  }
   function showPhotos(list, s) {
     clearInterval(slideTimer); slideTimer = null;
     if (!list || !list.length) {
       imgs.forEach((im) => { im.classList.add('off'); im.onload = null; });
+      photoMon.classList.add('empty');
       capEl.textContent = "Foto d'archivio — in selezione";
       return;
     }
+    photoMon.classList.remove('empty');
     setSlide(list, 0, s);
     if (list.length > 1) slideTimer = setInterval(() => {
       // gira solo quando il quadro Tracce è in scena
