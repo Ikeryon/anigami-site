@@ -286,6 +286,16 @@ const stages = [
     color: #fff; mix-blend-mode: difference; opacity: 0.75; }
   .to-home:hover { opacity: 1; }
 
+  /* Focus da tastiera: anello visibile e coerente su TUTTI i controlli.
+     :focus-visible → compare solo con tastiera, non altera lo stato a
+     riposo; outline non sposta il layout. Petrolio sui controlli su
+     fondo chiaro (≈8:1 sul bianco), bianco su quelli sopra il campo teal. */
+  .dots button:focus-visible, .nodo:focus-visible, .anno:focus-visible,
+  .hbtn:focus-visible, .next:focus-visible, .scrub:focus-visible {
+    outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+  .menu a:focus-visible, .to-home:focus-visible {
+    outline: 2px solid #fff; outline-offset: 3px; }
+
   /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
      continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO
      INTERNO prima di passare al successivo. */
