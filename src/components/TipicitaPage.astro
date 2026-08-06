@@ -333,19 +333,23 @@ const alternates = [
   @media (prefers-reduced-motion: reduce) { .card { opacity: 1; transform: none; transition: none; } }
   .card .idx { position: absolute; top: 0.9rem; right: 1.1rem; font-family: 'Manrope', sans-serif;
     font-size: 0.62rem; letter-spacing: 0.2em; color: var(--text-faint); }
-  .card p { font-size: 1.02rem; line-height: 1.72; margin: 0 0 1em; }
-  .card p:last-child { margin-bottom: 0; }
-  .card p strong { font-weight: 500; color: var(--brand-accent); }
+  /* ⚠️ i corpi delle card arrivano da set:html (dizionario i18n): Astro NON
+     marca con lo scope gli elementi iniettati, quindi le regole che li
+     riguardano devono passare da :global(), altrimenti non li agganciano.
+     Il contenitore .card resta scoped (è nel template). */
+  .card :global(p) { font-size: 1.02rem; line-height: 1.72; margin: 0 0 1em; }
+  .card :global(p:last-child) { margin-bottom: 0; }
+  .card :global(p strong) { font-weight: 500; color: var(--brand-accent); }
   .card .kick { font-family: 'Manrope', sans-serif; font-size: 0.64rem; letter-spacing: 0.3em;
     text-transform: uppercase; color: var(--tiffany); margin-bottom: 1.2em; }
-  .lead-card .cl { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  .lead-card :global(.cl) { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.4vw, 2.3rem);
     line-height: 1.15; color: var(--text-soft); margin-bottom: 0.55em; }
-  .lead-card .cs { font-size: 1.05rem; }
-  .cl-small { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; line-height: 1.3; }
+  .lead-card :global(.cs) { font-size: 1.05rem; }
+  .card :global(.cl-small) { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; line-height: 1.3; }
   .key-card { background: var(--brand-accent); border-color: transparent; }
-  .key-card p { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  .key-card :global(p) { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.8vw, 1.85rem);
     line-height: 1.35; color: #fff; }
-  .key-card em { font-style: italic; color: #bfeff2; }
+  .key-card :global(em) { font-style: italic; color: #bfeff2; }
   .photo-card { padding: 0; overflow: hidden; }
   .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .hbtn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px;
@@ -455,8 +459,17 @@ const alternates = [
     .anni { margin: 0.8rem 0 0.3rem; }
   }
 
-  .anni { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin: 1.2rem 0 0.4rem; }
-  .anno { font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em; background: none; border: none;
+  /* la barra degli anni resta SEMPRE su una riga: scorre in orizzontale e le
+     tappe si dissolvono ai bordi. Così regge anche l'aggiunta di nuove tappe
+     senza andare a capo e scomporre il quadro. */
+  .anni { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1.1rem; margin: 1.2rem 0 0.4rem;
+    scrollbar-width: none; scroll-behavior: smooth;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 22px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 22px), transparent 100%); }
+  .anni::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .anni { scroll-behavior: auto; } }
+  .anno { flex: 0 0 auto; white-space: nowrap;
+    font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em; background: none; border: none;
     color: var(--text-faint); cursor: pointer; padding: 0.3rem 0.1rem; border-bottom: 2px solid transparent; }
   .anno small { font-size: 0.82em; opacity: 0.75; letter-spacing: 0.06em; } /* sigla di bobina per anni doppi (2018 · NY / · AL) */
   .anno.key { color: #a52257; opacity: 0.75; }
@@ -481,6 +494,7 @@ const alternates = [
   const capEl = document.getElementById('mv-cap');
   const scrub = document.getElementById('mv-scrub');
   const anni = Array.from(document.querySelectorAll('.anno'));
+  const anniBar = document.getElementById('mv-anni');
   const mapBox = document.querySelector('.mon-map');
   const VB = { w: 1600, h: 820 };
   let cur = -1;
@@ -497,6 +511,14 @@ const alternates = [
     descEl.textContent = s.d;
     anni.forEach((a, j) => { a.classList.toggle('on', j === i); a.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
     document.getElementById('moviola').setAttribute('aria-labelledby', 'ytab-' + i);
+    // la barra scorre su una riga sola: tieni la tappa attiva sempre in vista
+    // (scorro solo la barra, non gli antenati, per non muovere il deck).
+    // Calcolo per rettangoli: offsetLeft sarebbe relativo a .quadro, che è
+    // l'offsetParent posizionato, non alla barra.
+    const el = anni[i];
+    const barR = anniBar.getBoundingClientRect(), elR = el.getBoundingClientRect();
+    const delta = (elR.left - barR.left) - (barR.width - elR.width) / 2;
+    anniBar.scrollTo({ left: anniBar.scrollLeft + delta, behavior: scrollBehavior() });
     scrub.value = i;
     showMedia(s);
     document.querySelectorAll('#mv-world path.on').forEach((p) => p.classList.remove('on'));
@@ -649,12 +671,27 @@ const alternates = [
     hfill.style.width = (max > 0 ? (hs.scrollLeft / max) * 100 : 100) + '%';
     clearTimeout(hIdle); hIdle = setTimeout(() => { hTarget = null; }, 180); // scroll fermo → si riparte dalla card visibile
   }, { passive: true });
-  // la rotella sfoglia le card; a inizio/fine capitolo lo scroll prosegue nel deck
-  hs.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  // LA ROTELLA DENTRO ESSENZA: finché ci sono card, lo scroll verticale si
+  // traduce in avanzamento orizzontale (una card per gesto); esaurite le card,
+  // l'evento passa al deck e si torna a scorrere in verticale.
+  // NB: si avanza per INDICE, non sommando deltaY a scrollLeft — con
+  // scroll-snap x mandatory lo snap ririchiamerebbe la card più vicina a ogni
+  // frame, dando la sensazione che tutto si blocchi.
+  // Il listener sta sul quadro intero (non solo sulla striscia) così funziona
+  // anche col puntatore sul titolo o ai bordi.
+  const essSection = document.getElementById('essenza');
+  let wheelLock = false;
+  essSection.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // gesto orizzontale da trackpad: lascialo fare
     const max = hs.scrollWidth - hs.clientWidth;
-    const atEdge = (e.deltaY > 0 && hs.scrollLeft >= max - 2) || (e.deltaY < 0 && hs.scrollLeft <= 2);
-    if (!atEdge) { e.preventDefault(); hs.scrollLeft += e.deltaY; }
+    const giu = e.deltaY > 0;
+    const atEdge = giu ? hs.scrollLeft >= max - 2 : hs.scrollLeft <= 2;
+    if (atEdge) return; // fine (o inizio) del capitolo → prosegue il deck
+    e.preventDefault();
+    if (wheelLock) return; // un gesto = una card (il trackpad emette raffiche di eventi)
+    wheelLock = true;
+    goCard(giu ? 1 : -1);
+    setTimeout(() => { wheelLock = false; }, 420);
   }, { passive: false });
 
   // ---- Motore: schema in moto ----
