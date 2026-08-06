@@ -190,12 +190,12 @@ const stages = [
         <span class="blabel" aria-hidden="true">La formula</span>
         <div class="schema" role="tablist" aria-label="La formula">
           <span class="flow" aria-hidden="true"></span>
-          <button class="nodo on" data-m="0" role="tab" aria-selected="true">Traiettorie</button>
-          <button class="nodo" data-m="1" role="tab" aria-selected="false">Carburante</button>
-          <button class="nodo" data-m="2" role="tab" aria-selected="false">Impatto</button>
-          <button class="nodo" data-m="3" role="tab" aria-selected="false">Ingranaggi</button>
+          <button class="nodo on" id="mtab-0" data-m="0" role="tab" aria-selected="true" aria-controls="mpanel">Traiettorie</button>
+          <button class="nodo" id="mtab-1" data-m="1" role="tab" aria-selected="false" aria-controls="mpanel">Carburante</button>
+          <button class="nodo" id="mtab-2" data-m="2" role="tab" aria-selected="false" aria-controls="mpanel">Impatto</button>
+          <button class="nodo" id="mtab-3" data-m="3" role="tab" aria-selected="false" aria-controls="mpanel">Ingranaggi</button>
         </div>
-        <div class="mpanel" id="mpanel" aria-live="polite"></div>
+        <div class="mpanel" id="mpanel" role="tabpanel" tabindex="0" aria-labelledby="mtab-0" aria-live="polite"></div>
       </div>
     </div>
   </section>
@@ -206,7 +206,7 @@ const stages = [
       <h2>Tracce</h2>
       <p class="lede">Una rotta che si allunga edizione dopo edizione. Trascina il cursore lungo gli anni.</p>
 
-      <div class="moviola" id="moviola">
+      <div class="moviola" id="moviola" role="tabpanel" tabindex="0" aria-labelledby="ytab-0">
         <div class="mon mon-map" data-mon="MON 01 · MAPPA">
           <svg viewBox="0 0 1600 820" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g id="mv-world"><Fragment set:html={mapSvg} /></g>
@@ -228,7 +228,7 @@ const stages = [
 
       <div class="anni" id="mv-anni" role="tablist" aria-label="Anni della rotta">
         {stages.map((s, i) => (
-          <button class={s.key ? 'anno key' : 'anno'} data-i={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>{s.y}</button>
+          <button class={s.key ? 'anno key' : 'anno'} id={`ytab-${i}`} data-i={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls="moviola">{s.y}</button>
         ))}
       </div>
       <input class="scrub" id="mv-scrub" type="range" min="0" max={stages.length - 1} step="1" value="0" aria-label="Cursore degli anni" />
@@ -537,6 +537,7 @@ const stages = [
     placeEl.textContent = s.p;
     descEl.textContent = s.d;
     anni.forEach((a, j) => { a.classList.toggle('on', j === i); a.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    document.getElementById('moviola').setAttribute('aria-labelledby', 'ytab-' + i);
     scrub.value = i;
     showPhotos(s.photos || (s.photo ? [s.photo] : null), s);
     document.querySelectorAll('#mv-world path.on').forEach((p) => p.classList.remove('on'));
@@ -678,6 +679,7 @@ const stages = [
   function motor(i) {
     mTimers.forEach(clearTimeout); mTimers = [];
     nodi.forEach((n, j) => { n.classList.toggle('on', j === i); n.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    mpanel.setAttribute('aria-labelledby', 'mtab-' + i);
     mpanel.innerHTML = M[i].body;
     if (M[i].h === 'count') {
       const el = document.getElementById('mcount');
@@ -700,9 +702,19 @@ const stages = [
 
   scrub.addEventListener('input', () => activate(+scrub.value));
   anni.forEach((a) => a.addEventListener('click', () => activate(+a.dataset.i)));
-  document.getElementById('moviola').closest('section').addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') activate(cur + 1);
-    if (e.key === 'ArrowLeft') activate(cur - 1);
+  // frecce sulla tablist degli anni (pattern ARIA tabs, il focus segue la
+  // selezione). Sul range lo scrub gestisce già le frecce da solo: tenere
+  // il listener qui evita il doppio scatto quando il fuoco è sul cursore.
+  document.getElementById('mv-anni').addEventListener('keydown', (e) => {
+    let ni = cur;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') ni = Math.min(stages.length - 1, cur + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ni = Math.max(0, cur - 1);
+    else if (e.key === 'Home') ni = 0;
+    else if (e.key === 'End') ni = stages.length - 1;
+    else return;
+    e.preventDefault();
+    activate(ni);
+    anni[ni].focus();
   });
   activate(0);
 </script>
