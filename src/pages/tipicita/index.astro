@@ -358,6 +358,7 @@ const stages = [
     padding: 1.6rem max(calc((100vw - 1050px) / 2 + 1.6rem), 1.6rem) 1.2rem;
     scrollbar-width: none; scroll-behavior: smooth; }
   .hscroll::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .hscroll { scroll-behavior: auto; } }
   .card { flex: 0 0 min(78vw, 420px); scroll-snap-align: center; background: #fff;
     border: 1px solid var(--hairline); padding: 2rem 1.9rem 1.8rem; position: relative;
     min-height: 380px; display: flex; flex-direction: column; justify-content: center;
@@ -448,6 +449,7 @@ const stages = [
   .pin { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: #a52257;
     transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); animation: pulse 2s infinite; pointer-events: none; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); } 70% { box-shadow: 0 0 0 16px rgba(165, 34, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0); } }
+  @media (prefers-reduced-motion: reduce) { .pin { animation: none; } }
   .mon-title { grid-area: title; background: #06272c; padding: 2.1rem 1.5rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
   .myear { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.3em; color: var(--tiffany); }
   .mon-title h3 { color: #fff; font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.2; margin: 0.4rem 0 0.35rem; }
@@ -581,10 +583,14 @@ const stages = [
 
   // ---- deck: puntini, freccia, quadro attivo ----
   const deck = document.getElementById('deck');
+  // rispetta prefers-reduced-motion anche negli scroll pilotati da JS
+  // (scrollIntoView/scrollTo con behavior:'smooth' ignorano il CSS)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollBehavior = () => (prefersReduced.matches ? 'auto' : 'smooth');
   const quadri = Array.from(deck.querySelectorAll('.quadro'));
   const dots = Array.from(document.querySelectorAll('.dots button'));
   const ids = ['top', 'trama', 'essenza', 'motore', 'tracce'];
-  function goQ(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+  function goQ(id) { document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior() }); }
   dots.forEach((d) => d.addEventListener('click', () => goQ(d.dataset.q)));
   document.getElementById('deck-next').addEventListener('click', () => {
     const i = ids.findIndex((id, j) => dots[j].classList.contains('on'));
@@ -632,7 +638,7 @@ const stages = [
   function goCard(dir) {
     hTarget = Math.max(0, Math.min(cards.length - 1, (hTarget ?? cardNear()) + dir));
     const c = cards[hTarget];
-    hs.scrollTo({ left: c.offsetLeft + c.offsetWidth / 2 - hs.clientWidth / 2, behavior: 'smooth' });
+    hs.scrollTo({ left: c.offsetLeft + c.offsetWidth / 2 - hs.clientWidth / 2, behavior: scrollBehavior() });
   }
   document.getElementById('hprev').addEventListener('click', () => goCard(-1));
   document.getElementById('hnext').addEventListener('click', () => goCard(1));
@@ -665,10 +671,13 @@ const stages = [
     mpanel.innerHTML = M[i].body;
     if (M[i].h === 'count') {
       const el = document.getElementById('mcount');
-      const T = 900, t0 = performance.now();
-      (function tick(t) { const p = Math.min(1, (t - t0) / T);
-        el.textContent = '~' + Math.round(300 * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) requestAnimationFrame(tick); })(t0);
+      if (prefersReduced.matches) { el.textContent = '~300'; }
+      else {
+        const T = 900, t0 = performance.now();
+        (function tick(t) { const p = Math.min(1, (t - t0) / T);
+          el.textContent = '~' + Math.round(300 * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick); })(t0);
+      }
     }
     if (M[i].h === 'gears') {
       mpanel.querySelectorAll('.chips li').forEach((li, k) => {
