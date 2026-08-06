@@ -2,30 +2,24 @@
 import BrandLayout from '../../layouts/BrandLayout.astro';
 import VideoCard from '../../components/VideoCard.astro';
 
-// NOTA PER PAOLO — struttura "The Blue Way" (10/07/2026):
-// Come indicato, The Blue Way è presentato qui come piattaforma
-// internazionale — non si esaurisce negli hackathon, che sono uno dei
-// formati/esempi di progettualità che genera. Tre livelli:
-//   1) Essenza — cos'è la piattaforma (testo tuo)
-//   2) Pillole — condivisione di conoscenza: progetti europei, esempi,
-//      buone pratiche (target: europrogettisti, ricercatori, operatori
-//      blue economy) — video dalla playlist "The Blue Way" del canale
-//      Tipicità + alcuni video di progetto del Polo Tecnologico
-//   3) Hackathon — tre esempi concreti di progettualità nata dentro The
-//      Blue Way: Ancona 2024, Ancona 2025 (edizione nautica), Trieste/
-//      Barcolana57 2025
-// I testi dei fatti (date, luoghi, partner) sono bozze basate sui
-// materiali che mi hai inviato (comunicati stampa, programmi, PDF) —
-// sostituiscili pure, li ho lasciati solo per non montare la sezione
-// vuota. Fonti: CS1/CS2/CS3 The Blue Way Hack, Hackathon_Spoke_8.pdf,
-// Hackathon.docx, CS8giornate Blue economy, Voiceover1/2,
-// SintesiTBWH25_traccia, BLUESLINKS Call of interest.
+// LANDING TIPICITÀ IN BLU — la fabula è LA STRUMENTAZIONE
+// (ANIGAMI-METANARRATIVA §3): sezioni codificate, dati in evidenza,
+// coordinate; più vicina a una carta nautica/protocollo che a un racconto.
+// La sobrietà È la sua fabula: qui la cornice non fa letteratura.
 //
-// Punto aperto: i materiali sull'edizione 2025 di Ancona parlano di un
-// programma Interreg Italia-Croazia (Blueslinks) con team italo-croati,
-// mentre il testo "Tracce" più sotto parla di studenti UNIVPM/Trieste —
-// da riconciliare quando scrivi il testo definitivo.
+// ⚠️ OSSATURA NON REPLICABILE: i capitoli sono Rotta · Cantiere ·
+// Giornale di bordo. Niente Trama/Essenza/Motore/Tracce (di Tipicità) e
+// niente moviola o deck a quadri: quelli sono solo di Tipicità.
+// La numerazione 01/02/03 dei capitoli è generata via CSS counter
+// (global.css) — è la "codifica" delle sezioni, non un vezzo.
+//
+// TESTI: trascritti da TESTI-TIB.md (consegna Cowork 06/08/2026, ricerca
+// da fonti primarie). Sono BOZZE da validare con Paolo — non riscriverli.
+// The Blue Way: piattaforma PRIMA, hackathon come esempi POI (regola di
+// Paolo). Eventi pubblici (Sailing Chef) volutamente in secondo piano.
 
+// Video già mappati e verificati (restano dalla versione precedente:
+// sono dati reali, non testi da riscrivere).
 const bluePillole = [
   { id: 'e7TnD5orNR0', title: 'Reloaded Materials — A Virtuous Chain', meta: '5:33' },
   { id: 'DR14eK82zlM', title: 'Blue Coast Agreements 2030', meta: '5:50' },
@@ -89,16 +83,25 @@ const hackathons = [
   },
 ];
 
+// Il giornale di bordo: voci datate, si legge dall'alto. NON è una
+// timeline interattiva (quella è la moviola di Tipicità: non si replica).
+const logbook = [
+  { date: '2014 · Ancona', text: 'Prima edizione: il festival porta il “laboratorio” fuori dai laboratori. La Mole Vanvitelliana diventa la base.' },
+  { date: 'maggio 2024 · Ancona', text: 'Vara The Blue Way: il primo hackathon mette nello stesso equipaggio studenti della Politecnica e di Trieste.' },
+  { date: 'maggio 2025 · Ancona', text: 'Dodicesima edizione, sette giorni: Sailing Chef a Marina Dorica, i cantieri Fincantieri aperti alle visite, l’escape room del mare per le scuole, 48 ore di hackathon italo-croato alla Mole.' },
+  { date: 'ottobre 2025 · Trieste', text: 'The Blue Way sale a bordo di Barcolana57: quindici spin-off, cinque sfide, un gemello digitale dell’Alto Adriatico sul tavolo.' },
+  { date: 'maggio 2026 · Ancona', text: 'Tredicesima edizione, 16–22 maggio. Blue Economy Days con la Commissione Europea: mercati in trasformazione, export digitale, intelligenza artificiale, biodiversità marina e ruolo femminile nello sviluppo costiero. L’Atlante degli artisti marchigiani apre la settimana: anche l’arte tiene il registro.' },
+];
+
 const chapters = [
-  { id: 'essenza', label: 'Essenza' },
-  { id: 'the-blue-way', label: 'The Blue Way' },
-  { id: 'tracce', label: 'Tracce' },
+  { id: 'rotta', label: 'Rotta' },
+  { id: 'cantiere', label: 'Cantiere' },
+  { id: 'giornale-di-bordo', label: 'Giornale di bordo' },
 ];
 
 // CROMIA (10/07/2026): Tipicità in Blu vive nel blu profondo della sua
 // palette ufficiale (112f49), con il 209fb6 come accento luminoso.
-// Logo: variante bianca (la versione a colori, 065082, sparirebbe sul
-// blu profondo).
+// Logo: variante bianca (la versione a colori, 065082, sparirebbe sul blu).
 const theme = {
   '--bg-void': '#0a1a2b',
   '--bg-deep': '#112438',
@@ -109,16 +112,14 @@ const theme = {
   '--hairline': 'rgba(233, 238, 242, 0.14)',
 };
 
-// NOTA PER PAOLO: edizione 2026 già conclusa (fonti trovate risalgono ad
-// aprile/maggio 2026) — evito quindi di annunciarla come "prossima edizione"
-// e uso un formato ricorrente generico. Stesso discorso di Tipicità: appena
-// hai le date reali della prossima edizione le aggiungo con uno schema.org
-// Event vero.
+// NOTA PER PAOLO: l'edizione 2026 (16–22 maggio) è già passata rispetto a
+// oggi, quindi resta come ultima voce del registro e non viene annunciata
+// come prossima. Niente schema.org Event finché non ci sono le date 2027.
 ---
 
 <BrandLayout
-  title="Tipicità in Blu — Ancona, festival della blue economy"
-  description="Tipicità in Blu, Ancona: mare come laboratorio di futuro. Blue economy, ricerca, nautica, sostenibilità. Storia, edizioni e The Blue Way."
+  title="Tipicità in Blu — Ancona, il mare come laboratorio di futuro"
+  description="Tipicità in Blu, Ancona: una settimana all'anno l'Adriatico diventa un laboratorio a cielo aperto. Blue economy, ricerca, cooperazione adriatica e la piattaforma The Blue Way."
   accent="#209fb6"
   brandName="Tipicità in Blu"
   chapters={chapters}
@@ -126,37 +127,52 @@ const theme = {
   kicker="Ancona · ogni anno a maggio"
   heroLine="Mare, laboratorio di futuro."
   theme={theme}
+  variant="v-tib"
 >
   <Fragment slot="practical">
-    <span><strong>Quando</strong> ogni anno, una settimana a maggio</span>
-    <span><strong>Dove</strong> Ancona</span>
-    <span><strong>Edizione</strong> 13ª (2026)</span>
+    <span class="fix">43°37′N 13°30′E</span>
+    <span><strong>Base</strong> Ancona, Mole Vanvitelliana</span>
+    <span><strong>Ultima edizione</strong> 13ª · 16–22 maggio 2026</span>
   </Fragment>
 
-  <section class="chapter" id="essenza">
-    <h2 data-reveal>Essenza</h2>
+  <!-- ══ 01 · ROTTA — la direzione ══ -->
+  <section class="chapter" id="rotta">
+    <h2 data-reveal>Rotta</h2>
 
-    <p data-reveal><em>Mare, laboratorio di futuro.</em> Non una barriera fra territori, ma il tessuto connettivo che da sempre lega l'umanità e il pianeta — le stesse acque che uniscono Ancona a Trieste, ai Balcani, a tutto il Mediterraneo.</p>
+    <p data-reveal>Il mare non è un paesaggio: è un'infrastruttura. Ci passano le merci, l'energia, i dati, il cibo — e le domande a cui nessun laboratorio a terra sa rispondere da solo. Tipicità in Blu esiste per questo: una settimana all'anno, ad Ancona, il mare Adriatico diventa un laboratorio a cielo aperto.</p>
 
-    <p data-reveal>Tipicità in Blu doveva essere la versione costiera di Tipicità. Non lo è mai diventata — è diventata altro: un contenitore di progetti e una piattaforma di confronto sui grandi temi della blue economy. Non è un caso che sia nata ad Ancona: qui, nel 2000, è stata firmata la Dichiarazione che ha dato origine alla cooperazione adriatico-ionica, la stessa area di cui Ancona resta, ancora oggi, il punto più centrale.</p>
-
-    <p data-reveal>Da qui, negli anni, è diventata un punto di incontro naturale per chi arriva dal Nord Est, dall'Emilia, da tutto il bacino adriatico e oltre — un riferimento per il lancio di nuovi progetti, per la formazione, per il confronto internazionale sul futuro del mare.</p>
-
-    <!-- PLACEHOLDER PER PAOLO: foto reali del festival — la Mole
-         Vanvitelliana, il porto, la Sailing Chef, le giornate blue economy. -->
-    <div class="media-strip" data-reveal>
-      <div class="media-ph"><span>Foto · La Mole Vanvitelliana</span></div>
-      <div class="media-ph"><span>Foto · Il porto di Ancona</span></div>
-      <div class="media-ph"><span>Foto · Le giornate blu</span></div>
+    <!-- il dato in evidenza: lettura da strumento, non da brochure -->
+    <div class="quadrante" data-reveal>
+      <span class="q-label">Il dato di rotta</span>
+      <div class="q-letture">
+        <div class="q-lettura">
+          <span class="q-num">~3%</span>
+          <span class="q-desc">del PIL italiano — quanto vale oggi l'economia del mare</span>
+        </div>
+        <div class="q-lettura">
+          <span class="q-num">&gt;3×</span>
+          <span class="q-desc">il potenziale stimato</span>
+        </div>
+      </div>
+      <p class="q-nota">La distanza tra questi due numeri è la rotta: ricerca che diventa impresa, porti che diventano piattaforme, mestieri del mare che diventano carriere per chi oggi studia.</p>
     </div>
+
+    <h3 data-reveal>La posizione</h3>
+    <p data-reveal>Ancona non è un punto qualsiasi della costa: è il capoluogo affacciato sul corridoio adriatico-ionico, dove l'Europa sperimenta la cooperazione tra due sponde. Da qui si lavora con università, centri di ricerca e imprese di due nazioni — perché l'Adriatico non divide due coste: le tiene insieme.</p>
+
+    <h3 data-reveal>Chi tiene la barra</h3>
+    <p data-reveal>Il festival è co-organizzato con il Comune di Ancona, con Regione Marche, Università Politecnica delle Marche e una rete di partner che va da Fincantieri a MSC, da Marina Dorica a Ecomondo. Non un cartellone di sponsor: l'equipaggio.</p>
   </section>
 
-  <section class="chapter" id="the-blue-way">
-    <h2 data-reveal>The Blue Way</h2>
+  <!-- ══ 02 · CANTIERE — The Blue Way ══
+       Regola di Paolo: la piattaforma PRIMA, gli hackathon come esempi POI. -->
+  <section class="chapter" id="cantiere">
+    <h2 data-reveal>Cantiere</h2>
 
-    <p data-reveal>The Blue Way è la visione che connette blue economy, economia circolare, transizione ecologica e digitale e valorizzazione delle competenze territoriali. Nasce dall'incontro tra Tipicità in Blu e il Polo Tecnologico Alto Adriatico di Trieste, come laboratorio fisico e digitale per attivare un ecosistema di talenti, energie e competenze — nella convinzione che ogni elemento acquisti valore attraverso la relazione con gli altri.</p>
+    <p data-reveal><strong>The Blue Way</strong> è un cantiere in movimento: una piattaforma permanente che prende i risultati della ricerca sul mare e li accompagna fino a diventare prototipi, imprese, progetti finanziabili. Promossa con il consorzio iNEST e una rete di atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — con un obiettivo dichiarato: trasformare tre anni di ricerca in soluzioni scalabili.</p>
 
-    <p data-reveal>Non è un'entità giuridica, ma — per usare le parole con cui il progetto si descrive — un "cantiere in movimento": una piattaforma permanente che dal 2022 collega Trieste a Bari e le comunità dell'Adriatico orientale, oggi oltre 50 tra enti di ricerca, atenei, poli tecnologici, amministrazioni pubbliche e imprese.</p>
+    <h3 data-reveal>Come lavora il cantiere</h3>
+    <p data-reveal>Design sprint, non convegni: squadre multidisciplinari, sfide reali poste da imprese e centri di ricerca, mentori, 30–48 ore di lavoro, un prototipo alla fine. Le sfide sono concrete: biologia degli ecosistemi marini, gestione dei rischi sull'idrosfera, trasporto costiero sostenibile, pianificazione integrata terra-mare, il gemello digitale dell'Alto Adriatico.</p>
 
     <div class="blue-pillole">
       <h3 data-reveal>Pillole — progetti e buone pratiche</h3>
@@ -169,8 +185,8 @@ const theme = {
     </div>
 
     <div class="blue-hackathons">
-      <h3 data-reveal>Hackathon — esempi di progettualità</h3>
-      <p class="pillole-intro" data-reveal>Tra i formati che The Blue Way attiva per trasformare ricerca e idee in soluzioni concrete, l'hackathon: tre edizioni, tre territori.</p>
+      <h3 data-reveal>Gli esempi</h3>
+      <p class="pillole-intro" data-reveal>Ad Ancona, l'hackathon nel vivo del festival: laureati e giovani imprenditori di Italia e Croazia, in due lingue, su sfide poste dalle PMI della nautica — Transizione 5.0 ed ESG — dentro il programma Interreg Italia–Croazia BLUESLINKS. A Trieste, dentro Barcolana — la regata più partecipata del mondo — la selezione degli spin-off universitari: quindici squadre, cinque sfide, il Polo Tecnologico Alto Adriatico e KIC One Water al tavolo.</p>
 
       {hackathons.map((h) => (
         <article class="hack-card" data-reveal>
@@ -191,15 +207,170 @@ const theme = {
         </article>
       ))}
     </div>
+
+    <div class="varco" data-reveal>
+      <h3>Per chi progetta</h3>
+      <p>Se scrivi progetti europei, qui trovi consorzi già rodati su Interreg e iNEST, due sponde dell'Adriatico già connesse e una piattaforma che sa passare dal paper al prototipo. Il cantiere è aperto.</p>
+      <a class="varco-link" href="https://theblueway.it" target="_blank" rel="noopener">theblueway.it</a>
+    </div>
   </section>
 
-  <section class="chapter" id="tracce">
-    <h2 data-reveal>Tracce</h2>
-    <p data-reveal>The Blue Way Hackathon, Ancona, 2024 — 48 ore per decifrare il mare. The Blue Way Hackathon, Ancona, 2025, Mole Vanvitelliana — l'edizione nautica, focus su transizione 5.0 ed ESG, team di studenti dell'Università Politecnica delle Marche e dell'Università di Trieste. The Blue Way Hack, Trieste, ottobre 2025 — "Sfide per l'Adriatico del Futuro", dentro Barcolana57, la storica regata internazionale di Trieste.</p>
+  <!-- ══ 03 · GIORNALE DI BORDO — le annotazioni ══
+       Registro nautico: voci datate, si legge dall'alto. Non interattivo. -->
+  <section class="chapter" id="giornale-di-bordo">
+    <h2 data-reveal>Giornale di bordo</h2>
+
+    <ol class="registro">
+      {logbook.map((v) => (
+        <li data-reveal>
+          <span class="r-data">{v.date}</span>
+          <span class="r-testo">{v.text}</span>
+        </li>
+      ))}
+    </ol>
+
+    <p class="registro-chiusura" data-reveal>Un festival che dura una settimana, un cantiere che lavora tutto l'anno. Il giornale di bordo resta aperto.</p>
+    <p class="fix fix--chiusura" data-reveal>43°37′N 13°30′E — prossima annotazione: maggio 2027.</p>
   </section>
 </BrandLayout>
 
 <style>
+  /* ── La strumentazione: monospazio da plancia per coordinate e date ──
+     Stack di sistema: nessun font aggiuntivo da scaricare. */
+  .fix {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--brand-accent);
+  }
+
+  .fix--chiusura {
+    margin-top: 1.4rem;
+    color: var(--text-faint);
+  }
+
+  /* ── Il quadrante: il dato di rotta come lettura da strumento ── */
+  .quadrante {
+    border: 1px solid var(--hairline);
+    border-left: 2px solid var(--brand-accent);
+    background: var(--bg-deep);
+    padding: 1.6rem 1.6rem 1.4rem;
+    margin: 2rem 0 2.4rem;
+  }
+
+  .q-label {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.1rem;
+  }
+
+  .q-letture {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem 3rem;
+  }
+
+  .q-lettura {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    max-width: 30ch;
+  }
+
+  .q-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    line-height: 1;
+    color: var(--brand-accent);
+    flex: none;
+  }
+
+  .q-desc {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+  }
+
+  .q-nota {
+    margin: 1.2rem 0 0;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    max-width: 62ch;
+  }
+
+  /* ── Il varco verso la piattaforma ── */
+  .varco {
+    border-top: 1px solid var(--hairline);
+    margin-top: 2.6rem;
+    padding-top: 1.8rem;
+  }
+
+  .varco p {
+    max-width: 62ch;
+    color: var(--text-dim);
+  }
+
+  .varco-link {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9rem;
+    color: var(--brand-accent);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent) 45%, transparent);
+    padding-bottom: 2px;
+  }
+
+  .varco-link:hover {
+    border-color: var(--brand-accent);
+  }
+
+  /* ── Il registro: voci datate, allineate come un log ── */
+  .registro {
+    list-style: none;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .registro li {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0 1.6rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .r-data {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--brand-accent);
+    padding-top: 0.2rem;
+  }
+
+  .r-testo {
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: 62ch;
+  }
+
+  .registro-chiusura {
+    margin-top: 1.8rem;
+    max-width: 62ch;
+  }
+
+  @media (max-width: 700px) {
+    .registro li { grid-template-columns: 1fr; gap: 0.35rem; }
+    .r-data { padding-top: 0; }
+  }
+
+  /* ── Cantiere: pillole e hackathon (invariati) ── */
   .blue-pillole,
   .blue-hackathons {
     margin-top: 2.4rem;
@@ -214,7 +385,7 @@ const theme = {
     font-family: 'Manrope', sans-serif;
     font-size: 0.88rem;
     color: var(--text-dim);
-    max-width: 56ch;
+    max-width: 62ch;
   }
 
   .video-grid {
