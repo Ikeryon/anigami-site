@@ -2,9 +2,21 @@
 // Velo sopra l'hero di marchio (nota di Paolo, 10/07/2026): il logo del
 // marchio non sta più in una barra — vive grande al centro dell'hero a
 // piena altezza (vedi BrandLayout). Qui resta solo il rimando discreto
-// ad Anigami, in alto a destra, coerente col brief (sez. 5).
+// alla casa, in alto a destra, coerente col brief (sez. 5).
+// ⚠️ REGOLA SOVRANA: la parola "anigami" non compare MAI in pagina. Il
+// rimando è il LOGOTIPO Imagina (currentColor + mix-blend-mode, così si
+// legge su qualsiasi cromia di marchio); il nome resta solo in aria-label.
+import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
 ---
 
 <header class="brand-header">
-  <a class="back-link trace-link" href="/">Anigami</a>
+  <a class="back-link" href="/" aria-label="Imagina"><Fragment set:html={imaginaLogotype} /></a>
 </header>
+
+<style>
+  .back-link { display: block; width: 78px; color: #fff; mix-blend-mode: difference; opacity: 0.75; }
+  .back-link :global(svg) { display: block; width: 100%; height: auto; }
+  .back-link:hover { opacity: 1; }
+  .back-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  @media (max-width: 560px) { .back-link { width: 62px; } }
+</style>

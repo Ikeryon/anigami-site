@@ -469,19 +469,30 @@ body::after {
   color: var(--brand-accent);
 }
 
+/* Il rimando alla casa è il LOGOTIPO Imagina (mai la parola scritta:
+   regola sovrana). Prende il colore dal testo, quindi si adatta alla
+   cromia di ogni marchio. */
 .chapter-bar .bar-home {
   margin-left: auto;
-  font-family: 'Manrope', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
+  display: block;
+  width: 70px;
   color: var(--text-faint);
   flex: none;
+  transition: color 0.2s ease;
+}
+
+.chapter-bar .bar-home svg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .chapter-bar .bar-home:hover {
-  color: var(--text-dim);
+  color: var(--text-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-bar .bar-home { transition: none; }
 }
 
 /* --- Capitoli numerati: il numero è generato via CSS, nessuna

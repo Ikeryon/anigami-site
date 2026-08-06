@@ -1,6 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import BrandHeader from '../components/BrandHeader.astro';
+// ⚠️ REGOLA SOVRANA: mai la parola "anigami" in pagina → il rimando alla
+// casa nella barra dei capitoli è il logotipo Imagina, non un testo.
+import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
 
 // Ogni landing di marchio è un manifesto autonomo (brief, sez. 5):
 // si apre a piena altezza con il logo grande al centro e una sola riga
@@ -78,7 +81,7 @@ const heroClass = `brand-hero${heroVariant === 'field' ? ' brand-hero--field' : 
       <nav aria-label={`Capitoli di ${brandName}`}>
         {chapters.map((c) => <a href={`#${c.id}`}>{c.label}</a>)}
       </nav>
-      <a class="bar-home" href="/">Anigami</a>
+      <a class="bar-home" href="/" aria-label="Imagina"><Fragment set:html={imaginaLogotype} /></a>
     </div>
   </div>
 
