@@ -14,9 +14,14 @@ interface Props {
       (--bg-void, --text-soft, ecc.). Ogni landing gioca sulle cromie del
       proprio marchio; le pagine Imagina stanno su bianco luminoso. */
   theme?: Record<string, string>;
+  /** Lingua della pagina (default 'it'). Le pagine bilingui la passano. */
+  lang?: string;
+  /** Alternate hreflang per le pagine tradotte (IT alla radice, EN sotto /en/). */
+  alternates?: { hreflang: string; href: string }[];
 }
 
-const { title, description, accent, structuredData, theme } = Astro.props;
+const { title, description, accent, structuredData, theme, lang = 'it', alternates } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.origin : '';
 
 const inlineVars = [
   accent ? `--brand-accent: ${accent}` : null,
@@ -29,7 +34,7 @@ const themeCss = theme
 ---
 
 <!DOCTYPE html>
-<html lang="it" style={inlineVars || undefined}>
+<html lang={lang} style={inlineVars || undefined}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,6 +47,10 @@ const themeCss = theme
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@300;400;500&family=Inter:wght@300;400;500&display=swap"
     rel="stylesheet"
   />
+
+  {alternates && alternates.map((a) => (
+    <link rel="alternate" hreflang={a.hreflang} href={`${siteUrl}${a.href}`} />
+  ))}
 
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
