@@ -26,3 +26,21 @@ Markup da inserire dopo la lead card:
 
 Verificato da Cowork in build locale: la card rende correttamente nello
 scorrimento orizzontale, frecce e progress invariati (ora 12 card).
+
+## 2. RIMOZIONE delle due card "la rotta" (decisione Paolo, 06/08 sera)
+
+La storia del festival è funzione del capitolo Tracce (la moviola): in
+Essenza stona. Eliminare le DUE card con kicker "la rotta":
+
+1. quella che inizia con "Nel 1993, quando tutto comincia…"
+2. quella che inizia con "Da lì il racconto si allarga…"
+
+La sequenza finale di Essenza diventa (10 card): 01 lead ("La tipicità
+non è un'etichetta") · 02 manifesto ("risposta culturale…") · 03–04 la
+traccia · 05 foto · 06 l'attraversamento · 07 key ("Il locale non
+sopravvive isolandosi…") · 08–09 la tensione · 10 key finale ("Oggi
+Tipicità sta diventando qualcos'altro ancora…"). Aggiornare gli
+`<span class="idx">` di conseguenza (la key finale passa a 10).
+
+Verificato da Cowork in build locale: scorrimento, frecce e progress ok
+con 10 card.

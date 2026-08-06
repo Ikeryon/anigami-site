@@ -53,7 +53,7 @@ const stages = [
   { y: '2011', c: '380', px: 855.5, py: 180.8, key: true, t: 'Made in Marche Festival', p: 'Fermo',
     photos: ['/tipicita/tracce/2011-1.jpg','/tipicita/tracce/2011-2.jpg','/tipicita/tracce/2011-3.jpg','/tipicita/tracce/2011-4.jpg','/tipicita/tracce/2011-5.jpg'],
     caption: 'Fermo — il festival diventa Made in Marche. [BOZZA]',
-    d: 'Il festival si evolve: accanto alle specialità enogastronomiche entrano il turismo, la moda e l’artigianato d’eccellenza. Una visione integrata del valore territoriale, prima che diventi una formula di moda.' },
+    d: 'Il cibo chiama, il resto risponde: al Fermo Forum debutta la Made in Marche Gallery — vetrine di moda e design accanto ai banchi dell’enogastronomia. Il festival capisce che i saperi marchigiani sono un’unica manifattura, in materie diverse.' },
   { y: '2015', c: '380', px: 836.7, py: 169.1, t: 'EXPO Milano', p: 'Milano',
     d: '«Nutrire il pianeta»: Tipicità arriva a Milano con una risposta concreta — il Paniere di lunga vita, costruito con l’Università di Camerino e i produttori di uno dei territori più longevi d’Europa. Non uno slogan: una dieta che funziona da secoli.' },
   { y: '2015–17', c: '784', px: 1037, py: 275.5, t: 'Italian Cuisine World Summit', p: 'Dubai e Abu Dhabi, EAU',
@@ -61,7 +61,7 @@ const stages = [
   { y: '2018', tag: 'NY', c: '840', px: 497.3, py: 193.4, t: 'Taste Marche Experience', p: 'New York, USA',
     photos: ['/tipicita/tracce/2018ny-1.jpg','/tipicita/tracce/2018ny-2.jpg','/tipicita/tracce/2018ny-3.jpg','/tipicita/tracce/2018ny-4.jpg','/tipicita/tracce/2018ny-5.jpg'],
     caption: 'New York — Taste Marche Experience da Lucciola. [BOZZA]',
-    d: 'Food, fashion ed eco design dalle Marche alla Grande Mela: i tre codici del made in Italy, portati insieme nella città che li consacra.' },
+    d: 'Da Lucciola, insegna italiana di New York, la Taste Marche Experience mette in scena food, fashion ed eco design: tre codici, un solo saper fare. La città che consacra i marchi scopre una regione che li fa.' },
   { y: '2018', tag: 'AL', c: '008', px: 880.8, py: 190.2, t: 'III Settimana della Cucina Italiana nel Mondo', p: 'Tirana e Valona, Albania',
     photos: ['/tipicita/tracce/2018al-1.jpg','/tipicita/tracce/2018al-2.jpg','/tipicita/tracce/2018al-3.jpg','/tipicita/tracce/2018al-4.jpg'],
     caption: 'Tirana — la Settimana della Cucina Italiana. [BOZZA]',
@@ -266,3 +266,13 @@ NOTA DI BRAND (per Paolo, oltre la moviola): «týpos = impronta» è
 un'etimologia preziosa — risuona con "la traccia che un territorio
 lascia" di Essenza. Da tenere per copy futuri; qui resta solo il cameo
 nella didascalia della tappa.
+
+## 15. Ultime rifiniture testi (Paolo, 06/08 sera) — VERSIONE DEFINITIVA
+
+- **2011**: nuovo testo con la Made in Marche Gallery (già nell'array).
+- **2018 · NY**: nuovo testo con Lucciola (già nell'array).
+- **1993**: resta INVARIATO — la sovrapposizione con Essenza si risolve
+  dal lato Essenza (vedi TESTI-ESSENZA.md: le card "la rotta" si tolgono,
+  la storia è funzione delle Tracce).
+- L'array qui sopra è la versione FINALE validata da Paolo: trascrivere
+  integralmente, senza riformulare.
