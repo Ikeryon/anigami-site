@@ -47,30 +47,49 @@ const structuredData = {
 // stessa proiezione della mappa — rigenerare con genmap3 se cambia la mappa).
 const stages = [
   { y: '1993', c: '380', px: 855.5, py: 180.8, key: true, t: 'Festival dei prodotti tipici delle Marche', p: 'Fermo',
-    // slideshow 1993: scansioni dall'archivio (cartella tracce/slideshow93, 06/08).
-    // Ordine narrativo: mostra prodotti → convegno → mestieri → degustazioni → premiazione. Caption = BOZZA.
+    // slideshow 1993: scansioni dall'archivio (cartella tracce/slideshow93, 06/08). Caption = BOZZA.
     photos: ['/tipicita/tracce/1993-1.jpg','/tipicita/tracce/1993-2.jpg','/tipicita/tracce/1993-3.jpg','/tipicita/tracce/1993-4.jpg','/tipicita/tracce/1993-5.jpg','/tipicita/tracce/1993-6.jpg','/tipicita/tracce/1993-7.jpg','/tipicita/tracce/1993-8.jpg','/tipicita/tracce/1993-9.jpg'],
     caption: 'Fermo, 1993 — dall’archivio della prima edizione.',
     d: 'Nasce a Fermo l’evento pionieristico che porta le eccellenze gastronomiche marchigiane su un palcoscenico unico nel suo genere. Il primo lavoro non è raccontare le Marche al mondo: è convincere i marchigiani che ciò che si produce sotto casa vale.' },
+  // ── timeline unificata brochure TF27 + storico missioni (sintesi validata da Paolo, 06/08) ──
+  { y: '1998–2006', c: '724', px: 780.8, py: 188.5, t: 'Castiglia e León', p: 'Spagna',
+    d: 'Valladolid, 1998: una stretta di mano tra due entroterra. Poi gli educational per la stampa, il forum sulle aree montane e, nel 2003, il patto di cooperazione con le istituzioni di Castilla y León firmato nella cornice del festival: Tipicità scopre di essere anche un tavolo diplomatico.' },
+  { y: '2006–09', c: '578', px: 846.3, py: 60.5, t: 'Isole Lofoten', p: 'Norvegia',
+    video: '/tipicita/tracce/2006-norvegia.mp4', caption: 'Isole Lofoten — dal video della missione. [BOZZA]',
+    d: 'A Svolvær lo stoccafisso all’anconitana torna nel porto da cui parte da cinque secoli, cucinato dai marchigiani. Ma il segno più profondo lo lascia il metodo: sulle isole nasce un festival costruito sul modello di Tipicità. Il prodotto viaggia — il format mette radici.' },
   { y: '2011', c: '380', px: 855.5, py: 180.8, key: true, t: 'Made in Marche Festival', p: 'Fermo',
-    d: 'Il festival si evolve: accanto alle specialità enogastronomiche entrano il turismo, la moda e l’artigianato d’eccellenza. Una visione integrata del valore territoriale, prima che diventi una formula di moda.' },
-  { y: '2015–16', c: '784', px: 1038.5, py: 273.6, t: 'Italian Cuisine World Summit', p: 'Dubai, EAU',
-    d: 'Il Made in Marche esce dai confini regionali: Dubai, Italian Cuisine World Summit. Non una vetrina isolata: la prima tappa di una rotta che non si è più fermata.' },
-  { y: '2017', c: '784', px: 1035.1, py: 277.5, t: 'Italian Cuisine World Summit', p: 'Abu Dhabi, EAU',
-    d: 'Abu Dhabi: la cucina italiana come linguaggio di relazione, i produttori come interpreti. La rotta del Golfo si consolida.' },
-  { y: '2018', c: '008', px: 880.8, py: 190.2, t: 'III Settimana della Cucina Italiana nel Mondo', p: 'New York · Tirana e Valona',
-    d: 'Due continenti nello stesso anno: New York, poi Tirana e Valona per la III Settimana della Cucina Italiana nel Mondo. L’Adriatico come ponte, non come confine.' },
+    photos: ['/tipicita/tracce/2011-1.jpg','/tipicita/tracce/2011-2.jpg','/tipicita/tracce/2011-3.jpg','/tipicita/tracce/2011-4.jpg','/tipicita/tracce/2011-5.jpg'],
+    caption: 'Fermo — il festival diventa Made in Marche. [BOZZA]',
+    d: 'Il cibo chiama, il resto risponde: al Fermo Forum debutta la Made in Marche Gallery — vetrine di moda e design accanto ai banchi dell’enogastronomia. Il festival capisce che i saperi marchigiani sono un’unica manifattura, in materie diverse.' },
+  { y: '2015', c: '380', px: 836.7, py: 169.1, t: 'EXPO Milano', p: 'Milano',
+    d: '«Nutrire il pianeta»: Tipicità arriva a Milano con una risposta concreta — il Paniere di lunga vita, costruito con l’Università di Camerino e i produttori di uno dei territori più longevi d’Europa. Non uno slogan: una dieta che funziona da secoli.' },
+  { y: '2015–17', c: '784', px: 1037, py: 275.5, t: 'Italian Cuisine World Summit', p: 'Dubai e Abu Dhabi, EAU',
+    d: 'Al summit che porta nel Golfo decine di stelle Michelin, Tipicità aggiunge l’anello che manca: non i piatti, i produttori. La cucina italiana raccontata da chi ne coltiva le materie prime.' },
+  { y: '2018', tag: 'NY', c: '840', px: 497.3, py: 193.4, t: 'Taste Marche Experience', p: 'New York, USA',
+    photos: ['/tipicita/tracce/2018ny-1.jpg','/tipicita/tracce/2018ny-2.jpg','/tipicita/tracce/2018ny-3.jpg','/tipicita/tracce/2018ny-4.jpg','/tipicita/tracce/2018ny-5.jpg'],
+    caption: 'New York — Taste Marche Experience da Lucciola. [BOZZA]',
+    d: 'Da Lucciola, insegna italiana di New York, la Taste Marche Experience mette in scena food, fashion ed eco design: tre codici, un solo saper fare. La città che consacra i marchi scopre una regione che li fa.' },
+  { y: '2018', tag: 'AL', c: '008', px: 880.8, py: 190.2, t: 'III Settimana della Cucina Italiana nel Mondo', p: 'Tirana e Valona, Albania',
+    photos: ['/tipicita/tracce/2018al-1.jpg','/tipicita/tracce/2018al-2.jpg','/tipicita/tracce/2018al-3.jpg','/tipicita/tracce/2018al-4.jpg'],
+    caption: 'Tirana — la Settimana della Cucina Italiana. [BOZZA]',
+    d: 'Nello stesso anno, la sponda di fronte: Tirana e Valona per la III Settimana della Cucina Italiana nel Mondo. L’Adriatico come ponte, non come confine.' },
   { y: '2019', c: '124', px: 497.3, py: 169.3, t: 'IV Settimana della Cucina Italiana nel Mondo', p: 'Ottawa e Montréal',
-    d: 'Il Canada entra nella rete: Ottawa e Montréal per la IV Settimana della Cucina Italiana nel Mondo.' },
+    d: 'Ottawa e Montréal, nel paese dove l’Italian Sounding vale più dell’originale: due serate per far assaggiare la differenza tra ciò che suona italiano e ciò che lo è. La Taste Marche Experience attraversa l’Atlantico verso nord.' },
   { y: '2022', c: '834', px: 974.4, py: 438.6, key: true, t: 'Semplicemente “Festival”', p: 'EXPO2020 Dubai · Dar Es Salaam e Zanzibar',
-    d: 'Tipicità diventa semplicemente “Festival”: ecosistema nazionale delle micro-Italie più autentiche. Nello stesso anno, EXPO2020 Dubai e la VII Settimana della Cucina Italiana in Tanzania.' },
-  { y: '2023', c: '250', px: 809.2, py: 152.0, t: 'VIII Settimana della Cucina Italiana nel Mondo', p: 'Parigi',
+    video: '/tipicita/tracce/2022-festival.mp4', caption: 'Semplicemente “Festival” — il motion poster. [BOZZA]',
+    d: 'Tipicità diventa semplicemente “Festival”, ecosistema delle micro-Italie autentiche. A EXPO Dubai la sua foglia si fa cofanetto phygital, con un QR che trasforma i prodotti in viaggi. E a Dar es Salaam e Zanzibar, prima volta in Africa, Tipicità rappresenta l’Italia intera.' },
+  { y: '2023', tag: 'UK', c: '826', px: 799.5, py: 138.8, t: 'Tipicità Experience', p: 'Londra, Regno Unito',
+    d: 'Da Hampstead parte l’edizione 2023: Rossodisera, l’unica cucina marchigiana di Londra, diventa ambasciata permanente delle Marche sulla City. E il Console ricorda agli ospiti che «tipico» viene dal greco týpos: impronta — unicità che non si imita.' },
+  { y: '2023', tag: 'FR', c: '250', px: 809.2, py: 152.0, t: 'VIII Settimana della Cucina Italiana nel Mondo', p: 'Parigi',
     d: 'Parigi: la presentazione ufficiale della candidatura della cucina italiana a patrimonio immateriale dell’Unesco. Il locale che ha attraversato il mondo chiede il riconoscimento del viaggio.' },
   { y: '2024', c: '392', px: 1383.4, py: 219.2, t: 'IX Settimana della Cucina Italiana nel Mondo', p: 'Tokyo e Osaka',
-    d: 'Tokyo e Osaka: il Giappone, ospite storico del festival, ricambia la visita. Le rotte funzionano quando si percorrono nei due sensi.' },
-  { y: '2025', c: '032', px: 555.2, py: 582.4, t: 'X Settimana della Cucina Italiana nel Mondo', p: 'EXPO2025 Osaka · Bahia Blanca, Buenos Aires, Ushuaia', photo: '/tipicita/tracce-argentina.jpg',
-    caption: 'Lo stand di Bahía Blanca a Tipicità 2026: il viaggio che ricambia.',
-    d: 'EXPO2025 Osaka, poi la rotta più lunga mai percorsa: Bahia Blanca, Buenos Aires e Ushuaia, fino alla fine del mondo. E l’anno dopo, l’Argentina sale sui banchi di Fermo.' },
+    photos: ['/tipicita/tracce/2024-1.jpg','/tipicita/tracce/2024-2.jpg','/tipicita/tracce/2024-3.jpg','/tipicita/tracce/2024-4.jpg'],
+    caption: 'Tokyo e Osaka — la IX Settimana. [BOZZA]',
+    d: 'Una master class sul brodetto per gli chef giapponesi, l’accordo Ritsumeikan–Camerino sulle scienze del cibo e, a Osaka, l’osteria di Kumiko Muraji che cucina marchigiano: le rotte migliori hanno già qualcuno che le percorre al contrario.' },
+  { y: '2025', c: '032', px: 555.2, py: 582.4, t: 'X Settimana della Cucina Italiana nel Mondo', p: 'EXPO2025 Osaka · Bahia Blanca, Buenos Aires, Ushuaia',
+    photos: ['/tipicita/tracce/2025-1.jpg','/tipicita/tracce/2025-2.jpg','/tipicita/tracce/2025-3.jpg','/tipicita/tracce/2025-4.jpg','/tipicita/tracce/2025-5.jpg','/tipicita/tracce/2025-6.jpg','/tipicita/tracce-argentina.jpg'],
+    caption: 'Da Osaka alla fine del mondo — e ritorno a Fermo. [BOZZA]',
+    d: 'Da EXPO Osaka alla rotta più lunga: tremila chilometri tra Bahía Blanca, gemellata con Fermo, Buenos Aires e Ushuaia — la biodiversità mediterranea alla città più australe del mondo, alla vigilia del verdetto Unesco. E l’anno dopo l’Argentina sale sui banchi di Fermo.' },
   { y: '2027', c: '380', px: 855.5, py: 180.8, key: true, t: '35ª edizione', p: 'Fermo, 12–14 marzo',
     d: 'La rotta torna a casa: Fermo, 12–14 marzo 2027. Non per fermarsi — per ripartire.' },
 ];
@@ -229,7 +248,7 @@ const stages = [
 
       <div class="anni" id="mv-anni" role="tablist" aria-label="Anni della rotta">
         {stages.map((s, i) => (
-          <button class={s.key ? 'anno key' : 'anno'} id={`ytab-${i}`} data-i={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls="moviola">{s.y}</button>
+          <button class={s.key ? 'anno key' : 'anno'} id={`ytab-${i}`} data-i={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls="moviola">{s.y}{s.tag && <small> · {s.tag}</small>}</button>
         ))}
       </div>
       <input class="scrub" id="mv-scrub" type="range" min="0" max={stages.length - 1} step="1" value="0" aria-label="Cursore degli anni" />
@@ -506,6 +525,7 @@ const stages = [
   .anni { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin: 1.2rem 0 0.4rem; }
   .anno { font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em; background: none; border: none;
     color: var(--text-faint); cursor: pointer; padding: 0.3rem 0.1rem; border-bottom: 2px solid transparent; }
+  .anno small { font-size: 0.82em; opacity: 0.75; letter-spacing: 0.06em; } /* sigla di bobina per anni doppi (2018 · NY / · AL) */
   .anno.key { color: #a52257; opacity: 0.75; }
   .anno.on { color: var(--tiffany); border-color: var(--tiffany); opacity: 1; }
   .anno.key.on { color: #a52257; border-color: #a52257; }
@@ -653,6 +673,16 @@ const stages = [
   new IntersectionObserver((es) => {
     es.forEach((e) => { if (e.isIntersecting) essbg.play().catch(() => {}); else essbg.pause(); });
   }, { root: document.getElementById('deck'), threshold: 0.3 }).observe(document.getElementById('essenza'));
+
+  // ---- MON 04: il video d'archivio va in pausa quando le Tracce escono di
+  //      scena e riprende al rientro (se la tappa attiva ha un video e non
+  //      c'è reduced-motion) — stesso pattern di essbg ----
+  new IntersectionObserver((es) => {
+    es.forEach((e) => {
+      if (e.isIntersecting) { if (!videoEl.classList.contains('off') && !REDUCED) videoEl.play().catch(() => {}); }
+      else videoEl.pause();
+    });
+  }, { root: document.getElementById('deck'), threshold: 0.3 }).observe(document.getElementById('tracce'));
 
   // ---- Essenza: card orizzontali — snap, frecce, avanzamento, rotella ----
   const hs = document.getElementById('hscroll');
