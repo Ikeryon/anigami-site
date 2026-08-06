@@ -6,6 +6,7 @@
 // Menù a doppia codifica (.Trama/.Thread ecc.): MAI spiegarla, in nessuna lingua.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BrandRail from './BrandRail.astro';
+import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
 import mapSvg from '../assets/tipicita-map.svg?raw';
 import boxes from '../assets/tipicita-map-boxes.json';
 import { content, buildStages } from '../i18n/tipicita.js';
@@ -61,7 +62,7 @@ const alternates = [
 >
   <Fragment slot="header">
     <BrandRail lang={lang} current="tipicita" />
-    <a class="to-home" href="/">Imagina</a>
+    <a class="to-home" href="/" aria-label="Imagina"><Fragment set:html={imaginaLogotype} /></a>
     <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
   </Fragment>
 
@@ -220,10 +221,14 @@ const alternates = [
 </style>
 
 <style>
-  .to-home { position: fixed; top: 1.4rem; right: 1.6rem; z-index: 20; font-family: 'Manrope', sans-serif;
-    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+  /* il rimando alla home è il LOGOTIPO Imagina (non più la scritta: nella
+     stessa pagina il nome non va ripetuto). Inline con currentColor +
+     mix-blend-mode così si legge sul campo teal come sui quadri bianchi. */
+  .to-home { position: fixed; top: 1.4rem; right: 1.6rem; z-index: 20; display: block; width: 78px;
     color: #fff; mix-blend-mode: difference; opacity: 0.75; }
+  .to-home :global(svg) { display: block; width: 100%; height: auto; }
   .to-home:hover { opacity: 1; }
+  @media (max-width: 560px) { .to-home { width: 62px; } }
 
   /* Focus da tastiera: anello visibile e coerente su TUTTI i controlli.
      :focus-visible → compare solo con tastiera, non altera lo stato a
@@ -236,11 +241,12 @@ const alternates = [
     outline: 2px solid #fff; outline-offset: 3px; }
 
   /* selettore lingua: gemello discreto del rimando a Imagina, alla sua sinistra */
-  .to-lang { position: fixed; top: 1.4rem; right: 5.6rem; z-index: 20; font-family: 'Manrope', sans-serif;
+  .to-lang { position: fixed; top: 1.5rem; right: 7.4rem; z-index: 20; font-family: 'Manrope', sans-serif;
     font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
     color: #fff; mix-blend-mode: difference; opacity: 0.55; }
   .to-lang:hover { opacity: 1; }
   .to-lang:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  @media (max-width: 560px) { .to-lang { right: 6rem; } }
 
   /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
      continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO

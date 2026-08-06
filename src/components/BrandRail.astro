@@ -1,13 +1,11 @@
 ---
-// IL MENÙ LATERALE — "il corridoio del cinema" (prototipo, 06/08/2026).
-// Richiesta di Paolo: il logotipo Imagina come rimando alla home e i quattro
-// marchi come tasti verso le landing. Le piastrelle sono gli SVG ufficiali
-// (fondo del brand + segno bianco) usati come <img>: mantengono i colori
-// d'identità e non collidono tra loro (hanno tutte classi .cls-1/.cls-2).
-// Il logotipo Imagina è inline con currentColor, così si adatta alla cromia
-// di ogni pagina (l'originale è bianco e sparirebbe sui fondi chiari).
+// IL MENÙ DEI PROGETTI — "il corridoio del cinema" (06/08/2026).
+// Le quattro piastrelle dei marchi come tasti verso le landing: sono gli SVG
+// ufficiali usati come <img>, così mantengono i colori d'identità e non
+// collidono tra loro (hanno tutte le stesse classi .cls-1/.cls-2).
+// Il rimando alla home NON sta qui: è il logotipo Imagina in alto a destra
+// (Paolo, 06/08: "Imagina" non va scritto due volte nella stessa pagina).
 // Registro: piastrelle come pellicole sullo scaffale — mai etichette di testo.
-import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
 
 interface Props {
   /** Lingua corrente: decide le destinazioni dei link. */
@@ -26,9 +24,7 @@ const projects = [
   { key: 'evo', name: 'EVO', it: '/evo/', en: '/en/evo/', enReady: false, img: '/logos/menu/evo.svg' },
 ];
 
-const homeHref = lang === 'en' ? '/' : '/';
 const label = lang === 'en' ? 'Projects' : 'Progetti';
-const homeLabel = 'Imagina';
 
 function hrefFor(p: (typeof projects)[number]) {
   return lang === 'en' && p.enReady ? p.en : p.it;
@@ -39,9 +35,6 @@ function hreflangFor(p: (typeof projects)[number]) {
 ---
 
 <nav class="rail" aria-label={label}>
-  <a class="rail-home" href={homeHref} aria-label={homeLabel} aria-current={current === 'home' ? 'page' : undefined}>
-    <Fragment set:html={imaginaLogotype} />
-  </a>
   <ul>
     {projects.map((p) => (
       <li>
@@ -69,13 +62,6 @@ function hreflangFor(p: (typeof projects)[number]) {
   .rail { position: fixed; left: 1.1rem; bottom: 1.2rem; z-index: 20;
     display: flex; align-items: center; gap: 0.7rem; }
 
-  /* il logotipo si legge sia sul campo teal dell'hero sia sui quadri bianchi:
-     stesso espediente del rimando Imagina in alto a destra */
-  .rail-home { display: block; width: 82px; color: #fff; mix-blend-mode: difference; opacity: 0.55;
-    transition: opacity 0.25s ease; }
-  .rail-home:hover, .rail-home[aria-current='page'] { opacity: 1; }
-  .rail-home :global(svg) { display: block; width: 100%; height: auto; }
-
   .rail ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.45rem; }
 
   .tile { display: block; width: 34px; height: 34px; opacity: 0.42; filter: saturate(0.75);
@@ -84,10 +70,9 @@ function hreflangFor(p: (typeof projects)[number]) {
   .tile:hover, .tile:focus-visible { opacity: 1; filter: none; transform: scale(1.08); }
   .tile.on { opacity: 1; filter: none; }
   .tile:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-  .rail-home:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .tile, .rail-home { transition: none; }
+    .tile { transition: none; }
     .tile:hover, .tile:focus-visible { transform: none; }
   }
 
@@ -102,7 +87,6 @@ function hreflangFor(p: (typeof projects)[number]) {
   /* schermi stretti: striscia ancora più compatta */
   @media (max-width: 560px) {
     .rail { left: 0.7rem; bottom: 0.7rem; gap: 0.5rem; }
-    .rail-home { width: 58px; }
     .tile { width: 26px; height: 26px; }
   }
 </style>
