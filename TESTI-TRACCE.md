@@ -70,17 +70,19 @@ const stages = [
     d: 'Ottawa e Montréal, nel paese dove l’Italian Sounding vale più dell’originale: due serate per far assaggiare la differenza tra ciò che suona italiano e ciò che lo è. La Taste Marche Experience attraversa l’Atlantico verso nord.' },
   { y: '2022', c: '834', px: 974.4, py: 438.6, key: true, t: 'Semplicemente “Festival”', p: 'EXPO2020 Dubai · Dar Es Salaam e Zanzibar',
     video: '/tipicita/tracce/2022-festival.mp4', caption: 'Semplicemente “Festival” — il motion poster. [BOZZA]',
-    d: 'Tipicità diventa semplicemente “Festival”: ecosistema nazionale delle micro-Italie più autentiche. Nello stesso anno, EXPO2020 Dubai e la VII Settimana della Cucina Italiana in Tanzania.' },
-  { y: '2023', c: '250', px: 809.2, py: 152.0, t: 'VIII Settimana della Cucina Italiana nel Mondo', p: 'Parigi',
+    d: 'Tipicità diventa semplicemente “Festival”, ecosistema delle micro-Italie autentiche. A EXPO Dubai la sua foglia si fa cofanetto phygital, con un QR che trasforma i prodotti in viaggi. E a Dar es Salaam e Zanzibar, prima volta in Africa, Tipicità rappresenta l’Italia intera.' },
+  { y: '2023', tag: 'UK', c: '826', px: 799.5, py: 138.8, t: 'Tipicità Experience', p: 'Londra, Regno Unito',
+    d: 'Da Hampstead parte l’edizione 2023: Rossodisera, l’unica cucina marchigiana di Londra, diventa ambasciata permanente delle Marche sulla City. E il Console ricorda agli ospiti che «tipico» viene dal greco týpos: impronta — unicità che non si imita.' },
+  { y: '2023', tag: 'FR', c: '250', px: 809.2, py: 152.0, t: 'VIII Settimana della Cucina Italiana nel Mondo', p: 'Parigi',
     d: 'Parigi: la presentazione ufficiale della candidatura della cucina italiana a patrimonio immateriale dell’Unesco. Il locale che ha attraversato il mondo chiede il riconoscimento del viaggio.' },
   { y: '2024', c: '392', px: 1383.4, py: 219.2, t: 'IX Settimana della Cucina Italiana nel Mondo', p: 'Tokyo e Osaka',
     photos: ['/tipicita/tracce/2024-1.jpg','/tipicita/tracce/2024-2.jpg','/tipicita/tracce/2024-3.jpg','/tipicita/tracce/2024-4.jpg'],
     caption: 'Tokyo e Osaka — la IX Settimana. [BOZZA]',
-    d: 'Tokyo e Osaka: il Giappone, ospite storico del festival, ricambia la visita. Le rotte funzionano quando si percorrono nei due sensi.' },
+    d: 'Una master class sul brodetto per gli chef giapponesi, l’accordo Ritsumeikan–Camerino sulle scienze del cibo e, a Osaka, l’osteria di Kumiko Muraji che cucina marchigiano: le rotte migliori hanno già qualcuno che le percorre al contrario.' },
   { y: '2025', c: '032', px: 555.2, py: 582.4, t: 'X Settimana della Cucina Italiana nel Mondo', p: 'EXPO2025 Osaka · Bahia Blanca, Buenos Aires, Ushuaia',
     photos: ['/tipicita/tracce/2025-1.jpg','/tipicita/tracce/2025-2.jpg','/tipicita/tracce/2025-3.jpg','/tipicita/tracce/2025-4.jpg','/tipicita/tracce/2025-5.jpg','/tipicita/tracce/2025-6.jpg','/tipicita/tracce-argentina.jpg'],
     caption: 'Da Osaka alla fine del mondo — e ritorno a Fermo. [BOZZA]',
-    d: 'EXPO2025 Osaka, poi la rotta più lunga mai percorsa: Bahia Blanca, Buenos Aires e Ushuaia, fino alla fine del mondo. E l’anno dopo, l’Argentina sale sui banchi di Fermo.' },
+    d: 'Da EXPO Osaka alla rotta più lunga: tremila chilometri tra Bahía Blanca, gemellata con Fermo, Buenos Aires e Ushuaia — la biodiversità mediterranea alla città più australe del mondo, alla vigilia del verdetto Unesco. E l’anno dopo l’Argentina sale sui banchi di Fermo.' },
   { y: '2027', c: '380', px: 855.5, py: 180.8, key: true, t: '35ª edizione', p: 'Fermo, 12–14 marzo',
     d: 'La rotta torna a casa: Fermo, 12–14 marzo 2027. Non per fermarsi — per ripartire.' },
 ];
@@ -188,3 +190,79 @@ Fonte Ambasciata d'Italia Ottawa: IV Settimana con 20+ iniziative,
 focus IGP contro l'Italian Sounding, il Consorzio Tipicità Marche
 protagonista di due serate a Ottawa e Montréal. La frase è già
 nell'array (tappa 2019).
+
+## 10. Testo 2024 Giappone — riscritto dai comunicati stampa della missione (06/08)
+
+Fonti: i due CS ufficiali della missione novembre 2024 forniti da Paolo
+("Dalle Marche al Giappone con Tipicità" e "Dal Giappone a Tipicità verso
+Expo 2025"). Fatti usati: master class sul brodetto al Conrad Osaka per
+chef locali (Accademia di Tipicità); accordo Ritsumeikan–Unicam su
+scambio docenti/studenti in scienze del cibo; Kumiko Muraji, premiata a
+Tipicità come ambasciatrice del gusto, che nella sua osteria "La
+Cicerchia" di Osaka propone menù marchigiani. La chiusura "le rotte
+migliori hanno già qualcuno che le percorre al contrario" è un'eco
+volutamente sotterranea del think reverse — non spiegarla. La frase è
+già nell'array (tappa 2024).
+
+## 11. Testo 2025 Argentina — riscritto dai materiali della missione (06/08)
+
+Fonti: scheda e comunicati ufficiali della missione (forniti da Paolo).
+Fatti usati: X SCIM, 21–26 novembre 2025; tre città e tremila chilometri
+(Bahía Blanca quartier generale — gemellaggio storico con Fermo, festival
+"Sapori d'Italia" con gli chef dell'Accademia; gala a Buenos Aires con
+l'Ambasciatore Nicoletti; Ushuaia con "Biodiversità mediterranea: dalle
+Marche alla città più australe del mondo"), alla vigilia del verdetto
+UNESCO di Nuova Delhi — che si riaggancia alla tappa 2023 (Parigi, la
+candidatura). "L'Argentina sale sui banchi di Fermo" = lo stand di Bahía
+Blanca a Tipicità 2026, già in foto di chiusura dello slideshow 2025.
+Concetti di riserva per altri usi: "diplomazia della crescita",
+"economia della relazione" (ottimi per il capitolo Motore o per la
+pagina Imagina, NON sprecarli in didascalie).
+
+## 12. Testo 2022 — arricchito dai comunicati EXPO Dubai (06/08)
+
+Fonti: CS forniti da Paolo (settimana delle Marche a EXPO Dubai, 21–26
+febbraio 2022, "Marche Land of Excellence"). Fatti usati: Tipicità
+selezionata da Padiglione Italia; anteprima mondiale del cofanetto
+phygital "Tipicità Endless Experience" (eco-design che riprende la
+foglia di Tipicità; dentro miele, legumi, cereali, treccia in paja,
+crema all'olio EVO; QR code → pacchetti turistici con ESITUR);
+conduzione di Marco Ardemagni, collegamenti da Montréal, Mosca (lo chef
+del Cremlino Mandozzi) e Città del Capo. La frase è già nell'array.
+
+Materiale in riserva per la LANDING GRAND TOUR (non per Tipicità): i CS
+"Da Dubai a Macerata con il Grand Tour", "Dubai chiama Potenza Picena",
+"Inizia da Dubai la stagione turistica di Civitanova" documentano Dubai
+come rampa di lancio delle tappe GT 2022 — perfetti per la fabula
+dell'itinerario quando si lavorerà quella pagina.
+
+## 13. Tappa 2022, chiusura Tanzania — dal CS della conferenza stampa (06/08)
+
+Fonte: CS "Tipicità, an italian experience protagonista in Tanzania"
+(fornito da Paolo). Fatti usati: Tipicità scelta per rappresentare
+l'ITALIA (non solo le Marche) a Dar es Salaam e Zanzibar; prima volta in
+un paese africano; menù ufficiali degli chef dell'Accademia (Serena
+d'Alesio e Gianmarco di Girolami); master class con istituti locali.
+In riserva (non entrata per battute): l'interscambio ha portato la
+Tanzania come ospite a Tipicità Festival 2023 — altro caso di rotta a
+doppio senso, utilizzabile in futuro (es. didascalia foto se arriverà
+materiale Tanzania).
+
+## 14. NUOVA TAPPA: 2023 · UK Londra (decisione Paolo, 06/08 — materiali forniti)
+
+Londra rientra in barra (era stata esclusa quando non avevamo fonti): il
+2023 si sdoppia come il 2018 → "2023 · UK" (gennaio, lancio edizione da
+Rossodisera, Hampstead) e "2023 · FR" (novembre, Parigi/Unesco — la tappa
+esistente prende tag 'FR'). Fatti usati: Rossodisera unica catena di
+cucina marchigiana a Londra, resa "ambasciata permanente delle Marche";
+l'etimologia del Console Bellantone: «tipico» dal greco týpos, impronta,
+unicità inimitabile. Totale tappe: 15.
+
+⚠️ ASSET AGGIORNATI di conseguenza (già nel repo, generati da Cowork):
+`tipicita-map.svg` e `tipicita-map-boxes.json` ora includono il Regno
+Unito (826) tra i paesi-bersaglio. Pin Londra: px 799.5, py 138.8.
+
+NOTA DI BRAND (per Paolo, oltre la moviola): «týpos = impronta» è
+un'etimologia preziosa — risuona con "la traccia che un territorio
+lascia" di Essenza. Da tenere per copy futuri; qui resta solo il cameo
+nella didascalia della tappa.
