@@ -5,6 +5,7 @@
 // condivisi tra le due lingue; i testi arrivano per indice.
 // Menù a doppia codifica (.Trama/.Thread ecc.): MAI spiegarla, in nessuna lingua.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandRail from './BrandRail.astro';
 import mapSvg from '../assets/tipicita-map.svg?raw';
 import boxes from '../assets/tipicita-map-boxes.json';
 import { content, buildStages } from '../i18n/tipicita.js';
@@ -59,6 +60,7 @@ const alternates = [
   alternates={alternates}
 >
   <Fragment slot="header">
+    <BrandRail lang={lang} current="tipicita" />
     <a class="to-home" href="/">Imagina</a>
     <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
   </Fragment>
