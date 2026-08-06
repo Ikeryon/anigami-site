@@ -257,7 +257,7 @@ const stages = [
 <style is:global>
   /* La mappa della moviola (contenuto iniettato) */
   #mv-world path { fill: rgba(255, 255, 255, 0.07); stroke: rgba(255, 255, 255, 0.15); stroke-width: 0.5; }
-  #mv-world path.on { fill: color-mix(in srgb, #14b5bd 50%, #0b3a41); stroke: #7fe0dc; stroke-width: 0.8; }
+  #mv-world path.on { fill: #10787f; fill: color-mix(in srgb, #14b5bd 50%, #0b3a41); stroke: #7fe0dc; stroke-width: 0.8; }
   #mv-world { transition: transform 1.5s cubic-bezier(0.55, 0.05, 0.18, 1); transform-origin: 0 0; will-change: transform; }
   @media (prefers-reduced-motion: reduce) { #mv-world { transition: none; } }
   /* il footer di sito non entra nel deck a slide */
@@ -299,12 +299,12 @@ const stages = [
   /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
      continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO
      INTERNO prima di passare al successivo. */
-  .deck { height: 100svh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .deck { height: 100vh; height: 100svh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { .deck { scroll-behavior: auto; } }
-  .quadro { height: 100svh; display: flex; align-items: center; scroll-snap-align: start;
+  .quadro { height: 100vh; height: 100svh; display: flex; align-items: center; scroll-snap-align: start;
     scroll-snap-stop: always; position: relative; overflow: hidden; }
   .q-in { max-width: 1050px; margin: 0 auto; padding: clamp(2.5rem, 6vh, 4rem) 1.6rem; width: 100%;
-    max-height: 100svh; overflow-y: auto; }
+    max-height: 100vh; max-height: 100svh; overflow-y: auto; }
   .q-in.narrow { max-width: 800px; }
 
   /* puntini di navigazione */
@@ -327,6 +327,7 @@ const stages = [
   .q-hero { background: var(--brand-accent); overflow: hidden; flex-direction: column; justify-content: center; text-align: center; }
   .q-hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
   .q-hero .veil { position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, #044f57 100%);
     background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, color-mix(in srgb, var(--brand-accent) 82%, black) 100%); }
   .q-hero-content { position: relative; padding: 0 1.6rem; }
   .wordmark { width: min(74vw, 540px); height: auto; filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.35)); }
