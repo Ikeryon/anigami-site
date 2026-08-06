@@ -332,7 +332,10 @@ const stages = [
     background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, color-mix(in srgb, var(--brand-accent) 82%, black) 100%); }
   .q-hero-content { position: relative; padding: 0 1.6rem; }
   .wordmark { width: min(74vw, 540px); height: auto; filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.35)); }
-  .payoff { width: min(70vw, 500px); height: auto; margin: 1.2rem auto 2.4rem; display: block; }
+  /* il payoff ufficiale è tiffany: sul campo teal non si legge → forzato in
+     bianco (come il wordmark) via filtro, senza toccare l'asset SVG */
+  .payoff { width: min(70vw, 500px); height: auto; margin: 1.2rem auto 2.4rem; display: block;
+    filter: brightness(0) invert(1); }
   .menu { display: flex; justify-content: center; gap: 1.6rem; flex-wrap: wrap; font-family: 'Manrope', sans-serif;
     font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
   .menu a { color: rgba(255, 255, 255, 0.9); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 3px; }
