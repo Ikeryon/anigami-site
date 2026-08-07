@@ -1,0 +1,111 @@
+{
+ "enogastronomia": [
+  "Gabicce Mare",
+  "Fermo",
+  "Sefro",
+  "Porto San Giorgio",
+  "Ascoli Piceno",
+  "Senigallia",
+  "Porto Sant’Elpidio",
+  "Acqualagna",
+  "Civitanova Marche",
+  "San Benedetto del Tronto",
+  "Cagli",
+  "Camerino",
+  "Montedinove",
+  "Frontone",
+  "Sarnano",
+  "Montecassiano",
+  "Apecchio",
+  "Appignano",
+  "Montegiorgio",
+  "Pieve Torina",
+  "Montecosaro",
+  "Pedaso",
+  "Cingoli",
+  "Visso",
+  "Macerata",
+  "Mondolfo"
+ ],
+ "vino & spiriti": [
+  "Sant’Elpidio a Mare",
+  "Sefro",
+  "Montecarotto",
+  "Recanati",
+  "Castignano",
+  "Potenza Picena",
+  "Serrapetrona",
+  "Apecchio",
+  "Macerata"
+ ],
+ "mare & pesca": [
+  "Ancona",
+  "Mondolfo",
+  "Porto San Giorgio",
+  "Porto Sant’Elpidio",
+  "Civitanova Marche",
+  "San Benedetto del Tronto",
+  "Pedaso"
+ ],
+ "tradizioni & comunità": [
+  "Montappone",
+  "Osimo",
+  "Castelraimondo",
+  "Frontone",
+  "Piobbico",
+  "Montecassiano",
+  "Monteprandone",
+  "Montecosaro",
+  "Monterubbiano",
+  "Ripatransone",
+  "Cingoli",
+  "Porto San Giorgio",
+  "Agugliano"
+ ],
+ "cultura & spettacolo": [
+  "Sant’Elpidio a Mare",
+  "Fermo",
+  "Recanati",
+  "Monte Urano",
+  "Macerata",
+  "Serra Sant’Abbondio",
+  "Camerino",
+  "Castelfidardo",
+  "Ripatransone",
+  "Agugliano",
+  "San Ginesio"
+ ],
+ "storia & rievocazioni": [
+  "Castignano",
+  "Sassoferrato",
+  "Monte Rinaldo",
+  "Piobbico",
+  "Monteprandone",
+  "Monterubbiano",
+  "Agugliano"
+ ],
+ "natura & outdoor": [
+  "Sefro",
+  "Genga",
+  "Cagli",
+  "Montedinove"
+ ],
+ "saper fare & design": [
+  "Montappone",
+  "Fermo",
+  "Fabriano",
+  "Senigallia",
+  "San Severino Marche",
+  "Castelfidardo",
+  "Tolentino"
+ ],
+ "innovazione": [
+  "Ancona",
+  "Fermo",
+  "Montegiorgio"
+ ],
+ "sport": [
+  "Mondolfo",
+  "Macerata"
+ ]
+}

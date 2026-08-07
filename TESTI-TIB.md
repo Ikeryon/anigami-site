@@ -1,128 +1,142 @@
-# TESTI-TIB — Contenuti per la landing Tipicità in Blu
-> Cowork, 06/08/2026. Ricerca da fonti primarie (tipicitainblu.it,
-> theblueway.it, stampa locale, UniTS) + regole della metanarrativa:
-> la fabula di TIB è LA STRUMENTAZIONE (sezioni codificate, dati,
-> coordinate; la sobrietà È la fabula). Capitoli: Rotta · Cantiere ·
-> Giornale di bordo. MAI replicare l'ossatura di Tipicità. The Blue Way
-> = piattaforma PRIMA, hackathon come esempi POI (regola di Paolo).
-> Tutti i testi = BOZZE da validare. Target primario: europrogettisti,
-> ricercatori, imprese blue economy; secondario: pubblico del festival.
+# TESTI-TIB v2 — Contenuti per la landing Tipicità in Blu
+> Cowork, 06/08/2026 — revisione su indicazioni di Paolo: DUE sole
+> matrici (.Rotta e .Cantiere), niente timeline/giornale di bordo,
+> registro da SCHEDA: si afferma ciò che la piattaforma È e ciò a cui
+> guarda — mai "potremmo fare", mai tono commerciale. La sobrietà è la
+> fabula. Testi = BOZZE da validare. La parola "anigami" non compare mai.
 
 ## 0. Quadro d'apertura — la plancia
 
 - Logo TIB + payoff ufficiale: **Mare, laboratorio di futuro**
-- Riga-strumento (monospazio, da plancia):
+- Riga-strumento (monospazio):
   `43°37'N 13°30'E · Ancona, Mole Vanvitelliana · 16–22 maggio 2026`
-- Capitoli: **.Rotta · .Cantiere · .Giornale di bordo**
-- [Nota design, NON per questa fase: niente video emozionale in hero —
-  la plancia è sobria; eventuale fondale = carta nautica dell'Adriatico
-  appena percettibile.]
+- Capitoli: **.Rotta · .Cantiere**
 
-## 1. .Rotta — la direzione
+## 1. .Rotta — che cosa è, dove guarda
 
 **Apertura**
-Il mare non è un paesaggio: è un'infrastruttura. Ci passano le merci,
-l'energia, i dati, il cibo — e le domande a cui nessun laboratorio a
-terra sa rispondere da solo. Tipicità in Blu esiste per questo: una
-settimana all'anno, ad Ancona, il mare Adriatico diventa un laboratorio
-a cielo aperto.
+Il mare non è un paesaggio: è un sistema produttivo, scientifico e
+culturale. Tipicità in Blu è il punto d'incontro di chi su quel sistema
+lavora — imprese, ricercatori, istituzioni, naviganti — e di chi nel
+mare vede una risorsa da capire prima ancora che da sfruttare. Una
+settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a
+cielo aperto.
 
-**Il dato di rotta**
-In Italia l'economia del mare vale circa il 3% del PIL. Il potenziale
-stimato è oltre il triplo. La distanza tra questi due numeri è la rotta:
-ricerca che diventa impresa, porti che diventano piattaforme, mestieri
-del mare che diventano carriere per chi oggi studia.
+**La visione**
+"Mare, laboratorio di futuro" non è uno slogan: è un metodo. Le
+questioni che il mare pone — energia, cibo, trasporti, clima, lavoro —
+non si risolvono per compartimenti. Il festival le mette nello stesso
+spazio fisico, la Mole Vanvitelliana, e le fa dialogare: la ricerca
+accanto al cantiere, la pesca accanto alla biotecnologia, la scuola
+accanto all'impresa.
+
+**Il quadro strumenti — i temi sul tavolo**
+[Da rendere come tag/strumenti di plancia, non come elenco discorsivo:]
+`CANTIERISTICA E NAUTICA` · `TUTELA DELL'ECOSISTEMA MARINO` ·
+`PESCA E ACQUACOLTURA` · `PORTI E LOGISTICA` · `BIOTECNOLOGIE BLU` ·
+`ENERGIA DAL MARE` · `TURISMO COSTIERO` · `SCIENZE E DATI DEL MARE` ·
+`MESTIERI E FORMAZIONE` · `CULTURA MARINARA`
+
+**Le metriche** [pannello-dati, cifre grandi, fonte citata]
+- `216,7 mld €` — il valore della filiera del mare in Italia, l'11,3%
+  del PIL (XIII Rapporto Nazionale sull'Economia del Mare, 2025)
+- `232.841` — le imprese della blue economy italiana
+- `1.089.710` — gli occupati, in crescita del 7,7%
+- `+15,9%` — la crescita del valore aggiunto diretto
+[Il punto della rotta: il valore DIRETTO dell'economia del mare è
+ancora una frazione del potenziale — la distanza tra il dato e il
+potenziale è la rotta del festival.]
 
 **La posizione**
-Ancona non è un punto qualsiasi della costa: è il capoluogo affacciato
-sul corridoio adriatico-ionico, dove l'Europa sperimenta la
-cooperazione tra due sponde. Da qui si lavora con università, centri di
-ricerca e imprese di due nazioni — perché l'Adriatico non divide due
-coste: le tiene insieme.
-[Fatti a supporto: strategia EUSAIR/macroregione adriatico-ionica;
-programma Interreg Italia–Croazia; sostegno della Commissione Europea
-alle Blue Economy Days 2026.]
+Ancona guarda il corridoio adriatico-ionico: due sponde, sette paesi,
+una strategia europea (EUSAIR) che qui trova uno dei suoi luoghi di
+lavoro. Il festival opera dentro questa geografia — con la Commissione
+Europea nelle Blue Economy Days, con i programmi Interreg Italia–
+Croazia, con gli atenei delle due coste. L'Adriatico non divide due
+sponde: le tiene insieme.
 
-**Chi tiene la barra**
-Il festival è co-organizzato con il Comune di Ancona, con Regione
-Marche, Università Politecnica delle Marche e una rete di partner che
-va da Fincantieri a MSC, da Marina Dorica a Ecomondo. Non un cartellone
-di sponsor: l'equipaggio.
+**L'equipaggio**
+Comune di Ancona, Regione Marche, Università Politecnica delle Marche,
+Fincantieri, MSC, Marina Dorica, Ecomondo, il sistema camerale e
+bancario del territorio. Non un cartellone di patrocini: le realtà che
+tengono la barra, ciascuna per la propria parte di rotta.
 
 ## 2. .Cantiere — The Blue Way
 
-**La piattaforma (prima)**
-The Blue Way è un cantiere in movimento: una piattaforma permanente che
-prende i risultati della ricerca sul mare e li accompagna fino a
-diventare prototipi, imprese, progetti finanziabili. Promossa con il
-consorzio iNEST e una rete di atenei dell'arco adriatico — Politecnica
-delle Marche, Trieste, Udine, Bari, SISSA — con un obiettivo dichiarato:
-trasformare tre anni di ricerca in soluzioni scalabili.
+**La nascita**
+Dalla collaborazione con il Polo Tecnologico Alto Adriatico e con il
+consorzio di ricerca iNEST nasce The Blue Way: un cantiere progettuale
+fondato su un principio semplice — condivisione. Buone prassi che
+circolano tra le due sponde dell'Adriatico, talenti che si formano
+lavorando su problemi veri, risultati di ricerca che non restano nei
+paper.
 
-**Come lavora il cantiere**
-Design sprint, non convegni: squadre multidisciplinari, sfide reali
-poste da imprese e centri di ricerca, mentori, 30–48 ore di lavoro, un
-prototipo alla fine. Le sfide sono concrete: biologia degli ecosistemi
-marini, gestione dei rischi sull'idrosfera, trasporto costiero
-sostenibile, pianificazione integrata terra-mare, il gemello digitale
-dell'Alto Adriatico.
+**Il cantiere aperto**
+The Blue Way non coincide con la manifestazione: lavora tutto l'anno,
+con ricadute sul territorio italiano e oltre. È una piattaforma
+permanente che collega gli atenei dell'arco adriatico — Politecnica
+delle Marche, Trieste, Udine, Bari, SISSA — le imprese che pongono le
+sfide e i giovani che le raccolgono. Il metodo è quello del cantiere:
+si progetta, si prototipa, si vara. E ogni varo apre il progetto
+successivo.
 
-**Gli esempi (poi)**
-- Ad Ancona, l'hackathon nel vivo del festival: laureati e giovani
-  imprenditori di Italia e Croazia, in due lingue, su sfide poste dalle
-  PMI della nautica — Transizione 5.0 ed ESG — dentro il programma
-  Interreg Italia–Croazia BLUESLINKS.
-- A Trieste, dentro Barcolana — la regata più partecipata del mondo —
-  la selezione degli spin-off universitari: quindici squadre, cinque
-  sfide, il Polo Tecnologico Alto Adriatico e KIC One Water al tavolo.
-[Dettaglio verificato: 1ª edizione 2024, vinta da un team misto
-UNIVPM–UniTS: il cantiere unisce le due sponde anche nei vincitori.]
+**Gli specchi del cantiere** [esempi, dopo la piattaforma — mai prima]
+- Ad Ancona, nel vivo del festival, l'hackathon italo-croato: laureati
+  e giovani imprenditori delle due sponde su sfide poste dalle PMI
+  della nautica — transizione digitale, sostenibilità, ESG — dentro il
+  programma Interreg BLUESLINKS.
+- A Trieste, dentro Barcolana, la selezione degli spin-off
+  universitari: squadre multidisciplinari, sfide che vanno dalla
+  biologia degli ecosistemi al gemello digitale dell'Alto Adriatico,
+  con KIC One Water al tavolo.
+- Tra un appuntamento e l'altro, il lavoro che non si vede: reti di
+  progetto, scambi tra laboratori, accompagnamento delle idee premiate
+  verso bandi e mercati.
 
-**Per chi progetta**
-Se scrivi progetti europei, qui trovi consorzi già rodati su Interreg e
-iNEST, due sponde dell'Adriatico già connesse e una piattaforma che sa
-passare dal paper al prototipo. Il cantiere è aperto: theblueway.it.
+**Chi trova cosa** [scheda, non pitch: si DESCRIVE, non si offre]
+- La ricerca vi trova la strada più corta tra un risultato scientifico
+  e la sua applicazione.
+- Le imprese vi trovano problemi formulati bene e squadre giovani che
+  li aggrediscono senza rendite di posizione.
+- Chi progetta su fondi europei vi trova consorzi già rodati su
+  Interreg e iNEST, due sponde già connesse, casi pilota documentati.
+- Le istituzioni vi trovano un formato che tiene insieme sviluppo
+  costiero, formazione e tutela — le tre cose che di solito viaggiano
+  separate.
+- Gli studenti vi trovano il primo cantiere in cui il mare è una
+  carriera possibile, non una vacanza.
 
-## 3. .Giornale di bordo — le annotazioni
+**Chiusura di pagina** [una riga, da plancia]
+`Il laboratorio è aperto. 43°37'N 13°30'E — theblueway.it`
 
-[Formato: voci datate in stile log nautico, monospazio la data.
-NON è una timeline interattiva (quella è un'altra pagina): è un
-registro, si legge dall'alto.]
+## 3. Appendice per Paolo — profiling stakeholder (NON va in pagina)
 
-- `2014 · Ancona` — Prima edizione: il festival porta il "laboratorio"
-  fuori dai laboratori. La Mole Vanvitelliana diventa la base.
-  [ANNO DA CONFERMARE con Paolo: dedotto — 12ª edizione nel 2025.]
-- `maggio 2024 · Ancona` — Vara The Blue Way: il primo hackathon mette
-  nello stesso equipaggio studenti della Politecnica e di Trieste.
-- `maggio 2025 · Ancona` — Dodicesima edizione, sette giorni: Sailing
-  Chef a Marina Dorica, i cantieri Fincantieri aperti alle visite,
-  l'escape room del mare per le scuole, 48 ore di hackathon
-  italo-croato alla Mole.
-- `ottobre 2025 · Trieste` — The Blue Way sale a bordo di Barcolana57:
-  quindici spin-off, cinque sfide, un gemello digitale dell'Alto
-  Adriatico sul tavolo.
-- `maggio 2026 · Ancona` — Tredicesima edizione, 16–22 maggio. Blue
-  Economy Days con la Commissione Europea: mercati in trasformazione,
-  export digitale, intelligenza artificiale, biodiversità marina e
-  ruolo femminile nello sviluppo costiero. L'Atlante degli artisti
-  marchigiani apre la settimana: anche l'arte tiene il registro.
+Ricerca 06/08. Pubblici individuati e loro interessi, in ordine di
+priorità per la landing:
 
-**Chiusura del registro**
-Un festival che dura una settimana, un cantiere che lavora tutto
-l'anno. Il giornale di bordo resta aperto.
-`43°37'N 13°30'E — prossima annotazione: maggio 2027.`
+1. **Europrogettisti ed enti di programmazione** (EUSAIR, Interreg
+   IT-HR, FEAMPA, Horizon): cercano consorzi affidabili, partner
+   cross-border, casi pilota citabili nei proposal. → Sezione "Chi
+   trova cosa", riga 3; la parola-chiave che li aggancia è "consorzi
+   già rodati".
+2. **Ricerca e atenei** (UNIVPM, CNR-IRBIM di Ancona, UniTS, SISSA,
+   spin-off iNEST): terza missione, trasferimento tecnologico,
+   visibilità applicativa. → Riga 1.
+3. **Imprese cantieristica/nautica e filiera** (da Fincantieri alle PMI
+   del refit): Transizione 5.0, ESG, accesso a talenti tecnici. →
+   Riga 2 + tag CANTIERISTICA in Rotta.
+4. **Startup e spin-off blue tech**: mentorship, validazione, accesso a
+   corporate e programmi (KIC One Water, Polo Alto Adriatico). →
+   Specchi del cantiere.
+5. **Istituzioni territoriali e autorità portuali**: posizionamento
+   della città-porto, occupazione, sviluppo costiero. → Riga 4 +
+   "La posizione".
+6. **Scuole, ITS, università — orientamento**: mestieri del mare. →
+   Riga 5 (chiusura volutamente sui giovani).
 
-## 4. Vincoli e note
-
-- La parola "anigami" non compare mai. Il sito parla per Imagina.
-- Niente Trama/Essenza/Motore/Tracce: l'ossatura di Tipicità non si
-  replica. Qui la strumentazione È il racconto.
-- Registro: tecnico, asciutto, zero lirismo — la poesia sta nei dati
-  giusti al posto giusto.
-- Il "Sailing Chef" e gli eventi pubblici restano volutamente in secondo
-  piano rispetto a piattaforma e ricerca (profilo narrativo minore,
-  tecnico — decisione di Paolo, agosto 2026).
-- Fonti: tipicitainblu.it (payoff, date 2026, dimensioni
-  ricerca/condivisione/progetti) · theblueway.it (piattaforma, iNEST,
-  sfide, atenei) · UniTS (hackathon 2024) · Cronache Ancona (programma
-  2025, obiettivo 3%→10% PIL) · CentroPagina (Blue Economy Days 2026).
+Numeri verificati (fonte: XIII Rapporto Nazionale sull'Economia del
+Mare 2025, Unioncamere/OsserMare): filiera 216,7 mld € = 11,3% PIL;
+232.841 imprese; 1.089.710 occupati (+7,7%); valore aggiunto diretto
+76,6 mld € (+15,9%). Il riferimento "3% → 10%" usato dalla stampa
+locale riguarda il valore DIRETTO vs potenziale: in pagina ho usato la
+formula prudente "frazione del potenziale" senza cifre contestabili.
