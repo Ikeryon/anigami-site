@@ -469,30 +469,14 @@ body::after {
   color: var(--brand-accent);
 }
 
-/* Il rimando alla casa è il LOGOTIPO Imagina (mai la parola scritta:
-   regola sovrana). Prende il colore dal testo, quindi si adatta alla
-   cromia di ogni marchio. */
-.chapter-bar .bar-home {
-  margin-left: auto;
-  display: block;
-  width: 70px;
-  color: var(--text-faint);
-  flex: none;
-  transition: color 0.2s ease;
-}
-
-.chapter-bar .bar-home svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.chapter-bar .bar-home:hover {
-  color: var(--text-soft);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chapter-bar .bar-home { transition: none; }
+/* PULIZIA 07/08/2026 (BRIEF-MENU §6.2): il .bar-home è stato tolto — il
+   rimando alla casa vive una volta sola per pagina, dentro la pellicola.
+   La barra prende invece il respiro necessario a non finire sotto la
+   capsula, che è fissa nell'angolo in alto a destra. */
+/* 760px è la soglia in cui la capsula lascia l'angolo e scende in basso
+   al centro: sopra quella soglia la barra le lascia il posto. */
+@media (min-width: 760px) {
+  .chapter-bar .inner { padding-right: 265px; }
 }
 
 /* --- Capitoli numerati: il numero è generato via CSS, nessuna

@@ -5,8 +5,7 @@
 // condivisi tra le due lingue; i testi arrivano per indice.
 // Menù a doppia codifica (.Trama/.Thread ecc.): MAI spiegarla, in nessuna lingua.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BrandRail from './BrandRail.astro';
-import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
+import Pellicola from './Pellicola.astro';
 import mapSvg from '../assets/tipicita-map.svg?raw';
 import boxes from '../assets/tipicita-map-boxes.json';
 import { content, buildStages } from '../i18n/tipicita.js';
@@ -61,8 +60,7 @@ const alternates = [
   alternates={alternates}
 >
   <Fragment slot="header">
-    <BrandRail lang={lang} current="tipicita" />
-    <a class="to-home" href="/" aria-label="Imagina"><Fragment set:html={imaginaLogotype} /></a>
+    <Pellicola lang={lang} current="tipicita" mode="light" />
     <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
   </Fragment>
 
@@ -221,14 +219,9 @@ const alternates = [
 </style>
 
 <style>
-  /* il rimando alla home è il LOGOTIPO Imagina (non più la scritta: nella
-     stessa pagina il nome non va ripetuto). Inline con currentColor +
-     mix-blend-mode così si legge sul campo teal come sui quadri bianchi. */
-  .to-home { position: fixed; top: 1.4rem; right: 1.6rem; z-index: 20; display: block; width: 78px;
-    color: #fff; mix-blend-mode: difference; opacity: 0.75; }
-  .to-home :global(svg) { display: block; width: 100%; height: auto; }
-  .to-home:hover { opacity: 1; }
-  @media (max-width: 560px) { .to-home { width: 62px; } }
+  /* PULIZIA 07/08/2026 (BRIEF-MENU §6.3): il .to-home è stato tolto. Il
+     segno Imagina compare una volta sola per pagina, ed è il monogramma
+     dentro la pellicola. */
 
   /* Focus da tastiera: anello visibile e coerente su TUTTI i controlli.
      :focus-visible → compare solo con tastiera, non altera lo stato a
@@ -237,16 +230,21 @@ const alternates = [
   .dots button:focus-visible, .nodo:focus-visible, .anno:focus-visible,
   .hbtn:focus-visible, .next:focus-visible, .scrub:focus-visible {
     outline: 2px solid var(--brand-accent); outline-offset: 2px; }
-  .menu a:focus-visible, .to-home:focus-visible {
+  .menu a:focus-visible {
     outline: 2px solid #fff; outline-offset: 3px; }
 
-  /* selettore lingua: gemello discreto del rimando a Imagina, alla sua sinistra */
-  .to-lang { position: fixed; top: 1.5rem; right: 7.4rem; z-index: 20; font-family: 'Manrope', sans-serif;
+  /* Selettore lingua: scende SOTTO la capsula invece di stare alla sua
+     sinistra, così i due non si contendono l'angolo (BRIEF-MENU §6.3).
+     Sul telefono la capsula scende in basso e l'angolo si libera: il
+     selettore risale al suo posto naturale. */
+  /* 5.9rem e non 4.4: a 4.4 finisce esattamente sulla riga della
+     didascalia della pellicola, che compare al passaggio. */
+  .to-lang { position: fixed; top: 5.9rem; right: 1.6rem; z-index: 20; font-family: 'Manrope', sans-serif;
     font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-    color: #fff; mix-blend-mode: difference; opacity: 0.55; }
+    color: #fff; mix-blend-mode: difference; opacity: 0.55; padding: 0.4rem 0; }
   .to-lang:hover { opacity: 1; }
   .to-lang:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-  @media (max-width: 560px) { .to-lang { right: 6rem; } }
+  @media (max-width: 759px) { .to-lang { top: 1.5rem; } }
 
   /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
      continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO

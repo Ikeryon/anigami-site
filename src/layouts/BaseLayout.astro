@@ -2,6 +2,11 @@
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 import Footer from '../components/Footer.astro';
+// Lo sprite dei cinque segni della pellicola (BRIEF-MENU §4): inlinato UNA
+// volta sola qui, mai caricato via <img>. Con <img> i riempimenti non sono
+// raggiungibili dal CSS — è esattamente il limite della v1 (BrandRail).
+// Le custom property attraversano il confine d'ombra di <use>.
+import brandMarks from '../../public/logos/menu/brand-marks.svg?raw';
 
 interface Props {
   title: string;
@@ -70,6 +75,7 @@ const themeCss = theme
   <ViewTransitions />
 </head>
 <body>
+  <Fragment set:html={brandMarks} />
   <slot name="header" />
   <slot />
   <Footer />

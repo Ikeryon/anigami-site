@@ -1,9 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import BrandHeader from '../components/BrandHeader.astro';
-// ⚠️ REGOLA SOVRANA: mai la parola "anigami" in pagina → il rimando alla
-// casa nella barra dei capitoli è il logotipo Imagina, non un testo.
-import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
+// PULIZIA 07/08/2026 (BRIEF-MENU §6): il segno Imagina compare una volta
+// sola per pagina, e quella volta è dentro la pellicola. Via il .back-link
+// di BrandHeader (componente rimosso) e via il .bar-home della barra
+// capitoli: entrambi erano rimandi alla casa duplicati.
+import Pellicola from '../components/Pellicola.astro';
 
 // Ogni landing di marchio è un manifesto autonomo (brief, sez. 5):
 // si apre a piena altezza con il logo grande al centro e una sola riga
@@ -40,6 +41,11 @@ interface Props {
   heroVariant?: 'atmosphere' | 'field';
   /** Classe-gancio per gli stili specifici della pagina (es. 'v-tipicita'). */
   variant?: string;
+  /** Quale fotogramma della pellicola è "sei qui". */
+  menuCurrent?: 'tipicita' | 'grand-tour' | 'tipicita-in-blu' | 'evo';
+  /** Cromia della pagina per la pellicola: decide se la piastrella accesa
+      usa il colore ufficiale o la variante accesa. */
+  menuMode?: 'light' | 'dark';
 }
 
 const {
@@ -55,13 +61,15 @@ const {
   theme,
   heroVariant = 'atmosphere',
   variant = '',
+  menuCurrent,
+  menuMode = 'light',
 } = Astro.props;
 
 const heroClass = `brand-hero${heroVariant === 'field' ? ' brand-hero--field' : ''}${variant ? ` ${variant}` : ''}`;
 ---
 
 <BaseLayout title={title} description={description} accent={accent} structuredData={structuredData} theme={theme}>
-  <BrandHeader slot="header" />
+  <Pellicola slot="header" current={menuCurrent} mode={menuMode} />
 
   <section class={heroClass}>
     <h1 class="sr-only">{brandName}</h1>
@@ -81,7 +89,6 @@ const heroClass = `brand-hero${heroVariant === 'field' ? ' brand-hero--field' : 
       <nav aria-label={`Capitoli di ${brandName}`}>
         {chapters.map((c) => <a href={`#${c.id}`}>{c.label}</a>)}
       </nav>
-      <a class="bar-home" href="/" aria-label="Imagina"><Fragment set:html={imaginaLogotype} /></a>
     </div>
   </div>
 

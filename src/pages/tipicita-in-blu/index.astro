@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BrandHeader from '../../components/BrandHeader.astro';
+import Pellicola from '../../components/Pellicola.astro';
 
 // LANDING TIPICITÀ IN BLU — la fabula è LA STRUMENTAZIONE
 // (ANIGAMI-METANARRATIVA §3): la pagina è una PLANCIA. Sezioni codificate,
@@ -100,7 +100,7 @@ const structuredData = {
   structuredData={structuredData}
   theme={theme}
 >
-  <BrandHeader slot="header" />
+  <Pellicola slot="header" current="tipicita-in-blu" mode="dark" />
 
   <!-- ══ QUADRO D'APERTURA · LA PLANCIA ══ -->
   <header class="plancia">
@@ -332,6 +332,10 @@ const structuredData = {
     display: flex;
     align-items: center;
     gap: 1.6rem;
+  }
+  /* spazio per la capsula fissa in alto a destra (BRIEF-MENU §6) */
+  @media (min-width: 760px) {
+    .barra-in { padding-right: 265px; }
   }
   .barra-marchio { height: 26px; width: auto; flex: none; opacity: 0.9; }
   .barra nav { display: flex; gap: 1.4rem; }

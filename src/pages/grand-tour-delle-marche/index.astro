@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BrandHeader from '../../components/BrandHeader.astro';
+import Pellicola from '../../components/Pellicola.astro';
 import mapSvg from '../../assets/gt-map-comuni.svg?raw';
 import temi from '../../assets/gt-temi.json';
 import tappe from '../../assets/gt-tappe.json';
@@ -107,7 +107,7 @@ const theme = {
   accent="#d1544c"
   theme={theme}
 >
-  <BrandHeader slot="header" />
+  <Pellicola slot="header" current="grand-tour" mode="light" />
 
   <!-- ══ PARTENZA ══ -->
   <header class="partenza">
@@ -339,6 +339,12 @@ const theme = {
     display: flex;
     align-items: center;
     gap: 1.4rem;
+  }
+  /* La strada occupa tutta la larghezza: le si chiede di liberare
+     l'angolo dove sta fissa la pellicola (BRIEF-MENU §6). I waypoint
+     scorrono e non arrivano al bordo. */
+  @media (min-width: 760px) {
+    .strada-in { padding-right: 265px; }
   }
   .strada-marchio { height: 30px; width: auto; flex: none; }
   .waypoints {
