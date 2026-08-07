@@ -4,6 +4,7 @@ import BrandHeader from '../../components/BrandHeader.astro';
 import mapSvg from '../../assets/gt-map-comuni.svg?raw';
 import temi from '../../assets/gt-temi.json';
 import tappe from '../../assets/gt-tappe.json';
+import eventi from '../../assets/gt-eventi.json';
 
 // LANDING GRAND TOUR DELLE MARCHE — la fabula è L'ITINERARIO
 // (ANIGAMI-METANARRATIVA §3): la barra dei capitoli è una strada con
@@ -14,7 +15,12 @@ import tappe from '../../assets/gt-tappe.json';
 // niente card orizzontali (sono di Tipicità), niente plancia (è di TIB).
 // Qui il gesto è la STRADA: il progresso e i waypoint.
 //
-// TESTI: i tre capitoli sono [LAVORATO] e si trascrivono invariati.
+// TESTI: le tre soste sono state RISCRITTE — vedi TESTI-GT-CAPITOLI.md
+// (07/08/2026), che annulla l'istruzione «[LAVORATO], trascrivere invariati»
+// del §3–5 di TESTI-GT.md. Ora dicono il METODO e non gli esempi: niente
+// nomi propri (tipologie al posto dei casi), e il filo è la tesi sul
+// destination management — una destinazione non si gestisce prima di
+// esistere come soggetto. Arco: metodo → forma → esito.
 // Exergo, filo del racconto e chiusura da TESTI-GT.md (BOZZE validate
 // nell'impianto da Paolo). Dati mappa/temi da TESTI-GT-DATI.md v2.
 //
@@ -161,22 +167,24 @@ const theme = {
     <section class="sosta sosta--alt" id="laboratorio-di-comunita" aria-labelledby="h-lab">
       <div class="wrap">
         <h2 id="h-lab" data-reveal>Laboratorio di comunità</h2>
-        <p data-reveal>Le Guaite del Gusto porta a Visso tre giorni a luglio, sei elementi che raccontano il territorio attraverso terra, acqua, pascoli e boschi: legumi, miele, tartufo, trota, salumi, formaggi. Quello che il programma non dice è che è stato il primo evento a riportare l'intera comunità nello stesso posto dopo il terremoto del 2016 — non per ricordare cosa è crollato, ma per ritrovarsi attorno a quello che a Visso è sempre stato vero, sisma o non sisma.</p>
-        <p data-reveal>Prima di ogni programma, mesi di mappatura e incontri uno a uno con chi a Visso ci vive — lavoro che nella promozione del Grand Tour non compare mai, e non deve comparire: quello che arriva al pubblico è la punta, il resto resta in dote alla comunità che lo ospita. Qui lo raccontiamo perché parliamo del formato, non dell'evento.</p>
+        <p data-reveal>Prima di ogni programma vengono i mesi che nessuno vede: la mappatura di chi in un territorio produce, coltiva, cucina, ospita, racconta; gli incontri uno a uno con chi ci vive tutto l'anno; il lavoro paziente di mettere allo stesso tavolo persone che nello stesso paese non si erano mai sedute insieme. Quello che arriva al pubblico è la punta. Il resto resta in dote alla comunità che ospita, e non compare in nessuna comunicazione — se non qui, perché qui parliamo del metodo e non di un'edizione.</p>
+        <p data-reveal>Oggi si parla molto di destination management, e quasi sempre si comincia dal fondo: il piano, il marchio, la governance. Ma una destinazione non si gestisce prima di esistere come soggetto — prima cioè che chi la abita si riconosca in un racconto comune e accetti di starci dentro. Concertazione, ascolto e coinvolgimento non sono la premessa gentile di quel lavoro: ne sono la condizione. E un evento, in questo, è uno strumento formidabile, perché mette a disposizione ciò che manca sempre: una data, un'occasione e un oggetto concreto attorno a cui trovare un accordo. Non promuove soltanto una destinazione. La costruisce.</p>
       </div>
     </section>
 
     <section class="sosta" id="geometria-variabile" aria-labelledby="h-geo">
       <div class="wrap">
         <h2 id="h-geo" data-reveal>Geometria variabile</h2>
-        <p data-reveal>A Sefro, borgo di poche centinaia di persone, il Grand Tour inventa un contest da zero — La Trota e il Verdicchio, oggi un appuntamento fisso ogni estate. Nello stesso anno entra nel Parco Gola della Rossa e Frasassi con un format esperienziale che copre un intero areale, non un paese. E partecipa, da ospite, a due festival che non ha creato e che esistevano prima di lui — Ascoliva ad Ascoli Piceno, festival mondiale dell'oliva ascolana, e Leguminaria ad Appignano, oltre 30.000 visitatori. Non è lo stesso evento replicato quattro volte: è lo stesso principio applicato in quattro forme diverse, perché nessuna comunità somiglia abbastanza a un'altra da meritare lo stesso formato.</p>
+        <p data-reveal>Un borgo di poche centinaia di abitanti e una città capoluogo non hanno bisogno della stessa cosa. Così in tredici edizioni il formato ha cambiato forma ogni volta: dove non c'era niente il Grand Tour ha inventato da zero un appuntamento che prima non esisteva; dove il tema non stava in un solo paese ha costruito un'esperienza estesa a un intero areale; dove esisteva già una manifestazione radicata è entrato da ospite, senza nessuna intenzione di annettersela.</p>
+        <p data-reveal>Non è lo stesso evento replicato: è lo stesso principio in forme diverse. E non è flessibilità per vocazione — è la conseguenza dell'ascolto, perché chi ascolta davvero non può standardizzare. Vale anche per il perimetro: una destinazione non coincide quasi mai con un confine amministrativo. Si tiene insieme per affinità e per vocazione — una valle, un paesaggio, una filiera — e la geometria dell'itinerario segue quella, non la carta.</p>
       </div>
     </section>
 
     <section class="sosta sosta--alt" id="incubatore" aria-labelledby="h-inc">
       <div class="wrap">
         <h2 id="h-inc" data-reveal>Incubatore</h2>
-        <p data-reveal>Non tutto quello che il Grand Tour fa nascere resta legato al suo calendario. La Trota e il Verdicchio, inventato a Sefro, torna ogni estate anche quando il Grand Tour è altrove — un progetto nato dentro il format che ha imparato a camminare da solo. Il segno che il laboratorio ha funzionato non è quanto dura l'evento, è cosa resta quando il Grand Tour è già ripartito.</p>
+        <p data-reveal>Non tutto quello che nasce dentro il formato resta legato al suo calendario. Alcune cose imparano a camminare da sole: tornano ogni anno anche quando l'itinerario è altrove, con la propria organizzazione e il proprio pubblico, e a un certo punto non hanno più bisogno di noi. Sono la prova che il laboratorio ha funzionato.</p>
+        <p data-reveal>Il segno non è mai quanto dura la festa. È cosa resta quando il Grand Tour è già ripartito: operatori che prima non si conoscevano e adesso si telefonano, un appuntamento che qualcun altro ha preso in mano, una comunità che si è accorta di essere una destinazione. È da qui che un territorio può incamminarsi verso una DMO — non da un organigramma, ma da un gruppo che ha già imparato a decidere insieme.</p>
       </div>
     </section>
 
@@ -192,7 +200,7 @@ const theme = {
             <svg viewBox="6 72 988 1006" role="img" aria-label={`Mappa delle Marche: ${toccati} comuni toccati dall'itinerario su 225`}>
               <Fragment set:html={mapSvg} />
             </svg>
-            <div class="tip" id="tip" hidden aria-hidden="true"></div>
+            <div class="tip" id="tip" hidden aria-hidden="true" data-eventi={JSON.stringify(eventi)}></div>
           </div>
 
           <div class="nuclei">
@@ -423,7 +431,9 @@ const theme = {
   .wrap { max-width: 70rem; margin: 0 auto; padding: 0 1.6rem; }
   h2 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); color: var(--brand-accent); margin: 0 0 1.2rem; }
   .sosta p {
-    max-width: 64ch;
+    /* 54ch: con Inter l'unità ch è stretta e 64ch rendeva righe da 85-86
+       caratteri (misurato a 1440). A 54ch la riga più lunga sta sui 73. */
+    max-width: 54ch;
     line-height: 1.78;
     color: var(--text-dim);
     text-wrap: pretty;
@@ -696,13 +706,16 @@ const theme = {
   // ── il nome del comune al passaggio, con l'anno della prima tappa ──
   const tip = document.getElementById('tip');
   const mappa = document.querySelector('.mappa');
+  const eventiMap = tip ? JSON.parse(tip.dataset.eventi || '{}') : {};
   if (tip && mappa) {
     paths.forEach((p) => {
       if (!p.classList.contains('toccato')) return;
-      p.addEventListener('mouseenter', (e) => {
+      p.addEventListener('mouseenter', () => {
         const nome = p.getAttribute('data-comune');
-        const dal = p.getAttribute('data-dal');
-        tip.textContent = dal ? `${nome} — dal ${dal}` : nome;
+        // comune + evento (il più recente documentato). Dove l'evento non è
+        // documentato resta il solo nome: non si deduce.
+        const e = eventiMap[nome] || eventiMap[norm(nome)];
+        tip.textContent = e ? `${nome} — ${e.evento}` : nome;
         tip.hidden = false;
       });
       p.addEventListener('mousemove', (e) => {
