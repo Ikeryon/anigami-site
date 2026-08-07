@@ -74,15 +74,30 @@ const trova = [
   'Gli studenti vi trovano il primo cantiere in cui il mare è una carriera possibile, non una vacanza.',
 ];
 
-// NOTA PER PAOLO: l'edizione 2026 (16–22 maggio) è già passata rispetto a
-// oggi: resta come dato di posizione, non viene annunciata come prossima.
-// Niente schema.org Event finché non ci sono le date 2027.
+// DATE (Paolo, 07/08/2026): la riga-plancia guarda avanti a maggio 2027.
+// Il giorno esatto non è ancora fissato → schema.org con precisione al mese
+// (formato valido) e nessun claim di giorni che poi andrebbe corretto.
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'Tipicità in Blu',
+  startDate: '2027-05',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: 'Mole Vanvitelliana',
+    address: { '@type': 'PostalAddress', addressLocality: 'Ancona', addressRegion: 'Marche', addressCountry: 'IT' },
+  },
+  organizer: { '@type': 'Organization', name: 'Imagina Srl Società Benefit', url: 'https://anigami.it' },
+};
 ---
 
 <BaseLayout
   title="Tipicità in Blu — Ancona, il mare come laboratorio di futuro"
   description="Tipicità in Blu, Ancona: una settimana all'anno l'Adriatico diventa un laboratorio a cielo aperto. Blue economy, ricerca, cooperazione adriatica e il cantiere permanente The Blue Way."
   accent="#209fb6"
+  structuredData={structuredData}
   theme={theme}
 >
   <BrandHeader slot="header" />
@@ -99,7 +114,7 @@ const trova = [
       <p class="fix fix--apertura">
         <span>43°37′N 13°30′E</span>
         <span>Ancona, Mole Vanvitelliana</span>
-        <span>16–22 maggio 2026</span>
+        <span>maggio 2027</span>
       </p>
       <nav class="matrici" aria-label="Sezioni">
         <a href="#rotta">.Rotta</a>
