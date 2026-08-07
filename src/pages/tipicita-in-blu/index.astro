@@ -1,445 +1,592 @@
 ---
-import BrandLayout from '../../layouts/BrandLayout.astro';
-import VideoCard from '../../components/VideoCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BrandHeader from '../../components/BrandHeader.astro';
 
 // LANDING TIPICITÀ IN BLU — la fabula è LA STRUMENTAZIONE
-// (ANIGAMI-METANARRATIVA §3): sezioni codificate, dati in evidenza,
-// coordinate; più vicina a una carta nautica/protocollo che a un racconto.
-// La sobrietà È la sua fabula: qui la cornice non fa letteratura.
+// (ANIGAMI-METANARRATIVA §3): la pagina è una PLANCIA. Sezioni codificate,
+// coordinate, dati in evidenza, registro tecnico-nautico. La sobrietà È la
+// fabula: qui il virtuosismo sta nella precisione, non nell'effetto.
 //
-// ⚠️ OSSATURA NON REPLICABILE: i capitoli sono Rotta · Cantiere ·
-// Giornale di bordo. Niente Trama/Essenza/Motore/Tracce (di Tipicità) e
-// niente moviola o deck a quadri: quelli sono solo di Tipicità.
-// La numerazione 01/02/03 dei capitoli è generata via CSS counter
-// (global.css) — è la "codifica" delle sezioni, non un vezzo.
+// ⚠️ OSSATURA NON REPLICABILE: due sole matrici, .Rotta e .Cantiere.
+// Niente deck a quadri, niente moviola, niente card orizzontali: sono
+// dispositivi di Tipicità e non si ereditano. Niente timeline/giornale di
+// bordo (rimosso in v2 su indicazione di Paolo).
 //
-// TESTI: trascritti da TESTI-TIB.md (consegna Cowork 06/08/2026, ricerca
-// da fonti primarie). Sono BOZZE da validare con Paolo — non riscriverli.
-// The Blue Way: piattaforma PRIMA, hackathon come esempi POI (regola di
-// Paolo). Eventi pubblici (Sailing Chef) volutamente in secondo piano.
+// TESTI: trascritti TALI E QUALI da TESTI-TIB.md v2 (Cowork 06/08/2026).
+// Sono BOZZE da validare — non riscriverli. §3 del file è un'appendice di
+// profiling per Paolo e NON va in pagina.
+// Registro da SCHEDA: si afferma ciò che la piattaforma È, mai "potremmo".
+// Sailing Chef ed eventi pubblici restano fuori (profilo tecnico).
+//
+// MOTO: solo taglio e dissolvenza (ANIGAMI-REGIA §1). Una intenzione per
+// viewport, durate 200–600ms, easing unico condiviso con Tipicità.
 
-// Video già mappati e verificati (restano dalla versione precedente:
-// sono dati reali, non testi da riscrivere).
-const bluePillole = [
-  { id: 'e7TnD5orNR0', title: 'Reloaded Materials — A Virtuous Chain', meta: '5:33' },
-  { id: 'DR14eK82zlM', title: 'Blue Coast Agreements 2030', meta: '5:50' },
-  { id: 'UVyXUUTgsHE', title: 'Advanced Training for Shipwrights', meta: '5:02' },
-  { id: 'ytD52UB5AfM', title: 'Biodiversity and Alien Species', meta: '5:16' },
-  { id: 'SU1TInSVU-E', title: 'Capacity Building', meta: '6:29' },
-  { id: 'cB0iVeYEa9I', title: 'Green New Deal', meta: '4:57' },
-  { id: 'MkGWbkoyYJ4', title: 'The Birth of a Flag', meta: '2:51' },
-  { id: '7jxwlv3Lfyw', title: 'Sea Tourism Sector', meta: '7:51' },
-  { id: 'nkd4TodlLn0', title: 'Blueslinks — KIC One Water', meta: '4:56' },
-  { id: 'MzrlPIrV24o', title: 'Blueslinks — 1st & 2nd Nautical Info Days', meta: '7:13' },
-  { id: '-k-tta-0tqc', title: 'Blueslinks — Learning the Blue Economy through AI', meta: '1:49' },
-  { id: '8UJftzvRfIk', title: 'Blueslinks — Project Meeting & Steering Committee, Ecomondo 2024', meta: '2:23' },
-];
-
-const hackathons = [
-  {
-    id: 'ancona-2024',
-    title: 'Ancona 2024 — 48 ore per decifrare il mare',
-    when: '23–24 maggio 2024',
-    where: 'Sala Eventi Unicorn, Passetto, Ancona — nella settimana di Tipicità in Blu',
-    facts:
-      "Organizzato da Polo Tecnologico Alto Adriatico, Università Politecnica delle Marche, Università di Trieste, IRBIM CNR e OGS, co-finanziato dal progetto EIT Reginna 4.0 e dal PNRR iNEST, in collaborazione con Tipicità in Blu, Comune di Ancona e Confindustria Ancona Piccola Industria. 50 tra studenti maggiorenni, neolaureati e dottorandi. Conduzione di Marco Ardemagni (RAI Caterpillar AM).",
-    main: { id: 'iypiTFOGyBk', title: 'The Blue Way Hackathon — 48 ore per decifrare il mare', meta: '3:15' },
-    related: [
-      { id: 'LnubZd1h3u8', title: 'The Blue Way Hackathon — Le voci dei protagonisti', meta: '5:41' },
-      { id: 'aJ2kiPim2q4', title: 'The Blue Way Hackathon — Trailer', meta: '0:46' },
-      { id: 'CYjcJINBLUQ', title: 'The Blue Way Hackathon 2024 — documentario completo', meta: '17:34' },
-    ],
-  },
-  {
-    id: 'ancona-2025',
-    title: 'Ancona 2025 — edizione nautica',
-    when: 'maggio 2025, settimana di Tipicità in Blu',
-    where: 'Mole Vanvitelliana, Ancona',
-    facts:
-      'Inquadrato nel progetto Interreg Italia-Croazia Blueslinks, focus su Transition 4.0/5.0 e principi ESG applicati al settore nautico e alla portualità turistica. Quattro team al lavoro su altrettante sfide proposte da PMI del settore: WAVE, PORT PULSE, BLUE ACCESS, KNOT.',
-    main: { id: 'xmwevSIJNwY', title: 'The Blue Way Hackathon — Nautical Edition', meta: '4:55' },
-    related: [
-      { id: 'cH1PlMpigLM', title: 'The Blue Way Hackathon 2025 — WAVE', meta: '3:39' },
-      { id: 'eRJNYEPIOR4', title: 'The Blue Way Hackathon 2025 — PORT PULSE', meta: '4:03' },
-      { id: '1so4BMui_68', title: 'The Blue Way Hackathon 2025 — BLUE ACCESS', meta: '2:36' },
-      { id: 'xcqPtoV4iqg', title: 'The Blue Way Hackathon 2025 — KNOT', meta: '2:52' },
-    ],
-  },
-  {
-    id: 'trieste-2025',
-    title: 'Trieste 2025 — Sfide per l’Adriatico del Futuro',
-    when: '13–14 ottobre 2025, dentro Barcolana57',
-    where: 'Urban Center, Corso Cavour 2/2, Trieste',
-    facts:
-      "Proposto dal progetto PNRR iNEST (Spoke 8) in collaborazione con Barcolana57. 30 partecipanti in rappresentanza di 15 startup e spin-off universitari, cinque team intitolati ai venti dell'Adriatico. Classifica finale: 1° Scirocco (AQUATWIN), 2° Libeccio (Barcolà), 3° ex aequo Tramontana (B.E.M.) e Bora (SCOVAZ), 4° Maestrale (Blue Echo). Giuria: Elena Grech (Commissione Europea), Carlo Bagnoli (iNEST), Franco Scolari (Polo Tecnologico Alto Adriatico), Piero Zecchini (Direttore Barcolana), Sonia Lussi (Confindustria Alto Adriatico).",
-    main: { id: 'aEM526rP08Q', title: 'The Blue Way Hack — Sfide per l’Adriatico del Futuro', meta: '3:13' },
-    related: [
-      { id: '-5aOGey7Aco', title: 'Team Scirocco — AquaTwin (1°)', meta: '2:02' },
-      { id: '5zF-WP9ELIk', title: 'Team Libeccio — Barcolà (2°)', meta: '2:19' },
-      { id: 'GMhwh01De2Q', title: 'Team Tramontana — B.E.M. (3° ex aequo)', meta: '3:22' },
-      { id: 'SiNLWE3-y9M', title: 'Team Bora — Scovaz (3° ex aequo)', meta: '1:45' },
-      { id: 'Na-TwzLKaJI', title: 'Team Maestrale — Blue Echo (4°)', meta: '3:25' },
-    ],
-  },
-];
-
-// Il giornale di bordo: voci datate, si legge dall'alto. NON è una
-// timeline interattiva (quella è la moviola di Tipicità: non si replica).
-const logbook = [
-  { date: '2014 · Ancona', text: 'Prima edizione: il festival porta il “laboratorio” fuori dai laboratori. La Mole Vanvitelliana diventa la base.' },
-  { date: 'maggio 2024 · Ancona', text: 'Vara The Blue Way: il primo hackathon mette nello stesso equipaggio studenti della Politecnica e di Trieste.' },
-  { date: 'maggio 2025 · Ancona', text: 'Dodicesima edizione, sette giorni: Sailing Chef a Marina Dorica, i cantieri Fincantieri aperti alle visite, l’escape room del mare per le scuole, 48 ore di hackathon italo-croato alla Mole.' },
-  { date: 'ottobre 2025 · Trieste', text: 'The Blue Way sale a bordo di Barcolana57: quindici spin-off, cinque sfide, un gemello digitale dell’Alto Adriatico sul tavolo.' },
-  { date: 'maggio 2026 · Ancona', text: 'Tredicesima edizione, 16–22 maggio. Blue Economy Days con la Commissione Europea: mercati in trasformazione, export digitale, intelligenza artificiale, biodiversità marina e ruolo femminile nello sviluppo costiero. L’Atlante degli artisti marchigiani apre la settimana: anche l’arte tiene il registro.' },
-];
-
-const chapters = [
-  { id: 'rotta', label: 'Rotta' },
-  { id: 'cantiere', label: 'Cantiere' },
-  { id: 'giornale-di-bordo', label: 'Giornale di bordo' },
-];
-
-// CROMIA (10/07/2026): Tipicità in Blu vive nel blu profondo della sua
-// palette ufficiale (112f49), con il 209fb6 come accento luminoso.
-// Logo: variante bianca (la versione a colori, 065082, sparirebbe sul blu).
 const theme = {
   '--bg-void': '#0a1a2b',
   '--bg-deep': '#112438',
   '--bg-mid': '#173049',
   '--text-soft': '#e9eef2',
-  '--text-dim': 'rgba(233, 238, 242, 0.64)',
-  '--text-faint': 'rgba(233, 238, 242, 0.4)',
-  '--hairline': 'rgba(233, 238, 242, 0.14)',
+  '--text-dim': 'rgba(233, 238, 242, 0.72)',
+  // 0.58: sotto questa soglia il testo piccolo scende sotto il 4.5:1 AA
+  // sul fondo #0a1a2b (verificato a schermo, non a occhio).
+  '--text-faint': 'rgba(233, 238, 242, 0.58)',
+  '--hairline': 'rgba(233, 238, 242, 0.16)',
 };
 
+// Il quadro strumenti: i temi come readout di plancia, non come elenco.
+const strumenti = [
+  'Cantieristica e nautica',
+  "Tutela dell'ecosistema marino",
+  'Pesca e acquacoltura',
+  'Porti e logistica',
+  'Biotecnologie blu',
+  'Energia dal mare',
+  'Turismo costiero',
+  'Scienze e dati del mare',
+  'Mestieri e formazione',
+  'Cultura marinara',
+];
+
+// Le metriche. `to` = valore finale per il conteggio; il testo finale è
+// comunque già nel markup (senza JS resta leggibile, e non c'è salto di
+// layout perché la larghezza è riservata prima di animare).
+const metriche = [
+  { to: 216.7, dec: 1, suffix: ' mld €', label: 'il valore della filiera del mare in Italia, l’11,3% del PIL' },
+  { to: 232841, dec: 0, suffix: '', label: 'le imprese della blue economy italiana' },
+  { to: 1089710, dec: 0, suffix: '', label: 'gli occupati, in crescita del 7,7%' },
+  { to: 15.9, dec: 1, prefix: '+', suffix: '%', label: 'la crescita del valore aggiunto diretto' },
+];
+const fmt = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+
+// Gli specchi del cantiere: gli esempi, sempre DOPO la piattaforma.
+const specchi = [
+  'Ad Ancona, nel vivo del festival, l’hackathon italo-croato: laureati e giovani imprenditori delle due sponde su sfide poste dalle PMI della nautica — transizione digitale, sostenibilità, ESG — dentro il programma Interreg BLUESLINKS.',
+  'A Trieste, dentro Barcolana, la selezione degli spin-off universitari: squadre multidisciplinari, sfide che vanno dalla biologia degli ecosistemi al gemello digitale dell’Alto Adriatico, con KIC One Water al tavolo.',
+  'Tra un appuntamento e l’altro, il lavoro che non si vede: reti di progetto, scambi tra laboratori, accompagnamento delle idee premiate verso bandi e mercati.',
+];
+
+// Chi trova cosa: scheda, non pitch. Si descrive, non si offre.
+const trova = [
+  'La ricerca vi trova la strada più corta tra un risultato scientifico e la sua applicazione.',
+  'Le imprese vi trovano problemi formulati bene e squadre giovani che li aggrediscono senza rendite di posizione.',
+  'Chi progetta su fondi europei vi trova consorzi già rodati su Interreg e iNEST, due sponde già connesse, casi pilota documentati.',
+  'Le istituzioni vi trovano un formato che tiene insieme sviluppo costiero, formazione e tutela — le tre cose che di solito viaggiano separate.',
+  'Gli studenti vi trovano il primo cantiere in cui il mare è una carriera possibile, non una vacanza.',
+];
+
 // NOTA PER PAOLO: l'edizione 2026 (16–22 maggio) è già passata rispetto a
-// oggi, quindi resta come ultima voce del registro e non viene annunciata
-// come prossima. Niente schema.org Event finché non ci sono le date 2027.
+// oggi: resta come dato di posizione, non viene annunciata come prossima.
+// Niente schema.org Event finché non ci sono le date 2027.
 ---
 
-<BrandLayout
+<BaseLayout
   title="Tipicità in Blu — Ancona, il mare come laboratorio di futuro"
-  description="Tipicità in Blu, Ancona: una settimana all'anno l'Adriatico diventa un laboratorio a cielo aperto. Blue economy, ricerca, cooperazione adriatica e la piattaforma The Blue Way."
+  description="Tipicità in Blu, Ancona: una settimana all'anno l'Adriatico diventa un laboratorio a cielo aperto. Blue economy, ricerca, cooperazione adriatica e il cantiere permanente The Blue Way."
   accent="#209fb6"
-  brandName="Tipicità in Blu"
-  chapters={chapters}
-  logoSrc="/logos/tipicita-in-blu-white.svg"
-  kicker="Ancona · ogni anno a maggio"
-  heroLine="Mare, laboratorio di futuro."
   theme={theme}
-  variant="v-tib"
 >
-  <Fragment slot="practical">
-    <span class="fix">43°37′N 13°30′E</span>
-    <span><strong>Base</strong> Ancona, Mole Vanvitelliana</span>
-    <span><strong>Ultima edizione</strong> 13ª · 16–22 maggio 2026</span>
-  </Fragment>
+  <BrandHeader slot="header" />
 
-  <!-- ══ 01 · ROTTA — la direzione ══ -->
-  <section class="chapter" id="rotta">
-    <h2 data-reveal>Rotta</h2>
-
-    <p data-reveal>Il mare non è un paesaggio: è un'infrastruttura. Ci passano le merci, l'energia, i dati, il cibo — e le domande a cui nessun laboratorio a terra sa rispondere da solo. Tipicità in Blu esiste per questo: una settimana all'anno, ad Ancona, il mare Adriatico diventa un laboratorio a cielo aperto.</p>
-
-    <!-- il dato in evidenza: lettura da strumento, non da brochure -->
-    <div class="quadrante" data-reveal>
-      <span class="q-label">Il dato di rotta</span>
-      <div class="q-letture">
-        <div class="q-lettura">
-          <span class="q-num">~3%</span>
-          <span class="q-desc">del PIL italiano — quanto vale oggi l'economia del mare</span>
-        </div>
-        <div class="q-lettura">
-          <span class="q-num">&gt;3×</span>
-          <span class="q-desc">il potenziale stimato</span>
-        </div>
-      </div>
-      <p class="q-nota">La distanza tra questi due numeri è la rotta: ricerca che diventa impresa, porti che diventano piattaforme, mestieri del mare che diventano carriere per chi oggi studia.</p>
+  <!-- ══ QUADRO D'APERTURA · LA PLANCIA ══ -->
+  <header class="plancia">
+    <div class="grigliato" aria-hidden="true"></div>
+    <div class="plancia-in">
+      <h1 class="sr-only">Tipicità in Blu</h1>
+      <img class="marchio" src="/logos/tipicita-in-blu-white.svg" alt="Tipicità in Blu" width="320" height="120" />
+      <p class="payoff">Mare, laboratorio di futuro</p>
+      <!-- righe-dato in segmenti: su schermo stretto scendono UNO PER RIGA
+           invece di spezzarsi a caso — la plancia resta plancia. -->
+      <p class="fix fix--apertura">
+        <span>43°37′N 13°30′E</span>
+        <span>Ancona, Mole Vanvitelliana</span>
+        <span>16–22 maggio 2026</span>
+      </p>
+      <nav class="matrici" aria-label="Sezioni">
+        <a href="#rotta">.Rotta</a>
+        <a href="#cantiere">.Cantiere</a>
+      </nav>
     </div>
+  </header>
 
-    <h3 data-reveal>La posizione</h3>
-    <p data-reveal>Ancona non è un punto qualsiasi della costa: è il capoluogo affacciato sul corridoio adriatico-ionico, dove l'Europa sperimenta la cooperazione tra due sponde. Da qui si lavora con università, centri di ricerca e imprese di due nazioni — perché l'Adriatico non divide due coste: le tiene insieme.</p>
-
-    <h3 data-reveal>Chi tiene la barra</h3>
-    <p data-reveal>Il festival è co-organizzato con il Comune di Ancona, con Regione Marche, Università Politecnica delle Marche e una rete di partner che va da Fincantieri a MSC, da Marina Dorica a Ecomondo. Non un cartellone di sponsor: l'equipaggio.</p>
-  </section>
-
-  <!-- ══ 02 · CANTIERE — The Blue Way ══
-       Regola di Paolo: la piattaforma PRIMA, gli hackathon come esempi POI. -->
-  <section class="chapter" id="cantiere">
-    <h2 data-reveal>Cantiere</h2>
-
-    <p data-reveal><strong>The Blue Way</strong> è un cantiere in movimento: una piattaforma permanente che prende i risultati della ricerca sul mare e li accompagna fino a diventare prototipi, imprese, progetti finanziabili. Promossa con il consorzio iNEST e una rete di atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — con un obiettivo dichiarato: trasformare tre anni di ricerca in soluzioni scalabili.</p>
-
-    <h3 data-reveal>Come lavora il cantiere</h3>
-    <p data-reveal>Design sprint, non convegni: squadre multidisciplinari, sfide reali poste da imprese e centri di ricerca, mentori, 30–48 ore di lavoro, un prototipo alla fine. Le sfide sono concrete: biologia degli ecosistemi marini, gestione dei rischi sull'idrosfera, trasporto costiero sostenibile, pianificazione integrata terra-mare, il gemello digitale dell'Alto Adriatico.</p>
-
-    <div class="blue-pillole">
-      <h3 data-reveal>Pillole — progetti e buone pratiche</h3>
-      <p class="pillole-intro" data-reveal>Una raccolta pensata per chi lavora nella blue economy — europrogettisti, ricercatori, operatori — con casi, progetti europei e buone pratiche condivisi dalla rete The Blue Way.</p>
-      <div class="video-grid" data-reveal>
-        {bluePillole.map((v) => (
-          <VideoCard youtubeId={v.id} title={v.title} meta={v.meta} />
-        ))}
-      </div>
+  <!-- barra di strumento: resta agganciata, segna dove si è -->
+  <div class="barra">
+    <div class="barra-in">
+      <img class="barra-marchio" src="/logos/tipicita-in-blu-white.svg" alt="" width="90" height="34" />
+      <nav aria-label="Sezioni della pagina">
+        <a href="#rotta" data-nav="rotta">.Rotta</a>
+        <a href="#cantiere" data-nav="cantiere">.Cantiere</a>
+      </nav>
+      <span class="fix barra-fix" aria-hidden="true">43°37′N 13°30′E</span>
     </div>
+  </div>
 
-    <div class="blue-hackathons">
-      <h3 data-reveal>Gli esempi</h3>
-      <p class="pillole-intro" data-reveal>Ad Ancona, l'hackathon nel vivo del festival: laureati e giovani imprenditori di Italia e Croazia, in due lingue, su sfide poste dalle PMI della nautica — Transizione 5.0 ed ESG — dentro il programma Interreg Italia–Croazia BLUESLINKS. A Trieste, dentro Barcolana — la regata più partecipata del mondo — la selezione degli spin-off universitari: quindici squadre, cinque sfide, il Polo Tecnologico Alto Adriatico e KIC One Water al tavolo.</p>
+  <main>
+    <!-- ══ .ROTTA — che cosa è, dove guarda ══ -->
+    <section class="matrice" id="rotta" aria-labelledby="h-rotta">
+      <div class="wrap">
+        <h2 id="h-rotta" data-reveal>Rotta</h2>
 
-      {hackathons.map((h) => (
-        <article class="hack-card" data-reveal>
-          <h4>{h.title}</h4>
-          <div class="hack-meta">
-            <span><strong>Quando</strong> {h.when}</span>
-            <span><strong>Dove</strong> {h.where}</span>
-          </div>
-          <p class="hack-facts">{h.facts}</p>
-          <div class="hack-main-video">
-            <VideoCard youtubeId={h.main.id} title={h.main.title} meta={h.main.meta} />
-          </div>
-          <div class="video-grid video-grid--related">
-            {h.related.map((v) => (
-              <VideoCard youtubeId={v.id} title={v.title} meta={v.meta} />
+        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il punto d'incontro di chi su quel sistema lavora — imprese, ricercatori, istituzioni, naviganti — e di chi nel mare vede una risorsa da capire prima ancora che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
+
+        <div class="blocco" data-reveal>
+          <h3>La visione</h3>
+          <p>"Mare, laboratorio di futuro" non è uno slogan: è un metodo. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico, la Mole Vanvitelliana, e le fa dialogare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa.</p>
+        </div>
+
+        <!-- il quadro strumenti: readout di plancia, non elenco puntato -->
+        <div class="quadro" data-reveal>
+          <span class="quadro-label">Il quadro strumenti · i temi sul tavolo</span>
+          <ul class="strumenti">
+            {strumenti.map((s, i) => (
+              <li><span class="s-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="s-voce">{s}</span></li>
             ))}
-          </div>
-        </article>
-      ))}
-    </div>
+          </ul>
+        </div>
 
-    <div class="varco" data-reveal>
-      <h3>Per chi progetta</h3>
-      <p>Se scrivi progetti europei, qui trovi consorzi già rodati su Interreg e iNEST, due sponde dell'Adriatico già connesse e una piattaforma che sa passare dal paper al prototipo. Il cantiere è aperto.</p>
-      <a class="varco-link" href="https://theblueway.it" target="_blank" rel="noopener">theblueway.it</a>
-    </div>
-  </section>
+        <!-- il pannello metriche: le cifre contano da zero all'ingresso -->
+        <div class="metriche" data-reveal>
+          <span class="quadro-label">Le metriche</span>
+          <dl class="letture">
+            {metriche.map((m) => (
+              <div class="lettura">
+                <dt class="l-num" data-to={m.to} data-dec={m.dec} data-prefix={m.prefix ?? ''} data-suffix={m.suffix}>
+                  {(m.prefix ?? '') + fmt(m.to, m.dec) + m.suffix}
+                </dt>
+                <dd class="l-desc">{m.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <p class="fonte">XIII Rapporto Nazionale sull'Economia del Mare, 2025</p>
+          <p class="q-nota">Il punto della rotta: il valore diretto dell'economia del mare è ancora una frazione del potenziale — la distanza tra il dato e il potenziale è la rotta del festival.</p>
+        </div>
 
-  <!-- ══ 03 · GIORNALE DI BORDO — le annotazioni ══
-       Registro nautico: voci datate, si legge dall'alto. Non interattivo. -->
-  <section class="chapter" id="giornale-di-bordo">
-    <h2 data-reveal>Giornale di bordo</h2>
+        <div class="blocco" data-reveal>
+          <h3>La posizione</h3>
+          <p>Ancona guarda il corridoio adriatico-ionico: due sponde, sette paesi, una strategia europea (EUSAIR) che qui trova uno dei suoi luoghi di lavoro. Il festival opera dentro questa geografia — con la Commissione Europea nelle Blue Economy Days, con i programmi Interreg Italia–Croazia, con gli atenei delle due coste. L'Adriatico non divide due sponde: le tiene insieme.</p>
+        </div>
 
-    <ol class="registro">
-      {logbook.map((v) => (
-        <li data-reveal>
-          <span class="r-data">{v.date}</span>
-          <span class="r-testo">{v.text}</span>
-        </li>
-      ))}
-    </ol>
+        <div class="blocco" data-reveal>
+          <h3>L'equipaggio</h3>
+          <p>Comune di Ancona, Regione Marche, Università Politecnica delle Marche, Fincantieri, MSC, Marina Dorica, Ecomondo, il sistema camerale e bancario del territorio. Non un cartellone di patrocini: le realtà che tengono la barra, ciascuna per la propria parte di rotta.</p>
+        </div>
+      </div>
+    </section>
 
-    <p class="registro-chiusura" data-reveal>Un festival che dura una settimana, un cantiere che lavora tutto l'anno. Il giornale di bordo resta aperto.</p>
-    <p class="fix fix--chiusura" data-reveal>43°37′N 13°30′E — prossima annotazione: maggio 2027.</p>
-  </section>
-</BrandLayout>
+    <!-- ══ .CANTIERE — The Blue Way ══
+         Regola di Paolo: la piattaforma PRIMA, gli esempi POI. Mai il contrario. -->
+    <section class="matrice matrice--alt" id="cantiere" aria-labelledby="h-cantiere">
+      <div class="wrap">
+        <h2 id="h-cantiere" data-reveal>Cantiere</h2>
+
+        <p class="apertura" data-reveal>Dalla collaborazione con il Polo Tecnologico Alto Adriatico e con il consorzio di ricerca iNEST nasce The Blue Way: un cantiere progettuale fondato su un principio semplice — condivisione. Buone prassi che circolano tra le due sponde dell'Adriatico, talenti che si formano lavorando su problemi veri, risultati di ricerca che non restano nei paper.</p>
+
+        <div class="blocco" data-reveal>
+          <h3>Il cantiere aperto</h3>
+          <p>The Blue Way non coincide con la manifestazione: lavora tutto l'anno, con ricadute sul territorio italiano e oltre. È una piattaforma permanente che collega gli atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — le imprese che pongono le sfide e i giovani che le raccolgono. Il metodo è quello del cantiere: si progetta, si prototipa, si vara. E ogni varo apre il progetto successivo.</p>
+        </div>
+
+        <div class="blocco" data-reveal>
+          <h3>Gli specchi del cantiere</h3>
+          <ul class="specchi">
+            {specchi.map((s, i) => (
+              <li><span class="sp-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span>{s}</span></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="blocco" data-reveal>
+          <h3>Chi trova cosa</h3>
+          <ul class="trova">
+            {trova.map((t) => <li>{t}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CHIUSURA — una riga, da plancia ══ -->
+    <section class="chiusura" aria-label="Chiusura">
+      <p class="fix fix--chiusura" data-reveal>
+        Il laboratorio è aperto. 43°37′N 13°30′E —
+        <a class="varco" href="https://theblueway.it" target="_blank" rel="noopener">theblueway.it</a>
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* selezione nei colori del marchio (dettaglio che si nota se manca) */
+  ::selection { background: rgba(32, 159, 182, 0.32); color: #fff; }
+</style>
 
 <style>
-  /* ── La strumentazione: monospazio da plancia per coordinate e date ──
-     Stack di sistema: nessun font aggiuntivo da scaricare. */
-  .fix {
+  /* ── Token della pagina: una sola curva, durate corte. Stessa curva
+       usata su Tipicità, così il sito ha un'unica mano. ── */
+  .plancia, .barra, main { --ease: cubic-bezier(0.55, 0.05, 0.18, 1); }
+  .mono, .fix, .quadro-label, .s-idx, .sp-idx, .fonte, .barra nav a, .matrici a {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.82rem;
-    letter-spacing: 0.02em;
-    color: var(--brand-accent);
   }
 
-  .fix--chiusura {
-    margin-top: 1.4rem;
+  /* ══ LA PLANCIA ══ */
+  .plancia {
+    position: relative;
+    min-height: 88svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1.6rem 4rem;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 42%, rgba(32, 159, 182, 0.16), transparent 70%),
+      var(--bg-void);
+  }
+  /* carta nautica appena percettibile: reticolo di strumento, zero asset */
+  .grigliato {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(233, 238, 242, 0.055) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgba(233, 238, 242, 0.055) 0 1px, transparent 1px 64px);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
+    pointer-events: none;
+  }
+  .plancia-in { position: relative; max-width: 60rem; }
+  .marchio { width: min(64vw, 320px); height: auto; display: block; margin: 0 auto; }
+  .payoff {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+    color: var(--text-soft);
+    margin: 1.6rem 0 1.8rem;
+    line-height: 1.25;
+  }
+  .fix {
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--brand-accent);
+    margin: 0;
+  }
+  /* i segmenti stanno in riga, separati dal punto medio; il separatore è
+     generato, così sparisce da solo quando i segmenti si impilano */
+  .fix--apertura {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    line-height: 1.9;
+  }
+  .fix--apertura span + span::before {
+    content: '·';
+    margin-right: 0.6rem;
     color: var(--text-faint);
   }
+  .matrici {
+    display: flex;
+    justify-content: center;
+    gap: 2.2rem;
+    margin-top: 2.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+  .matrici a {
+    color: var(--text-soft);
+    text-decoration: none;
+    padding: 0.4rem 0.2rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .matrici a:hover { border-color: var(--brand-accent); }
+  .matrici a:active { color: var(--brand-accent); }
 
-  /* ── Il quadrante: il dato di rotta come lettura da strumento ── */
-  .quadrante {
-    border: 1px solid var(--hairline);
-    border-left: 2px solid var(--brand-accent);
-    background: var(--bg-deep);
-    padding: 1.6rem 1.6rem 1.4rem;
-    margin: 2rem 0 2.4rem;
+  /* ══ BARRA DI STRUMENTO ══ */
+  .barra {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in srgb, var(--bg-void) 86%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .barra-in {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 0.7rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+  .barra-marchio { height: 26px; width: auto; flex: none; opacity: 0.9; }
+  .barra nav { display: flex; gap: 1.4rem; }
+  .barra nav a {
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+    text-decoration: none;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .barra nav a:hover { color: var(--text-soft); }
+  .barra nav a:active { color: var(--brand-accent); }
+  .barra nav a[aria-current='true'] { color: var(--brand-accent); border-color: var(--brand-accent); }
+  .barra-fix { margin-left: auto; color: var(--text-faint); font-size: 0.7rem; }
+  @media (max-width: 560px) { .barra-fix { display: none; } }
+
+  /* ══ MATRICI ══ */
+  .matrice { padding: clamp(3.4rem, 9vh, 6rem) 0; }
+  .matrice--alt { background: var(--bg-deep); }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.6rem; }
+
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--brand-accent);
+    margin: 0 0 1.4rem;
+  }
+  h2::before { content: '.'; color: var(--text-faint); }
+
+  h3 {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    margin: 0 0 0.6rem;
   }
 
-  .q-label {
+  /* text-wrap: pretty → il browser evita le ultime righe con una parola sola
+     (righe orfane trovate in audit a 390 e 1440). Dove non è supportato,
+     degrada al ritorno a capo normale. */
+  .apertura, .blocco p, .q-nota, .l-desc, .specchi li, .trova li { text-wrap: pretty; }
+
+  .apertura {
+    font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+    line-height: 1.75;
+    color: var(--text-soft);
+    max-width: 60ch;
+    margin: 0 0 2.6rem;
+  }
+  .blocco { margin: 0 0 2.4rem; max-width: 62ch; }
+  .blocco p { color: var(--text-dim); line-height: 1.75; margin: 0; }
+
+  /* ── il quadro strumenti: readout, due colonne di sigle ── */
+  .quadro, .metriche {
+    border: 1px solid var(--hairline);
+    border-left: 2px solid var(--brand-accent);
+    background: rgba(233, 238, 242, 0.028);
+    padding: 1.5rem 1.6rem 1.4rem;
+    margin: 0 0 2.4rem;
+  }
+  .quadro-label {
     display: block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-faint);
     margin-bottom: 1.1rem;
   }
-
-  .q-letture {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.2rem 3rem;
+  .strumenti {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+    gap: 0.1rem 1.8rem;
   }
-
-  .q-lettura {
+  .strumenti li {
     display: flex;
     align-items: baseline;
     gap: 0.7rem;
-    max-width: 30ch;
+    padding: 0.42rem 0;
+    border-bottom: 1px solid rgba(233, 238, 242, 0.07);
+  }
+  .s-idx { font-size: 0.66rem; color: var(--brand-accent); flex: none; }
+  .s-voce {
+    font-size: 0.82rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    line-height: 1.4;
   }
 
-  .q-num {
+  /* ── il pannello metriche ── */
+  .letture {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1.8rem 2rem;
+  }
+  .lettura { margin: 0; }
+  .l-num {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
-    font-size: clamp(2.2rem, 5vw, 3rem);
-    line-height: 1;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    line-height: 1.05;
     color: var(--brand-accent);
-    flex: none;
+    font-variant-numeric: tabular-nums;
+    margin: 0 0 0.35rem;
   }
-
-  .q-desc {
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.84rem;
-    line-height: 1.5;
+  .l-desc {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.55;
     color: var(--text-dim);
+    max-width: 26ch;
   }
-
+  .fonte {
+    margin: 1.4rem 0 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
   .q-nota {
-    margin: 1.2rem 0 0;
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    max-width: 62ch;
-  }
-
-  /* ── Il varco verso la piattaforma ── */
-  .varco {
-    border-top: 1px solid var(--hairline);
-    margin-top: 2.6rem;
-    padding-top: 1.8rem;
-  }
-
-  .varco p {
-    max-width: 62ch;
-    color: var(--text-dim);
-  }
-
-  .varco-link {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.9rem;
-    color: var(--brand-accent);
-    text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent) 45%, transparent);
-    padding-bottom: 2px;
-  }
-
-  .varco-link:hover {
-    border-color: var(--brand-accent);
-  }
-
-  /* ── Il registro: voci datate, allineate come un log ── */
-  .registro {
-    list-style: none;
-    margin: 0.4rem 0 0;
-    padding: 0;
-    border-top: 1px solid var(--hairline);
-  }
-
-  .registro li {
-    display: grid;
-    grid-template-columns: 15rem 1fr;
-    gap: 0 1.6rem;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--hairline);
-  }
-
-  .r-data {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.02em;
-    color: var(--brand-accent);
-    padding-top: 0.2rem;
-  }
-
-  .r-testo {
-    font-size: 0.98rem;
+    margin: 1rem 0 0;
+    font-size: 0.94rem;
     line-height: 1.7;
     color: var(--text-dim);
     max-width: 62ch;
   }
 
-  .registro-chiusura {
-    margin-top: 1.8rem;
-    max-width: 62ch;
-  }
-
-  @media (max-width: 700px) {
-    .registro li { grid-template-columns: 1fr; gap: 0.35rem; }
-    .r-data { padding-top: 0; }
-  }
-
-  /* ── Cantiere: pillole e hackathon (invariati) ── */
-  .blue-pillole,
-  .blue-hackathons {
-    margin-top: 2.4rem;
-  }
-
-  .blue-pillole h3,
-  .blue-hackathons h3 {
-    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
-  }
-
-  .pillole-intro {
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.88rem;
-    color: var(--text-dim);
-    max-width: 62ch;
-  }
-
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.6rem 1.2rem;
-    margin: 1.4rem 0 0.4rem;
-  }
-
-  .video-grid--related {
-    margin-top: 1rem;
-  }
-
-  .hack-card {
-    border-top: 1px solid var(--hairline);
-    padding: 2.2rem 0;
-  }
-
-  .hack-card:first-of-type {
-    margin-top: 1.8rem;
-  }
-
-  .hack-card h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--brand-accent);
-    margin: 0 0 0.5rem;
-  }
-
-  .hack-meta {
+  /* ── specchi e scheda ── */
+  .specchi, .trova { list-style: none; margin: 0; padding: 0; }
+  .specchi li {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem 1.4rem;
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.82rem;
+    gap: 0.9rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--hairline);
     color: var(--text-dim);
-    margin-bottom: 0.8rem;
+    line-height: 1.7;
   }
-
-  .hack-meta strong {
-    color: var(--text-soft);
-    font-weight: 500;
-  }
-
-  .hack-facts {
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.88rem;
+  .specchi li:first-child { padding-top: 0.3rem; }
+  .sp-idx { font-size: 0.68rem; color: var(--brand-accent); flex: none; padding-top: 0.35rem; }
+  .trova li {
+    padding: 0.7rem 0 0.7rem 1.4rem;
+    position: relative;
     color: var(--text-dim);
-    max-width: 62ch;
+    line-height: 1.7;
+  }
+  .trova li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.35rem;
+    width: 6px;
+    height: 1px;
+    background: var(--brand-accent);
   }
 
-  .hack-main-video {
-    max-width: 360px;
-    margin: 1.2rem 0 0.6rem;
+  /* ══ CHIUSURA ══ */
+  .chiusura {
+    border-top: 1px solid var(--hairline);
+    padding: 2.6rem 1.6rem 3rem;
+    text-align: center;
+  }
+  .fix--chiusura { font-size: 0.8rem; line-height: 2; }
+  .varco {
+    display: inline-block;
+    color: var(--brand-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(32, 159, 182, 0.45);
+    /* area toccabile ≥24px (WCAG 2.5.8) senza ingrandire il segno */
+    padding: 4px 2px 3px;
+    transition: border-color 0.25s var(--ease);
+  }
+  .varco:hover { border-color: var(--brand-accent); }
+  .varco:active { color: var(--text-soft); }
+
+  /* ══ FUOCO DISEGNATO — non l'anello di sistema ══ */
+  .matrici a:focus-visible,
+  .barra nav a:focus-visible,
+  .varco:focus-visible {
+    outline: none;
+    color: var(--brand-accent);
+    border-color: var(--brand-accent);
+    box-shadow: 0 2px 0 0 var(--brand-accent), 0 0 0 4px rgba(32, 159, 182, 0.18);
+    border-radius: 1px;
+  }
+
+  /* ══ RESPONSIVE: la plancia resta plancia ══ */
+  @media (max-width: 900px) {
+    .strumenti { grid-template-columns: 1fr 1fr; gap: 0.1rem 1.4rem; }
+  }
+  @media (max-width: 620px) {
+    .plancia { min-height: 78svh; padding: 5rem 1.2rem 3rem; }
+    .wrap { padding: 0 1.2rem; }
+    /* schermo stretto: i segmenti scendono uno per riga, allineati e interi.
+       Niente a-capo casuale a metà di una coordinata. */
+    .fix--apertura {
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+    .fix--apertura span + span::before { content: none; margin: 0; }
+    .strumenti { grid-template-columns: 1fr; }
+    .s-voce { font-size: 0.78rem; }
+    .letture { grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
+    .l-desc { font-size: 0.78rem; }
+    .quadro, .metriche { padding: 1.2rem 1.1rem 1.1rem; }
+    .matrici { gap: 1.6rem; }
+  }
+  @media (max-width: 380px) {
+    .letture { grid-template-columns: 1fr; }
+  }
+
+  /* ══ MOTO: solo dissolvenza; sotto reduced-motion sparisce del tutto ══ */
+  @media (prefers-reduced-motion: reduce) {
+    .matrici a, .barra nav a, .varco, .l-num { transition: none; }
   }
 </style>
+
+<script>
+  // ── LE METRICHE CONTANO DA ZERO ──
+  // Una volta sola, all'ingresso in viewport (niente loop). Il valore
+  // finale è già nel markup: senza JS resta leggibile, e la larghezza
+  // viene riservata PRIMA di azzerare, così non c'è scarto di layout.
+  const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nums = Array.from(document.querySelectorAll('.l-num'));
+
+  function conta(el) {
+    const to = parseFloat(el.dataset.to);
+    const dec = parseInt(el.dataset.dec, 10);
+    const pre = el.dataset.prefix || '';
+    const suf = el.dataset.suffix || '';
+    const scrivi = (v) => {
+      el.textContent = pre + v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf;
+    };
+    const D = 600; // dentro la forbice 200–600ms della regia
+    const t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / D);
+      scrivi(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+      else scrivi(to);
+    })(t0);
+  }
+
+  if (nums.length && !ridotto && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((voci) => {
+      voci.forEach((v) => {
+        if (!v.isIntersecting) return;
+        io.unobserve(v.target); // una volta sola
+        const el = v.target;
+        el.style.minWidth = el.getBoundingClientRect().width + 'px'; // niente salto
+        conta(el);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach((n) => io.observe(n));
+  }
+
+  // ── la barra segna la matrice in cui ci si trova ──
+  const voci = Array.from(document.querySelectorAll('.barra nav a'));
+  const sezioni = voci.map((a) => document.getElementById(a.dataset.nav)).filter(Boolean);
+  if (sezioni.length && 'IntersectionObserver' in window) {
+    const spia = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        voci.forEach((a) => a.setAttribute('aria-current', a.dataset.nav === e.target.id ? 'true' : 'false'));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sezioni.forEach((s) => spia.observe(s));
+  }
+</script>

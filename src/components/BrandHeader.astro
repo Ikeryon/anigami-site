@@ -14,7 +14,10 @@ import imaginaLogotype from '../assets/imagina-logotype.svg?raw';
 </header>
 
 <style>
-  .back-link { display: block; width: 78px; color: #fff; mix-blend-mode: difference; opacity: 0.75; }
+  /* padding verticale: porta l'area toccabile oltre i 24px (WCAG 2.5.8)
+     senza cambiare la dimensione del segno */
+  .back-link { display: block; width: 78px; padding: 7px 0; box-sizing: content-box;
+    color: #fff; mix-blend-mode: difference; opacity: 0.75; }
   .back-link :global(svg) { display: block; width: 100%; height: auto; }
   .back-link:hover { opacity: 1; }
   .back-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
