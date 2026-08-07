@@ -1,62 +1,100 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ImaginaHeader from '../components/ImaginaHeader.astro';
 
-// NOTA PER PAOLO: l'hero punta a /hero-imagina.mp4 — il video che stai
-// preparando. Finché non esiste, il browser semplicemente non mostra nulla
-// lì (nessuna icona rotta) e resta visibile il gradiente di sfondo, quindi
-// va già online in sicurezza anche senza il file. Basta caricare il video
-// con questo nome in public/ quando è pronto, nessun'altra modifica.
+// ══════════════════════════════════════════════════════════════════════
+// LA HOME — IL PALCOSCENICO (BRIEF-HOME.md, tavolo del 07/08/2026)
 //
-// Il bordo irregolare che separa l'hero dal resto della pagina è un gesto
-// disegnato a mano, non un'onda geometrica — eco della pennellata bianca
-// del logo Imagina (brief, sez. 8).
+// Una sola inquadratura, nessuno scroll. Il bianco #faf9f6 è il palco
+// vuoto; al centro l'unico gesto (il logo che si compone, UNA volta);
+// tutto il resto sono cose da APRIRE, non da scorrere. Ogni apertura è
+// un taglio di montaggio a copertura piena, ogni chiusura riporta al
+// palco. I due soli verbi di regia: il TAGLIO (cambio di punto di
+// vista) e la DISSOLVENZA (non-ritorno).
 //
-// UPGRADE OSSATURA (10/07/2026): i quattro marchi non sono più card in
-// griglia ma pannelli-manifesto a tutta larghezza, in sequenza — ognuno
-// respira nel proprio colore e occupa la scena da solo: il sito è un
-// contenitore di poster autonomi, e la home è il corridoio del cinema.
-// Tra hero e pannelli, una sola dichiarazione di metodo.
-// Le righe di testo sono bozze mie: sostituiscile con parole tue.
+// ⚠️ REGOLE SOVRANE — la parola "anigami" non compare mai (vive solo
+// in info@anigami.it); mai "quattro festival" (sono i progetti
+// principali); i giochi di senso non si spiegano.
 //
-// CORREZIONE (10/07/2026, nota di Paolo): questi NON sono "quattro
-// festival" e Imagina non si esaurisce in essi — sono i progetti
-// principali di una rete che fa marketing territoriale, comunicazione
-// integrata, networking tra filiere dal 1991. Copy aggiornato ovunque.
-//
-// CROMIA: la home sta su un bianco luminoso; ogni progetto porta il
-// proprio colore. Gli accenti dei pannelli sono in tono "inchiostro"
-// (leggibili su chiaro); gli ufficiali restano sulle rispettive landing.
+// Il footer classico NON esiste in home: vive dentro l'overlay Imagina.
+// I quattro nomi restano <a> veri verso le landing: senza JS il sito è
+// integralmente navigabile e le route esistenti restano raggiungibili.
+// ══════════════════════════════════════════════════════════════════════
 
-const brands = [
+// I quattro progetti. `verso` = il dato di metodo che il pubblico non
+// vede (BRIEF-HOME §5, trascritto tale e quale: non si riformula).
+// `campo` = la cromia del marchio che si accende sul palco bianco.
+const progetti = [
   {
+    id: 'tipicita',
+    nome: 'Tipicità',
     href: '/tipicita/',
-    name: 'Tipicità',
-    tagline: 'Il festival delle traiettorie indigene. Dal 1993, Fermo.',
-    accent: '#035f6a',
+    verso: 'otto mesi di produzione per tre giorni di festival',
+    riga: 'Il festival delle traiettorie indigene. Fermo, dal 1993.',
+    logo: '/logos/tipicita-wordmark-white.svg',
+    logoW: 662,
+    logoH: 201,
+    campo: '#035f6a',
+    inchiostro: '#fcfcfa',
   },
   {
+    id: 'grand-tour',
+    nome: 'Grand Tour delle Marche',
     href: '/grand-tour-delle-marche/',
-    name: 'Grand Tour delle Marche',
-    tagline: 'Un laboratorio di comunità a geometria variabile. Dal 2015.',
-    accent: '#d1544c',
+    verso: 'ciò che resta quando è già ripartito',
+    riga: 'Un itinerario che dura una stagione: 73 comuni e la strada continua.',
+    logo: '/logos/grand-tour.svg',
+    logoW: 257,
+    logoH: 103,
+    // ⚠️ DECISIONE DA VALIDARE CON PAOLO. Il Grand Tour è l'unico dei
+    // quattro senza un colore pieno nella propria cromia: la sua carta
+    // calda #fbf4ec è indistinguibile dal bianco del palco, e il corallo
+    // #ee726c/#d1544c non regge il testo (2,6:1 e 3,8:1, sotto l'AA).
+    // Si usa allora il suo inchiostro, il bruno caldo #2b1d16 già
+    // dichiarato come --text-soft della landing: il nastro corallo del
+    // marchio si accende, e tutto il testo passa (14,8:1).
+    // Alternativa provata e scartata: campo sabbia #f4e8da con il logo a
+    // colori — corretto ma senza il "taglio" del colore pieno.
+    campo: '#2b1d16',
+    inchiostro: '#fbf4ec',
   },
   {
+    id: 'tipicita-in-blu',
+    nome: 'Tipicità in Blu',
     href: '/tipicita-in-blu/',
-    name: 'Tipicità in Blu',
-    tagline: 'Mare, laboratorio di futuro. Ancona.',
-    accent: '#17849b',
+    verso: "due sponde dell'Adriatico, un solo cantiere",
+    riga: 'Mare, laboratorio di futuro. Ancona, la Mole, la rotta.',
+    logo: '/logos/tipicita-in-blu-white.svg',
+    logoW: 259,
+    logoH: 76,
+    campo: '#112f49',
+    inchiostro: '#eaf2f6',
   },
   {
+    id: 'evo',
+    nome: 'EVO',
     href: '/evo/',
-    name: 'EVO',
-    tagline: 'I linguaggi del terzo millennio. Macerata.',
-    accent: '#7f1244',
+    verso: 'si impara a cooperare giocando',
+    riga: 'I linguaggi del gioco. Macerata, ogni dicembre.',
+    logo: '/logos/evo.svg',
+    logoW: 435,
+    logoH: 140,
+    campo: '#7f1244',
+    inchiostro: '#f6e7ee',
   },
 ];
 
-// Bianco luminoso: non un #fff da laboratorio, una carta calda che fa
-// respirare il gradiente Imagina e i colori dei progetti.
+// MUTAMENTI — feed statico finché non arriva Directus (BRIEF-HOME §2).
+// ⚠️ NESSUN DATO INVENTATO: ogni riga è un fatto già presente e
+// approvato altrove nel sito (note di produzione, landing EVO e GT,
+// schema.org di Tipicità). Da sostituire col feed vero.
+const mutamenti = [
+  { data: '12–14 marzo 2027', testo: 'Tipicità, Fermo.' },
+  { data: '2026', testo: 'Grand Tour delle Marche, tredicesima edizione.' },
+  { data: '1 luglio 2026', testo: 'La trasformazione in Società Benefit è effettiva.' },
+  { data: 'dicembre 2025', testo: 'EVO, i linguaggi del gioco: piazza e centro storico di Macerata diventano uno spazio di gioco all’aperto.' },
+];
+
+// Bianco luminoso: non un #fff da laboratorio, una carta calda.
 const theme = {
   '--bg-void': '#faf9f6',
   '--bg-deep': '#f0eee8',
@@ -64,287 +102,665 @@ const theme = {
   '--text-soft': '#1b1a1f',
   '--text-dim': 'rgba(27, 26, 31, 0.66)',
   '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  // Il magenta del marchio (#e6007e) sulla carta sta a 4,27:1: sotto l'AA
+  // per il testo piccolo. Dove il magenta fa da inchiostro si usa questo
+  // tono scurito (5,8:1); il gradiente resta quello ufficiale.
+  '--imagina-ink': '#c1006a',
   '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Imagina Srl Società Benefit',
+  url: 'https://anigami.it',
+  email: 'info@anigami.it',
+  foundingDate: '1991',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Viale Giacomo Leopardi, 14',
+    addressLocality: 'Camerino',
+    addressRegion: 'Marche',
+    postalCode: '62032',
+    addressCountry: 'IT',
+  },
+  vatID: 'IT01115460436',
 };
 ---
 
 <BaseLayout
   title="Imagina Srl Società Benefit"
-  description="Imagina Srl Società Benefit, Camerino: marketing territoriale e comunicazione integrata dal 1991. Una rete di circa 300 realtà. I progetti principali: Tipicità, Grand Tour delle Marche, Tipicità in Blu, EVO."
+  description="Imagina Srl Società Benefit, Camerino: dal 1991 progetta e produce piattaforme di valorizzazione territoriale. La struttura di produzione dietro Tipicità, Grand Tour delle Marche, Tipicità in Blu ed EVO."
   theme={theme}
+  structuredData={structuredData}
 >
-  <ImaginaHeader slot="header" />
+  <main class="palco">
+    <h1 class="sr-only">Imagina Srl Società Benefit</h1>
 
-  <section class="hero">
-    <video
-      class="hero-video"
-      autoplay
-      muted
-      loop
-      playsinline
-      poster="/logo-imagina.svg"
+    <!-- ══ ALTO DESTRA · le voci della casa ══ -->
+    <div class="cornice">
+      <a class="voce-casa" href="/note-di-produzione/" data-apre="ov-imagina">Imagina</a>
+      <button class="voce-minore" type="button" data-apre="ov-mutamenti">Mutamenti</button>
+    </div>
+
+    <!-- ══ CENTRO · il logo che si compone, una volta sola ══ -->
+    <div class="scena">
+      <video
+        id="hero"
+        class="hero"
+        width="1920"
+        height="1080"
+        muted
+        playsinline
+        preload="metadata"
+        poster="/home/hero-imagina-poster.jpg"
+        aria-label="Il logo di Imagina che si compone"
+      >
+        <source src="/home/hero-imagina.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <!-- ══ BASSO · le quattro voci, sola tipografia ══ -->
+    <nav class="voci" aria-label="I progetti principali">
+      <ul>
+        {progetti.map((p) => (
+          <li>
+            {/* il nome PRIMA del verso nel DOM: il verso è fuori flusso
+                (position: absolute), quindi la resa non cambia, ma il nome
+                accessibile del link comincia dal nome del progetto. */}
+            <a class="voce" href={p.href} data-apre={`ov-${p.id}`}>
+              <span class="nome">{p.nome}</span>
+              <span class="verso">{p.verso}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </main>
+
+  <!-- ══════════ I SIPARI ══════════ -->
+
+  <!-- Il profilo della casa: qui dentro vive anche il piede pagina. -->
+  <dialog id="ov-imagina" class="sipario sipario--casa" aria-labelledby="ov-imagina-t">
+    <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
+      <span aria-hidden="true">×</span>
+    </button>
+    <div class="sipario-in casa-in">
+      <p class="kicker" id="ov-imagina-t">Imagina Srl Società Benefit</p>
+
+      <p class="profilo">Imagina è una società benefit marchigiana che dal 1991 progetta e produce piattaforme di valorizzazione territoriale: festival, itinerari, missioni internazionali, format che mettono in relazione imprese, università, istituzioni e comunità. È la struttura di produzione dietro Tipicità, il Grand Tour delle Marche, Tipicità in Blu ed EVO — quattro progetti autonomi, quattro linguaggi, una sola rete: circa trecento realtà pubbliche e private che lavorano insieme tutto l'anno. Il metodo è sempre lo stesso: partire da ciò che un territorio sa fare, costruirci intorno relazioni che restano. I festival durano giorni; il lavoro che li rende possibili — e ciò che lasciano — dura anni. Questa casa racconta quel lavoro: il dietro le quinte è il nostro mestiere.</p>
+
+      <h2 class="perche">Perché società benefit</h2>
+      <p class="profilo">Società benefit non è una formula: è l'oggetto sociale. Per Imagina significa che la cura del territorio non è il contorno del lavoro — è il lavoro. Valorizzare i talenti di una regione ad ampio spettro: gli artigiani e i ricercatori, i produttori e gli studenti, chi tiene aperta una bottega in un borgo e chi in un laboratorio studia il mare. Il profitto serve a tenere in piedi la struttura; lo scopo è che i territori dove lavoriamo stiano meglio di come li abbiamo trovati.</p>
+
+      <!-- il piede di sito: resta agganciato in basso mentre il profilo
+           scorre, così gli accessi non finiscono mai fuori campo -->
+      <div class="piede-blocco">
+        <nav class="accessi" aria-label="Approfondimenti e contatti">
+          <a href="/note-di-produzione/">Note di produzione</a>
+          <a href="/entra-in-scena/">Entra in scena</a>
+          <button type="button" data-apre="ov-mutamenti" data-sostituisce>Mutamenti</button>
+          <a href="mailto:info@anigami.it">info@anigami.it</a>
+        </nav>
+        <p class="piede">Viale Giacomo Leopardi, 14 – Camerino (MC) · P.IVA/C.F. IT 01115460436</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- I quattro sipari di marchio: campo pieno, logo, una riga, Entra. -->
+  {progetti.map((p) => (
+    <dialog
+      id={`ov-${p.id}`}
+      class="sipario sipario--marchio"
+      aria-label={p.nome}
+      style={`--campo: ${p.campo}; --inchiostro: ${p.inchiostro}`}
     >
-      <source src="/hero-imagina.mp4" type="video/mp4" />
-    </video>
-    <div class="hero-overlay"></div>
+      <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
+        <span aria-hidden="true">×</span>
+      </button>
+      <div class="sipario-in marchio-in">
+        <p class="verso-tocco">{p.verso}</p>
+        <img class="marchio" src={p.logo} alt={p.nome} width={p.logoW} height={p.logoH} />
+        <p class="riga">{p.riga}</p>
+        <a class="entra" href={p.href}>Entra <span aria-hidden="true">→</span></a>
+      </div>
+    </dialog>
+  ))}
 
-    <div class="hero-content">
-      <p class="hero-kicker">Imagina · dal 1991, Camerino</p>
-      <p class="hero-line">Una rete che continua a muoversi.</p>
+  <!-- Mutamenti: unico sipario che entra in dissolvenza, non di taglio. -->
+  <dialog id="ov-mutamenti" class="sipario sipario--mutamenti" aria-labelledby="ov-mutamenti-t">
+    <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
+      <span aria-hidden="true">×</span>
+    </button>
+    <div class="sipario-in mutamenti-in">
+      <h2 class="kicker" id="ov-mutamenti-t">Mutamenti</h2>
+      <ul class="feed">
+        {mutamenti.map((m) => (
+          <li>
+            <span class="quando">{m.data}</span>
+            <span class="cosa">{m.testo}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-
-    <svg class="hero-edge" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 C 60,10 130,55 210,35 C 300,12 360,60 460,38 C 560,15 610,58 700,40 C 800,20 860,62 960,36 C 1060,10 1120,58 1220,34 C 1310,14 1370,50 1440,30 L1440,100 L0,100 Z" />
-    </svg>
-  </section>
-
-  <section class="manifesto">
-    <p data-reveal>Dal 1991 Imagina attiva reti tra filiere e territori — marketing territoriale, comunicazione integrata, grandi eventi.<br />Una partnership pubblico-privata di circa trecento realtà che si riconoscono nel valore territorio.</p>
-  </section>
-
-  <section class="brand-panels" aria-label="I progetti principali">
-    <p class="panels-eyebrow eyebrow" data-reveal>I progetti principali</p>
-    {brands.map((b, i) => (
-      <a class="brand-panel" href={b.href} style={`--card-accent: ${b.accent}`} data-reveal>
-        <div class="panel-inner">
-          <span class="num">{String(i + 1).padStart(2, '0')}</span>
-          <div class="panel-text">
-            <h2>{b.name}</h2>
-            <p>{b.tagline}</p>
-          </div>
-          <span class="go" aria-hidden="true">→</span>
-        </div>
-      </a>
-    ))}
-  </section>
-
-  <section class="home-numbers">
-    <div class="numbers">
-      <div class="stat" data-reveal><strong>~300</strong><span>realtà pubbliche e private in rete</span></div>
-      <div class="stat" data-reveal><strong>4</strong><span>progetti principali, un unico metodo</span></div>
-      <div class="stat" data-reveal><strong>1991</strong><span>l'anno in cui tutto comincia</span></div>
-    </div>
-  </section>
+  </dialog>
 </BaseLayout>
 
+<style is:global>
+  /* La home è UNA inquadratura: non si scorre, in nessuna direzione. */
+  html, body { height: 100%; overflow: hidden; }
+  /* Il footer classico non esiste in home: vive dentro il sipario Imagina. */
+  body > footer.site-footer { display: none; }
+</style>
+
 <style>
-  .hero {
-    position: relative;
-    height: 100svh;
-    min-height: 480px;
-    overflow: hidden;
-    /* Il gradiente Imagina come luce sul bianco, non come notte: due
-       aloni rosso/magenta che si dissolvono nella carta. */
-    background: radial-gradient(ellipse at 28% 18%, color-mix(in srgb, var(--imagina-grad-a) 34%, transparent) 0%, transparent 58%),
-      radial-gradient(ellipse at 78% 82%, color-mix(in srgb, var(--imagina-grad-b) 26%, transparent) 0%, transparent 58%),
-      var(--bg-void);
-  }
-
-  .hero-video {
-    position: absolute;
+  /* ══ IL PALCO ══
+     Tre fasce: la cornice in alto, la scena al centro (che prende tutto
+     lo spazio residuo), le voci in basso. Nessuna misura dipende dal
+     caricamento del video → zero layout shift. */
+  .palco {
+    position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.55;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--bg-void);
   }
 
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(250, 249, 246, 0) 0%, rgba(250, 249, 246, 0.5) 70%, var(--bg-void) 100%);
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    height: 100%;
+  /* ── alto destra: la casa e la voce minore ── */
+  .cornice {
+    justify-self: end;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: 0 1.6rem 5rem;
-    max-width: 1100px;
-    margin: 0 auto;
+    align-items: flex-end;
+    gap: 0.35rem;
+    padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.2rem, 3vw, 2.4rem) 0;
   }
 
-  .hero-kicker {
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin: 0 0 1rem;
-  }
-
-  .hero-line {
+  .voce-casa {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.9rem, 5vw, 3.4rem);
+    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+    line-height: 1.1;
+    color: var(--text-soft);
+    text-decoration: none;
+    padding: 0.2rem 0;
+  }
+
+  .voce-minore {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.63rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    /* --text-dim e non --text-faint: a 10px maiuscoletto il faint sta a
+       2,5:1 sulla carta, sotto il minimo AA. */
+    color: var(--text-dim);
+    background: none;
+    border: 0;
+    padding: 0.25rem 0;
+    cursor: pointer;
+  }
+
+  .voce-casa:hover, .voce-minore:hover { color: var(--imagina-ink); }
+
+  .voce-casa:focus-visible,
+  .voce-minore:focus-visible {
+    outline: 2px solid var(--imagina-ink);
+    outline-offset: 3px;
+  }
+
+  /* ── centro: il logo che si compone ──
+     Il fondo del video È il fondo pagina: nessun bordo, nessuna ombra,
+     nessun raggio. object-fit: contain con max-height fa "letterbox"
+     su un colore identico → invisibile. */
+  .scena {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    padding: 0 1.2rem;
+  }
+
+  /* width in percentuale (non in vw): il vw ignora il padding della scena
+     e faceva sfondare la colonna della griglia di 15px sul telefono. */
+  .hero {
+    display: block;
+    width: 100%;
+    max-width: 1040px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: min(58svh, 585px);
+    object-fit: contain;
+    background: var(--bg-void);
+  }
+
+  /* ── basso: le quattro voci ──
+     Il verso è fuori dal flusso (position: absolute nello slot condiviso
+     sopra i nomi): compare e sparisce senza spostare un pixel. Nessuna
+     transizione = è un taglio, non una dissolvenza. */
+  .voci {
+    position: relative;
+    padding: 3.4rem clamp(1.2rem, 4vw, 2.4rem) clamp(2.2rem, 6vh, 4rem);
+  }
+
+  .voci ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0 clamp(0.9rem, 2.4vw, 1.8rem);
+  }
+
+  .voci li { display: flex; align-items: baseline; }
+
+  .voci li:not(:last-child)::after {
+    content: '·';
+    color: var(--text-faint);
+    margin-left: clamp(0.9rem, 2.4vw, 1.8rem);
+  }
+
+  .voce {
+    display: block;
+    text-decoration: none;
+    padding: 0.35rem 0;
+  }
+
+  .nome {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 2.3vw, 1.85rem);
     line-height: 1.15;
     color: var(--text-soft);
-    max-width: 16em;
-    margin: 0;
   }
 
-  .hero-edge {
+  /* Il taglio dell'attenzione: chi non è puntato scende in sordina.
+     --text-dim e non --text-faint: le voci restano link leggibili anche
+     da spente (il faint le porterebbe a 2,5:1). */
+  .voci ul:hover .nome { color: var(--text-dim); }
+  .voci ul .voce:hover .nome { color: var(--text-soft); }
+
+  .verso {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -1px;
-    width: 100%;
-    height: 60px;
-    z-index: 3;
-  }
-
-  .hero-edge path {
-    fill: var(--bg-void);
-  }
-
-  .manifesto {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: clamp(4rem, 10vw, 7rem) 1.6rem clamp(3rem, 8vw, 5.5rem);
+    top: 0.9rem;
     text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(0.74rem, 1.4vw, 0.86rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    color: var(--text-dim);
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .manifesto p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.5rem, 3.6vw, 2.4rem);
-    line-height: 1.35;
-    color: var(--text-soft);
+  .voce:hover .verso,
+  .voce:focus-visible .verso { opacity: 1; }
+
+  .voce:focus-visible {
+    outline: 2px solid var(--imagina-ink);
+    outline-offset: 4px;
+  }
+
+  /* ══ I SIPARI ══
+     <dialog> nativo: focus trap, ESC, aria-modal e ritorno del focus
+     alla voce d'origine li dà il browser. Qui restano il taglio, la
+     cromia e la chiusura fuori campo. */
+  .sipario {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
     margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    background: var(--campo, var(--bg-void));
+    color: var(--inchiostro, var(--text-soft));
   }
 
-  /* --- I pannelli-manifesto dei progetti --- */
-  .brand-panels {
+  .sipario::backdrop { background: transparent; }
+
+  /* IL TAGLIO — copertura piena in 280ms, easing secco, niente rimbalzo.
+     Il sipario cala dall'alto e copre il palco. */
+  .sipario[open] { animation: taglio 0.28s cubic-bezier(0.2, 0, 0, 1) both; }
+
+  @keyframes taglio {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  /* LA DISSOLVENZA — solo per Mutamenti (e per il logo). */
+  .sipario--mutamenti[open] { animation: dissolvenza 0.32s ease both; }
+
+  @keyframes dissolvenza {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .sipario-in {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* "safe": quando il contenuto è più alto della finestra si allinea in
+       alto invece di far sparire il capo oltre il bordo superiore. */
+    justify-content: center;
+    justify-content: safe center;
+    padding: clamp(4.5rem, 9vh, 6rem) clamp(1.4rem, 6vw, 3rem) clamp(2.5rem, 6vh, 4rem);
+  }
+
+  .chiudi {
+    position: absolute;
+    top: clamp(0.9rem, 2.4vw, 1.6rem);
+    right: clamp(0.9rem, 2.4vw, 1.6rem);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: inherit;
+    background: none;
+    border: 0;
+    opacity: 0.6;
+    cursor: pointer;
+  }
+
+  .chiudi:hover { opacity: 1; }
+  .chiudi:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; opacity: 1; }
+
+  /* --text-dim e non --text-faint: a 11px maiuscoletto spaziato il faint
+     resta sotto il minimo AA sulla carta. */
+  .kicker {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 0 0 1.6rem;
+  }
+
+  /* ── il sipario della casa ── */
+  .casa-in { max-width: 60ch; margin: 0 auto; width: 100%; }
+
+  .profilo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.08rem, 1.8vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--text-soft);
+    margin: 0 0 1.4rem;
+  }
+
+  .perche {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--imagina-ink);
+    margin: 2.2rem 0 1rem;
+  }
+
+  .piede-blocco {
+    position: sticky;
+    bottom: 0;
+    margin-top: 2.4rem;
+    padding-bottom: 0.4rem;
+    background: var(--bg-void);
+  }
+
+  .accessi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.6rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--hairline);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+  }
+
+  .accessi a, .accessi button {
+    color: var(--text-dim);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    padding: 0.3rem 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .accessi a:hover, .accessi button:hover { color: var(--imagina-ink); }
+  .accessi a:focus-visible, .accessi button:focus-visible {
+    outline: 2px solid var(--imagina-ink); outline-offset: 3px;
+  }
+
+  .piede {
+    margin: 1.4rem 0 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* ── i sipari di marchio ── */
+  .marchio-in { align-items: center; text-align: center; }
+
+  .marchio {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(72vw, 420px);
+    max-height: 26svh;
+    margin: 0 0 clamp(1.6rem, 4vh, 2.4rem);
+  }
+
+  .riga {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.25rem, 3.2vw, 1.9rem);
+    line-height: 1.4;
+    max-width: 22ch;
+    margin: 0 0 clamp(2rem, 5vh, 2.8rem);
+  }
+
+  .entra {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: inherit;
+    text-decoration: none;
+    padding: 0.7rem 0.2rem;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .entra:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+  /* Su touch il passaggio del mouse non esiste: il verso diventa la
+     prima riga del sipario (BRIEF-HOME §3). */
+  .verso-tocco { display: none; }
+
+  @media (hover: none) {
+    .verso-tocco {
+      display: block;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      /* 0.85 e non 0.72: sotto questa soglia la riga scendeva a 3,6:1
+         sul campo petrolio di Tipicità, sotto l'AA per il testo piccolo. */
+      opacity: 0.85;
+      max-width: 26ch;
+      margin: 0 0 clamp(1.8rem, 5vh, 2.6rem);
+    }
+  }
+
+  /* ── Mutamenti ── */
+  .mutamenti-in { max-width: 52ch; margin: 0 auto; width: 100%; }
+
+  .feed { list-style: none; margin: 0; padding: 0; }
+
+  .feed li {
+    padding: 1.1rem 0;
     border-top: 1px solid var(--hairline);
   }
 
-  .panels-eyebrow {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2.2rem 1.6rem 0.6rem;
-    color: var(--text-faint);
-  }
-
-  .brand-panel {
+  .quando {
     display: block;
-    position: relative;
-    text-decoration: none;
-    border-bottom: 1px solid var(--hairline);
-    overflow: hidden;
-  }
-
-  .brand-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 85% 120% at 12% 50%, color-mix(in srgb, var(--card-accent) 26%, transparent), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  .brand-panel::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--card-accent);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.45s ease;
-  }
-
-  .brand-panel:hover::before,
-  .brand-panel:focus-visible::before {
-    opacity: 1;
-  }
-
-  .brand-panel:hover::after,
-  .brand-panel:focus-visible::after {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-
-  .panel-inner {
-    position: relative;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: clamp(2.8rem, 7vw, 5rem) 1.6rem;
-    display: flex;
-    align-items: baseline;
-    gap: clamp(1.2rem, 4vw, 2.6rem);
-  }
-
-  .num {
     font-family: 'Manrope', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    color: var(--text-faint);
-    flex: none;
-  }
-
-  .panel-text {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .brand-panel h2 {
-    font-size: clamp(2.1rem, 6.5vw, 4.2rem);
-    line-height: 1.02;
-    color: var(--text-soft);
-    margin: 0 0 0.45rem;
-    transition: color 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .brand-panel:hover h2,
-  .brand-panel:focus-visible h2 {
-    color: var(--card-accent);
-    transform: translateX(0.35em);
-  }
-
-  .brand-panel p {
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--text-dim);
-    margin: 0;
+    margin-bottom: 0.35rem;
   }
 
-  .go {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.4rem;
-    color: var(--text-faint);
-    flex: none;
-    align-self: center;
-    transition: color 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  .cosa {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.05rem, 2vw, 1.28rem);
+    line-height: 1.45;
+    color: var(--text-soft);
   }
 
-  .brand-panel:hover .go,
-  .brand-panel:focus-visible .go {
-    color: var(--card-accent);
-    transform: translateX(0.5em);
+  /* ══ TELEFONO — stessa inquadratura, voci impilate in basso ══ */
+  @media (max-width: 760px) {
+    .voci ul { flex-direction: column; align-items: center; gap: 0.55rem; }
+    .voci li:not(:last-child)::after { content: none; }
+    .voci { padding-top: 1.4rem; }
+    .verso { display: none; }
+    .hero { max-height: 42svh; }
   }
 
-  .home-numbers {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: clamp(2.5rem, 6vw, 4rem) 1.6rem 2rem;
-  }
-
-  .home-numbers .stat strong {
-    font-size: clamp(2.4rem, 5vw, 3.4rem);
-  }
-
+  /* ══ REDUCED MOTION ══
+     Il video lascia il posto al poster (lo decide lo script: senza play()
+     resta il poster, che è l'ultimo fotogramma) e i tagli diventano
+     dissolvenze istantanee. */
   @media (prefers-reduced-motion: reduce) {
-    .hero-video {
-      display: none;
-    }
-
-    .brand-panel h2,
-    .go {
-      transition: none;
-    }
+    .sipario[open],
+    .sipario--mutamenti[open] { animation: none; }
   }
 </style>
+
+<script>
+  // ══ LA REGIA DEI SIPARI ══
+  // <dialog> nativo: focus trap, ESC, aria-modal e ritorno del focus alla
+  // voce d'origine sono del browser. Qui restano tre cose:
+  //   1. i quattro nomi sono <a> veri → si intercetta il click semplice,
+  //      non quello con modificatori (ctrl/cmd/shift/tasto centrale);
+  //   2. la history: aprire fa pushState, il back del browser chiude il
+  //      sipario invece di uscire dal sito;
+  //   3. il video: gira UNA volta e si ferma sull'ultimo fotogramma.
+  //      Con prefers-reduced-motion non parte affatto e resta il poster.
+  function regia() {
+    const palco = document.querySelector('.palco');
+    if (!palco || palco.dataset.regia) return;
+    palco.dataset.regia = '1';
+
+    let aperto = null;   // il <dialog> attualmente in scena
+    let guardia = false; // stiamo manovrando noi la history
+    let impilato = false; // la voce corrente della history è nostra?
+
+    const sipario = (id) => document.getElementById(id);
+
+    // alza il sipario SENZA toccare la history (serve al ritorno dal back
+    // e all'apertura da link con l'ancora già dentro)
+    function mostra(id) {
+      const d = sipario(id);
+      if (!d) return false;
+      if (aperto === d) return true;
+      if (aperto) { const p = aperto; aperto = null; p.close(); }
+      aperto = d;
+      d.showModal();
+      return true;
+    }
+
+    // apertura da interazione: impila una voce di history, così il back
+    // del browser chiude il sipario invece di uscire dal sito
+    function apri(id) {
+      if (!mostra(id)) return;
+      guardia = true;
+      history.pushState({ sipario: id }, '', '#' + id);
+      guardia = false;
+      impilato = true;
+    }
+
+    function chiudi(daHistory) {
+      if (!aperto) return;
+      const d = aperto;
+      aperto = null;
+      d.close();
+      if (daHistory) return;
+      if (impilato) {
+        impilato = false;
+        guardia = true;
+        history.back();
+      } else {
+        // sipario aperto da un link con l'ancora: non c'è nulla da
+        // spopolare, si toglie solo l'ancora dall'indirizzo. Senza questo
+        // ramo l'ESC farebbe un back vero e USCIREBBE dal sito.
+        history.replaceState({}, '', location.pathname + location.search);
+      }
+    }
+
+    // ESC (e ogni altra chiusura nativa) deve rimettere in pari la history
+    document.querySelectorAll('dialog.sipario').forEach((d) => {
+      d.addEventListener('close', () => { if (aperto === d) chiudi(false); });
+      // click fuori dal contenuto = click sul dialog stesso
+      d.addEventListener('click', (e) => { if (e.target === d) chiudi(false); });
+    });
+
+    document.querySelectorAll('[data-chiude]').forEach((b) => {
+      b.addEventListener('click', () => chiudi(false));
+    });
+
+    // le voci: <a> veri, intercettati solo sul click semplice
+    document.querySelectorAll('[data-apre]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        apri(el.getAttribute('data-apre'));
+      });
+    });
+
+    // La history in capture: le View Transitions di Astro ascoltano
+    // popstate in bubble, e i nostri stati non sono affari loro.
+    window.addEventListener('popstate', (e) => {
+      const nostro = e.state && e.state.sipario;
+      if (!guardia && !aperto && !nostro) return; // non ci riguarda
+      e.stopImmediatePropagation();
+      if (guardia) { guardia = false; return; }
+      if (nostro) { mostra(nostro); impilato = true; return; }
+      if (aperto) chiudi(true);
+    }, true);
+
+    // link condiviso con l'ancora già dentro: si apre il sipario giusto,
+    // ma senza impilare (la voce di history è già quella di partenza)
+    const iniziale = location.hash.slice(1);
+    if (iniziale && mostra(iniziale)) {
+      history.replaceState({ sipario: iniziale }, '', '#' + iniziale);
+      impilato = false;
+    }
+
+    // ══ IL LOGO CHE SI COMPONE — una volta sola, poi resta ══
+    const video = document.getElementById('hero');
+    if (video) {
+      const fermo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!fermo) {
+        // muted + playsinline: la riproduzione da script è consentita.
+        // Se il browser la rifiuta resta il poster, che è l'ultimo
+        // fotogramma: la pagina è identica, senza il gesto.
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+    }
+  }
+
+  document.addEventListener('astro:page-load', regia);
+  regia();
+</script>

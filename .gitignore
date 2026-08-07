@@ -9,6 +9,11 @@ tipicita-loop.mp4
 # MASTER VIDEO in root: sono i file sorgente (anche centinaia di MB), non
 # asset web. I video del sito vivono in public/ e restano tracciati.
 # La regola con lo slash iniziale vale SOLO per la radice del repo.
+# Oggi in cartella e coperti da questa regola:
+#   Imagina_Hero_FAF9F6.mp4        (master dell'hero della home)
+#   GT 26 - Promo (1920 X 1080).mp4
+#   Lavinia.mp4
+#   2011.mp4
 /*.mp4
 /*.eps
 
