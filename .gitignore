@@ -5,3 +5,10 @@ _to_delete/
 _to_delete_locks/
 tipicita-loop.mp4
 /tracce/
+
+# MASTER VIDEO in root: sono i file sorgente (anche centinaia di MB), non
+# asset web. I video del sito vivono in public/ e restano tracciati.
+# La regola con lo slash iniziale vale SOLO per la radice del repo.
+/*.mp4
+/*.eps
+
