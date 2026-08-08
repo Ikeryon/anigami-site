@@ -76,13 +76,20 @@ const cartoline = [
 ];
 
 // Le soste dell'itinerario: sono i waypoint della barra-strada.
+//
+// ⚠️ L'ETICHETTA NON È IL TITOLO (Paolo, 08/08/2026). In barra i nomi
+// stanno corti — una strada si legge di sfuggita, mentre si cammina — e i
+// concetti pieni restano negli <h2> delle sezioni: «Laboratorio di
+// comunità», «Geometria variabile», «Cartoline dal viaggio». È la stessa
+// regola dei lemmi di EVO, e risolve anche la striscia che intorno ai
+// 1024px tagliava fuori l'ultima tappa.
 const soste = [
-  { id: 'racconto', label: 'Il filo del racconto' },
-  { id: 'laboratorio-di-comunita', label: 'Laboratorio di comunità' },
-  { id: 'geometria-variabile', label: 'Geometria variabile' },
-  { id: 'incubatore', label: 'Incubatore' },
-  { id: 'strada-fatta', label: 'La strada fatta' },
-  { id: 'cartoline', label: 'Cartoline' },
+  { id: 'racconto', label: 'Il racconto' },
+  { id: 'laboratorio-di-comunita', label: 'La comunità' },
+  { id: 'geometria-variabile', label: 'La geometria' },
+  { id: 'incubatore', label: "L'incubatore" },
+  { id: 'strada-fatta', label: 'La strada' },
+  { id: 'cartoline', label: 'Le cartoline' },
 ];
 
 // CROMIA (10/07/2026): carta calda, il colore dei borghi d'estate, con i
@@ -150,7 +157,7 @@ const theme = {
       <div class="wrap">
         <h2 id="h-racconto" data-reveal>Il filo del racconto</h2>
         <div class="racconto">
-          <p class="lungo" data-reveal>Il Grand Tour non ha mai elencato tappe: le ha sempre affidate a qualcuno. È nato nel 2014 con una lettera — Gioacchino che scrive al nipote Francesco, emigrato e in procinto di tornare con la sua Heidi, per promettergli un viaggio autentico nelle Marche. Un itinerario nato come invito al ritorno. Sulla strada è arrivata Lavinia Atipica, viaggiatrice dissacrante, curiosa, pronta a mettersi in gioco davanti a ogni bellezza — e tornata anni dopo, come tornano i viaggiatori veri. Oggi il passo lo detta Martino: erede del Picchio leggendario che guidò i Piceni a fondare queste terre, picchio della generazione alpha, con un sano spirito d'avventura e la matita dell'artista ascolana Simona Pagano nelle piume. Da una lettera a un picchio: il racconto cambia voce, la strada resta. Chi segue il Grand Tour non consulta un calendario — tiene il passo di un personaggio.</p>
+          <p class="lungo" data-reveal>Il Grand Tour non ha mai elencato tappe: le ha sempre affidate a qualcuno. È nato nel 2014 con una lettera — Gioacchino che scrive al nipote Francesco, emigrato e in procinto di tornare con la sua Heidi, per promettergli un viaggio autentico nelle Marche. Un itinerario nato come invito al ritorno. Sulla strada è arrivata Lavinia Atipica, viaggiatrice dissacrante, curiosa, pronta a mettersi in gioco davanti a ogni bellezza — e tornata anni dopo, come tornano i viaggiatori veri. Oggi il passo lo detta Martino: erede del Picchio leggendario che guidò i Piceni a fondare queste terre, picchio della generazione alpha, con un sano spirito d'avventura. Da una lettera a un picchio: il racconto cambia voce, la strada resta. Chi segue il Grand Tour non consulta un calendario — tiene il passo di un personaggio.</p>
 
           <figure class="lavinia" data-reveal>
             <video controls preload="none" poster="/gt/lavinia-poster.jpg" width="640" height="360">
@@ -159,7 +166,14 @@ const theme = {
             <figcaption>Lavinia Atipica, dall'archivio del Grand Tour.</figcaption>
           </figure>
         </div>
-        <p class="credit" data-reveal>Martino è di Simona Pagano.</p>
+        {/* ⚠️ CORREZIONE FATTUALE (Paolo, 08/08/2026): Martino NON è di
+            Simona Pagano. L'attribuzione era in due punti — questa riga di
+            credito e, dentro il testo, «la matita dell'artista ascolana
+            Simona Pagano nelle piume». Tolte entrambe: lasciarne una sola
+            avrebbe spostato l'errore, non risolto.
+            IN SOSPESO: chi è l'autore di Martino, e se Simona Pagano vada
+            accreditata per qualcos'altro (Lavinia?). Il credito giusto va
+            rimesso appena si sa. */}
       </div>
     </section>
 
