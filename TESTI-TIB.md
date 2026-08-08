@@ -16,19 +16,34 @@
 
 **Apertura**
 Il mare non è un paesaggio: è un sistema produttivo, scientifico e
-culturale. Tipicità in Blu è il punto d'incontro di chi su quel sistema
-lavora — imprese, ricercatori, istituzioni, naviganti — e di chi nel
-mare vede una risorsa da capire prima ancora che da sfruttare. Una
-settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a
-cielo aperto.
+culturale. Tipicità in Blu è il festival dove il mare incontra le
+persone che su quel sistema lavorano — imprese, ricercatori,
+istituzioni, naviganti — e chi nel mare vede una risorsa da capire
+prima ancora che da sfruttare. Una settimana all'anno, ad Ancona,
+l'Adriatico diventa un laboratorio a cielo aperto.
+
+**La posizione** [integrazione 07/08, dai materiali di casa]
+Ancona è il luogo esatto di questo discorso. Il nome viene dal greco
+*Ankón*, gomito: la costa che si piega e si spinge dentro l'Adriatico.
+Una città di terra affacciata sul mare, con il porto che va da Marina
+Dorica all'arco di Traiano, e il quartier generale del festival alla
+Mole Vanvitelliana — ex lazzaretto su un'isola artificiale, fra la
+terra e l'acqua. Il sodalizio fra le due cose non è una metafora: è la
+geografia.
 
 **La visione**
 "Mare, laboratorio di futuro" non è uno slogan: è un metodo. Le
 questioni che il mare pone — energia, cibo, trasporti, clima, lavoro —
 non si risolvono per compartimenti. Il festival le mette nello stesso
-spazio fisico, la Mole Vanvitelliana, e le fa dialogare: la ricerca
-accanto al cantiere, la pesca accanto alla biotecnologia, la scuola
-accanto all'impresa.
+spazio fisico e le fa dialogare: la ricerca accanto al cantiere, la
+pesca accanto alla biotecnologia, la scuola accanto all'impresa.
+
+E il perimetro non si ferma alla costa. **Il mare inizia dalla
+montagna**: è la frase con cui Tipicità e il Polo Tecnologico Alto
+Adriatico hanno portato questo discorso a Ecomondo, ed è
+un'affermazione idrografica prima che retorica. Bacini, fiumi, aree
+interne e acque costiere sono un sistema solo, e trattarli separati è
+il modo più rapido per sbagliare le politiche di tutti e due.
 
 **Il quadro strumenti — i temi sul tavolo**
 [Da rendere come tag/strumenti di plancia, non come elenco discorsivo:]
@@ -63,15 +78,31 @@ tengono la barra, ciascuna per la propria parte di rotta.
 
 ## 2. .Cantiere — The Blue Way
 
+> ⚠️ **CORREZIONE FATTUALE del 07/08/2026 — Paolo.** La v2 attribuiva la
+> nascita di The Blue Way a due soggetti più il consorzio iNEST. È
+> sbagliato, ed è un errore che riguarda la paternità di un progetto:
+> **The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo
+> Tecnologico Alto Adriatico, e basta.** iNEST non c'entra con la nascita:
+> ha collaborato ad alcuni progetti sviluppati *dentro* The Blue Way — fra
+> questi la selezione degli spin-off a Trieste, che iNEST ha proposto
+> insieme a Barcolana. Lì il nome è corretto e va tenuto; altrove va tolto.
+>
+> Le due stringhe da correggere nella pagina già costruita
+> (`src/pages/tipicita-in-blu/index.astro`) sono elencate al §2bis.
+
 **La nascita**
-Dalla collaborazione con il Polo Tecnologico Alto Adriatico e con il
-consorzio di ricerca iNEST nasce The Blue Way: un cantiere progettuale
-fondato su un principio semplice — condivisione. Buone prassi che
-circolano tra le due sponde dell'Adriatico, talenti che si formano
-lavorando su problemi veri, risultati di ricerca che non restano nei
-paper.
+The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo
+Tecnologico Alto Adriatico: un cantiere progettuale fondato su un
+principio semplice — condivisione. Buone prassi che circolano tra le due
+sponde dell'Adriatico, talenti che si formano lavorando su problemi veri,
+risultati di ricerca che non restano nei paper.
 
 **Il cantiere aperto**
+La definizione ufficiale, quella usata a Ecomondo, è la più esatta e
+conviene tenerla: una **piattaforma di condivisione fisica e digitale
+per stimolare un'ampia alleanza di talenti, energie e competenze**,
+sull'area individuata come Polo del Mare Adriatico.
+
 The Blue Way non coincide con la manifestazione: lavora tutto l'anno,
 con ricadute sul territorio italiano e oltre. È una piattaforma
 permanente che collega gli atenei dell'arco adriatico — Politecnica
@@ -86,9 +117,9 @@ successivo.
   della nautica — transizione digitale, sostenibilità, ESG — dentro il
   programma Interreg BLUESLINKS.
 - A Trieste, dentro Barcolana, la selezione degli spin-off
-  universitari: squadre multidisciplinari, sfide che vanno dalla
-  biologia degli ecosistemi al gemello digitale dell'Alto Adriatico,
-  con KIC One Water al tavolo.
+  universitari proposta dal consorzio di ricerca iNEST: squadre
+  multidisciplinari, sfide che vanno dalla biologia degli ecosistemi al
+  gemello digitale dell'Alto Adriatico, con KIC One Water al tavolo.
 - Tra un appuntamento e l'altro, il lavoro che non si vede: reti di
   progetto, scambi tra laboratori, accompagnamento delle idee premiate
   verso bandi e mercati.
@@ -98,8 +129,8 @@ successivo.
   e la sua applicazione.
 - Le imprese vi trovano problemi formulati bene e squadre giovani che
   li aggrediscono senza rendite di posizione.
-- Chi progetta su fondi europei vi trova consorzi già rodati su
-  Interreg e iNEST, due sponde già connesse, casi pilota documentati.
+- Chi progetta su fondi europei vi trova consorzi già rodati sui
+  programmi Interreg, due sponde già connesse, casi pilota documentati.
 - Le istituzioni vi trovano un formato che tiene insieme sviluppo
   costiero, formazione e tutela — le tre cose che di solito viaggiano
   separate.
@@ -108,6 +139,80 @@ successivo.
 
 **Chiusura di pagina** [una riga, da plancia]
 `Il laboratorio è aperto. 43°37'N 13°30'E — theblueway.it`
+
+## 2bis. Le correzioni da fare nella pagina già costruita
+
+In `src/pages/tipicita-in-blu/index.astro`, due sole sostituzioni. Non
+serve toccare altro.
+
+**Riga ~196**, la `.apertura` del capitolo .Cantiere. Da:
+
+> Dalla collaborazione con il Polo Tecnologico Alto Adriatico e con il
+> consorzio di ricerca iNEST nasce The Blue Way: un cantiere progettuale
+> fondato su un principio semplice — condivisione.
+
+a:
+
+> The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo
+> Tecnologico Alto Adriatico: un cantiere progettuale fondato su un
+> principio semplice — condivisione.
+
+(il resto del paragrafo resta identico)
+
+**Riga ~72**, terza voce dell'array "Chi trova cosa". Da:
+
+> Chi progetta su fondi europei vi trova consorzi già rodati su Interreg
+> e iNEST, due sponde già connesse, casi pilota documentati.
+
+a:
+
+> Chi progetta su fondi europei vi trova consorzi già rodati sui programmi
+> Interreg, due sponde già connesse, casi pilota documentati.
+
+**Dove iNEST invece ci vuole**: nella voce degli "specchi del cantiere"
+dedicata a Trieste, che va integrata come al §2 — «la selezione degli
+spin-off universitari **proposta dal consorzio di ricerca iNEST**». È lì
+che il consorzio ha effettivamente lavorato dentro The Blue Way, ed è
+l'unico punto della pagina in cui il nome è corretto.
+
+Commit suggerito: `contenuti: TIB — correzione sulla paternità di The Blue Way`.
+
+## 2ter. Integrazioni del 07/08 dai materiali di casa
+
+Dalle presentazioni di Alberto Monachesi e dai comunicati sono emersi tre
+elementi veri che valgono più di qualunque riga scritta ex novo, e sono già
+inseriti nei testi sopra. Vanno portati in pagina insieme alla correzione.
+
+**«Il mare inizia dalla montagna»** — la frase con cui Tipicità e il Polo hanno
+aperto Ecomondo 2024. Va in .Rotta, nella visione: giustifica in una riga perché
+un festival del mare parla di aree interne, e lo fa su base idrografica.
+
+**L'etimologia di Ancona** — *Ankón*, gomito. Insieme alla Mole ex lazzaretto su
+isola artificiale, fonda "la posizione" senza retorica. Nuovo blocco in .Rotta.
+
+**La definizione ufficiale della piattaforma** — «piattaforma di condivisione
+fisica e digitale per stimolare un'ampia alleanza di talenti, energie e
+competenze», sull'area del Polo del Mare Adriatico. Va in .Cantiere.
+
+**Due ancore fattuali** utili altrove nella pagina: il festival è un *lab-event
+per le comunità adriatico-ioniche dal 2014* (il 2023 è la decima edizione), e il
+concetto di **blue way** nasce prima del progetto omonimo — in Alberto è
+l'alleanza orizzontale fra cantieristica, pesca, traghetti, turismo, sport,
+ambiente, innovazione e cultura, contro la competizione verticale fra settori.
+Questa è la definizione da usare se in pagina serve spiegare il nome.
+
+**Payoff — deciso (Paolo, 07/08): «Mare, laboratorio di futuro».** Resta
+l'unica riga in posizione di payoff, sotto il logo, e resta com'è oggi: non si
+tocca, non si alterna, non si accompagna. Le altre due formule di casa non si
+perdono, ma scendono di grado e diventano testo:
+
+- **«dove il mare incontra le persone»** entra nell'apertura di .Rotta, dove
+  dice esattamente la stessa cosa che il paragrafo stava già dicendo con più
+  parole. Vedi il §1, già integrato.
+- **«il mare come paradigma del nostro futuro»** non va messa vicino al payoff:
+  direbbero la stessa cosa a due centimetri di distanza e si indebolirebbero a
+  vicenda. Sta bene in chiusura di .Rotta o come attacco delle metriche, dove
+  il "futuro" del payoff trova finalmente dei numeri sotto.
 
 ## 3. Appendice per Paolo — profiling stakeholder (NON va in pagina)
 

@@ -16,7 +16,12 @@ il progress è la strada percorsa.
 
 ## 1. Hero
 
-Logo GT (public/), righe-dato: `dal 2014 · 13ª edizione (2026) ·
+VIDEO DI BACKGROUND (consegnato, 07/08): `public/gt/gt-hero.mp4`
+(48s, muto, loop, 1600px, 8,6MB — i primi 48" del promo GT26: vigneti
+dall'alto, vele, ciclisti sulla costa) + poster `gt-hero-poster.jpg`.
+Resa come l'hero di Tipicità: autoplay muted loop playsinline, velo
+scuro per leggibilità, `prefers-reduced-motion` → solo poster.
+Sopra: logo GT (public/), righe-dato: `dal 2014 · 13ª edizione (2026) ·
 itinerario diffuso tra borghi e comunità delle Marche`.
 ⚠️ CORREZIONE FATTUALE: la pagina attuale dice "Dal 2015" — la prima
 edizione è il 2014 (flyer d'archivio + conferma Paolo). Correggere.
@@ -32,16 +37,19 @@ Claim di stagione (dai materiali 2022-26): "Oltre la destinazione…"
 [Resa: citazione sola su fondo carta, corpo grande, la fonte in
 maiuscoletto. È il posizionamento della pagina intera.]
 
-## 3–5. I tre capitoli [LAVORATO — trascrivere dall'attuale
-`src/pages/grand-tour-delle-marche/index.astro`, NON riscrivere]
+## 3–5. I tre capitoli → **RISCRITTI, vedi `TESTI-GT-CAPITOLI.md`**
 
-- **Laboratorio di comunità** (Visso/Guaite, il testo sul terremoto e
-  sulla mappatura preventiva) — invariato.
-- **Geometria variabile** (Sefro, Parco Gola della Rossa, Ascoliva,
-  Leguminaria: "nessuna comunità somiglia abbastanza a un'altra da
-  meritare lo stesso formato") — invariato.
-- **Incubatore** ("il segno che il laboratorio ha funzionato… è cosa
-  resta quando il Grand Tour è già ripartito") — invariato.
+⚠️ ANNULLATA l'istruzione precedente («[LAVORATO], trascrivere invariati»).
+Decisione di Paolo del 07/08: i testi citavano eventi e borghi per nome, e su
+una pagina che parla a settantatré comuni gli esempi scontentano chi non è
+citato. I tre capitoli sono stati riscritti per tipologie invece che per nomi
+propri, e attorno alla tesi sul destination management — l'ascolto come
+condizione, non come premessa; l'evento come strumento di costruzione della
+destinazione e non solo di promozione.
+
+Titoli, `id` e struttura restano identici: cambia il contenuto dei paragrafi.
+Testo definitivo in `TESTI-GT-CAPITOLI.md`.
+
 I placeholder foto dei capitoli restano in attesa di selezione
 dall'archivio (Cowork).
 
@@ -63,11 +71,18 @@ dall'archivio (Cowork).
 > tiene il passo di un personaggio.
 
 [Il mito del picchio non si spiega oltre questa riga. Credit "Martino
-è di Simona Pagano" può stare in piccolo. Spazio predisposto per il
-video di Lavinia quando Paolo lo trova: slot media con poster, stesso
-pattern del video nella moviola. Illustrazione di Martino dal
-pieghevole 2026 come figura della sezione, se Paolo fornisce il file
-pulito.]
+è di Simona Pagano" in piccolo. VIDEO DI LAVINIA consegnato:
+`public/gt/lavinia.mp4` (75s, CON AUDIO, 720p, 10,4MB) + poster
+`lavinia-poster.jpg`. Resa: player click-to-play col poster (NON
+autoplay: ha la voce), incastonato nella sezione racconto, didascalia
+"Lavinia Atipica, in viaggio". Illustrazione di Martino dal pieghevole
+2026 come figura della sezione, se Paolo fornisce il file pulito.]
+
+⚠️ NOTA PER CODE — GITIGNORE: nella root del repo ci sono i master
+`GT 26 - Promo (1920 X 1080).mp4` (346MB) e `Lavinia.mp4` (10MB),
+caricati da Paolo come sorgenti. NON vanno su GitHub: aggiungere al
+.gitignore (`GT 26 - Promo*`, `/Lavinia.mp4`) prima del prossimo
+commit. Le versioni web sono già in `public/gt/`.
 
 ## 7. Dove & Cosa [spec in TESTI-GT-DATI.md §9 + mock consegnato]
 
