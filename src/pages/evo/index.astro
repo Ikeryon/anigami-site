@@ -253,6 +253,12 @@ const structuredData = {
   /* Il lemma in barra dei capitoli resta minuscolo: è la forma del
      lemma. Le altre landing tengono il maiuscoletto di sistema. */
   .chapter-bar.v-evo nav a { text-transform: none; letter-spacing: 0.06em; }
+
+  /* Il kicker dell'hero: lo stile di sito lo mette in --brand-accent, che
+     sul vinaccia a 12px sta a 3,95:1 — sotto l'AA per il testo piccolo.
+     Su questa pagina passa all'inchiostro attenuato (6,4:1). L'accento
+     resta dove pesa: i titoli e il vocabolario. */
+  .brand-hero.v-evo .eyebrow { color: var(--text-dim); }
 </style>
 
 <style>
@@ -476,7 +482,10 @@ const structuredData = {
   .congedo .servizio a { color: inherit; }
 
   @media (max-width: 560px) {
-    .lemma { font-size: 1.15rem; }
+    /* non sotto 1.2rem: a 19,2px in 600 il lemma è ancora "testo grande"
+       e l'accento gli basta (3:1). A 1.15rem scendeva a 18,4px e la
+       soglia diventava 4,5:1, che il #b8497a non tiene. */
+    .lemma { font-size: 1.2rem; }
     .nota { padding-left: 0.9rem; }
   }
 
