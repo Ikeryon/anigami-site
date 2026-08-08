@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImaginaHeader from '../../components/ImaginaHeader.astro';
+
+// ══════════════════════════════════════════════════════════════════════
+// RELAZIONE DI IMPATTO — predisposizione (BRIEF-HOME §4bis, 08/08/2026)
+//
+// Non è una scelta editoriale, è adempimento: la legge 208/2015 impone
+// alle società benefit di redigere ogni anno una relazione di impatto,
+// allegarla al bilancio e PUBBLICARLA SUL SITO della società. Da quando
+// anigami.it è il sito di Imagina, la relazione va ospitata qui.
+//
+// ⚠️ PAGINA SEGNAPOSTO. Quando la prima relazione è pronta, qui va il
+// link al PDF (o il testo). Fino ad allora la pagina dichiara l'obbligo
+// e dice dove il documento comparirà: è la struttura, prevista adesso.
+// Nessuna data inventata — l'unico riferimento temporale è quello già
+// pubblicato in Note di produzione (Sas fino al 30 giugno 2026).
+// ══════════════════════════════════════════════════════════════════════
+
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
+---
+<BaseLayout
+  title="Relazione di impatto — Imagina Srl Società Benefit"
+  description="La relazione annuale di impatto di Imagina Srl Società Benefit, prevista dalla legge 208/2015 per le società benefit."
+  theme={theme}
+>
+  <ImaginaHeader slot="header" />
+
+  <main class="container" style="padding-top: 6rem;">
+    <h1>Relazione di impatto</h1>
+
+    <section class="chapter">
+      <p>Le società benefit hanno l'obbligo di redigere ogni anno una relazione sul perseguimento delle finalità di beneficio comune iscritte nel proprio statuto. La relazione è allegata al bilancio d'esercizio e pubblicata sul sito della società. La valutazione dell'impatto non è affidata all'autodichiarazione: si usa uno standard esterno e indipendente, che copre governance, lavoratori, altri portatori d'interesse e ambiente.</p>
+
+      <p>Imagina di Francesca Serri &amp; C. Sas si è trasformata in Imagina Srl Società Benefit; la denominazione precedente è rimasta in vigore fino al 30 giugno 2026. La prima relazione di impatto sarà pubblicata su questa pagina insieme al bilancio dell'esercizio a cui si riferisce.</p>
+
+      <p><a class="trace-link" href="/">Torna alla home</a></p>
+    </section>
+  </main>
+</BaseLayout>

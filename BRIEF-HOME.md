@@ -1,75 +1,140 @@
-# BRIEF-HOME — La home di Imagina: il palcoscenico
-> Esito del tavolo webdesigner + UX (Cowork, 07/08/2026), su indicazioni
-> di Paolo: niente scorrimento, hero col logo che si compone, bottone in
-> alto per il profilo Imagina, preview dei 4 brand con la stessa logica.
-> Reference: rollingstones.com (esperienza immersiva full-screen, il
-> backstage come home) — con le dovute differenze: loro scuri e rock,
-> noi bianco luminoso e teatro di produzione. Regole sovrane invariate:
-> la parola "anigami" non esiste; niente "quattro festival"; i giochi di
-> senso si agiscono, non si spiegano.
+# BRIEF-HOME v3 — la vetrina
 
-## 1. Il concept in una riga
+Cowork, 07/08/2026. **Riscrittura completa dopo la bocciatura della v2 da parte
+di Paolo.** Sostituisce l'impianto oggi in `src/pages/index.astro`. Il profilo Imagina (ora §7) resta com'era: quello va bene ed è già stato ampliato.
 
-**La home è un palcoscenico a sipario chiuso: una sola inquadratura,
-nessuno scroll. Tutto il resto è un controcampo che si apre sopra.**
+## 0. Perché la v2 non funzionava
 
-Il bianco #faf9f6 è il palco vuoto. Al centro, l'unico gesto: il logo
-di Imagina che si compone (le lettere entrano e si assemblano — la
-metamorfosi come gesto, UNA volta sola, poi resta il logo: il
-non-ritorno). Niente da scorrere: solo cose da APRIRE. Ogni apertura è
-un taglio di montaggio che copre lo schermo; ogni chiusura riporta al
-palco. I due verbi della regia — taglio per il cambio di punto di
-vista, dissolvenza per il non-ritorno — sono gli unici movimenti.
+Va detto con precisione, perché la diagnosi è metà del rimedio.
 
-## 2. Anatomia (desktop)
+La v2 è un **manifesto**, non una vetrina. Tutto galleggia al centro di un
+bianco senza bordi: il logo piccolo in mezzo allo schermo, quattro parole in
+basso, e attorno il vuoto. Un impianto così regge solo quando c'è **una**
+immagine che fa tutto il lavoro; qui l'immagine è un logo di pochi centimetri e
+il resto è testo. Di conseguenza la pagina non è minimale — è spoglia, che è
+un'altra cosa. Mancano tre cose insieme: **i bordi** (niente cornice, tutto
+appeso nel nulla), **la materia** (nessuna fotografia: il sito racconta quattro
+festival e non se ne vede uno), e **la promessa** (chi arriva non capisce in un
+secondo che dietro ci sono quattro mondi).
 
-- **Centro**: video del logo che si compone, su fondo identico al
-  fondo pagina (si deve NOT vedere il rettangolo video: il logo nasce
-  dal bianco). Gira una volta, si ferma sul logo composto. Reduced
-  motion / replay visit: logo statico con dissolvenza.
-  ✅ ASSET CONSEGNATO (07/08): `public/home/hero-imagina.mp4` — 16s,
-  muto, 1080p, 8-bit, faststart, 150KB (!): il lockup scuro che si
-  compone su fondo #FAF9F6, chiusura su "imagina società benefit" con
-  la M magenta. Poster dell'ultimo frame: `hero-imagina-poster.jpg`.
-  Il video gira UNA volta (no loop) e si ferma sull'ultimo frame; il
-  fondo del video È il fondo pagina: nessun bordo visibile.
-  NOTA GITIGNORE per Code: il master `Imagina_Hero_FAF9F6.mp4` è nella
-  root del repo — aggiungerlo al .gitignore col prossimo commit.
-- **Alto destra**: voce discreta `Imagina` → apre l'overlay-sipario
-  del profilo (§4): chi è Imagina, ben scritto, + accessi a Note di
-  produzione, Entra in scena, contatti. Il footer classico NON esiste
-  in home: vive qui dentro.
-- **Basso, centrato**: le quattro voci dei progetti, solo tipografia:
-  `Tipicità · Grand Tour delle Marche · Tipicità in Blu · EVO`.
-  - **Hover** = il controcampo del pannello (metanarrativa §2): la
-    voce mostra il VERSO, il dato di metodo che il pubblico non vede
-    (righe in §5). Micro-taglio, non flip da template.
-  - **Click** = overlay a schermo pieno nella CROMIA del brand: logo
-    grande, una riga, `Entra →` verso la landing. Il bianco del palco
-    si accende del colore del progetto: è il momento wow, ottenuto con
-    un colore pieno e un logo, non con effetti.
-- **Voce minore** (accanto a Imagina o sotto le quattro): `Mutamenti`
-  → overlay feed news (statico finché non arriva Directus).
+Le frasi in sovrimpressione sui nomi erano il sintomo dello stesso problema:
+servivano a riempire un vuoto che andava riempito con le immagini, non con
+altre parole. Via.
 
-## 3. UX — regole d'ingaggio del tavolo
+Mutamenti: via anche quello. Era una voce senza contenuto stabile, che
+prometteva un flusso di novità che nessuno si è impegnato a tenere aggiornato.
+Una voce morta in home costa più di quanto renda.
 
-- Gli overlay sono dialog veri: focus trap, ESC chiude, click fuori
-  chiude, `aria-modal`, ritorno del focus alla voce d'origine.
-- History: aprire un overlay fa pushState (il back del browser chiude
-  il sipario invece di uscire dal sito).
-- Nessun autoplay audio, nessun parallax, nessun cursore custom.
-- Mobile: stessa inquadratura — logo al centro (poster + dissolvenza,
-  niente video se il risparmio dati è attivo), le quattro voci
-  impilate in basso, tap = overlay. Il "hover-verso" su touch diventa
-  la prima riga dell'overlay.
-- Performance: il video-logo su bianco comprime benissimo — target
-  <2MB; poster preloaded; zero layout shift; Lighthouse ≥95 (la home
-  è quasi vuota: deve volare).
-- Il taglio: overlay che entra a copertura piena in 260–320ms con
-  easing secco (no bounce); la dissolvenza solo per il logo e per
-  Mutamenti.
+## 1. Il concept: quattro ante di una vetrina
 
-## 4. Profilo Imagina [v2 — 07/08, ampliato su richiesta di Paolo]
+La home è **una vetrina divisa in quattro ante**, a tutta pagina, dentro una
+cornice. Ogni anta è un progetto: una fotografia del suo mondo, velata dalla
+cromia del marchio, con il suo segno in basso. Le quattro ante riempiono tutto
+lo schermo — non c'è un pixel di vuoto, e questo risolve alla radice il
+problema della v2.
+
+Passando sopra un'anta, quella **si apre**: cresce fino a occupare metà
+vetrina, la fotografia perde il velo e torna a colori, e sotto il segno
+compare il logo del marchio con il suo luogo e il suo mese. Le altre tre si
+stringono ma restano visibili — il gesto è quello di una tenda che si scosta,
+non di una pagina che cambia. Un clic entra nella landing.
+
+È esattamente il meccanismo che chiedeva Paolo — «icone che passando rivelano
+il logo e si può cliccare» — ma con la fotografia dietro, che è la parte che
+trasforma quattro pulsanti in una vetrina.
+
+**Il rapporto con la pellicola.** La home continua a non avere il menù a
+capsula, e ora si capisce perché: le quattro ante *sono* la pellicola,
+proiettata a tutto schermo. Fuori dalla home i quattro segni si richiudono nella
+capsula in alto a destra; qui si aprono e diventano il paesaggio. È la stessa
+regola di prima — la home è il menù esploso — ma finalmente visibile.
+
+## 2. La cornice
+
+È la richiesta esplicita di Paolo, ed è la cosa che toglie l'effetto "appeso al
+centro". Un filetto da 1 px inset di 20 px dal bordo dello schermo, con le
+quattro tacche d'angolo marcate: è un **fotogramma**. Coerente col linguaggio
+della casa (la moviola, il controcampo, la pellicola) e utile, perché dà alla
+pagina dei bordi veri.
+
+Dentro la cornice, sui due lati, vivono le uniche righe di testo della home, in
+maiuscoletto piccolo su fondo scuro:
+
+- **alto a sinistra** — il logotipo Imagina, piccolo, in bianco;
+- **alto a destra** — `Chi siamo` (apre il profilo) e `EN`;
+- **basso a destra** — `Camerino, Marche · dal 1991`.
+
+Nient'altro. La parola «Imagina» compare una volta sola, ed è il logotipo.
+
+## 3. L'ingresso: il sipario
+
+Al caricamento la vetrina è chiusa: schermo di carta `#faf9f6`, e al centro il
+video del logo che si compone — l'asset `public/home/hero-imagina.mp4` che c'è
+già e pesa 150 KB. Finito il video (circa 16 secondi, ma si può tagliare a 6–8),
+**le quattro ante si aprono** con un wipe dal centro verso i lati, 700 ms,
+easing secco. Il logotipo si rimpicciolisce e va a parcheggiarsi nell'angolo
+alto a sinistra della cornice, dove resta.
+
+Questo è l'effetto wow, e costa pochissimo: un video già prodotto e una
+transizione CSS. Chi torna una seconda volta se lo risparmia — `sessionStorage`,
+ante già aperte, logotipo già in cornice. E chi ha `prefers-reduced-motion`
+salta direttamente allo stato aperto.
+
+## 4. Comportamento, in dettaglio
+
+**Riposo.** Quattro ante uguali. Fotografie in grigio all'55 % di saturazione,
+velo di cromia del marchio al 62 % in multiply, gradiente scuro sopra per
+tenere leggibili i segni. In basso a sinistra di ogni anta, il segno del
+marchio in bianco a 52 px.
+
+**Sopra un'anta.** L'anta cresce (flex-grow da 1 a 2.6, le altre a 0.72), 550 ms
+con easing `cubic-bezier(.55,.05,.18,1)`. La fotografia torna a colori e chiude
+lo zoom da 1.04 a 1. Il velo scende al 34 %. Sotto il segno compaiono, sfalsati
+di 60 ms, il logo del marchio (altezza 44 px) e la riga `luogo · mese`.
+
+**Clic.** Si entra nella landing. Nessun overlay intermedio: i sipari di marchio
+della v2 erano un passaggio in più che non aggiungeva niente — le landing sono
+diventate buone, si va lì.
+
+**Tastiera.** Le quattro ante sono link veri, in tab order. Il focus produce lo
+stesso stato del passaggio del mouse. Anello di focus visibile.
+
+**Touch.** Sotto i 900 px le ante diventano **quattro fasce orizzontali**
+impilate, ognuna alta un quarto di schermo, tutte già "aperte": fotografia a
+colori, segno e logo visibili, la riga del luogo sotto. Nessun hover da
+simulare, nessun tap intermedio: si tocca e si entra. La cornice resta.
+
+## 5. Le fotografie — è qui che la home vive o muore
+
+Servono **quattro fotografie**, una per marchio, e sono il vero investimento di
+questa pagina. Devono essere: orizzontali e ad alta risoluzione (almeno 2400 px
+di lato lungo, perché una singola anta aperta arriva a metà schermo); con un
+soggetto leggibile anche in una fascia stretta, quindi composizione centrale e
+non dispersa; con spazio scuro o vuoto nel terzo inferiore sinistro, dove vanno
+segno e logo; e devono contenere **persone**, perché quattro paesaggi vuoti
+raccontano una regione, quattro folle raccontano quattro festival.
+
+Da evitare in modo assoluto: locandine, cartoline, roll-up, slide, palchi
+istituzionali con relatori seduti. Nel mock che allego ho dovuto usare quello
+che c'era in `public/` e si vede — la locandina di Recanati come sfondo a tutta
+pagina è la dimostrazione per assurdo di quanto conti la scelta.
+
+Per EVO al momento non c'è nulla in repo: serve una foto della piazza in gioco.
+
+Formato di consegna: JPG progressivo, ~2400 px, in `public/home/vetrina/`, con
+una `-poster` a 40 px per il blur-up. Se Paolo le estrae dai reportage, gliele
+seleziono e le preparo io.
+
+## 6. Un asset da rifare
+
+Il logotipo Imagina che va in cornice deve essere **su fondo trasparente e in
+bianco**. Quello usato oggi nel mock è il poster del video, che ha il rettangolo
+bianco attorno e sopra una fotografia fa il buco che si vede negli screenshot.
+In repo c'è già `src/assets/imagina-logotype.svg` in `currentColor`: usare
+quello, oppure — meglio ancora, viste le misure — il monogramma della pellicola
+(`mk-imagina-mono`) accanto al logotipo.
+
+## 7. Profilo Imagina [ampliato il 07/08, invariato in questa v3]
 
 Il profilo cresce perché i soci vogliono metterci mano e perché deve reggere da
 solo: è l'unico punto del sito in cui Imagina parla di sé, e chi lo apre
@@ -187,7 +252,7 @@ cosa comporta per Imagina.
 [Da qui i link di chiusura: Note di produzione · Entra in scena · Mutamenti ·
 info@anigami.it — l'email è l'unico luogo del sito in cui quel dominio esiste.]
 
-## 4bis. Due cose da sistemare prima di pubblicare
+## 8. Due cose da sistemare prima di pubblicare
 
 **Le finalità di beneficio comune.** Il blocco 4.5 spiega l'istituto ma non cita
 quello che Imagina ha effettivamente scritto nel proprio statuto — è l'unica cosa
@@ -208,22 +273,49 @@ andrebbe aggiornato. E nell'elenco dei Paesi compare la Federazione Russa:
 l'ho omessa dal testo per il sito — su una pagina pubblica del 2026 apre una
 conversazione che non è quella che volete fare. Se preferisci rimetterla, si fa.
 
-## 5. Le quattro voci — recto/verso [BOZZE, dal quadro metanarrativo]
+## 9. Regole d'ingaggio (UX, invariate dove funzionavano)
 
-| Voce (recto) | Verso (hover) | Riga nell'overlay |
-|---|---|---|
-| Tipicità | otto mesi di produzione per tre giorni di festival | Il festival delle traiettorie indigene. Fermo, dal 1993. |
-| Grand Tour delle Marche | ciò che resta quando è già ripartito | Un itinerario che dura una stagione: 73 comuni e la strada continua. |
-| Tipicità in Blu | due sponde dell'Adriatico, un solo cantiere | Mare, laboratorio di futuro. Ancona, la Mole, la rotta. |
-| EVO | si impara a cooperare giocando | I linguaggi del gioco. Macerata, ogni dicembre. |
+Il profilo Imagina resta un `<dialog>` vero: focus trap, ESC chiude, click fuori
+chiude, `aria-modal`, ritorno del focus alla voce d'origine, e `pushState` così
+il back del browser chiude invece di uscire dal sito. È l'unico overlay rimasto
+in home: i quattro sipari di marchio spariscono, Mutamenti sparisce.
 
-[NB EVO: date/riga da verificare al momento del lavoro su EVO. I versi
-NON si spiegano: appaiono e basta.]
+Niente autoplay audio, niente parallax, niente cursore custom. Il video del
+sipario è muto, `playsinline`, e non parte se il risparmio dati è attivo — in
+quel caso si va diretti alla vetrina aperta.
 
-## 6. Cosa serve, da chi
+Performance: quattro JPG a tutta pagina sono il carico principale, quindi
+`fetchpriority="high"` sulla prima anta, `loading="eager"` su tutte e quattro
+(sono above the fold per definizione), blur-up dal poster, `width`/`height`
+dichiarati per non muovere niente. Obiettivo Lighthouse ≥ 90 su mobile, che con
+quattro fotografie è un traguardo onesto — la home non è più quasi vuota, e va
+bene così.
 
-- Paolo: validazione del profilo (§4, incluso 'perché società benefit') e dei versi (§5). [Video: FATTO]
-- Cowork: conversione web del video, eventuali micro-revisioni copy.
-- Code: implementazione su questo brief. La home attuale (corridoio
-  poster + scroll) viene sostituita; pagine interne e route esistenti
-  restano raggiungibili dagli overlay.
+## 10. Cosa serve, da chi
+
+**Da Paolo**: le quattro fotografie (§5) e le finalità di beneficio comune
+dello statuto (§8). Sono le due cose che nessun altro può dare.
+
+**Da Cowork**: selezione e preparazione delle immagini appena arrivano i
+reportage; le didascalie `luogo · mese` se si vuole cambiarle rispetto a quelle
+qui sotto.
+
+**Da Code**: la costruzione. Le quattro righe di didascalia proposte sono
+`Fermo · marzo`, `Marche · giugno–dicembre`, `Ancona · maggio`,
+`Macerata · settembre`. Nota che EVO si è spostato a settembre: il dato è
+confermato dal sito ufficiale e dalla presentazione istituzionale, quindi la
+vecchia dicitura «dicembre» è da considerarsi superata ovunque compaia.
+
+## 11. Il mock
+
+Allegati a questa consegna quattro screenshot a 1440: lo stato di riposo con le
+quattro ante, e l'apertura di ciascuna. Il file interattivo è `home-v2b.html`:
+si apre nel browser e si passa il mouse. Serve a decidere l'impianto, non i
+dettagli — le fotografie sono segnaposto e il logotipo in cornice ha ancora il
+rettangolo bianco (vedi §6).
+
+Nel pacchetto c'è anche `home-v2a.html`, una variante scartata: cornice e campo
+unico che cambia mondo al passaggio sui quattro segni allineati in basso.
+Funziona, ma a riposo resta bianca — cioè ricade nel difetto da cui siamo
+partiti. La tengo agli atti solo per mostrare perché la vetrina a quattro ante
+è la risposta giusta.
