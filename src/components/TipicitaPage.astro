@@ -61,7 +61,34 @@ const alternates = [
 >
   <Fragment slot="header">
     <Pellicola lang={lang} current="tipicita" mode="light" />
-    <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
+
+    <!-- LA BARRA DEI CAPITOLI (08/08/2026, richiesta di Paolo): stessa
+         grammatica delle altre tre landing — filo in alto, marchio a
+         sinistra, i capitoli, un dato a destra. Sostituisce i puntini
+         laterali, che di questa pagina nascondevano proprio la cosa che
+         porta il senso: la doppia codifica vive nelle PAROLE, e cinque
+         pallini sono l'unica navigazione che garantisce che nessuno le
+         legga. Qui il "dato a destra" è il selettore lingua, che così
+         smette di galleggiare per conto suo nell'angolo.
+         Fissa e non sticky: a scorrere è .deck, e dentro un contenitore
+         con scroll-snap una sticky sfalsa i punti di aggancio. -->
+    <div class="tbarra" id="tbarra">
+      <div class="tbarra-in">
+        <a class="tbarra-marchio" href="#top" aria-label="Tipicità">
+          <img src="/logos/tipicita-wordmark.svg" alt="" width="200" height="61" />
+        </a>
+        <nav aria-label={c.aria.menu}>
+          {c.menu.map((m) => <a href={m.href} data-q={m.href.slice(1)}>{m.label}</a>)}
+        </nav>
+        <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
+      </div>
+    </div>
+    <script is:inline>
+      // Abilita lo stato ridotto della barra sull'apertura, prima del
+      // primo paint. Senza questa riga (JS spento) la barra resta piena
+      // e i capitoli restano navigabili: è il fallback voluto.
+      document.getElementById('tbarra')?.classList.add('js');
+    </script>
   </Fragment>
 
   <div class="deck" id="deck">
@@ -75,9 +102,6 @@ const alternates = [
     <div class="q-hero-content">
       <img class="wordmark" src="/logos/tipicita-wordmark-white.svg" alt="Tipicità" />
       <img class="payoff" src={c.payoff.src} alt={c.payoff.alt} />
-      <nav class="menu" aria-label={c.aria.menu}>
-        {c.menu.map((m) => <a href={m.href}>{m.label}</a>)}
-      </nav>
     </div>
     <div class="cue" aria-hidden="true"></div>
   </header>
@@ -183,11 +207,6 @@ const alternates = [
 
   </div>
 
-  <nav class="dots" aria-label={c.aria.dots}>
-    {['top', 'trama', 'essenza', 'motore', 'tracce'].map((q, i) => (
-      <button data-q={q} aria-label={c.aria.dotLabels[i]}></button>
-    ))}
-  </nav>
   <button class="next" id="deck-next" aria-label={c.aria.deckNext}>↓</button>
 </BaseLayout>
 
@@ -227,24 +246,104 @@ const alternates = [
      :focus-visible → compare solo con tastiera, non altera lo stato a
      riposo; outline non sposta il layout. Petrolio sui controlli su
      fondo chiaro (≈8:1 sul bianco), bianco su quelli sopra il campo teal. */
-  .dots button:focus-visible, .nodo:focus-visible, .anno:focus-visible,
+  .nodo:focus-visible, .anno:focus-visible,
   .hbtn:focus-visible, .next:focus-visible, .scrub:focus-visible {
     outline: 2px solid var(--brand-accent); outline-offset: 2px; }
-  .menu a:focus-visible {
-    outline: 2px solid #fff; outline-offset: 3px; }
 
-  /* Selettore lingua: scende SOTTO la capsula invece di stare alla sua
-     sinistra, così i due non si contendono l'angolo (BRIEF-MENU §6.3).
-     Sul telefono la capsula scende in basso e l'angolo si libera: il
-     selettore risale al suo posto naturale. */
-  /* 5.9rem e non 4.4: a 4.4 finisce esattamente sulla riga della
-     didascalia della pellicola, che compare al passaggio. */
-  .to-lang { position: fixed; top: 5.9rem; right: 1.6rem; z-index: 20; font-family: 'Manrope', sans-serif;
-    font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-    color: #fff; mix-blend-mode: difference; opacity: 0.55; padding: 0.4rem 0; }
-  .to-lang:hover { opacity: 1; }
-  .to-lang:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-  @media (max-width: 759px) { .to-lang { top: 1.5rem; } }
+  /* ══ LA BARRA DEI CAPITOLI (08/08/2026) ══
+     Stessa grammatica della strada del Grand Tour e della barra del TIB:
+     vetro sottile, marchio a sinistra, i capitoli, un dato a destra.
+     Entra in dissolvenza quando lasci l'apertura — sull'hero non serve,
+     lì il campo petrolio deve restare intero.
+     Fissa e non sticky: a scorrere è .deck, e dentro un contenitore con
+     scroll-snap una sticky sfalsa i punti di aggancio. */
+  /* Due stati, un solo oggetto. SULL'APERTURA la barra è trasparente e
+     mostra soltanto il selettore lingua: il campo petrolio resta intero,
+     ma chi arriva dall'inglese non deve scorrere per trovare come
+     cambiare lingua. DAL SECONDO QUADRO si riempie di vetro e scopre
+     marchio e capitoli. Il selettore non si sposta di un pixel fra i due
+     stati: cambia solo il colore.
+     ⚠️ Lo stato pieno è quello di DEFAULT: la classe .js — messa da uno
+     script inline in coda al markup — è ciò che abilita lo stato ridotto
+     sull'apertura. Al contrario, senza JavaScript la barra resterebbe
+     trasparente e i capitoli invisibili: nessuna navigazione. */
+  .tbarra {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 25;
+    background: color-mix(in srgb, var(--bg-void) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tbarra.js:not(.vista) {
+    background: transparent;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
+  .tbarra.js .tbarra-marchio,
+  .tbarra.js nav { transition: opacity 0.3s ease; }
+  /* opacity e non visibility: con visibility: hidden i capitoli uscivano
+     dall'ordine di tabulazione, e da tastiera sull'apertura non c'era più
+     modo di raggiungerli. Così restano raggiungibili, e il pointer-events
+     evita che il mouse peschi un link invisibile. */
+  .tbarra.js:not(.vista) .tbarra-marchio,
+  .tbarra.js:not(.vista) nav { opacity: 0; pointer-events: none; }
+
+  /* chi ci arriva col Tab fa comparire la barra: il fuoco non deve mai
+     finire su qualcosa che non si vede */
+  .tbarra.js:not(.vista):focus-within {
+    background: color-mix(in srgb, var(--bg-void) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--hairline);
+  }
+  .tbarra.js:not(.vista):focus-within .tbarra-marchio,
+  .tbarra.js:not(.vista):focus-within nav { opacity: 1; pointer-events: auto; }
+  .tbarra.js:not(.vista):focus-within .to-lang { color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tbarra, .tbarra.js .tbarra-marchio, .tbarra.js nav { transition: none; }
+  }
+
+  .tbarra-in { max-width: 70rem; margin: 0 auto; padding: 0.55rem 1.6rem;
+    display: flex; align-items: center; gap: 1.6rem; }
+  /* l'angolo in alto a destra è della pellicola, che non si sposta mai */
+  @media (min-width: 760px) { .tbarra-in { padding-right: 265px; } }
+
+  .tbarra-marchio { display: block; flex: none; line-height: 0; }
+  .tbarra-marchio img { height: 24px; width: auto; display: block; }
+
+  .tbarra nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.4rem; }
+  .tbarra nav a {
+    font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    padding: 0.35rem 0; border-bottom: 1px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .tbarra nav a:hover { color: var(--brand-accent); }
+  .tbarra nav a[aria-current] { color: var(--brand-accent); border-bottom-color: var(--tiffany); }
+  .tbarra nav a:focus-visible,
+  .tbarra-marchio:focus-visible,
+  .tbarra .to-lang:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+
+  /* Il selettore lingua smette di galleggiare nell'angolo: è il "dato a
+     destra" della barra, come le coordinate sul TIB. Via il
+     mix-blend-mode, che serviva a reggere su qualunque cromia gli
+     passasse sotto — qui sotto passa solo il vetro della barra. */
+  .tbarra .to-lang { margin-left: auto; flex: none; font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    color: var(--text-dim); padding: 0.35rem 0; transition: color 0.3s ease; }
+  .tbarra .to-lang:hover { color: var(--brand-accent); }
+  /* sull'apertura il selettore è l'unica cosa in vista, sul campo petrolio */
+  .tbarra.js:not(.vista) .to-lang { color: rgba(255, 255, 255, 0.88); }
+  @media (prefers-reduced-motion: reduce) { .tbarra .to-lang { transition: none; } }
+
+  @media (max-width: 560px) {
+    .tbarra-in { gap: 0.9rem; padding: 0.5rem 1rem; }
+    .tbarra-marchio img { height: 19px; }
+    .tbarra nav { gap: 0.2rem 0.9rem; }
+    .tbarra nav a { font-size: 0.66rem; letter-spacing: 0.06em; }
+  }
 
   /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
      continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO
@@ -257,18 +356,19 @@ const alternates = [
     max-height: 100vh; max-height: 100svh; overflow-y: auto; }
   .q-in.narrow { max-width: 800px; }
 
-  /* puntini di navigazione */
-  .dots { position: fixed; right: 1.1rem; top: 50%; transform: translateY(-50%); z-index: 20;
-    display: flex; flex-direction: column; gap: 0.7rem; }
-  .dots button { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--brand-accent);
-    background: transparent; cursor: pointer; padding: 0; transition: background 0.25s, transform 0.25s; }
-  .dots button.on { background: var(--tiffany); border-color: var(--tiffany); transform: scale(1.35); }
-  .q-hero ~ .dots button { border-color: rgba(255,255,255,.8); }
+  /* La barra è fissa e copre il bordo alto del quadro: i quadri che non
+     sono l'apertura le lasciano il posto. Il contenuto è centrato, quindi
+     il padding in più lo scende quel tanto che basta a stare comodo. */
+  .quadro:not(.q-hero) .q-in { padding-top: calc(clamp(2.5rem, 6vh, 4rem) + 2.6rem); }
+
+  /* La freccia resta: è il gesto del deck, non navigazione. Sul telefono
+     però l'angolo in basso è già della pellicola, e due bottoni tondi a
+     dieci pixel l'uno dall'altro sono un invito a sbagliare bersaglio. */
   .next { position: fixed; right: 1.6rem; bottom: 1.4rem; z-index: 20; width: 42px; height: 42px;
     border-radius: 50%; border: 1px solid var(--tiffany); color: var(--tiffany); background: rgba(252,252,250,.75);
     font-size: 1.1rem; cursor: pointer; line-height: 1; }
   .next:hover { background: var(--tiffany); color: #fff; }
-  @media (max-width: 640px) { .dots { right: 0.5rem; } }
+  @media (max-width: 759px) { .next { display: none; } }
 
   h2 { color: var(--brand-accent); font-size: clamp(1.7rem, 3.6vw, 2.3rem); margin-bottom: 1.2em; }
   h2::before { content: '.'; font-weight: 700; color: var(--tiffany); }
@@ -285,12 +385,10 @@ const alternates = [
      bianco (come il wordmark) via filtro, senza toccare l'asset SVG */
   .payoff { width: min(70vw, 500px); height: auto; margin: 1.2rem auto 2.4rem; display: block;
     filter: brightness(0) invert(1); }
-  .menu { display: flex; justify-content: center; gap: 1.6rem; flex-wrap: wrap; font-family: 'Manrope', sans-serif;
-    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
-  .menu a { color: rgba(255, 255, 255, 0.9); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 3px; }
-  .menu a:hover { border-color: var(--tiffany); color: #fff; }
-  @media (max-width: 480px) { .menu { display: grid; grid-template-columns: repeat(2, auto);
-    gap: 1rem 2.4rem; justify-content: center; text-align: left; } }
+  /* Il menù dell'hero è stato tolto: i capitoli li porta la barra, che
+     resta con te per tutta la lettura invece di sparire al primo scroll.
+     L'apertura torna a essere quello che sono le aperture delle altre
+     tre landing — campo, marchio, payoff, e basta. */
   .cue { position: absolute; bottom: 1.6rem; left: 50%; width: 1px; height: 52px;
     background: linear-gradient(rgba(255, 255, 255, 0.85), transparent); animation: cue 2.4s ease-in-out infinite; }
   @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; }
@@ -600,26 +698,39 @@ const alternates = [
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const scrollBehavior = () => (prefersReduced.matches ? 'auto' : 'smooth');
   const quadri = Array.from(deck.querySelectorAll('.quadro'));
-  const dots = Array.from(document.querySelectorAll('.dots button'));
+  // ---- LA BARRA DEI CAPITOLI (al posto dei puntini, 08/08/2026) ----
+  // Le ancore restano <a href="#..."> vere: senza JS il deck si sposta
+  // comunque, qui si aggiunge solo lo scorrimento morbido e lo stato.
   const ids = ['top', 'trama', 'essenza', 'motore', 'tracce'];
+  const tbarra = document.getElementById('tbarra');
+  const voci = Array.from(document.querySelectorAll('.tbarra nav a'));
+  const marchio = document.querySelector('.tbarra-marchio');
+  let quadroCorrente = 0;
+
   function goQ(id) { document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior() }); }
-  dots.forEach((d) => d.addEventListener('click', () => goQ(d.dataset.q)));
+
+  [...voci, marchio].filter(Boolean).forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault(); goQ(a.getAttribute('href').slice(1));
+  }));
+
   document.getElementById('deck-next').addEventListener('click', () => {
-    const i = ids.findIndex((id, j) => dots[j].classList.contains('on'));
-    goQ(ids[Math.min(ids.length - 1, i + 1)]);
+    goQ(ids[Math.min(ids.length - 1, quadroCorrente + 1)]);
   });
+
   const qObs = new IntersectionObserver((es) => {
     es.forEach((e) => { if (e.isIntersecting) {
       const i = quadri.indexOf(e.target);
-      dots.forEach((d, j) => d.classList.toggle('on', j === i));
+      quadroCorrente = i;
+      // la barra non c'è sull'apertura: lì il campo petrolio resta intero
+      tbarra.classList.toggle('vista', i > 0);
+      voci.forEach((a) => {
+        const suo = a.dataset.q === ids[i];
+        if (suo) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
       document.getElementById('deck-next').style.visibility = i === quadri.length - 1 ? 'hidden' : 'visible';
     } });
   }, { root: deck, threshold: 0.6 });
   quadri.forEach((q) => qObs.observe(q));
-  // il menù del quadro 1 naviga il deck
-  document.querySelectorAll('.menu a').forEach((a) => a.addEventListener('click', (e) => {
-    e.preventDefault(); goQ(a.getAttribute('href').slice(1));
-  }));
 
   // ---- Essenza: la filigrana video gira solo quando il quadro è in scena ----
   const essbg = document.getElementById('essbg');

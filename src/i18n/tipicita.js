@@ -93,8 +93,7 @@ export const content = {
     placeholder: `Foto d'archivio — in selezione`,
     aria: {
       menu: 'Capitoli', schema: 'La formula', anni: 'Anni della rotta', scrub: 'Cursore degli anni',
-      prev: 'Card precedente', next: 'Card successiva', dots: 'Quadri', deckNext: 'Quadro successivo',
-      dotLabels: ['Apertura', 'Trama', 'Essenza', 'Motore', 'Tracce'],
+      prev: 'Card precedente', next: 'Card successiva', deckNext: 'Quadro successivo',
     },
     langToggle: { to: 'en', href: '/en/tipicita/', label: 'EN', aria: 'English version' },
     stages: [
@@ -193,8 +192,7 @@ export const content = {
     placeholder: `Archive photos — selection in progress`,
     aria: {
       menu: 'Chapters', schema: 'The formula', anni: 'Years of the route', scrub: 'Cursor along the years',
-      prev: 'Previous card', next: 'Next card', dots: 'Frames', deckNext: 'Next frame',
-      dotLabels: ['Opening', 'Thread', 'Essence', 'Engine', 'Traces'],
+      prev: 'Previous card', next: 'Next card', deckNext: 'Next frame',
     },
     langToggle: { to: 'it', href: '/tipicita/', label: 'IT', aria: 'Versione italiana' },
     stages: [
