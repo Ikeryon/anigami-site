@@ -186,12 +186,53 @@ const structuredData = {
       <span aria-hidden="true">×</span>
     </button>
     <div class="sipario-in casa-in">
-      <p class="kicker" id="ov-imagina-t">Imagina Srl Società Benefit</p>
+      <h2 class="kicker" id="ov-imagina-t">Imagina Srl Società Benefit</h2>
 
-      <p class="profilo">Imagina è una società benefit marchigiana che dal 1991 progetta e produce piattaforme di valorizzazione territoriale: festival, itinerari, missioni internazionali, format che mettono in relazione imprese, università, istituzioni e comunità. È la struttura di produzione dietro Tipicità, il Grand Tour delle Marche, Tipicità in Blu ed EVO — quattro progetti autonomi, quattro linguaggi, una sola rete: circa trecento realtà pubbliche e private che lavorano insieme tutto l'anno. Il metodo è sempre lo stesso: partire da ciò che un territorio sa fare, costruirci intorno relazioni che restano. I festival durano giorni; il lavoro che li rende possibili — e ciò che lasciano — dura anni. Questa casa racconta quel lavoro: il dietro le quinte è il nostro mestiere.</p>
+      {/* PROFILO v2 (BRIEF-HOME §4, 07/08 — fonte: Company Profile 2025).
+          Cinque blocchi con titoletti brevi: il profilo è l'unico punto del
+          sito in cui Imagina parla di sé, e chi lo apre sta probabilmente
+          valutando se lavorare con voi. Si scansiona, non si legge tutto
+          d'un fiato. Testi trascritti tali e quali. */}
 
-      <h2 class="perche">Perché società benefit</h2>
-      <p class="profilo">Società benefit non è una formula: è l'oggetto sociale. Per Imagina significa che la cura del territorio non è il contorno del lavoro — è il lavoro. Valorizzare i talenti di una regione ad ampio spettro: gli artigiani e i ricercatori, i produttori e gli studenti, chi tiene aperta una bottega in un borgo e chi in un laboratorio studia il mare. Il profitto serve a tenere in piedi la struttura; lo scopo è che i territori dove lavoriamo stiano meglio di come li abbiamo trovati.</p>
+      <section class="blocco-profilo">
+        <h3 class="titoletto">Chi siamo</h3>
+        <p class="profilo">Imagina è una società benefit con sede a Camerino, nelle Marche. Dal 1991 lavora nel marketing territoriale e nella comunicazione integrata, con una specializzazione netta su due comparti: l'agroalimentare e il turistico-territoriale.</p>
+        <p class="profilo">È una microimpresa che opera su scala internazionale, e la cosa sta in piedi per una ragione precisa: Imagina è il referente di un partenariato pubblico-privato che oggi conta circa trecento entità, pubbliche e private, che si riconoscono nel valore territorio. Non è una rete di patrocini: è la struttura con cui si lavora tutto l'anno.</p>
+        <p class="profilo">Da questo trentennio nasce il patrimonio di progettualità che vive sotto il marchio ombrello Tipicità e nelle sue declinazioni — <a href="/tipicita/">Tipicità Festival</a>, il <a href="/grand-tour-delle-marche/">Grand Tour delle Marche</a>, <a href="/tipicita-in-blu/">Tipicità in Blu</a> ed <a href="/evo/">EVO</a>. Quattro progetti autonomi, quattro linguaggi, una sola rete.</p>
+      </section>
+
+      <section class="blocco-profilo">
+        <h3 class="titoletto">Come lavoriamo</h3>
+        <p class="profilo">Contaminazione, osmosi, cross fertilization: è il carburante con cui Imagina attiva processi di networking fra filiere e fra territori. Reti lunghe e reti corte che producono racconti nuovi e occasioni nuove, usando la crossmedialità globale per veicolare specificità locali.</p>
+        <p class="profilo">Il metodo ha un ordine e costa tempo. Prima si ascolta cosa dice il territorio, e ci vogliono mesi. Poi si incontrano comunità diverse e si confrontano le differenze invece di appianarle. Poi si mette a fuoco il posizionamento — locale nella sostanza, globale nello sguardo. Solo alla fine si costruiscono azioni su misura, perché nessuna comunità somiglia a un'altra abbastanza da meritare lo stesso formato.</p>
+        <p class="profilo">Il lavoro arriva chiavi in mano: analisi di fattibilità, progettazione, coordinamento, organizzazione generale. E arriva da un gruppo di professionisti con esperienza pluriennale in Italia e all'estero nella pianificazione, nella progettazione e nella comunicazione integrata.</p>
+      </section>
+
+      <section class="blocco-profilo">
+        <h3 class="titoletto">Cosa facciamo</h3>
+        <p class="profilo"><b>Marketing e sviluppo territoriale</b> — progetti di marketing, coaching e networking territoriale; creazione e sviluppo di marchi ombrello; processi di cross-fertilization fra filiere; percorsi bottom-up per lo sviluppo turistico; co-creazione degli asset di un territorio; itinerari turistici generali e tematici; progetti di cooperazione transnazionale.</p>
+        <p class="profilo"><b>Eventi e format</b> — progettazione, organizzazione e gestione chiavi in mano di festival, congressi, convegni, fiere ed esposizioni; hackathon; corsi di formazione professionale; press tour ed educational tour.</p>
+        <p class="profilo"><b>Comunicazione</b> — campagne crossmediali su web, social e direct mailing customizzato; ufficio stampa e rapporti con i media locali, nazionali e di settore; piani di relazioni pubbliche; consulenza di immagine; produzione video; pubblicazioni, dalle guide alle monografie.</p>
+      </section>
+
+      <section class="blocco-profilo">
+        <h3 class="titoletto">Dove</h3>
+        <p class="profilo">Imagina opera in quasi tutte le regioni italiane. Fuori dai confini, una rete di relazioni costruita nel tempo l'ha portata a lavorare in Germania, Francia, Spagna, Regno Unito, Slovenia, Croazia, Montenegro e Albania, e più lontano in Stati Uniti, Canada, Argentina, Emirati Arabi, Norvegia e Giappone.</p>
+      </section>
+
+      {/* ⚠️ Questo blocco SPIEGA L'ISTITUTO GIURIDICO, non celebra l'azienda:
+          è una richiesta esplicita di Paolo. Chi esce deve aver imparato
+          qualcosa che non sapeva, non essersi fatto un'idea di quanto siamo
+          bravi. Per questo la forma giuridica viene prima, e solo alla fine
+          si dice cosa comporta per Imagina. Non accorciare, non alleggerire. */}
+      <section class="blocco-profilo">
+        <h3 class="titoletto">Che cosa significa essere società benefit</h3>
+        <p class="profilo">Società benefit non è una certificazione e non è un premio. È una forma giuridica, introdotta in Italia dalla legge di stabilità 2016 — legge 208/2015, commi 376-384 — che ha fatto dell'Italia il primo Paese europeo ad averla nel proprio ordinamento.</p>
+        <p class="profilo">E non è nemmeno il non profit. Una società benefit resta un'impresa che fa utili e li distribuisce. Quello che cambia è l'oggetto sociale: accanto allo scopo di lucro, nello statuto vengono scritte una o più finalità di beneficio comune. Da quel momento non sono più intenzioni. Sono vincoli, e vincolano gli amministratori, che devono bilanciare tre interessi invece di uno solo: quello dei soci, quello delle finalità dichiarate e quello delle persone su cui l'attività dell'impresa ha effetto.</p>
+        <p class="profilo">Da qui discendono tre obblighi concreti. Va nominato un responsabile dell'impatto. Va redatta ogni anno una relazione di impatto, allegata al bilancio e pubblicata sul sito. E quella relazione non può essere un racconto: l'impatto va misurato con uno standard di valutazione esterno e indipendente, che copre quattro aree — governance, lavoratori, altri portatori d'interesse, ambiente.</p>
+        <p class="profilo">C'è anche una sanzione, ed è la parte che rende la cosa seria. Un'impresa che si dichiara società benefit senza perseguire davvero le finalità che ha scritto ricade nella disciplina della pubblicità ingannevole, sotto la vigilanza dell'Autorità Garante della Concorrenza e del Mercato. Non è un'etichetta che si appende: è un impegno che ha un costo e che qualcuno può venire a verificare.</p>
+        <p class="profilo"><b>Per Imagina</b> questo significa una cosa sola, e la si può dire in una riga: la cura del territorio non è il contorno del lavoro, è il lavoro. Valorizzare i talenti di una regione ad ampio spettro — gli artigiani e i ricercatori, i produttori e gli studenti, chi tiene aperta una bottega in un borgo e chi in un laboratorio studia il mare. Il profitto serve a tenere in piedi la struttura; lo scopo è che i territori dove lavoriamo stiano meglio di come li abbiamo trovati.</p>
+      </section>
 
       <!-- il piede di sito: resta agganciato in basso mentre il profilo
            scorre, così gli accessi non finiscono mai fuori campo -->
@@ -489,23 +530,51 @@ const structuredData = {
   /* ── il sipario della casa ── */
   .casa-in { max-width: 60ch; margin: 0 auto; width: 100%; }
 
+  /* Il profilo è diventato una lettura lunga: il corpo scende di mezzo
+     punto rispetto alla v1 e l'interlinea sale, così cinque blocchi si
+     scansionano invece di pesare. */
   .profilo {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
-    font-size: clamp(1.08rem, 1.8vw, 1.3rem);
-    line-height: 1.5;
+    font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+    line-height: 1.55;
     color: var(--text-soft);
-    margin: 0 0 1.4rem;
+    margin: 0 0 1rem;
   }
 
-  .perche {
+  .profilo:last-child { margin-bottom: 0; }
+  .profilo b { font-weight: 700; }
+
+  /* i quattro link ai progetti: qui il magenta scurito regge il testo
+     piccolo (5,8:1), quindi l'accento può stare nella parola */
+  .profilo a {
+    color: var(--imagina-ink);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--imagina-ink) 45%, transparent);
+  }
+
+  .profilo a:hover { border-bottom-color: var(--imagina-ink); }
+  .profilo a:focus-visible { outline: 2px solid var(--imagina-ink); outline-offset: 3px; }
+
+  /* Il kicker e i titoletti sono due maiuscoletti spaziati a poche righe
+     di distanza: senza un filetto si leggevano come due righe della
+     stessa cosa. Il filetto lo promuove a testata dell'overlay. */
+  .casa-in > .kicker {
+    padding-bottom: 1.1rem;
+    margin-bottom: 2.2rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .blocco-profilo { margin: 0 0 2.4rem; }
+
+  .titoletto {
     font-family: 'Manrope', sans-serif;
     font-size: 0.68rem;
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--imagina-ink);
-    margin: 2.2rem 0 1rem;
+    margin: 0 0 0.9rem;
   }
 
   .piede-blocco {
@@ -514,6 +583,20 @@ const structuredData = {
     margin-top: 2.4rem;
     padding-bottom: 0.4rem;
     background: var(--bg-void);
+  }
+
+  /* Con un profilo lungo il testo scorre sotto il piede: una sfumatura
+     corta sopra il filetto ammorbidisce il taglio, che altrimenti
+     tronca le righe di netto. */
+  .piede-blocco::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 2rem;
+    background: linear-gradient(to top, var(--bg-void), transparent);
+    pointer-events: none;
   }
 
   .accessi {
