@@ -193,6 +193,14 @@ footer.site-footer nav a {
   margin: 0 0.6rem;
 }
 
+/* Sotto i 760px la pellicola scende fissa al centro in basso: senza
+   questo respiro il fondo del documento non si riesce mai a portare
+   sopra la capsula. Su Tipicità il piede è nascosto e la regola non fa
+   nulla — lì a scorrere è il deck, non la pagina. */
+@media (max-width: 759px) {
+  footer.site-footer { padding-bottom: 5.5rem; }
+}
+
 /* Header Imagina — solo su home ed eventuale pagina contatti (vedi nota di
    Paolo, 10/07/2026: chi cerca "Imagina" e atterra sul sito deve capire
    subito dove si trova). */

@@ -1,74 +1,533 @@
 ---
 import BrandLayout from '../../layouts/BrandLayout.astro';
 
-const chapters = [
-  { id: 'essenza', label: 'Essenza' },
-  { id: 'tracce', label: 'Tracce' },
+// ══════════════════════════════════════════════════════════════════════
+// LANDING EVO — la fabula è IL VOCABOLARIO (TESTI-EVO.md v2, 07/08/2026)
+//
+// Ogni marchio ha un gesto che non presta a nessun altro: Tipicità ha i
+// quadri e la moviola, il Grand Tour la strada coi waypoint, il TIB la
+// plancia. Qui il gesto è il vocabolario, e vive nel terzo capitolo: il
+// lessico si scrive mentre lo leggi.
+//
+// ⚠️ IL LEMMA È LA NAVIGAZIONE, NON IL TITOLO. In barra dei capitoli e
+// nella riga di dizionario compare il lemma in minuscolo; l'<h2> è una
+// frase vera. Quattro <h2> che dicono "assunto", "muta", "lessico",
+// "mossa" non significherebbero niente né per chi scorre né per un
+// motore di ricerca.
+//
+// ⚠️ Le quattro righe di dizionario NON si spiegano in nessun punto
+// della pagina — stessa regola del menù bifronte di Tipicità.
+//
+// FUORI PERIMETRO: niente moviola, quadri, mappe o plancia.
+// ══════════════════════════════════════════════════════════════════════
+
+// I capitoli sono lemmi: etichette in minuscolo anche in barra (è la
+// forma del lemma, non un vezzo, e vale anche se stona con le altre
+// landing — vedi il .v-evo in fondo al file).
+const capitoli = [
+  { id: 'assunto', label: 'assunto' },
+  { id: 'muta', label: 'muta' },
+  { id: 'lessico', label: 'lessico' },
+  { id: 'mossa', label: 'mossa' },
 ];
 
-// NOTA PER PAOLO: ultima edizione trovata è dicembre 2025 (Macerata) — quindi
-// già passata. Numero di edizione ancora da confermare (fonti discordanti:
-// 4ª o 5ª). Uso quindi un formato ricorrente generico e ometto il numero di
-// edizione, in attesa di conferma.
+// IL LESSICO — undici voci. Non sono i temi di un cartellone: sono
+// alcuni dei punti di vista da cui EVO ha guardato la realtà. La
+// tassonomia non è inventata, il programma 2024 era indicizzato così.
+// Definizioni [BOZZA Cowork, da validare con Paolo].
+const lessico = [
+  { id: 'cibo', voce: 'i linguaggi del cibo',
+    def: 'Si impara prima di saper parlare. Dice da dove vieni anche quando preferiresti tacerlo.' },
+  { id: 'accoglienza', voce: "i linguaggi dell'accoglienza",
+    def: 'Una grammatica: si possono conoscere tutte le regole e restare scortesi, o sbagliarle tutte e far sentire qualcuno a casa.' },
+  { id: 'tipicita', voce: 'i linguaggi della tipicità',
+    def: 'Un prodotto senza nome è merce. Con un nome, e con la storia che lo regge, è un luogo che si può mangiare.' },
+  { id: 'impresa', voce: "i linguaggi d'impresa",
+    def: "Le parole con cui un'azienda si descrive decidono che azienda diventerà. Cambiare il piano industriale è facile. Cambiare il vocabolario, no." },
+  { id: 'digitale', voce: 'i linguaggi del digitale',
+    def: 'Non un canale in più: un modo di pensare, che si è preso le nostre frasi prima dei nostri schermi.' },
+  { id: 'artificiali', voce: 'i linguaggi artificiali',
+    def: 'Parliamo con qualcosa che ha imparato a parlare leggendoci. Quello che risponde è fatto delle nostre parole.' },
+  { id: 'arte', voce: "i linguaggi dell'arte",
+    def: 'Dice ciò che non entra in nessuna frase. Chi smette di praticarlo perde pezzi di sé senza accorgersene.' },
+  { id: 'odio', voce: "i linguaggi dell'odio",
+    def: 'Le parole che feriscono non sono un effetto collaterale del discorso: sono un progetto. Nominarle è il primo modo di disinnescarle.' },
+  { id: 'benessere', voce: 'i linguaggi del benessere',
+    def: 'Il corpo parla per primo e quasi sempre ha ragione. Ascoltarlo è una forma di alfabetizzazione.' },
+  { id: 'contemporaneo', voce: 'i linguaggi del contemporaneo',
+    def: 'Dire <i>adesso</i> mentre adesso sta ancora succedendo: la cosa più difficile che il linguaggio sappia fare.' },
+  { id: 'gioco', voce: 'i linguaggi del gioco',
+    def: 'Li contiene tutti. Si simula qualsiasi cosa, poi se ne esce per parlarne.' },
+];
+
+// CROMIA INVARIATA (TESTI-EVO §11): vinaccia profondo derivato dal
+// #7f1144 ufficiale, #b8497a come tono acceso. Il fondo scuro cambia il
+// registro del vocabolario, e in meglio: non un dizionario stampato ma
+// un dizionario che si illumina.
 //
-// CROMIA (10/07/2026): EVO vive in un vinaccia profondo derivato dal suo
-// 7f1244 ufficiale. Nota: per i testi accentati uso #b8497a, tono
-// schiarito del 7f1244 per leggibilità sul fondo scuro — l'ufficiale
-// resta il colore del marchio (home, atmosfere). Dimmi se preferisci
-// un'altra strada (es. pagina chiara con 7f1244 pieno sui titoli).
+// --text-faint: il default di sito è 0.38 e su #190712 sta a 3,1:1 —
+// sotto l'AA. Le definizioni sono testo piccolo, quindi si alza il tono
+// e non si ingrandisce il corpo (§11): a 0.58 il contrasto è 5,7:1,
+// stessa soglia già adottata sul TIB. Misurato a schermo, non a occhio.
 const theme = {
   '--bg-void': '#190712',
   '--bg-deep': '#240b1a',
   '--bg-mid': '#301023',
   '--brand-accent': '#b8497a',
+  '--text-faint': 'rgba(236, 231, 219, 0.58)',
+};
+
+// DATI STRUTTURATI (§2): la pagina è un manifesto senza date, quindi un
+// Event sarebbe invalido — richiede startDate. Si dichiara un WebPage
+// con `about` di tipo Festival. Nessuna data finché la pagina non ne ha.
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'EVO — i linguaggi del terzo millennio',
+  description:
+    'EVO è il festival dei linguaggi del terzo millennio, a Macerata. Dai linguaggi del cibo a quelli del gioco: perché le parole che usiamo non descrivono il mondo, lo costruiscono.',
+  inLanguage: 'it',
+  about: {
+    '@type': 'Festival',
+    name: 'EVO',
+    alternateName: 'EVO — i linguaggi del terzo millennio',
+    url: 'https://evo.ooo',
+    location: {
+      '@type': 'Place',
+      name: 'Macerata',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Macerata',
+        addressRegion: 'Marche',
+        addressCountry: 'IT',
+      },
+    },
+    organizer: { '@type': 'Organization', name: 'Comune di Macerata' },
+  },
 };
 ---
 
 <BrandLayout
   title="EVO — i linguaggi del terzo millennio, Macerata"
-  description="EVO, Macerata: il festival dei linguaggi del terzo millennio. Dal cibo al gioco, nato da Tipicità Evo. Storia, edizioni e temi."
+  description="EVO è il festival dei linguaggi del terzo millennio, a Macerata. Dai linguaggi del cibo a quelli del gioco: perché le parole che usiamo non descrivono il mondo, lo costruiscono."
   accent="#7f1244"
   brandName="EVO"
-  chapters={chapters}
+  heading="EVO — i linguaggi del terzo millennio"
+  chapters={capitoli}
+  structuredData={structuredData}
   logoSrc="/logos/evo.svg"
-  kicker="Macerata · ogni anno a dicembre"
-  heroLine="Non EVO come olio d'oliva. EVO come Evoluzione."
+  kicker="Macerata · i linguaggi del terzo millennio"
+  heroLine="È il tempo a dare forma al linguaggio, o il linguaggio a dare forma al tempo?"
   theme={theme}
+  variant="v-evo"
   menuCurrent="evo"
   menuMode="dark"
 >
   <Fragment slot="practical">
-    <span><strong>Quando</strong> ogni anno, dicembre</span>
     <span><strong>Dove</strong> Macerata</span>
   </Fragment>
 
-  <section class="chapter" id="essenza">
-    <h2 data-reveal>Essenza</h2>
+  <!-- ══ 1 · ASSUNTO ══ -->
+  <section class="chapter" id="assunto">
+    <h2 data-reveal>EVO è evoluzione, è il tempo che viviamo, è mutamento</h2>
 
-    <p data-reveal>EVO nasce in piena pandemia, spin-off di Tipicità in cerca di una propria identità nella città di Macerata, con l'Università di Macerata come partner — il cui motto, "umanesimo che innova", diventa quasi un programma. La prima edizione è quasi tutta phygital: una diretta fiume, qualche video a raccontare la città, perché non si poteva fare altro.</p>
+    <p class="lemma" data-reveal><b>assunto</b> <i>s.m.</i> — ciò che si dà per vero prima di cominciare.</p>
 
-    <p data-reveal>EVO non sta per olio d'oliva. Sta per Evoluzione — l'idea di far evolvere il format di Tipicità dentro la dimensione di una città intera, non più una fiera.</p>
+    <p class="occhiello" data-reveal>Il festival nasce da una domanda: le parole raccontano il tempo, o lo fabbricano?</p>
 
-    <p data-reveal>Costruendo la seconda edizione, la scoperta: il cibo può essere raccontato come un linguaggio, non solo come un prodotto. Per dimostrarlo si ospita il Giappone — una serie di appuntamenti, un temporary restaurant. E lì succede qualcosa che nessuno aveva previsto a tavolino: parlare di cibo come linguaggio porta dentro anche un'opera d'arte giapponese, un teatro di marionette, storie popolari per bambini, un concerto di Coba, fisarmonicista di fama internazionale. Il cibo non basta più a contenere quello che il festival sta diventando.</p>
+    <p data-reveal>Le parole che scegliamo, i segni, le immagini, i gesti — tutto l'insieme di cose che chiamiamo linguaggio — descrivono la realtà o la costruiscono? È una domanda che il Novecento ha messo al centro e non ha chiuso.</p>
 
-    <p data-reveal>Da lì nasce EVO — i linguaggi del terzo millennio. Non una scelta di marketing: un vestito che non andava più bene, cambiato per necessità. Un festival, costruendosi, smette a un certo punto di essere solo quello che chi lo organizza ha scritto — diventa un'entità autonoma, fatta anche di chi lo vive: negozianti, associazioni, chi sale su un palco per un pomeriggio. Non si impone un formato: si ascolta cosa la città, edizione dopo edizione, sta chiedendo di raccontare.</p>
+    <p data-reveal>EVO parte da lì e lavora su un'ipotesi precisa: che il rapporto vada nei due sensi, e che la parte interessante sia il ritorno. Un festival è un buon posto per osservarlo, perché è uno dei pochi luoghi in cui una comunità prova parole nuove in pubblico e vede subito l'effetto che fanno.</p>
 
-    <p data-reveal>Nel 2025, il salto più netto: i linguaggi del gioco. Nato incontrando a metà strada Nintendo, diventato partner dell'iniziativa, in un momento di riflessione dopo mesi di incontri vissuti a Macerata. Il gioco, per EVO, è il linguaggio fondamentale — quello che li contiene tutti. Nel gioco un ottantenne può sedersi allo stesso tavolo di un trentenne e di un bambino di dieci anni, perché il gioco ha regole sue che permettono a idee diverse di convivere senza scontrarsi. Va oltre l'uomo: è un linguaggio interspecifico, lo stesso che si usa addestrando un cane o giocando con un altro animale.</p>
+    <h3 data-reveal>Una parola che sparisce si porta via la cosa</h3>
 
-    <p data-reveal>Il 2025 ha appena scalfito la superficie. Il capitolo sul linguaggio del gioco continua.</p>
+    <p data-reveal>Quando smette di circolare il nome di un mestiere, il mestiere sparisce poco dopo: prima dal discorso, poi dal mercato, poi dalle mani di chi lo sapeva fare. Funziona anche al contrario. Un prodotto che trova il proprio nome smette di essere merce. Un quartiere chiamato in un modo da chi ci abita e in un altro da chi ci passa soltanto è, di fatto, due quartieri diversi.</p>
 
-    <!-- PLACEHOLDER PER PAOLO: foto reali di EVO — la piazza di Macerata
-         trasformata in spazio di gioco, il temporary restaurant giapponese,
-         i momenti delle edizioni passate. -->
-    <div class="media-strip" data-reveal>
-      <div class="media-ph"><span>Foto · La piazza in gioco</span></div>
-      <div class="media-ph"><span>Foto · I linguaggi</span></div>
-      <div class="media-ph"><span>Foto · Macerata, il festival</span></div>
-    </div>
+    <p data-reveal>L'Università di Macerata è partner scientifico del festival fin dalla prima edizione, e il suo motto — <i>umanesimo che innova</i> — dice bene il perimetro. Il Ministero del Turismo, inserendo EVO tra gli eventi da non perdere, l'ha definito «un esperimento che studia, racconta e cerca di interpretare i fenomeni moderni analizzandoli dal punto di vista umanistico».</p>
   </section>
 
-  <section class="chapter" id="tracce">
-    <h2 data-reveal>Tracce</h2>
-    <p data-reveal>Tipicità Evo, phygital, in piena pandemia. I linguaggi del cibo, con il Giappone ospite. I linguaggi del terzo millennio: digitale, agricoltura, intelligenza artificiale — e anche i linguaggi dell'odio. I linguaggi del gioco, 2025, con Nintendo: piazza e centro storico di Macerata trasformati in un grande spazio di gioco all'aperto, tra commercianti, scuole, realtà culturali locali.</p>
+  <!-- ══ 2 · MUTA ══ -->
+  <section class="chapter" id="muta">
+    <h2 data-reveal>Da Tipicità Evo a EVO: come un festival ha cambiato pelle</h2>
+
+    <p class="lemma" data-reveal><b>muta</b> <i>s.f.</i> — il cambio di pelle; anche il silenzio che lo precede.</p>
+
+    <p class="occhiello" data-reveal>Nel 2021 era uno spin-off di <a class="trace-link" href="/tipicita/">Tipicità</a>, tappa del <a class="trace-link" href="/grand-tour-delle-marche/">Grand Tour delle Marche</a>, nato in piena pandemia. Tre anni dopo era un'altra cosa.</p>
+
+    <p data-reveal>Le prime due edizioni vivono sospese tra fisico e digitale: dirette lunghe, clip girate nei ristoranti, Macerata raccontata a distanza perché attraversarla non si poteva. Il tema si stringe su accoglienza e territorialità, con una coincidenza che vale la pena notare: si lavora sull'ospitalità nell'unico momento storico in cui ospitare è vietato.</p>
+
+    <h3 data-reveal>Il momento in cui il cibo diventa un linguaggio</h3>
+
+    <p data-reveal>La formula compare alla seconda edizione quasi come un titolo di sezione — <i>i nuovi linguaggi del cibo</i>, in un panel di semiotica e filosofia condotto dal rettore dell'ateneo. Alla terza si prende l'intero programma.</p>
+
+    <p data-reveal>Ed è lì che il festival scopre di aver detto più di quanto intendesse. Il cibo è il primo vettore di cultura: chiamarlo linguaggio apre una porta che non si richiude. Nello stesso cartellone entrano la musica, l'arte, il teatro di figura, le storie per bambini, una civiltà intera invitata a raccontarsi. La parola era più grande della cosa che doveva descrivere.</p>
+
+    <p data-reveal>Il nome cambia per conseguenza. «Tipicità Evo» descriveva un'appendice, e quello che stava succedendo non lo era più. Nasce EVO — i linguaggi del terzo millennio: un festival che prende il linguaggio come oggetto, non come strumento. E che, come tutti i festival di città, non è mai soltanto il programma di chi lo organizza: lo fanno anche i locali che aderiscono, le associazioni che portano un laboratorio, chi sale su un palco per un pomeriggio.</p>
+
+    <p class="nota" data-reveal>Vale la pena fermarsi un secondo: è la tesi del festival applicata al festival stesso. Una parola nuova ha cambiato la cosa che doveva descrivere.</p>
   </section>
+
+  <!-- ══ 3 · LESSICO — il gesto proprio di EVO ══ -->
+  <section class="chapter" id="lessico">
+    <h2 data-reveal>Il vocabolario di EVO: i linguaggi per guardare la realtà</h2>
+
+    <p class="lemma" data-reveal><b>lessico</b> <i>s.m.</i> — l'insieme delle parole di cui una comunità dispone. Ciò che non vi compare, per quella comunità, quasi non esiste.</p>
+
+    <p class="occhiello" data-reveal>Non sono i temi di un cartellone. Sono alcuni dei punti di vista da cui EVO ha guardato la realtà — e ognuno restituisce un pezzo diverso.</p>
+
+    <p data-reveal>Alcuni: l'elenco non è chiuso e non ha nessuna intenzione di esserlo.</p>
+
+    <!-- Le definizioni stanno nell'HTML e si nascondono in CSS: mai
+         iniettate da JavaScript (§2). Senza JS restano tutte aperte —
+         la classe .vive la mette lo script in coda al blocco, prima del
+         primo paint, così non c'è né lampo né salto di layout. -->
+    <ul class="vocabolario" id="vocabolario">
+      {lessico.map((v) => (
+        <li>
+          <button
+            class="voce"
+            type="button"
+            id={`voce-${v.id}`}
+            aria-expanded="true"
+            aria-controls={`def-${v.id}`}
+          >
+            <span class="voce-lemma">{v.voce}</span>
+            <span class="voce-segno" aria-hidden="true"></span>
+          </button>
+          <div class="pannello" id={`def-${v.id}`}>
+            <div><p set:html={v.def} /></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <script is:inline>
+      // Chiude le voci PRIMA del primo paint. Senza questo, il blocco
+      // comparirebbe tutto acceso e poi si spegnerebbe in dissolvenza:
+      // undici voci che sbattono le palpebre al caricamento, più il salto
+      // di layout. Va fatto qui, in coda al markup, non nello script in
+      // fondo alla pagina, che gira troppo tardi.
+      // Se non gira affatto (JS spento) il vocabolario resta aperto: è
+      // esattamente il fallback voluto.
+      (function () {
+        var blocco = document.getElementById('vocabolario');
+        if (!blocco) return;
+        blocco.classList.add('vive');
+        var voci = blocco.querySelectorAll('.voce');
+        for (var i = 0; i < voci.length; i++) voci[i].setAttribute('aria-expanded', 'false');
+      })();
+    </script>
+
+    <p class="nota" data-reveal>Nel programma del 2024, uno degli incontri sui linguaggi dell'odio si intitolava «Quando le parole incidono sulla realtà». Lo firmavano l'Università di Macerata e un liceo classico.</p>
+  </section>
+
+  <!-- ══ 4 · MOSSA ══ -->
+  <section class="chapter" id="mossa">
+    <h2 data-reveal>Il gioco è il linguaggio che permette di parlarli tutti</h2>
+
+    <p class="lemma" data-reveal><b>mossa</b> <i>s.f.</i> — l'unità minima del gioco: una scelta che sposta tutti.</p>
+
+    <p class="occhiello" data-reveal>L'ultimo linguaggio entrato nel vocabolario è anche quello che li contiene.</p>
+
+    <h3 data-reveal>Un laboratorio dove si può simulare tutto</h3>
+
+    <p data-reveal>Dentro un gioco si montano un mercato, una città, una carestia, una guerra — e poi se ne esce per parlarne. Le cose troppo grandi o troppo dolorose per essere affrontate di petto, giocate diventano maneggiabili. È il motivo per cui eserciti, scuole e bambini usano lo stesso strumento per ragioni opposte.</p>
+
+    <h3 data-reveal>Regole che tengono insieme persone lontanissime</h3>
+
+    <p data-reveal>A un tavolo da gioco un ottantenne, un trentenne e un bambino di dieci anni stanno alla pari, e idee distanti convivono per un'ora senza scontrarsi. Quasi tutti gli altri linguaggi fanno il contrario: servono a segnalare chi sta dentro e chi sta fuori.</p>
+
+    <p data-reveal>E il gioco va oltre la nostra specie. Si gioca con un cane, si gioca con un gatto: chi addestra un animale sta giocando, e lo sanno tutti e due. È probabilmente l'unico linguaggio interspecifico che abbiamo — l'unico che nessuno ha dovuto insegnare.</p>
+
+    <p data-reveal>Il capitolo è appena cominciato.</p>
+  </section>
+
+  <!-- ══ CHIUSURA ══ -->
+  <div class="congedo" data-reveal>
+    <p>Una parola nuova, messa in circolo in una città, dopo un po' la si sente per strada. Da lì in avanti non è più una parola: è un pezzo di mondo.</p>
+    <p class="servizio"><a class="trace-link" href="https://evo.ooo">evo.ooo</a></p>
+  </div>
 </BrandLayout>
+
+<style is:global>
+  /* Il lemma in barra dei capitoli resta minuscolo: è la forma del
+     lemma. Le altre landing tengono il maiuscoletto di sistema. */
+  .chapter-bar.v-evo nav a { text-transform: none; letter-spacing: 0.06em; }
+</style>
+
+<style>
+  /* Misura di lettura fra i 62 e i 72 caratteri (§2): il contenitore di
+     sito è largo 760px, che a questo corpo farebbe righe da 88 battute. */
+  .chapter p,
+  .congedo p { max-width: 64ch; }
+
+  .chapter p:not(.lemma):not(.occhiello):not(.nota) {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--text-dim);
+  }
+
+  .chapter h3 {
+    font-size: clamp(1.25rem, 2.6vw, 1.5rem);
+    line-height: 1.25;
+    color: var(--text-soft);
+    margin: 2.4rem 0 0.8rem;
+  }
+
+  /* ── LA RIGA DI DIZIONARIO ──
+     Si disegna una volta e si riusa quattro. Non è un titolo: è una
+     definizione. Filetti corti, a misura del testo e non a tutta
+     larghezza — il gesto della voce di dizionario senza imitarla. */
+  .lemma {
+    width: fit-content;
+    max-width: min(64ch, 100%);
+    margin: 0 0 1.8rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  /* il lemma va in accento: a 1.25rem/600 è "testo grande", quindi la
+     soglia di contrasto è 3:1 e il #b8497a la supera (3,9:1) */
+  .lemma b {
+    font-weight: 600;
+    color: var(--brand-accent);
+  }
+
+  .lemma i {
+    font-style: italic;
+    color: var(--text-faint);
+  }
+
+  /* ── OCCHIELLO ──
+     Regge il messaggio anche per chi legge solo quello. */
+  .occhiello {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text-soft);
+    margin: 0 0 1.6rem;
+  }
+
+  /* I due link della genealogia. Il testo resta inchiostro pieno: a
+     16px l'accento #b8497a sta a 3,95:1 sul vinaccia, sotto l'AA per il
+     testo piccolo. L'accento passa quindi al filetto — che a riposo dice
+     "qui c'è un link" e al passaggio si completa come traccia. */
+  .occhiello a {
+    color: var(--text-soft);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent) 60%, transparent);
+  }
+
+  /* ── NOTA ──
+     La riga che chiude un capitolo: composta come nota, non come corpo. */
+  .nota {
+    margin: 2.2rem 0 0;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--brand-accent);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--text-soft);
+  }
+
+  /* ══ IL VOCABOLARIO ══
+     Undici voci che si aprono UNA PER VOLTA senza chiudersi a vicenda:
+     chi vuole apre tutto e se lo legge di fila. Chi arriva in fondo ha
+     in mano un vocabolario che prima non aveva. */
+  .vocabolario {
+    list-style: none;
+    margin: 2.4rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .vocabolario li { border-bottom: 1px solid var(--hairline); }
+
+  .voce {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.2rem;
+    width: 100%;
+    /* bersaglio comodo su tutta la riga, non solo sul testo */
+    min-height: 48px;
+    padding: 0.85rem 0;
+    background: none;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+    font-weight: 600;
+    line-height: 1.3;
+    /* a riposo la voce è inchiostro spento; aprendosi si accende.
+       È l'unico punto della pagina in cui il colore si muove: solo
+       passaggio di tono in 200ms, nessun bagliore, nessuna ombra. */
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+
+  .voce:hover { color: var(--text-soft); }
+  .voce[aria-expanded='true'] { color: var(--brand-accent); }
+
+  .voce:focus-visible {
+    outline: 2px solid var(--brand-accent);
+    outline-offset: 3px;
+  }
+
+  /* il segno: due filetti che formano un +, e diventano un − */
+  .voce-segno {
+    position: relative;
+    flex: none;
+    width: 13px;
+    height: 13px;
+    align-self: center;
+    opacity: 0.75;
+  }
+
+  .voce-segno::before,
+  .voce-segno::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: currentColor;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .voce-segno::after { transform: translateY(-50%) rotate(90deg); }
+
+  .voce[aria-expanded='true'] .voce-segno::after {
+    transform: translateY(-50%) rotate(90deg) scaleX(0);
+    opacity: 0;
+  }
+
+  /* Il pannello: aperto di default (nessun JS = tutto leggibile).
+     Solo quando lo script ha marcato il blocco come .vive i pannelli
+     partono chiusi e la transizione ha senso. */
+  .pannello > div { overflow: hidden; }
+
+  /* La definizione è il premio del gesto, non una nota a piè di pagina:
+     sta allo stesso tono del corpo. Ad accendersi è il lemma. */
+  .pannello p {
+    margin: 0 0 1rem;
+    max-width: 62ch;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+
+  .pannello p :global(i) { font-style: italic; }
+
+  .vocabolario.vive .pannello {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.2s ease;
+  }
+
+  .vocabolario.vive .voce[aria-expanded='true'] + .pannello {
+    grid-template-rows: 1fr;
+  }
+
+  /* la definizione entra in dissolvenza, appena dopo l'apertura */
+  .vocabolario.vive .pannello p {
+    opacity: 0;
+    transition: opacity 0.2s ease 0.06s;
+  }
+
+  .vocabolario.vive .voce[aria-expanded='true'] + .pannello p { opacity: 1; }
+
+  /* ── CONGEDO ── */
+  .congedo {
+    margin-top: 3.4rem;
+    padding: 2.6rem 0 1rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .congedo p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 3.2vw, 1.8rem);
+    line-height: 1.4;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  .congedo .servizio {
+    margin-top: 1.8rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    /* poca spaziatura: è un indirizzo, e "e v o . o o o" non si legge */
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: var(--text-dim);
+  }
+
+  .congedo .servizio a { color: inherit; }
+
+  @media (max-width: 560px) {
+    .lemma { font-size: 1.15rem; }
+    .nota { padding-left: 0.9rem; }
+  }
+
+  /* Sotto reduced motion resta solo la comparsa: niente scorrimento di
+     altezza, niente segno che si muove. */
+  @media (prefers-reduced-motion: reduce) {
+    .vocabolario.vive .pannello,
+    .vocabolario.vive .pannello p,
+    .voce,
+    .voce-segno::before,
+    .voce-segno::after { transition: none; }
+  }
+</style>
+
+<script>
+  // ══ IL VOCABOLARIO CHE SI SCRIVE ══
+  // Le voci non si chiudono a vicenda. Tastiera completa: Invio e Spazio
+  // li dà il <button>, qui si aggiungono frecce, Home e Fine.
+  function vocabolario() {
+    const blocco = document.getElementById('vocabolario');
+    if (!blocco || blocco.dataset.on) return;
+    blocco.dataset.on = '1';
+    blocco.classList.add('vive'); // ridondante col bootstrap inline, ma
+                                  // serve dopo una navigazione con le
+                                  // View Transitions
+
+    const voci = Array.from(blocco.querySelectorAll('.voce')) as HTMLButtonElement[];
+
+    voci.forEach((v, i) => {
+      // lo stato chiuso lo mette già il bootstrap inline, prima del
+      // primo paint; qui è solo una rete per il caso View Transitions
+      v.setAttribute('aria-expanded', v.getAttribute('aria-expanded') === 'true' ? 'false' : v.getAttribute('aria-expanded') || 'false');
+
+      v.addEventListener('click', () => {
+        v.setAttribute('aria-expanded', v.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      });
+
+      v.addEventListener('keydown', (e) => {
+        const k = (e as KeyboardEvent).key;
+        let dove = -1;
+        if (k === 'ArrowDown') dove = (i + 1) % voci.length;
+        else if (k === 'ArrowUp') dove = (i - 1 + voci.length) % voci.length;
+        else if (k === 'Home') dove = 0;
+        else if (k === 'End') dove = voci.length - 1;
+        if (dove < 0) return;
+        e.preventDefault();
+        voci[dove].focus();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', vocabolario);
+  vocabolario();
+</script>

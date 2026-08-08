@@ -1,8 +1,20 @@
 
 # File di lavoro locali — NON committare
 2026 - Tipicit*
+# Materiali sorgente di EVO (480 MB di PDF, reportage e comunicati): sono
+# la cartella di lavoro, non asset del sito. Reportage TipicitaEvo.pdf da
+# solo pesa 286 MB e GitHub rifiuta qualsiasi file oltre i 100 MB.
+# Lo slash iniziale ancora la regola alla radice: src/pages/evo/ e
+# dist/evo/ NON vengono toccati.
+/evo/
 _to_delete/
 _to_delete_locks/
+
+# Dipendenze: si rigenerano con `npm install` e non vanno versionate.
+# Erano tracciate per errore — 9.931 file che a ogni build seppellivano
+# le modifiche vere sotto centinaia di righe di rumore.
+node_modules/
+.astro/
 tipicita-loop.mp4
 /tracce/
 

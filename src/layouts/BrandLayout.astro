@@ -27,6 +27,11 @@ interface Props {
   description: string;
   accent: string;
   brandName: string;
+  /** Testo dell'<h1>. Il solo nome del marchio è spesso troppo magro per
+      reggere da titolo di pagina: qui si passa la formula piena (es.
+      "EVO — i linguaggi del terzo millennio"). Resta sr-only: il titolo
+      visibile è il logo. Default: brandName. */
+  heading?: string;
   chapters: Chapter[];
   structuredData?: Record<string, unknown>;
   logoSrc?: string;
@@ -53,6 +58,7 @@ const {
   description,
   accent,
   brandName,
+  heading,
   chapters,
   structuredData,
   logoSrc,
@@ -72,7 +78,7 @@ const heroClass = `brand-hero${heroVariant === 'field' ? ' brand-hero--field' : 
   <Pellicola slot="header" current={menuCurrent} mode={menuMode} />
 
   <section class={heroClass}>
-    <h1 class="sr-only">{brandName}</h1>
+    <h1 class="sr-only">{heading || brandName}</h1>
     {kicker && <p class="eyebrow" data-reveal>{kicker}</p>}
     {logoSrc ? (
       <img class="hero-logo" src={logoSrc} alt={brandName} data-reveal />
