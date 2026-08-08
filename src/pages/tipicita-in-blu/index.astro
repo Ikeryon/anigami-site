@@ -61,7 +61,9 @@ const fmt = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, 
 // Gli specchi del cantiere: gli esempi, sempre DOPO la piattaforma.
 const specchi = [
   'Ad Ancona, nel vivo del festival, l’hackathon italo-croato: laureati e giovani imprenditori delle due sponde su sfide poste dalle PMI della nautica — transizione digitale, sostenibilità, ESG — dentro il programma Interreg BLUESLINKS.',
-  'A Trieste, dentro Barcolana, la selezione degli spin-off universitari: squadre multidisciplinari, sfide che vanno dalla biologia degli ecosistemi al gemello digitale dell’Alto Adriatico, con KIC One Water al tavolo.',
+  // ⚠️ È QUI che iNEST va nominato, e solo qui: la selezione degli
+  // spin-off a Trieste l'ha proposta il consorzio insieme a Barcolana.
+  'A Trieste, dentro Barcolana, la selezione degli spin-off universitari proposta dal consorzio di ricerca iNEST: squadre multidisciplinari, sfide che vanno dalla biologia degli ecosistemi al gemello digitale dell’Alto Adriatico, con KIC One Water al tavolo.',
   'Tra un appuntamento e l’altro, il lavoro che non si vede: reti di progetto, scambi tra laboratori, accompagnamento delle idee premiate verso bandi e mercati.',
 ];
 
@@ -69,7 +71,9 @@ const specchi = [
 const trova = [
   'La ricerca vi trova la strada più corta tra un risultato scientifico e la sua applicazione.',
   'Le imprese vi trovano problemi formulati bene e squadre giovani che li aggrediscono senza rendite di posizione.',
-  'Chi progetta su fondi europei vi trova consorzi già rodati su Interreg e iNEST, due sponde già connesse, casi pilota documentati.',
+  // ⚠️ iNEST tolto da qui (TESTI-TIB §2bis): non è un consorzio su cui
+  // The Blue Way sia "rodato", è un partner di un singolo progetto.
+  'Chi progetta su fondi europei vi trova consorzi già rodati sui programmi Interreg, due sponde già connesse, casi pilota documentati.',
   'Le istituzioni vi trovano un formato che tiene insieme sviluppo costiero, formazione e tutela — le tre cose che di solito viaggiano separate.',
   'Gli studenti vi trovano il primo cantiere in cui il mare è una carriera possibile, non una vacanza.',
 ];
@@ -141,11 +145,23 @@ const structuredData = {
       <div class="wrap">
         <h2 id="h-rotta" data-reveal>Rotta</h2>
 
-        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il punto d'incontro di chi su quel sistema lavora — imprese, ricercatori, istituzioni, naviganti — e di chi nel mare vede una risorsa da capire prima ancora che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
+        {/* «dove il mare incontra le persone» è una delle tre righe-firma
+             verificate nei materiali di casa (REGISTRO §3): scende di grado
+             dal payoff e diventa testo, qui, dove diceva già la stessa cosa
+             con più parole. */}
+        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il festival dove il mare incontra le persone che su quel sistema lavorano — imprese, ricercatori, istituzioni, naviganti — e chi nel mare vede una risorsa da capire prima ancora che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
+
+        {/* LA POSIZIONE (integrazione 07/08 dai materiali di casa): il
+             dettaglio erudito è breve, esatto, e fonda — non decora. */}
+        <div class="blocco" data-reveal>
+          <h3>La posizione</h3>
+          <p>Ancona è il luogo esatto di questo discorso. Il nome viene dal greco <i lang="grc-Latn">Ankón</i>, gomito: la costa che si piega e si spinge dentro l'Adriatico. Una città di terra affacciata sul mare, con il porto che va da Marina Dorica all'arco di Traiano, e il quartier generale del festival alla Mole Vanvitelliana — ex lazzaretto su un'isola artificiale, fra la terra e l'acqua. Il sodalizio fra le due cose non è una metafora: è la geografia.</p>
+        </div>
 
         <div class="blocco" data-reveal>
           <h3>La visione</h3>
           <p>"Mare, laboratorio di futuro" non è uno slogan: è un metodo. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico, la Mole Vanvitelliana, e le fa dialogare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa.</p>
+          <p>E il perimetro non si ferma alla costa. <b>Il mare inizia dalla montagna</b>: è la frase con cui Tipicità e il Polo Tecnologico Alto Adriatico hanno portato questo discorso a Ecomondo, ed è un'affermazione idrografica prima che retorica. Bacini, fiumi, aree interne e acque costiere sono un sistema solo, e trattarli separati è il modo più rapido per sbagliare le politiche di tutti e due.</p>
         </div>
 
         <!-- il quadro strumenti: readout di plancia, non elenco puntato -->
@@ -175,8 +191,13 @@ const structuredData = {
           <p class="q-nota">Il punto della rotta: il valore diretto dell'economia del mare è ancora una frazione del potenziale — la distanza tra il dato e il potenziale è la rotta del festival.</p>
         </div>
 
+        {/* Rinominato "Il corridoio": il titolo "La posizione" è passato al
+             blocco nuovo sull'etimologia. TESTI-TIB §1 li chiama entrambi
+             "La posizione" — è una svista del documento, e due h3 identici
+             nella stessa sezione non si possono tenere. Questo blocco parla
+             dello spazio geopolitico, non del luogo. */}
         <div class="blocco" data-reveal>
-          <h3>La posizione</h3>
+          <h3>Il corridoio</h3>
           <p>Ancona guarda il corridoio adriatico-ionico: due sponde, sette paesi, una strategia europea (EUSAIR) che qui trova uno dei suoi luoghi di lavoro. Il festival opera dentro questa geografia — con la Commissione Europea nelle Blue Economy Days, con i programmi Interreg Italia–Croazia, con gli atenei delle due coste. L'Adriatico non divide due sponde: le tiene insieme.</p>
         </div>
 
@@ -193,10 +214,22 @@ const structuredData = {
       <div class="wrap">
         <h2 id="h-cantiere" data-reveal>Cantiere</h2>
 
-        <p class="apertura" data-reveal>Dalla collaborazione con il Polo Tecnologico Alto Adriatico e con il consorzio di ricerca iNEST nasce The Blue Way: un cantiere progettuale fondato su un principio semplice — condivisione. Buone prassi che circolano tra le due sponde dell'Adriatico, talenti che si formano lavorando su problemi veri, risultati di ricerca che non restano nei paper.</p>
+        {/* ⚠️ CORREZIONE FATTUALE (Paolo, 07/08/2026 — TESTI-TIB §2bis).
+             La paternità di The Blue Way è di due soggetti soltanto:
+             Tipicità in Blu e il Polo Tecnologico Alto Adriatico. iNEST
+             non c'entra con la nascita — ha collaborato ad alcuni
+             progetti sviluppati DENTRO The Blue Way, e il suo nome resta
+             solo lì (la voce su Trieste, negli specchi del cantiere).
+             NB: commento in stile JSX e non commento HTML, perché quelli
+             finiscono nel sorgente pubblicato — e una nota editoriale su
+             un errore di attribuzione non deve leggersi in pagina. */}
+        <p class="apertura" data-reveal>The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo Tecnologico Alto Adriatico: un cantiere progettuale fondato su un principio semplice — condivisione. Buone prassi che circolano tra le due sponde dell'Adriatico, talenti che si formano lavorando su problemi veri, risultati di ricerca che non restano nei paper.</p>
 
         <div class="blocco" data-reveal>
           <h3>Il cantiere aperto</h3>
+          {/* La definizione ufficiale, quella usata a Ecomondo: è la più
+               esatta e conviene tenerla testuale (TESTI-TIB §2ter). */}
+          <p>La definizione ufficiale, quella usata a Ecomondo, è la più esatta e conviene tenerla: una <b>piattaforma di condivisione fisica e digitale per stimolare un'ampia alleanza di talenti, energie e competenze</b>, sull'area individuata come Polo del Mare Adriatico.</p>
           <p>The Blue Way non coincide con la manifestazione: lavora tutto l'anno, con ricadute sul territorio italiano e oltre. È una piattaforma permanente che collega gli atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — le imprese che pongono le sfide e i giovani che le raccolgono. Il metodo è quello del cantiere: si progetta, si prototipa, si vara. E ogni varo apre il progetto successivo.</p>
         </div>
 
@@ -386,6 +419,9 @@ const structuredData = {
   }
   .blocco { margin: 0 0 2.4rem; max-width: 62ch; }
   .blocco p { color: var(--text-dim); line-height: 1.75; margin: 0; }
+  /* i blocchi con due paragrafi (La visione, Il cantiere aperto) hanno
+     bisogno di respiro: senza, le due righe si toccano e sembrano uno */
+  .blocco p + p { margin-top: 1.1em; }
 
   /* ── il quadro strumenti: readout, due colonne di sigle ── */
   .quadro, .metriche {
