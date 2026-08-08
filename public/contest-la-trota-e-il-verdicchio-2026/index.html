@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contest La Trota e il Verdicchio 2026 - Imagina</title>
+<meta name="description" content="Hai una ricetta a base di trota? Falla uscire dal cassetto. Partecipa al Contest La Trota e il Verdicchio 2026: racconta la tua ricetta in un video e prova ad arrivare alla finale dal vivo.">
+<link rel="canonical" href="https://www.anigami.it/contest-la-trota-e-il-verdicchio-2026/">
+
+<!-- Open Graph / social sharing (anteprima quando il link viene condiviso) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="La Trota e il Verdicchio">
+<meta property="og:title" content="Contest La Trota e il Verdicchio 2026">
+<meta property="og:description" content="Racconta la tua ricetta a base di trota in un video e prova ad arrivare alla finale dal vivo al Food Lab UNICAM. Iscrizioni gratuite entro il 15 settembre 2026.">
+<meta property="og:url" content="https://www.anigami.it/contest-la-trota-e-il-verdicchio-2026/">
+<meta property="og:image" content="https://www.anigami.it/contest-assets/hero.jpg">
+<meta property="og:image:alt" content="Contest La Trota e il Verdicchio 2026">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contest La Trota e il Verdicchio 2026">
+<meta name="twitter:description" content="Racconta la tua ricetta a base di trota in un video e prova ad arrivare alla finale dal vivo. Iscrizioni gratuite entro il 15 settembre 2026.">
+<meta name="twitter:image" content="https://www.anigami.it/contest-assets/hero.jpg">
+
+<link rel="stylesheet" href="/assets/contest.css">
+
+<!-- Consenso cookie gestito da CookieYes -->
+<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/07bc8b3a4b1da0fac9ea02b8022bf82d/script.js"></script>
+
+<!-- Google Analytics 4 — attivato da CookieYes (categoria "analytics") -->
+<script type="text/plain" data-cookieyes="cookieyes-analytics" async src="https://www.googletagmanager.com/gtag/js?id=G-8BLXLHZXZN"></script>
+<script type="text/plain" data-cookieyes="cookieyes-analytics">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8BLXLHZXZN');
+</script>
+
+<!-- Meta Pixel — attivato da CookieYes (categoria "advertisement") -->
+<script type="text/plain" data-cookieyes="cookieyes-advertisement">
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2852415708396585');
+  fbq('track', 'PageView');
+</script>
+
+<style>
+  /* --- Barra annuncio + countdown urgenza --- */
+  .announce {
+    background: var(--river-deep);
+    color: #fff;
+    text-align: center;
+    font-size: 0.86rem;
+    font-weight: 700;
+    padding: 9px 16px;
+    line-height: 1.4;
+  }
+  .announce strong { color: var(--verdicchio); }
+
+  /* --- CTA sticky (compare allo scroll) --- */
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(253, 246, 234, 0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 20px rgba(58, 42, 30, 0.08);
+    transform: translateY(120%);
+    transition: transform 0.28s ease;
+  }
+  .sticky-cta.show { transform: translateY(0); }
+  .sticky-cta .sc-text { font-size: 0.82rem; font-weight: 800; color: var(--ink); line-height: 1.25; }
+  .sticky-cta .sc-text span { display: block; font-weight: 600; color: var(--ink-soft); font-size: 0.74rem; }
+  .sticky-cta a {
+    flex-shrink: 0;
+    background: var(--terracotta);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(224, 112, 60, 0.35);
+  }
+
+  /* --- Sezione condivisione --- */
+  .share-box { text-align: center; margin-top: 30px; }
+  .share-box p { font-size: 0.95rem; color: var(--ink-soft); margin: 0 0 14px; }
+  .share-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .share-btns a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.92rem;
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    background: #fff;
+  }
+  .share-btns a.wa { background: #25D366; color: #fff; border-color: #25D366; }
+
+  /* --- Logo partner Grand Tour --- */
+  .partner-strip img { height: 54px; width: auto; }
+
+  /* --- Pulsanti contatto (outline) --- */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    border: 1.5px solid var(--river);
+    color: var(--river-deep);
+    background: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  .btn-outline:active { transform: scale(0.98); }
+
+  body { padding-bottom: 0; }
+  @media (max-width: 720px) { body.has-sticky { padding-bottom: 76px; } }
+</style>
+</head>
+<body>
+
+  <!-- ANNUNCIO / URGENZA -->
+  <div class="announce" id="announce">
+    ✅ Iscrizioni aperte e gratuite — scadenza <strong>15 settembre 2026</strong><span id="countdown"></span>
+  </div>
+
+  <div class="topbar">
+    <img src="/contest-assets/logo-trota-verdicchio.png" alt="La Trota e il Verdicchio" style="height:64px;">
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">Contest 2026 · Gratuito · Aperto a tutta Italia</span>
+      <h1 class="hero-title">Hai una ricetta a base di trota?<br>Falla uscire dal cassetto.</h1>
+      <p class="hero-sub">
+        Racconta la tua ricetta in un video, mettiti in gioco e prova ad arrivare alla finale dal vivo al Food Lab UNICAM. Che tu sia alle prime armi o un professionista dei fornelli, qui c'è spazio per tutti.
+      </p>
+      <div class="hero-meta">
+        <span>📅 Candidature entro il 15 settembre 2026</span>
+        <span>🎬 Video di massimo 2 minuti</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#iscrizione" class="btn-primary" data-cta="hero">Voglio partecipare</a>
+        <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener" class="btn-secondary" data-cta="regolamento">📄 Scarica il regolamento</a>
+      </div>
+      <p class="hero-sub" style="margin-top:20px; font-size:0.92rem;">
+        Non serve avere già il video pronto: pre-iscriviti ora, riceverai via email le istruzioni e il link per completare la candidatura.
+      </p>
+      <div class="hero-photo">
+        <img src="/contest-assets/hero.jpg" alt="Un partecipante racconta la sua ricetta al microfono durante l'edizione 2025" style="border-radius:20px; width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- COME FUNZIONA -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Tre passaggi. Una ricetta.<br>Una finale dal vivo.</h2>
+      <p class="section-sub">Il percorso è semplice: prima ti pre-iscrivi, poi prepari il video, infine completi la candidatura con il link.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>
+            <h3>Pre-iscrizione</h3>
+            <p>Lascia i tuoi contatti: riceverai subito via email il link per completare la candidatura.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div>
+            <h3>Prepara il video</h3>
+            <p>Racconta in massimo 2 minuti una ricetta a base di trota: tradizionale, creativa o completamente nuova.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div>
+            <h3>Pubblica e completa</h3>
+            <p>Pubblica il video in modalità pubblica con l'hashtag #latrotaeilverdicchio2026 e inviaci il link entro il 15 settembre 2026.</p>
+          </div>
+        </div>
+      </div>
+      <p class="section-sub" style="margin-top:24px; margin-bottom:0;">I video correttamente iscritti saranno pubblicati online e votabili dal 16 al 25 settembre 2026.</p>
+    </div>
+  </section>
+
+  <!-- PERCHÉ LA TROTA -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">La trota è il pesce contemporaneo.</h2>
+      <p class="section-sub">Ha un profilo nutrizionale da urlo, è delicata, versatile, sostenibile e sorprendentemente attuale. Dalle cucine di casa alle tavole gourmet, dalla tradizione alle contaminazioni più creative, la trota sa diventare antipasto, secondo, finger food, comfort food o piatto da fine dining. Dipende solo da chi la interpreta.</p>
+      <div class="grid-3">
+        <div class="pillar">
+          <div class="emoji">💪</div>
+          <h3>Nutraceutica</h3>
+          <p>Ricca di proprietà benefiche, leggera e adatta a ogni tavola.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🎨</div>
+          <h3>Versatile</h3>
+          <p>Si presta a mille interpretazioni, dalla tradizione alla creatività più libera.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🌱</div>
+          <h3>Sostenibile</h3>
+          <p>Un ingrediente a km0, legato al territorio e all'acquacoltura locale.</p>
+        </div>
+      </div>
+      <div style="margin-top:24px; border-radius:20px; overflow:hidden;">
+        <img src="/contest-assets/piatto-trota.jpg" alt="Piatto gourmet a base di trota presentato durante l'edizione 2025" style="width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- CHE RICETTA -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Che ricetta puoi candidare?</h2>
+      <p class="section-sub">Non serve essere chef: la giuria valuta l'idea, il racconto e la voglia di mettersi in gioco.</p>
+      <div class="grid-3">
+        <div class="pillar">
+          <div class="emoji">👵</div>
+          <h3>Ricetta della tradizione</h3>
+          <p>Un piatto familiare, una memoria di casa, un sapore che merita di essere rimesso in circolo.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">✨</div>
+          <h3>Reinterpretazione creativa</h3>
+          <p>Una trota riletta con un twist personale: aperitivo, finger food, secondo piatto o contaminazione.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🚀</div>
+          <h3>Idea originale</h3>
+          <p>Un'idea nuova, anche audace, purché raccontabile in video e replicabile dal vivo in caso di finale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIA / GALLERY -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">Un evento ricco di storie e sapori.</h2>
+      <p class="section-sub">Il contest nasce dentro una storia più ampia: quella de La Trota e il Verdicchio, appuntamento che negli anni ha acceso i riflettori su Sefro, sulla trota e su un modo originale di raccontare l'entroterra marchigiano.</p>
+      <div class="gallery">
+        <img src="/contest-assets/gallery-1.jpg" alt="Momenti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-2.jpg" alt="La giuria dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-3.jpg" alt="Ospiti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-4.jpg" alt="Momenti dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-5.jpg" alt="La giuria dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+        <img src="/contest-assets/gallery-6.jpg" alt="Un assaggio dell'edizione 2025" style="border-radius:12px; aspect-ratio:1/1; object-fit:cover;">
+      </div>
+    </div>
+  </section>
+
+  <!-- EDIZIONE 2025: FINALISTI -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Nel 2025 sono arrivate in finale tre storie diversissime.</h2>
+      <p class="section-sub">Ed è proprio questo il bello: nella Trota e il Verdicchio non esiste un profilo "giusto" per partecipare. Lo dimostra chi è arrivato in finale l'anno scorso.</p>
+      <div class="grid-3">
+        <div class="pillar">
+          <div class="emoji">🥇</div>
+          <h3>Andrea Galli — Roma</h3>
+          <p>Agente immobiliare, pescatore per passione. Ha vinto con una tartare di trota e fico maturo.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">✍️</div>
+          <h3>Laura Gioia — Abruzzo</h3>
+          <p>Food editor. In finale con un elegante panino dai profumi d'autunno e della sua terra natia.</p>
+        </div>
+        <div class="pillar">
+          <div class="emoji">🎓</div>
+          <h3>Leonardo Mantelli — Bologna</h3>
+          <p>Studente di economia, alla sua prima esperienza in un contest. In gara con delle sfiziose polpettine da aperitivo.</p>
+        </div>
+      </div>
+      <p class="section-sub" style="margin-top:24px; margin-bottom:0;">Un'agente immobiliare, una food editor, uno studente universitario: tre percorsi diversi, la stessa voglia di mettersi in gioco. La forchetta delle proposte è stata altrettanto varia — dalla tartare gourmet alle polpettine da aperitivo — perché qui non ci sono limiti alla creatività.</p>
+    </div>
+  </section>
+
+  <!-- FINALE E PREMIO -->
+  <section class="block">
+    <div class="container">
+      <h2 class="section-title">Dallo schermo alla finale.</h2>
+      <p class="section-sub">Dal 16 al 25 settembre 2026 i video saranno visibili e votabili online. I tre partecipanti più votati accederanno alla finale dal vivo, il 1° ottobre 2026 a Camerino, presso il Food Lab del Corso di Laurea in Scienze Gastronomiche UNICAM, dove presenteranno la propria ricetta davanti a una giuria tecnica. I tre finalisti saranno ospiti della manifestazione e avranno l'occasione di confrontarsi direttamente con gli studenti del corso, in un vero scambio tra territorio, cucina e nuove generazioni.</p>
+      <div class="prize-card">
+        <h3>🏆 Il premio</h3>
+        <p>Una targa speciale e una Sefro Experience per due persone: un weekend dedicato alla scoperta del territorio, dei sapori e del valore dell'acquacoltura.</p>
+      </div>
+      <div style="margin-top:20px; border-radius:20px; overflow:hidden;">
+        <img src="/contest-assets/premiazione.jpg" alt="La premiazione del contest edizione 2025" style="width:100%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- SEFRO EXPERIENCE -->
+  <section class="block">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title">E poi c'è Sefro.</h2>
+      <p class="section-sub">Acqua, natura, silenzi, sapori: la Sefro Experience è il premio che porta il contest fuori dalla cucina e dentro il paesaggio che lo ispira. Un assaggio di entroterra marchigiano, tra acquacoltura, biodiversità e meraviglia.</p>
+      <div style="border-radius:20px; overflow:hidden;">
+        <img src="/contest-assets/sefro-cascate.jpg" alt="Le cascate di Sefro" style="width:100%;">
+      </div>
+      <p style="margin-top:20px;">
+        <a href="https://www.instagram.com/tipicita/reel/DMaZPvqI-GX/" target="_blank" rel="noopener" class="btn-outline">🎥 Guarda il video: forest bathing a Sefro</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block alt">
+    <div class="container">
+      <h2 class="section-title">Domande veloci prima di iniziare.</h2>
+      <details class="faq-item">
+        <summary>Devo avere già il video pronto?</summary>
+        <p>No. Puoi pre-iscriverti ora e completare la candidatura dopo, entro il 15 settembre.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quanto deve durare il video?</summary>
+        <p>Massimo 2 minuti.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Dove devo pubblicarlo?</summary>
+        <p>Su Instagram, Facebook, TikTok o YouTube, in modalità pubblica.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quale hashtag devo usare?</summary>
+        <p>#latrotaeilverdicchio2026</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quando si vota?</summary>
+        <p>Dal 16 al 25 settembre 2026.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Dove trovo il regolamento?</summary>
+        <p>Consulta o scarica il <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener">regolamento ufficiale (PDF)</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- SUPPORTO -->
+  <section class="block">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title">Un dubbio? Chiedi pure, anche il più banale.</h2>
+      <p class="section-sub">Siamo qui per aiutarti in ogni fase, dall'iscrizione al montaggio del video: nessuna domanda è una domanda sciocca.</p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/390737685623" class="btn-outline" data-cta="wa-support">💬 WhatsApp 0737 685623</a>
+        <a href="tel:+390737685623" class="btn-outline" data-cta="call-support">📞 Chiamaci</a>
+        <a href="mailto:segreteria@tipicita.it" class="btn-outline" data-cta="email-support">✉️ segreteria@tipicita.it</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="block" id="iscrizione">
+    <div class="container">
+      <h2 class="section-title">Pre-iscriviti ora.</h2>
+      <p class="section-sub">Compila il modulo: riceverai subito via email il link per completare la candidatura con nome della ricetta, ingredienti e video.</p>
+
+      <div class="form-card">
+        <form id="form-iscrizione" novalidate>
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" autocomplete="family-name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="whatsapp">Numero WhatsApp / cellulare</label>
+            <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="Es. 333 123 4567" required>
+          </div>
+          <div class="field">
+            <label for="city">Città di provenienza</label>
+            <input type="text" id="city" name="city" autocomplete="address-level2" required>
+          </div>
+
+          <div class="field">
+            <label>A che punto sei con la tua ricetta?</label>
+            <div class="field-radio">
+              <label><input type="radio" name="statoRicetta" value="Ho gia l'idea" required> Ho già l'idea della ricetta</label>
+              <label><input type="radio" name="statoRicetta" value="Sto ancora decidendo"> Sto ancora decidendo cosa preparare</label>
+              <label><input type="radio" name="statoRicetta" value="Video gia pronto"> Ho già girato (o quasi finito) il video</label>
+            </div>
+          </div>
+
+          <div class="field-check">
+            <input type="checkbox" id="privacy" name="consensoPrivacy" required>
+            <label for="privacy">Autorizzo il trattamento dei dati per la gestione della partecipazione al contest, secondo l'<a href="https://tipicita.it/privacy.php" target="_blank" rel="noopener">informativa privacy</a>.</label>
+          </div>
+          <div class="field-check">
+            <input type="checkbox" id="newsletter" name="consensoNewsletter">
+            <label for="newsletter">Voglio ricevere aggiornamenti sul contest e sulle iniziative di Imagina.</label>
+          </div>
+
+          <button type="submit" id="submit-btn">Voglio partecipare</button>
+          <div class="form-message error" id="form-error"></div>
+        </form>
+
+        <p class="support-note">Hai dubbi? La segreteria è a disposizione su <a href="https://wa.me/390737685623">WhatsApp 0737 685623</a> o via email a <a href="mailto:segreteria@tipicita.it">segreteria@tipicita.it</a>.</p>
+      </div>
+
+      <!-- CONDIVISIONE -->
+      <div class="share-box">
+        <p>Conosci qualcuno che dovrebbe partecipare? Fai girare la voce.</p>
+        <div class="share-btns">
+          <a class="wa" id="share-wa" href="#" target="_blank" rel="noopener" data-cta="share-wa">💬 Condividi su WhatsApp</a>
+          <a id="share-fb" href="#" target="_blank" rel="noopener" data-cta="share-fb">📘 Condividi su Facebook</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRAND TOUR PARTNERSHIP -->
+  <section class="block alt">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title">Tappa ufficiale del Grand Tour delle Marche.</h2>
+      <p class="section-sub">Un viaggio tra eventi, borghi, sapori e comunità per scoprire le Marche da cittadini temporanei.</p>
+      <div class="partner-strip">
+        <img src="/contest-assets/grand-tour-color.svg" alt="Grand Tour delle Marche">
+      </div>
+      <p style="margin-top:20px;"><a href="https://tipicita.it/esperienze.php" target="_blank" rel="noopener" class="btn-secondary" data-cta="grand-tour">Scopri tutti gli eventi</a></p>
+    </div>
+  </section>
+
+  <div class="logo-band">
+    <img src="/contest-assets/logo-band-galpa.jpg" alt="GALPA Marche · Unione Europea · FEAMPA · Ministero dell'Agricoltura · Regione Marche" style="height:auto; max-width:100%; width:420px;">
+  </div>
+
+  <footer class="site-footer">
+    Iniziativa promossa dal Comune di Sefro e cofinanziata dal GALPA Marche nell'ambito del Programma FEAMPA.<br>
+    <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener">Regolamento ufficiale (PDF)</a> · <a href="https://tipicita.it/privacy.php" target="_blank" rel="noopener">Privacy policy</a> · <a href="/cookie-policy/">Cookie policy</a><br><br>
+    Imagina Srl Società Benefit · Viale Giacomo Leopardi, 14 – Camerino (MC)<br>
+    <a href="mailto:info@anigami.it">info@anigami.it</a> · Tel 0737.685623 · P.IVA/C.F. IT 01115460436
+  </footer>
+
+  <!-- CTA STICKY -->
+  <div class="sticky-cta" id="stickyCta">
+    <div class="sc-text">Iscrizione gratuita<span>Video entro il 15 settembre</span></div>
+    <a href="#iscrizione" data-cta="sticky">Voglio partecipare</a>
+  </div>
+
+  <script>
+    // === Countdown urgenza ===
+    (function () {
+      var deadline = new Date('2026-09-15T23:59:59+02:00').getTime();
+      var el = document.getElementById('countdown');
+      if (!el) return;
+      function tick() {
+        var diff = deadline - Date.now();
+        if (diff <= 0) { el.textContent = ''; return; }
+        var giorni = Math.ceil(diff / 86400000);
+        el.textContent = giorni === 1 ? ' · manca 1 giorno' : ' · mancano ' + giorni + ' giorni';
+      }
+      tick();
+      setInterval(tick, 3600000);
+    })();
+
+    // === Link di condivisione ===
+    (function () {
+      var url = 'https://www.anigami.it/contest-la-trota-e-il-verdicchio-2026/';
+      var testo = 'Contest La Trota e il Verdicchio 2026: racconta la tua ricetta a base di trota in un video e prova ad arrivare alla finale dal vivo. Iscrizione gratuita 👉 ';
+      var wa = document.getElementById('share-wa');
+      var fb = document.getElementById('share-fb');
+      if (wa) wa.href = 'https://wa.me/?text=' + encodeURIComponent(testo + url);
+      if (fb) fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    })();
+
+    // === CTA sticky: compare dopo l'hero e si nasconde sul form ===
+    (function () {
+      var sticky = document.getElementById('stickyCta');
+      var target = document.getElementById('iscrizione');
+      if (!sticky || !target) return;
+      document.body.classList.add('has-sticky');
+      function onScroll() {
+        var afterHero = window.scrollY > 600;
+        var rect = target.getBoundingClientRect();
+        var formVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (afterHero && !formVisible) sticky.classList.add('show');
+        else sticky.classList.remove('show');
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    // === Tracciamento click CTA su GA4 ===
+    (function () {
+      document.querySelectorAll('[data-cta]').forEach(function (a) {
+        a.addEventListener('click', function () {
+          if (typeof gtag === 'function') {
+            gtag('event', 'cta_click', { cta: a.getAttribute('data-cta') });
+          }
+        });
+      });
+    })();
+
+    // === Invio form iscrizione ===
+    const form = document.getElementById('form-iscrizione');
+    const btn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('form-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = {
+        nome: form.nome.value.trim(),
+        cognome: form.cognome.value.trim(),
+        email: form.email.value.trim(),
+        whatsapp: form.whatsapp.value.trim(),
+        city: form.city.value.trim(),
+        statoRicetta: form.statoRicetta.value,
+        consensoPrivacy: form.consensoPrivacy.checked,
+        consensoNewsletter: form.consensoNewsletter.checked,
+      };
+
+      btn.disabled = true;
+      btn.textContent = 'Invio in corso...';
+
+      try {
+        const res = await fetch('/api/iscrizione', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) throw new Error('Richiesta non riuscita');
+
+        // Conversione lato Meta (se il pixel è stato caricato col consenso)
+        if (window.fbq) fbq('track', 'Lead', { content_name: 'Contest La Trota e il Verdicchio 2026' });
+
+        // Conversione: registra l'iscrizione su GA4 prima del redirect.
+        const vaiAllaConferma = function () { window.location.href = '/conferma-iscrizione-contest/'; };
+        if (typeof gtag === 'function') {
+          let andato = false;
+          const go = function () { if (!andato) { andato = true; vaiAllaConferma(); } };
+          gtag('event', 'iscrizione_contest', {
+            event_category: 'contest',
+            event_label: 'La Trota e il Verdicchio 2026',
+            stato_ricetta: data.statoRicetta,
+            event_callback: go,
+          });
+          setTimeout(go, 900); // fallback se il callback non scatta
+        } else {
+          vaiAllaConferma();
+        }
+      } catch (err) {
+        errorBox.textContent = 'Qualcosa non ha funzionato. Riprova tra qualche istante o scrivici su WhatsApp al numero indicato qui sopra.';
+        errorBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Voglio partecipare';
+      }
+    });
+  </script>
+</body>
+</html>
