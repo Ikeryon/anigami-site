@@ -5,6 +5,7 @@ import mapSvg from '../../assets/gt-map-comuni.svg?raw';
 import temi from '../../assets/gt-temi.json';
 import tappe from '../../assets/gt-tappe.json';
 import eventi from '../../assets/gt-eventi.json';
+import raccontoBacino from '../../assets/gt-racconto.json';
 
 // LANDING GRAND TOUR DELLE MARCHE — la fabula è L'ITINERARIO
 // (ANIGAMI-METANARRATIVA §3): la barra dei capitoli è una strada con
@@ -76,42 +77,48 @@ const cartoline = [
 ];
 
 // ══════════════════════════════════════════════════════════════════════
-// IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08/08/2026)
+// IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08–09/08/2026)
 //
-// Nove caselle quadrate; al clic si apre il video. Ogni sezione della
-// pagina avrà il proprio elemento visuale: qui è questa griglia, e la
-// griglia è RANDOMICA — l'ordine cambia a ogni visita. Non è un vezzo:
-// è la micro-firma del quadro metanarrativo, le atmosfere mai identiche
-// due volte.
+// Nove caselle quadrate, SOLO IMMAGINE: nessuna didascalia, il fotogramma
+// e basta. Al clic si apre il video. È il primo dei blocchi visuali che
+// ogni sezione della pagina avrà.
 //
-// ⚠️ COME SI RIEMPIE, quando arrivano i materiali. Ogni voce:
-//   { id, titolo, clip, poster, yt }
-//   clip   = spezzone corto e MUTO in public/gt/racconto/ — è l'anteprima
-//            che si anima nella casella al passaggio. Regola: 8–15s,
-//            1080p in ingresso, esce sotto i 300 KB.
-//   poster = il primo fotogramma, JPG quadrato: è ciò che si vede a
-//            riposo e ciò che si carica davvero (le clip hanno
-//            preload="none").
-//   yt     = l'ID YouTube del montato intero, quello che si apre al clic.
-//            Facciata: l'iframe nasce solo all'apertura e da
-//            youtube-nocookie.com, così nessun cookie parte prima del
-//            consenso e la pagina non paga il player finché non serve.
+// Due caselle sono fisse e sette ruotano a ogni visita:
+//   1ª  Lavinia Atipica — il filmato d'archivio già in cartella
+//   2ª  Grand Tour delle Marche 2026 — TENUTA LIBERA finché Paolo non
+//       carica il video: basta scriverne l'id qui sotto e si accende.
+//   3ª-9ª  pescate a caso dal bacino di gt-racconto.json.
 //
-// Le voci senza `clip`/`poster` restano segnaposto nella cromia del
-// marchio: l'ossatura si giudica completa anche a materiale mancante.
+// IL BACINO (64 video, raccolto il 09/08 dai canali di Tipicità): sei
+// playlist — Camerino Meraviglia days, Il territorio, Frasassi
+// Experience, Grand Tour delle Marche 2021, Pillole di Enosophia,
+// Pillole di Senigallia Città Gourmet — più dieci video singoli.
+// ⚠️ Le playlist sono state lette dal feed pubblico di YouTube, che ne
+// restituisce al massimo quindici per volta: delle due più lunghe
+// potrebbe mancare la coda. Si rigenera quando serve.
+//
+// LE MINIATURE stanno in public/gt/racconto/<id>.jpg, scaricate una
+// volta sola. Non si tirano da i.ytimg.com a ogni visita: sarebbe una
+// chiamata a YouTube prima ancora che l'utente abbia cliccato, e su un
+// sito con un gestore di consenso è esattamente ciò che la facciata
+// dell'iframe serve a evitare.
+const bacino = raccontoBacino;
+
+// ⚠️ QUI si mette l'id YouTube del Grand Tour 2026, quando c'è.
+const GT2026 = '';
+
+// Sorteggio al build: senza JavaScript la griglia è comunque piena e
+// completa, ed è questa la versione che leggono i motori. Lo script in
+// pagina rimescola a ogni visita.
+const mescola = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
+const sorteggiati = mescola([...bacino]).slice(0, 7);
+
 const raccontoVideo = [
-  // L'unico materiale già in cartella. Era una figure a sé sotto il
-  // testo: diventa la prima casella, perché due dispositivi video nella
-  // stessa sezione sono uno di troppo.
-  { id: 'lavinia', titolo: 'Lavinia Atipica', clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '' },
-  { id: 'v2', titolo: 'Da assegnare' },
-  { id: 'v3', titolo: 'Da assegnare' },
-  { id: 'v4', titolo: 'Da assegnare' },
-  { id: 'v5', titolo: 'Da assegnare' },
-  { id: 'v6', titolo: 'Da assegnare' },
-  { id: 'v7', titolo: 'Da assegnare' },
-  { id: 'v8', titolo: 'Da assegnare' },
-  { id: 'v9', titolo: 'Da assegnare' },
+  { id: 'lavinia', titolo: 'Lavinia Atipica', clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '', fissa: true },
+  GT2026
+    ? { id: 'gt2026', titolo: 'Grand Tour delle Marche 2026', poster: `/gt/racconto/${GT2026}.jpg`, yt: GT2026, fissa: true }
+    : { id: 'gt2026', titolo: 'Grand Tour delle Marche 2026 — in arrivo', fissa: true },
+  ...sorteggiati.map((v) => ({ id: v.id, titolo: v.titolo, poster: `/gt/racconto/${v.id}.jpg`, yt: v.id })),
 ];
 
 // Le soste dell'itinerario: sono i waypoint della barra-strada.
@@ -206,24 +213,29 @@ const theme = {
           <ul class="griglia" id="griglia-racconto" aria-label="Il racconto in video">
             {raccontoVideo.map((v) => (
               <li>
+                {/* Nessuna didascalia in casella: il fotogramma e basta.
+                    Il titolo resta come nome accessibile del bottone —
+                    senza, sarebbero nove bersagli muti per chi non vede. */}
                 <button
                   class:list={['cella', { vuota: !v.poster }]}
                   type="button"
                   data-yt={v.yt || undefined}
                   data-titolo={v.titolo}
+                  data-fissa={v.fissa ? '1' : undefined}
+                  aria-label={v.titolo}
                   disabled={!v.yt && !v.clip}
                 >
                   {v.poster && (
-                    <img class="cella-poster" src={v.poster} alt="" loading="lazy" width="400" height="400" />
+                    <img class="cella-poster" src={v.poster} alt="" loading="lazy" width="480" height="360" />
                   )}
                   {v.clip && (
                     <video class="cella-clip" src={v.clip} muted loop playsinline preload="none" aria-hidden="true"></video>
                   )}
-                  <span class="cella-eti">{v.titolo}</span>
                 </button>
               </li>
             ))}
           </ul>
+          <script type="application/json" id="bacino-racconto" set:html={JSON.stringify(bacino)}></script>
         </div>
         {/* CREDITO DI MARTINO (Paolo, 08/08/2026). La riga di credito in
             coda alla sezione è stata tolta: il credito sta dentro il
@@ -582,29 +594,20 @@ const theme = {
   .cella-clip { opacity: 0; transition: opacity 0.3s var(--ease); }
   .cella:hover .cella-clip, .cella:focus-visible .cella-clip { opacity: 1; }
 
-  /* velo in basso: il titolo deve leggersi su qualunque fotogramma */
-  .cella::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 55%;
-    background: linear-gradient(to top, rgba(43, 29, 22, 0.82), transparent);
-    pointer-events: none;
+  /* Nessuna didascalia: l'unica affordance è il fotogramma che si
+     accende. A riposo sta un passo indietro — appena scurito e slavato —
+     e al passaggio torna pieno. Il velo si toglie invece di aggiungersi:
+     è il contrario del solito, e serve a far capire che la casella è
+     viva senza scriverci sopra niente. */
+  .cella-poster, .cella-clip {
+    filter: saturate(0.72) brightness(0.78);
+    transition: filter 0.32s var(--ease), transform 0.32s var(--ease);
   }
 
-  .cella-eti {
-    position: absolute;
-    left: 0.6rem;
-    right: 0.6rem;
-    bottom: 0.5rem;
-    z-index: 1;
-    font-family: 'Manrope', sans-serif;
-    font-size: clamp(0.6rem, 1.1vw, 0.7rem);
-    line-height: 1.3;
-    letter-spacing: 0.04em;
-    color: #fbf4ec;
-    text-align: left;
-    text-wrap: pretty;
+  .cella:hover .cella-poster, .cella:focus-visible .cella-poster,
+  .cella:hover .cella-clip, .cella:focus-visible .cella-clip {
+    filter: saturate(1) brightness(1);
+    transform: scale(1.04);
   }
 
   .cella:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
@@ -618,8 +621,7 @@ const theme = {
       linear-gradient(135deg, var(--bg-mid), var(--bg-deep) 70%);
     cursor: default;
   }
-  .cella.vuota::after { content: none; }
-  .cella.vuota .cella-eti { color: var(--text-faint); }
+  .cella.vuota { cursor: default; }
 
   /* ══ IL SIPARIO DEL VIDEO ══ */
   .proiezione {
@@ -693,7 +695,9 @@ const theme = {
   .pr-chiudi:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    .cella-clip { transition: none; }
+    .cella-clip, .cella-poster { transition: none; }
+    .cella:hover .cella-poster, .cella:focus-visible .cella-poster,
+    .cella:hover .cella-clip, .cella:focus-visible .cella-clip { transform: none; }
   }
 
   .lavinia { margin: 0; }
@@ -878,18 +882,28 @@ const theme = {
 
     const celle = Array.from(griglia.querySelectorAll('.cella'));
 
-    // MESCOLA. Si tocca solo `order`, non il DOM: l'ordine scritto resta
-    // quello che leggono i motori e chi non ha JS, e non c'è nessun
-    // salto di layout perché le caselle sono tutte quadrate uguali.
-    // Fisher-Yates sulle sole caselle che hanno materiale — i segnaposto
-    // restano in coda, altrimenti i buchi finirebbero sparsi in mezzo.
-    const piene = celle.filter((c) => !c.classList.contains('vuota'));
-    const vuote = celle.filter((c) => c.classList.contains('vuota'));
-    for (let i = piene.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [piene[i], piene[j]] = [piene[j], piene[i]];
+    // RIPESCA. Le due caselle fisse — Lavinia e il Grand Tour 2026 —
+    // restano dove sono; le altre sette vengono ripescate a caso dal
+    // bacino a ogni visita. Si cambiano solo src e attributi, mai il
+    // numero di caselle: la griglia è già disegnata e non salta.
+    // Senza JS resta il sorteggio fatto al build, che è comunque una
+    // griglia piena — ed è quella che leggono i motori.
+    let bacino = [];
+    try { bacino = JSON.parse(document.getElementById('bacino-racconto').textContent); } catch {}
+
+    const mobili = celle.filter((c) => !c.dataset.fissa);
+    if (bacino.length >= mobili.length) {
+      const mazzo = bacino.map((v) => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
+      mobili.forEach((c, i) => {
+        const v = mazzo[i];
+        c.dataset.yt = v.id;
+        c.dataset.titolo = v.titolo;
+        c.setAttribute('aria-label', v.titolo);
+        c.disabled = false;
+        const img = c.querySelector('.cella-poster');
+        if (img) img.src = '/gt/racconto/' + v.id + '.jpg';
+      });
     }
-    [...piene, ...vuote].forEach((c, i) => c.parentElement.style.order = String(i));
 
     // ANTEPRIME: la clip parte al passaggio e si rimette a zero quando
     // esci. preload="none", quindi non si scarica niente finché non
