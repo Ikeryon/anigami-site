@@ -1,140 +1,145 @@
-# BRIEF-HOME v3 — la vetrina
+# BRIEF-HOME v4 — la casa
 
-Cowork, 07/08/2026. **Riscrittura completa dopo la bocciatura della v2 da parte
-di Paolo.** Sostituisce l'impianto oggi in `src/pages/index.astro`. Il profilo Imagina (ora §7) resta com'era: quello va bene ed è già stato ampliato.
+Cowork, 09/08/2026. Terza e ultima riscrittura dell'impianto, dopo la scelta di
+Paolo. Sostituisce le versioni precedenti (manifesto, vetrina a quattro ante).
+Il profilo Imagina — sezione 7 — resta invariato: quello va bene.
 
-## 0. Perché la v2 non funzionava
+## 0. Come ci siamo arrivati, in tre righe
 
-Va detto con precisione, perché la diagnosi è metà del rimedio.
+La v2 era un manifesto e risultava spoglia. La v3, la vetrina a quattro ante,
+riempiva lo schermo ma dava ai marchi una centralità che sulla home della casa
+non devono avere: chi atterra qui deve ricevere la visione di **Imagina**, non
+quella dei singoli progetti. Da qui la v4: il campo è della casa, i quattro
+progetti stanno in un angolo come timbri.
 
-La v2 è un **manifesto**, non una vetrina. Tutto galleggia al centro di un
-bianco senza bordi: il logo piccolo in mezzo allo schermo, quattro parole in
-basso, e attorno il vuoto. Un impianto così regge solo quando c'è **una**
-immagine che fa tutto il lavoro; qui l'immagine è un logo di pochi centimetri e
-il resto è testo. Di conseguenza la pagina non è minimale — è spoglia, che è
-un'altra cosa. Mancano tre cose insieme: **i bordi** (niente cornice, tutto
-appeso nel nulla), **la materia** (nessuna fotografia: il sito racconta quattro
-festival e non se ne vede uno), e **la promessa** (chi arriva non capisce in un
-secondo che dietro ci sono quattro mondi).
+## 1. Il concept
 
-Le frasi in sovrimpressione sui nomi erano il sintomo dello stesso problema:
-servivano a riempire un vuoto che andava riempito con le immagini, non con
-altre parole. Via.
+Un campo scuro a piena pagina dentro una cornice. Al centro il logotipo Imagina
+che **si compone una volta sola** e resta. Sotto, una riga di visione. Dietro,
+molto attenuata, una fotografia in movimento che respira. Sul filetto in basso,
+i dispacci dal feed. In basso a destra, dopo la scritta «i progetti», i quattro
+segni di marchio piccoli.
 
-Mutamenti: via anche quello. Era una voce senza contenuto stabile, che
-prometteva un flusso di novità che nessuno si è impegnato a tenere aggiornato.
-Una voce morta in home costa più di quanto renda.
-
-## 1. Il concept: quattro ante di una vetrina
-
-La home è **una vetrina divisa in quattro ante**, a tutta pagina, dentro una
-cornice. Ogni anta è un progetto: una fotografia del suo mondo, velata dalla
-cromia del marchio, con il suo segno in basso. Le quattro ante riempiono tutto
-lo schermo — non c'è un pixel di vuoto, e questo risolve alla radice il
-problema della v2.
-
-Passando sopra un'anta, quella **si apre**: cresce fino a occupare metà
-vetrina, la fotografia perde il velo e torna a colori, e sotto il segno
-compare il logo del marchio con il suo luogo e il suo mese. Le altre tre si
-stringono ma restano visibili — il gesto è quello di una tenda che si scosta,
-non di una pagina che cambia. Un clic entra nella landing.
-
-È esattamente il meccanismo che chiedeva Paolo — «icone che passando rivelano
-il logo e si può cliccare» — ma con la fotografia dietro, che è la parte che
-trasforma quattro pulsanti in una vetrina.
-
-**Il rapporto con la pellicola.** La home continua a non avere il menù a
-capsula, e ora si capisce perché: le quattro ante *sono* la pellicola,
-proiettata a tutto schermo. Fuori dalla home i quattro segni si richiudono nella
-capsula in alto a destra; qui si aprono e diventano il paesaggio. È la stessa
-regola di prima — la home è il menù esploso — ma finalmente visibile.
+Niente scroll, niente overlay di marchio, niente Mutamenti. Un'inquadratura sola
+che dice chi è la casa, e quattro porte discrete per chi vuole andare oltre.
 
 ## 2. La cornice
 
-È la richiesta esplicita di Paolo, ed è la cosa che toglie l'effetto "appeso al
-centro". Un filetto da 1 px inset di 20 px dal bordo dello schermo, con le
-quattro tacche d'angolo marcate: è un **fotogramma**. Coerente col linguaggio
-della casa (la moviola, il controcampo, la pellicola) e utile, perché dà alla
-pagina dei bordi veri.
+Filetto da 1 px inset di 20 px con le quattro tacche d'angolo marcate: è un
+fotogramma, coerente con il linguaggio della casa e con la pellicola del menù.
+Dentro la cornice, le uniche righe di testo: in alto a sinistra
+`Imagina Srl Società Benefit`, in alto a destra `Chi siamo` (apre il profilo) e
+`EN`, in basso a sinistra `Camerino, Marche · dal 1991`.
 
-Dentro la cornice, sui due lati, vivono le uniche righe di testo della home, in
-maiuscoletto piccolo su fondo scuro:
+## 3. Il logotipo e il fondale — asset già in `public/home/`
 
-- **alto a sinistra** — il logotipo Imagina, piccolo, in bianco;
-- **alto a destra** — `Chi siamo` (apre il profilo) e `EN`;
-- **basso a destra** — `Camerino, Marche · dal 1991`.
+Sono pronti e verificati. Il master alpha di Paolo è ProRes 4444 `yuva444p12le`
+e la trasparenza è corretta; da lì ho ricavato quello che serve al web.
 
-Nient'altro. La parola «Imagina» compare una volta sola, ed è il logotipo.
+| file | cosa è | peso |
+|---|---|---|
+| `imagina-logo.mp4` | logotipo bianco su nero, 7,9 s, 1280×720, muto | 517 KB |
+| `imagina-logo-poster.png` | ultimo fotogramma, **con alpha** | 217 KB |
+| `imagina-fondo.mp4` | fondale di prova, 15,8 s, 1600 px, muto | 1,4 MB |
+| `imagina-fondo-poster.jpg` | posa del fondale | 44 KB |
 
-## 3. L'ingresso: il sipario
+**Il logotipo va montato con `mix-blend-mode: screen`.** È bianco su nero: il
+blend mangia il nero e lascia passare solo il segno luminoso, che galleggia
+sopra il fondale senza rettangoli. Attenzione a un dettaglio che mi ha fatto
+perdere tempo: il blend agisce sul contesto di impilamento più vicino, quindi
+**nessun antenato del video deve avere `z-index`, `opacity` < 1, `transform` o
+`filter`**, altrimenti il logo si fonde con il vuoto e il nero riappare. Se
+serve ordinare i livelli, si usa l'ordine nel DOM, non lo z-index.
 
-Al caricamento la vetrina è chiusa: schermo di carta `#faf9f6`, e al centro il
-video del logo che si compone — l'asset `public/home/hero-imagina.mp4` che c'è
-già e pesa 150 KB. Finito il video (circa 16 secondi, ma si può tagliare a 6–8),
-**le quattro ante si aprono** con un wipe dal centro verso i lati, 700 ms,
-easing secco. Il logotipo si rimpicciolisce e va a parcheggiarsi nell'angolo
-alto a sinistra della cornice, dove resta.
+Ho provato anche la strada del WebM VP9 con alfa vera: l'encoder qui a
+disposizione non conserva il canale, e non vale la pena insistere perché la
+soluzione screen funziona su tutti i browser e pesa meno. Il master alpha resta
+in archivio se un domani servisse il logotipo su fondo chiaro.
 
-Questo è l'effetto wow, e costa pochissimo: un video già prodotto e una
-transizione CSS. Chi torna una seconda volta se lo risparmia — `sessionStorage`,
-ante già aperte, logotipo già in cornice. E chi ha `prefers-reduced-motion`
-salta direttamente allo stato aperto.
+Il fondale è **una prova**, non il definitivo, e va detto a chiare lettere: l'ho
+ricavato dal montaggio promozionale di Tipicità scegliendo i soli quattro
+spezzoni che non dichiarano di che festival si tratti — le mani con i fuselli
+del tombolo, il vino versato nei calici, la focaccia tagliata, la fila di
+bottiglie — rallentati, sfocati e scuriti, con dissolvenze e nero in entrata e
+in uscita perché il loop non si veda. Serve a far vedere la pagina viva. Paolo
+sta preparando quello vero.
 
-## 4. Comportamento, in dettaglio
+## 4. Comportamento
 
-**Riposo.** Quattro ante uguali. Fotografie in grigio all'55 % di saturazione,
-velo di cromia del marchio al 62 % in multiply, gradiente scuro sopra per
-tenere leggibili i segni. In basso a sinistra di ogni anta, il segno del
-marchio in bianco a 52 px.
+Al caricamento il campo è nero, il fondale parte in dissolvenza e il logotipo si
+compone. Finita l'animazione (7,9 s) resta l'ultimo fotogramma: in pratica si
+mette in pausa sull'ultimo frame, non si ripete. La riga di visione entra in
+dissolvenza a logo completo. Il fondale continua a girare in loop, muto.
 
-**Sopra un'anta.** L'anta cresce (flex-grow da 1 a 2.6, le altre a 0.72), 550 ms
-con easing `cubic-bezier(.55,.05,.18,1)`. La fotografia torna a colori e chiude
-lo zoom da 1.04 a 1. Il velo scende al 34 %. Sotto il segno compaiono, sfalsati
-di 60 ms, il logo del marchio (altezza 44 px) e la riga `luogo · mese`.
+Alla seconda visita il logo non si ricompone: si parte dal poster
+(`sessionStorage`). Con `prefers-reduced-motion: reduce` o risparmio dati
+attivo, niente video: poster del logo e poster del fondale, fermi.
 
-**Clic.** Si entra nella landing. Nessun overlay intermedio: i sipari di marchio
-della v2 erano un passaggio in più che non aggiungeva niente — le landing sono
-diventate buone, si va lì.
+Il fondale sta al **25–30 % di opacità** sotto una vignetta radiale scura, che è
+ciò che tiene leggibile il testo. Sono i due numeri da tarare a occhio in fase
+di montaggio: se la frase di visione fatica, si scende di opacità, non si
+ingrandisce il testo.
 
-**Tastiera.** Le quattro ante sono link veri, in tab order. Il focus produce lo
-stesso stato del passaggio del mouse. Anello di focus visibile.
+## 5. La riga di visione
 
-**Touch.** Sotto i 900 px le ante diventano **quattro fasce orizzontali**
-impilate, ognuna alta un quarto di schermo, tutte già "aperte": fotografia a
-colori, segno e logo visibili, la riga del luogo sotto. Nessun hover da
-simulare, nessun tap intermedio: si tocca e si entra. La cornice resta.
+Sostituisce «otto mesi di lavoro per tre giorni di festival», che era falsa —
+si lavora tutto l'anno — e soprattutto era una frase di Tipicità travestita da
+frase di Imagina. Qui si parla della casa.
 
-## 5. Le fotografie — è qui che la home vive o muore
+> **Un territorio non si promuove. Si mette in condizione di raccontarsi.**
 
-Servono **quattro fotografie**, una per marchio, e sono il vero investimento di
-questa pagina. Devono essere: orizzontali e ad alta risoluzione (almeno 2400 px
-di lato lungo, perché una singola anta aperta arriva a metà schermo); con un
-soggetto leggibile anche in una fascia stretta, quindi composizione centrale e
-non dispersa; con spazio scuro o vuoto nel terzo inferiore sinistro, dove vanno
-segno e logo; e devono contenere **persone**, perché quattro paesaggi vuoti
-raccontano una regione, quattro folle raccontano quattro festival.
+In Cormorant, corpo grande, la prima frase in corsivo e la seconda in tondo.
+[Alternative in campo, decisione di Paolo: «Il valore di un territorio non è
+quello che possiede: è quello che riesce a mettere in relazione» · «Locale nella
+sostanza, globale nello sguardo».]
 
-Da evitare in modo assoluto: locandine, cartoline, roll-up, slide, palchi
-istituzionali con relatori seduti. Nel mock che allego ho dovuto usare quello
-che c'era in `public/` e si vede — la locandina di Recanati come sfondo a tutta
-pagina è la dimostrazione per assurdo di quanto conti la scelta.
+## 6. I dispacci — il feed, verificato il 09/08
 
-Per EVO al momento non c'è nulla in repo: serve una foto della piazza in gioco.
+**Il feed è vivo.** L'ho navigato: `lastBuildDate` di oggi, trenta voci, la più
+recente del 5 agosto. Quello che sembrava vecchio era probabilmente una cache.
 
-Formato di consegna: JPG progressivo, ~2400 px, in `public/home/vetrina/`, con
-una `-poster` a 40 px per il blur-up. Se Paolo le estrae dai reportage, gliele
-seleziono e le preparo io.
+Ancora meglio, esistono i feed **per categoria**, quindi ogni landing può
+mostrare le proprie notizie invece di tutte. La pagina di selezione è
+`selezione_feed_rss.php`; l'endpoint è `rss.php?idCategoria=N`:
 
-## 6. Un asset da rifare
+```
+0  tutti                    33 territorio
+27 mostre                   34 bandi e opportunità
+28 sagre                    35 prodotti
+29 eventi                   36 sostenibilità
+30 incontri                 37 dalla vigna alla tavola
+31 terre del tartufo        38 TIPICITÀ IN BLU
+32 TIPICITÀ FESTIVAL        39 personaggi
+                            41 GRAND TOUR DELLE MARCHE
+                            42 TIPICITÀ EVO
+```
 
-Il logotipo Imagina che va in cornice deve essere **su fondo trasparente e in
-bianco**. Quello usato oggi nel mock è il poster del video, che ha il rettangolo
-bianco attorno e sopra una fotografia fa il buco che si vede negli screenshot.
-In repo c'è già `src/assets/imagina-logotype.svg` in `currentColor`: usare
-quello, oppure — meglio ancora, viste le misure — il monogramma della pellicola
-(`mk-imagina-mono`) accanto al logotipo.
+Struttura di ogni `item`: `title`, `description`, `pubDate`, `guid`, `link`,
+`enclosure`. Le descrizioni sono lunghe (oltre duemila caratteri) e in testo
+piano, senza HTML: per il ticker vanno troncate al titolo. L'`enclosure` è una
+`image/jpeg` — c'è una fotografia per ogni notizia, e questo apre la possibilità
+di usarle nelle landing. Nota: l'attributo `length` vale sempre `123456`, è un
+segnaposto del generatore e non va usato per niente.
 
-## 7. Profilo Imagina [ampliato il 07/08, invariato in questa v3]
+**Il punto tecnico che decide l'implementazione: il CORS.** Il feed sta su
+`tipicita.it`, la pagina su un altro dominio: una `fetch` dal browser viene
+bloccata a meno che il server non dichiari `Access-Control-Allow-Origin`, cosa
+che non fa. Due strade, e la seconda è quella giusta:
+
+1. Lettura **al build**, dentro Astro. Zero CORS, zero JavaScript in pagina,
+   velocissima — ma le notizie si aggiornano solo quando il sito viene
+   ricostruito. Servirebbe un rebuild programmato su Vercel.
+2. Una piccola **funzione serverless su Vercel** che scarica il feed, lo
+   converte in JSON e lo tiene in cache per una quindicina di minuti. La pagina
+   chiama quella. Niente CORS, niente carico su tipicita.it, e le notizie sono
+   sempre fresche. È la strada da prendere.
+
+In entrambi i casi serve un comportamento di fallback: **se il feed non risponde
+o è vuoto, la riga dei dispacci non compare** — non deve mai restare uno
+scheletro vuoto in basso.
+
+
+## 7. Profilo Imagina [ampliato il 07/08, invariato in questa v4]
 
 Il profilo cresce perché i soci vogliono metterci mano e perché deve reggere da
 solo: è l'unico punto del sito in cui Imagina parla di sé, e chi lo apre
@@ -273,49 +278,64 @@ andrebbe aggiornato. E nell'elenco dei Paesi compare la Federazione Russa:
 l'ho omessa dal testo per il sito — su una pagina pubblica del 2026 apre una
 conversazione che non è quella che volete fare. Se preferisci rimetterla, si fa.
 
-## 9. Regole d'ingaggio (UX, invariate dove funzionavano)
 
-Il profilo Imagina resta un `<dialog>` vero: focus trap, ESC chiude, click fuori
-chiude, `aria-modal`, ritorno del focus alla voce d'origine, e `pushState` così
-il back del browser chiude invece di uscire dal sito. È l'unico overlay rimasto
-in home: i quattro sipari di marchio spariscono, Mutamenti sparisce.
+## 9. I quattro segni
 
-Niente autoplay audio, niente parallax, niente cursore custom. Il video del
-sipario è muto, `playsinline`, e non parte se il risparmio dati è attivo — in
-quel caso si va diretti alla vetrina aperta.
+In basso a destra, preceduti dalla scritta `i progetti` in maiuscoletto piccolo:
+i quattro simboli dello sprite `public/logos/menu/brand-marks.svg`, a 27 px,
+inchiostro bianco al 52 %. Al passaggio si accende la piastrella nel colore del
+marchio e l'inchiostro passa al colore del fondo, come nella pellicola. Un clic
+porta alla landing.
 
-Performance: quattro JPG a tutta pagina sono il carico principale, quindi
-`fetchpriority="high"` sulla prima anta, `loading="eager"` su tutte e quattro
-(sono above the fold per definizione), blur-up dal poster, `width`/`height`
-dichiarati per non muovere niente. Obiettivo Lighthouse ≥ 90 su mobile, che con
-quattro fotografie è un traguardo onesto — la home non è più quasi vuota, e va
-bene così.
+Non c'è la capsula della pellicola in home, e la ragione resta quella di sempre:
+la home *è* il menù, non lo contiene.
 
-## 10. Cosa serve, da chi
+## 10. Mobile
 
-**Da Paolo**: le quattro fotografie (§5) e le finalità di beneficio comune
-dello statuto (§8). Sono le due cose che nessun altro può dare.
+Sotto i 760 px il campo resta, il logotipo si stringe al 78 % della larghezza,
+la riga di visione va a due o tre righe, i quattro segni si spostano in basso al
+centro e i dispacci diventano **una sola notizia alla volta**, che ruota ogni
+sei secondi in dissolvenza: un ticker che scorre orizzontalmente su un telefono
+è illeggibile e consuma batteria. Il fondale su mobile può essere sostituito dal
+solo poster, se il peso lo consiglia.
 
-**Da Cowork**: selezione e preparazione delle immagini appena arrivano i
-reportage; le didascalie `luogo · mese` se si vuole cambiarle rispetto a quelle
-qui sotto.
+## 11. Accessibilità e resa
 
-**Da Code**: la costruzione. Le quattro righe di didascalia proposte sono
-`Fermo · marzo`, `Marche · giugno–dicembre`, `Ancona · maggio`,
-`Macerata · settembre`. Nota che EVO si è spostato a settembre: il dato è
-confermato dal sito ufficiale e dalla presentazione istituzionale, quindi la
-vecchia dicitura «dicembre» è da considerarsi superata ovunque compaia.
+Un solo `<h1>` (anche `sr-only`) con «Imagina Srl Società Benefit». I video sono
+decorativi: `aria-hidden`, `muted`, `playsinline`, `preload="metadata"` sul
+fondale e `preload="auto"` sul logo, che è quello che deve partire subito. I
+dispacci sono link veri in una lista, non testo animato: chi naviga da tastiera
+deve poterli raggiungere e fermare. Anello di focus visibile su tutto. Il
+contrasto della riga di visione e delle scritte in cornice va verificato **con
+il fondale acceso nel fotogramma più chiaro**, non su nero pieno.
 
-## 11. Il mock
+Prestazioni: la home ha due video per circa 1,9 MB in tutto, che è poco. Il
+logotipo va caricato per primo, il fondale può aspettare. Obiettivo Lighthouse
+≥ 92 su mobile.
 
-Allegati a questa consegna quattro screenshot a 1440: lo stato di riposo con le
-quattro ante, e l'apertura di ciascuna. Il file interattivo è `home-v2b.html`:
-si apre nel browser e si passa il mouse. Serve a decidere l'impianto, non i
-dettagli — le fotografie sono segnaposto e il logotipo in cornice ha ancora il
-rettangolo bianco (vedi §6).
+## 12. Indicazioni per Code
 
-Nel pacchetto c'è anche `home-v2a.html`, una variante scartata: cornice e campo
-unico che cambia mondo al passaggio sui quattro segni allineati in basso.
-Funziona, ma a riposo resta bianca — cioè ricade nel difetto da cui siamo
-partiti. La tengo agli atti solo per mostrare perché la vetrina a quattro ante
-è la risposta giusta.
+Ricostruire `src/pages/index.astro` su questo impianto. Rimuovere i quattro
+`<dialog>` di marchio e il `<dialog>` Mutamenti: resta solo l'overlay del
+profilo, con le regole di sempre (focus trap, ESC, click fuori, `pushState`).
+Aggiornare il testo del profilo con la sezione 7, che è cresciuta a cinque
+blocchi.
+
+Gli asset sono già in `public/home/` (§3). Attenzione alla regola del
+`mix-blend-mode: screen` e dei contesti di impilamento: è il punto in cui è
+facile sbagliare e accorgersene tardi.
+
+Per i dispacci, implementare la funzione serverless su Vercel descritta al §6,
+con cache di quindici minuti e fallback silenzioso. Verificare tu stesso gli
+endpoint per categoria: dalla macchina di Paolo il feed è raggiungibile.
+
+Verifica finale con screenshot a 390 / 768 / 1440, autocritica scritta, giro di
+tastiera completo, e una prova con `prefers-reduced-motion: reduce` attivo.
+
+Commit suggerito: `feat: home — la casa (campo scuro, logotipo, dispacci)`.
+
+## 13. Cosa resta aperto
+
+Il fondale definitivo, che Paolo sta montando: quando arriva si sostituisce il
+file e basta, il codice non cambia. La riga di visione, fra le tre del §5. E le
+finalità di beneficio comune dello statuto, per completare il profilo (§8).

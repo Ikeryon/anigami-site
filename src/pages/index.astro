@@ -2,111 +2,52 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // ══════════════════════════════════════════════════════════════════════
-// LA HOME — IL PALCOSCENICO (BRIEF-HOME.md, tavolo del 07/08/2026)
+// LA HOME — LA CASA (BRIEF-HOME v4, 09/08/2026)
 //
-// Una sola inquadratura, nessuno scroll. Il bianco #faf9f6 è il palco
-// vuoto; al centro l'unico gesto (il logo che si compone, UNA volta);
-// tutto il resto sono cose da APRIRE, non da scorrere. Ogni apertura è
-// un taglio di montaggio a copertura piena, ogni chiusura riporta al
-// palco. I due soli verbi di regia: il TAGLIO (cambio di punto di
-// vista) e la DISSOLVENZA (non-ritorno).
+// Un campo scuro a piena pagina dentro una cornice. Al centro il
+// logotipo Imagina che si compone UNA VOLTA SOLA e resta. Sotto, la riga
+// di visione. Dietro, molto attenuato, un fondale che respira. Sul
+// filetto in basso i dispacci dal feed. In basso a destra i quattro
+// segni dei progetti, piccoli.
 //
-// ⚠️ REGOLE SOVRANE — la parola "anigami" non compare mai (vive solo
-// in info@anigami.it); mai "quattro festival" (sono i progetti
-// principali); i giochi di senso non si spiegano.
+// Niente scroll, niente overlay di marchio, niente Mutamenti: chi
+// atterra qui deve ricevere la visione di IMAGINA, non quella dei
+// singoli progetti. I quattro progetti stanno in un angolo come timbri.
 //
-// Il footer classico NON esiste in home: vive dentro l'overlay Imagina.
-// I quattro nomi restano <a> veri verso le landing: senza JS il sito è
-// integralmente navigabile e le route esistenti restano raggiungibili.
+// ⚠️ REGOLE SOVRANE — la parola "anigami" non compare mai (vive solo in
+// info@anigami.it); mai "quattro festival"; i giochi di senso non si
+// spiegano.
+//
+// ⚠️⚠️ IL PUNTO IN CUI È FACILE SBAGLIARE: il logotipo è bianco su nero e
+// va in `mix-blend-mode: screen`, che mangia il nero e lascia passare
+// solo il segno luminoso. Il blend agisce sul CONTESTO DI IMPILAMENTO
+// più vicino: se un antenato del video ha z-index, opacity < 1,
+// transform, filter o will-change, il logo si fonde con il vuoto e il
+// rettangolo nero riappare. Per questo qui i livelli sono ordinati
+// SOLO dall'ordine nel DOM — fondale, vignetta, cornice, contenuto — e
+// non c'è un solo z-index dentro .casa.
 // ══════════════════════════════════════════════════════════════════════
 
-// I quattro progetti. `verso` = il dato di metodo che il pubblico non
-// vede (BRIEF-HOME §5, trascritto tale e quale: non si riformula).
-// `campo` = la cromia del marchio che si accende sul palco bianco.
-const progetti = [
-  {
-    id: 'tipicita',
-    nome: 'Tipicità',
-    href: '/tipicita/',
-    verso: 'otto mesi di produzione per tre giorni di festival',
-    riga: 'Il festival delle traiettorie indigene. Fermo, dal 1993.',
-    logo: '/logos/tipicita-wordmark-white.svg',
-    logoW: 662,
-    logoH: 201,
-    campo: '#035f6a',
-    inchiostro: '#fcfcfa',
-  },
-  {
-    id: 'grand-tour',
-    nome: 'Grand Tour delle Marche',
-    href: '/grand-tour-delle-marche/',
-    verso: 'ciò che resta quando è già ripartito',
-    riga: 'Un itinerario che dura una stagione: 73 comuni e la strada continua.',
-    logo: '/logos/grand-tour.svg',
-    logoW: 257,
-    logoH: 103,
-    // ⚠️ DECISIONE DA VALIDARE CON PAOLO. Il Grand Tour è l'unico dei
-    // quattro senza un colore pieno nella propria cromia: la sua carta
-    // calda #fbf4ec è indistinguibile dal bianco del palco, e il corallo
-    // #ee726c/#d1544c non regge il testo (2,6:1 e 3,8:1, sotto l'AA).
-    // Si usa allora il suo inchiostro, il bruno caldo #2b1d16 già
-    // dichiarato come --text-soft della landing: il nastro corallo del
-    // marchio si accende, e tutto il testo passa (14,8:1).
-    // Alternativa provata e scartata: campo sabbia #f4e8da con il logo a
-    // colori — corretto ma senza il "taglio" del colore pieno.
-    campo: '#2b1d16',
-    inchiostro: '#fbf4ec',
-  },
-  {
-    id: 'tipicita-in-blu',
-    nome: 'Tipicità in Blu',
-    href: '/tipicita-in-blu/',
-    verso: "due sponde dell'Adriatico, un solo cantiere",
-    riga: 'Mare, laboratorio di futuro. Ancona, la Mole, la rotta.',
-    logo: '/logos/tipicita-in-blu-white.svg',
-    logoW: 259,
-    logoH: 76,
-    campo: '#112f49',
-    inchiostro: '#eaf2f6',
-  },
-  {
-    id: 'evo',
-    nome: 'EVO',
-    href: '/evo/',
-    verso: 'si impara a cooperare giocando',
-    riga: 'I linguaggi del gioco. Macerata, ogni dicembre.',
-    logo: '/logos/evo.svg',
-    logoW: 435,
-    logoH: 140,
-    campo: '#7f1244',
-    inchiostro: '#f6e7ee',
-  },
+// I quattro segni (§9). Sul campo scuro si usano le varianti accese,
+// come sulla pellicola delle pagine scure.
+const segni = [
+  { id: 'tipicita', simbolo: 'mk-tipicita', nome: 'Tipicità Festival', href: '/tipicita/', acceso: '#05606a' },
+  { id: 'grand-tour', simbolo: 'mk-grand-tour', nome: 'Grand Tour delle Marche', href: '/grand-tour-delle-marche/', acceso: '#d1544c' },
+  { id: 'tipicita-in-blu', simbolo: 'mk-tipicita-in-blu', nome: 'Tipicità in Blu', href: '/tipicita-in-blu/', acceso: '#209fb6' },
+  { id: 'evo', simbolo: 'mk-evo', nome: 'EVO', href: '/evo/', acceso: '#b8497a' },
 ];
 
-// MUTAMENTI — feed statico finché non arriva Directus (BRIEF-HOME §2).
-// ⚠️ NESSUN DATO INVENTATO: ogni riga è un fatto già presente e
-// approvato altrove nel sito (note di produzione, landing EVO e GT,
-// schema.org di Tipicità). Da sostituire col feed vero.
-const mutamenti = [
-  { data: '12–14 marzo 2027', testo: 'Tipicità, Fermo.' },
-  { data: '2026', testo: 'Grand Tour delle Marche, tredicesima edizione.' },
-  { data: '1 luglio 2026', testo: 'La trasformazione in Società Benefit è effettiva.' },
-  { data: 'dicembre 2025', testo: 'EVO, i linguaggi del gioco: piazza e centro storico di Macerata diventano uno spazio di gioco all’aperto.' },
-];
-
-// Bianco luminoso: non un #fff da laboratorio, una carta calda.
+// Il campo scuro. Neutro di proposito: il fondale è materiale caldo e
+// deve poter tingere la pagina senza litigare con una dominante.
 const theme = {
-  '--bg-void': '#faf9f6',
-  '--bg-deep': '#f0eee8',
-  '--bg-mid': '#e7e4db',
-  '--text-soft': '#1b1a1f',
-  '--text-dim': 'rgba(27, 26, 31, 0.66)',
-  '--text-faint': 'rgba(27, 26, 31, 0.42)',
-  // Il magenta del marchio (#e6007e) sulla carta sta a 4,27:1: sotto l'AA
-  // per il testo piccolo. Dove il magenta fa da inchiostro si usa questo
-  // tono scurito (5,8:1); il gradiente resta quello ufficiale.
-  '--imagina-ink': '#c1006a',
-  '--hairline': 'rgba(27, 26, 31, 0.13)',
+  '--bg-void': '#08090b',
+  '--bg-deep': '#101216',
+  '--bg-mid': '#191c21',
+  '--text-soft': '#f2efe9',
+  '--text-dim': 'rgba(242, 239, 233, 0.72)',
+  '--text-faint': 'rgba(242, 239, 233, 0.55)',
+  '--hairline': 'rgba(242, 239, 233, 0.22)',
+  '--imagina-ink': '#f26fae',
 };
 
 const structuredData = {
@@ -130,47 +71,78 @@ const structuredData = {
 
 <BaseLayout
   title="Imagina Srl Società Benefit"
-  description="Imagina Srl Società Benefit, Camerino: dal 1991 progetta e produce piattaforme di valorizzazione territoriale. La struttura di produzione dietro Tipicità, Grand Tour delle Marche, Tipicità in Blu ed EVO."
+  description="Imagina Srl Società Benefit, Camerino: dal 1991 marketing territoriale e comunicazione integrata. Un territorio non si promuove: si mette in condizione di raccontarsi."
   theme={theme}
   structuredData={structuredData}
 >
-  <main class="palco">
+  <main class="casa">
     <h1 class="sr-only">Imagina Srl Società Benefit</h1>
 
-    <!-- ══ ALTO DESTRA · le voci della casa ══ -->
-    <div class="cornice">
-      <a class="voce-casa" href="/note-di-produzione/" data-apre="ov-imagina">Imagina</a>
-      <button class="voce-minore" type="button" data-apre="ov-mutamenti">Mutamenti</button>
+    {/* 1 · IL FONDALE — primo nel DOM, sotto tutto il resto senza z-index */}
+    <video
+      class="fondale"
+      id="fondale"
+      src="/home/imagina-fondo.mp4"
+      poster="/home/imagina-fondo-poster.jpg"
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+      tabindex="-1"
+    ></video>
+
+    {/* 2 · LA VIGNETTA — è questa che tiene leggibile il testo */}
+    <div class="vignetta" aria-hidden="true"></div>
+
+    {/* 3 · LA CORNICE — filetto inset con le quattro tacche d'angolo */}
+    <div class="cornice" aria-hidden="true">
+      <span class="tacca tacca--as"></span><span class="tacca tacca--ad"></span>
+      <span class="tacca tacca--bs"></span><span class="tacca tacca--bd"></span>
     </div>
 
-    <!-- ══ CENTRO · il logo che si compone, una volta sola ══ -->
+    {/* 4 · LE RIGHE IN CORNICE */}
+    <p class="riga riga--as">Imagina Srl Società Benefit</p>
+    <div class="riga riga--ad">
+      <button class="chi-siamo" type="button" data-apre="ov-imagina">Chi siamo</button>
+    </div>
+    <p class="riga riga--bs">Camerino, Marche · dal 1991</p>
+
+    {/* 5 · IL CENTRO — il logotipo e la visione.
+        Nessun antenato con z-index/opacity/transform fra il video e il
+        fondale: la scena è solo una griglia di centratura. */}
     <div class="scena">
       <video
-        id="hero"
-        class="hero"
-        width="1920"
-        height="1080"
+        class="logotipo"
+        id="logotipo"
+        src="/home/imagina-logo.mp4"
+        poster="/home/imagina-logo-poster.png"
         muted
         playsinline
-        preload="metadata"
-        poster="/home/hero-imagina-poster.jpg"
-        aria-label="Il logo di Imagina che si compone"
-      >
-        <source src="/home/hero-imagina.mp4" type="video/mp4" />
-      </video>
+        preload="auto"
+        aria-hidden="true"
+        tabindex="-1"
+      ></video>
+
+      <p class="visione" id="visione"><i>Un territorio non si promuove.</i> Si mette in condizione di raccontarsi.</p>
     </div>
 
-    <!-- ══ BASSO · le quattro voci, sola tipografia ══ -->
-    <nav class="voci" aria-label="I progetti principali">
+    {/* 6 · I DISPACCI — la riga non esiste finché il feed non risponde.
+        `hidden` in partenza: se la fetch fallisce o torna vuota resta
+        così, e in basso non c'è nessuno scheletro. */}
+    <section class="dispacci" id="dispacci" aria-label="Dispacci" hidden>
+      <ul id="dispacci-lista"></ul>
+    </section>
+
+    {/* 7 · I QUATTRO SEGNI */}
+    <nav class="segni" aria-label="I progetti">
+      <span class="segni-eti" aria-hidden="true">i progetti</span>
       <ul>
-        {progetti.map((p) => (
+        {segni.map((s) => (
           <li>
-            {/* il nome PRIMA del verso nel DOM: il verso è fuori flusso
-                (position: absolute), quindi la resa non cambia, ma il nome
-                accessibile del link comincia dal nome del progetto. */}
-            <a class="voce" href={p.href} data-apre={`ov-${p.id}`}>
-              <span class="nome">{p.nome}</span>
-              <span class="verso">{p.verso}</span>
+            <a class="segno" href={s.href} style={`--acceso: ${s.acceso}`}>
+              <svg viewBox="0 0 78.96 78.96" aria-hidden="true"><use href={`#${s.simbolo}`} /></svg>
+              <span class="sr-only">{s.nome}</span>
             </a>
           </li>
         ))}
@@ -178,21 +150,14 @@ const structuredData = {
     </nav>
   </main>
 
-  <!-- ══════════ I SIPARI ══════════ -->
-
-  <!-- Il profilo della casa: qui dentro vive anche il piede pagina. -->
-  <dialog id="ov-imagina" class="sipario sipario--casa" aria-labelledby="ov-imagina-t">
+  {/* L'UNICO SIPARIO RIMASTO: il profilo. I quattro di marchio e quello
+      di Mutamenti sono stati rimossi con la v4. */}
+  <dialog id="ov-imagina" class="sipario" aria-labelledby="ov-imagina-t">
     <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
       <span aria-hidden="true">×</span>
     </button>
-    <div class="sipario-in casa-in">
+    <div class="sipario-in">
       <h2 class="kicker" id="ov-imagina-t">Imagina Srl Società Benefit</h2>
-
-      {/* PROFILO v2 (BRIEF-HOME §4, 07/08 — fonte: Company Profile 2025).
-          Cinque blocchi con titoletti brevi: il profilo è l'unico punto del
-          sito in cui Imagina parla di sé, e chi lo apre sta probabilmente
-          valutando se lavorare con voi. Si scansiona, non si legge tutto
-          d'un fiato. Testi trascritti tali e quali. */}
 
       <section class="blocco-profilo">
         <h3 class="titoletto">Chi siamo</h3>
@@ -222,9 +187,7 @@ const structuredData = {
 
       {/* ⚠️ Questo blocco SPIEGA L'ISTITUTO GIURIDICO, non celebra l'azienda:
           è una richiesta esplicita di Paolo. Chi esce deve aver imparato
-          qualcosa che non sapeva, non essersi fatto un'idea di quanto siamo
-          bravi. Per questo la forma giuridica viene prima, e solo alla fine
-          si dice cosa comporta per Imagina. Non accorciare, non alleggerire. */}
+          qualcosa che non sapeva. Non accorciare, non alleggerire. */}
       <section class="blocco-profilo">
         <h3 class="titoletto">Che cosa significa essere società benefit</h3>
         <p class="profilo">Società benefit non è una certificazione e non è un premio. È una forma giuridica, introdotta in Italia dalla legge di stabilità 2016 — legge 208/2015, commi 376-384 — che ha fatto dell'Italia il primo Paese europeo ad averla nel proprio ordinamento.</p>
@@ -234,225 +197,294 @@ const structuredData = {
         <p class="profilo"><b>Per Imagina</b> questo significa una cosa sola, e la si può dire in una riga: la cura del territorio non è il contorno del lavoro, è il lavoro. Valorizzare i talenti di una regione ad ampio spettro — gli artigiani e i ricercatori, i produttori e gli studenti, chi tiene aperta una bottega in un borgo e chi in un laboratorio studia il mare. Il profitto serve a tenere in piedi la struttura; lo scopo è che i territori dove lavoriamo stiano meglio di come li abbiamo trovati.</p>
       </section>
 
-      <!-- il piede di sito: resta agganciato in basso mentre il profilo
-           scorre, così gli accessi non finiscono mai fuori campo -->
       <div class="piede-blocco">
         <nav class="accessi" aria-label="Approfondimenti e contatti">
           <a href="/note-di-produzione/">Note di produzione</a>
-          {/* Adempimento, non scelta editoriale: la legge 208/2015 vuole
-              la relazione annuale di impatto pubblicata sul sito della
-              società. La voce è predisposta adesso; la pagina è un
-              segnaposto finché la prima relazione non esiste. */}
           <a href="/relazione-di-impatto/">Relazione di impatto</a>
           <a href="/entra-in-scena/">Entra in scena</a>
-          <button type="button" data-apre="ov-mutamenti" data-sostituisce>Mutamenti</button>
           <a href="mailto:info@anigami.it">info@anigami.it</a>
         </nav>
         <p class="piede">Viale Giacomo Leopardi, 14 – Camerino (MC) · P.IVA/C.F. IT 01115460436</p>
       </div>
     </div>
   </dialog>
-
-  <!-- I quattro sipari di marchio: campo pieno, logo, una riga, Entra. -->
-  {progetti.map((p) => (
-    <dialog
-      id={`ov-${p.id}`}
-      class="sipario sipario--marchio"
-      aria-label={p.nome}
-      style={`--campo: ${p.campo}; --inchiostro: ${p.inchiostro}`}
-    >
-      <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
-        <span aria-hidden="true">×</span>
-      </button>
-      <div class="sipario-in marchio-in">
-        <p class="verso-tocco">{p.verso}</p>
-        <img class="marchio" src={p.logo} alt={p.nome} width={p.logoW} height={p.logoH} />
-        <p class="riga">{p.riga}</p>
-        <a class="entra" href={p.href}>Entra <span aria-hidden="true">→</span></a>
-      </div>
-    </dialog>
-  ))}
-
-  <!-- Mutamenti: unico sipario che entra in dissolvenza, non di taglio. -->
-  <dialog id="ov-mutamenti" class="sipario sipario--mutamenti" aria-labelledby="ov-mutamenti-t">
-    <button class="chiudi" type="button" data-chiude aria-label="Chiudi">
-      <span aria-hidden="true">×</span>
-    </button>
-    <div class="sipario-in mutamenti-in">
-      <h2 class="kicker" id="ov-mutamenti-t">Mutamenti</h2>
-      <ul class="feed">
-        {mutamenti.map((m) => (
-          <li>
-            <span class="quando">{m.data}</span>
-            <span class="cosa">{m.testo}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </dialog>
 </BaseLayout>
 
 <style is:global>
-  /* La home è UNA inquadratura: non si scorre, in nessuna direzione. */
-  html, body { height: 100%; overflow: hidden; }
-  /* Il footer classico non esiste in home: vive dentro il sipario Imagina. */
+  /* La casa è una sola inquadratura: non si scorre. */
+  html, body { height: 100%; overflow: hidden; background: #08090b; }
+  /* Il piede classico non esiste in home: vive dentro il sipario. */
   body > footer.site-footer { display: none; }
+
+  /* ══ LE VOCI DEI DISPACCI ══
+     Sono create da JavaScript e quindi prive dell'attributo di scoping:
+     vanno vestite da qui. Tutto circoscritto a .dispacci, così non
+     esce niente dal perimetro della home. */
+  .dispacci ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 3.2em;
+  }
+
+  .dispacci li {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+
+  .dispacci li.in-onda { opacity: 1; visibility: visible; }
+
+  .dispacci a {
+    pointer-events: auto;
+    display: inline-block;
+    max-width: 62ch;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: rgba(242, 239, 233, 0.72);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .dispacci a:hover {
+    color: #f2efe9;
+    border-bottom-color: rgba(242, 239, 233, 0.22);
+  }
+
+  .dispacci a:focus-visible { outline: 2px solid #f2efe9; outline-offset: 4px; }
+
+  .dispacci .quando {
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(242, 239, 233, 0.55);
+    margin-bottom: 0.35rem;
+  }
+
+  @media (max-width: 760px) {
+    .dispacci a { font-size: 0.72rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dispacci li { transition: none; }
+  }
 </style>
 
 <style>
-  /* ══ IL PALCO ══
-     Tre fasce: la cornice in alto, la scena al centro (che prende tutto
-     lo spazio residuo), le voci in basso. Nessuna misura dipende dal
-     caricamento del video → zero layout shift. */
-  .palco {
+  /* ══ IL CAMPO ══
+     ⚠️ Dentro .casa non c'è UN SOLO z-index, e non ci deve andare: i
+     livelli sono l'ordine del DOM. Basta un z-index qui per rompere il
+     mix-blend-mode del logotipo. */
+  .casa {
     position: fixed;
     inset: 0;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
     background: var(--bg-void);
+    overflow: hidden;
   }
 
-  /* ── alto destra: la casa e la voce minore ── */
+  /* ── il fondale ── */
+  .fondale {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 28%: la soglia trovata a schermo col fotogramma più chiaro. Se la
+       riga di visione fatica si scende di qui, non si ingrandisce il testo. */
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  /* ── la vignetta: è lei che tiene leggibile tutto ── */
+  .vignetta {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 82% 72% at 50% 46%, rgba(8, 9, 11, 0.22) 0%, rgba(8, 9, 11, 0.80) 74%, rgba(8, 9, 11, 0.93) 100%),
+      linear-gradient(180deg, rgba(8, 9, 11, 0.75) 0%, transparent 22%, transparent 74%, rgba(8, 9, 11, 0.85) 100%);
+  }
+
+  /* ── la cornice: un fotogramma ── */
   .cornice {
-    justify-self: end;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.35rem;
-    padding: clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.2rem, 3vw, 2.4rem) 0;
+    position: absolute;
+    inset: 20px;
+    border: 1px solid var(--hairline);
+    pointer-events: none;
   }
 
-  .voce-casa {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
-    line-height: 1.1;
-    color: var(--text-soft);
-    text-decoration: none;
-    padding: 0.2rem 0;
+  /* le quattro tacche d'angolo, marcate */
+  .tacca { position: absolute; width: 14px; height: 14px; }
+  .tacca::before, .tacca::after {
+    content: '';
+    position: absolute;
+    background: var(--text-soft);
   }
+  .tacca::before { width: 14px; height: 1px; }
+  .tacca::after { width: 1px; height: 14px; }
+  .tacca--as { top: -1px; left: -1px; }
+  .tacca--ad { top: -1px; right: -1px; }
+  .tacca--ad::before { right: 0; } .tacca--ad::after { right: 0; }
+  .tacca--bs { bottom: -1px; left: -1px; }
+  .tacca--bs::before { bottom: 0; } .tacca--bs::after { bottom: 0; }
+  .tacca--bd { bottom: -1px; right: -1px; }
+  .tacca--bd::before { bottom: 0; right: 0; } .tacca--bd::after { bottom: 0; right: 0; }
 
-  .voce-minore {
+  /* ── le righe in cornice ── */
+  .riga {
+    position: absolute;
+    margin: 0;
     font-family: 'Manrope', sans-serif;
-    font-size: 0.63rem;
-    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    /* --text-dim e non --text-faint: a 10px maiuscoletto il faint sta a
-       2,5:1 sulla carta, sotto il minimo AA. */
     color: var(--text-dim);
+  }
+
+  .riga--as { top: 44px; left: 46px; }
+  .riga--ad { top: 38px; right: 46px; }
+  .riga--bs { bottom: 44px; left: 46px; }
+
+  .chi-siamo {
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: var(--text-soft);
     background: none;
     border: 0;
-    padding: 0.25rem 0;
+    padding: 0.4rem 0;
     cursor: pointer;
+    border-bottom: 1px solid var(--hairline);
   }
 
-  .voce-casa:hover, .voce-minore:hover { color: var(--imagina-ink); }
+  .chi-siamo:hover { border-bottom-color: var(--text-soft); }
+  .chi-siamo:focus-visible { outline: 2px solid var(--text-soft); outline-offset: 4px; }
 
-  .voce-casa:focus-visible,
-  .voce-minore:focus-visible {
-    outline: 2px solid var(--imagina-ink);
-    outline-offset: 3px;
-  }
-
-  /* ── centro: il logo che si compone ──
-     Il fondo del video È il fondo pagina: nessun bordo, nessuna ombra,
-     nessun raggio. object-fit: contain con max-height fa "letterbox"
-     su un colore identico → invisibile. */
+  /* ── il centro ──
+     Solo centratura: niente z-index, opacity o transform, altrimenti il
+     logotipo perde il fondale con cui deve fondersi. */
   .scena {
+    position: absolute;
+    inset: 0;
     display: grid;
-    place-items: center;
-    min-height: 0;
-    padding: 0 1.2rem;
+    place-content: center;
+    justify-items: center;
+    gap: clamp(1.4rem, 3.2vh, 2.6rem);
+    padding: 0 clamp(1.6rem, 6vw, 4rem);
+    pointer-events: none;
   }
 
-  /* width in percentuale (non in vw): il vw ignora il padding della scena
-     e faceva sfondare la colonna della griglia di 15px sul telefono. */
-  .hero {
+  /* IL LOGOTIPO. Bianco su nero + screen: il nero sparisce e resta il
+     segno luminoso, senza rettangolo. */
+  .logotipo {
     display: block;
-    width: 100%;
-    max-width: 1040px;
+    width: min(56vw, 620px);
     height: auto;
-    aspect-ratio: 16 / 9;
-    max-height: min(58svh, 585px);
-    object-fit: contain;
-    background: var(--bg-void);
+    aspect-ratio: 1280 / 720;
+    mix-blend-mode: screen;
   }
 
-  /* ── basso: le quattro voci ──
-     Il verso è fuori dal flusso (position: absolute nello slot condiviso
-     sopra i nomi): compare e sparisce senza spostare un pixel. Nessuna
-     transizione = è un taglio, non una dissolvenza. */
-  .voci {
-    position: relative;
-    padding: 3.4rem clamp(1.2rem, 4vw, 2.4rem) clamp(2.2rem, 6vh, 4rem);
+  /* Il video del logotipo ha parecchio nero attorno al segno: in screen
+     è invisibile, ma nel flusso occupa. Il margine negativo recupera
+     quello spazio e riavvicina la riga al logotipo. */
+  .visione {
+    margin: clamp(-5.5vh, -4vh, -2rem) 0 0;
+    max-width: 22ch;
+    text-align: center;
+    text-wrap: balance;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+    line-height: 1.28;
+    color: var(--text-soft);
+    opacity: 0;
+    transition: opacity 0.9s ease;
   }
 
-  .voci ul {
+  .visione.entra { opacity: 1; }
+  .visione i { font-style: italic; }
+
+  /* ── i dispacci ──
+     Uno alla volta a ogni larghezza: dodici titoli in fila non entrano
+     da nessuna parte, e un ticker che scorre è illeggibile sul telefono.
+     Sono link veri: quello in vista è raggiungibile col Tab, gli altri
+     restano fuori dall'ordine di tabulazione. */
+  .dispacci {
+    position: absolute;
+    left: 46px;
+    right: 46px;
+    bottom: 92px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .dispacci[hidden] { display: none; }
+
+  /* ⚠️ Le voci dei dispacci nascono da JavaScript, quindi NON ricevono
+     l'attributo di scoping di Astro: se i loro stili stanno qui non si
+     applicano affatto. Stanno nel blocco is:global in fondo al file,
+     circoscritti a .dispacci. */
+
+  /* ── i quattro segni ── */
+  .segni {
+    position: absolute;
+    right: 46px;
+    bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .segni-eti {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .segni ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: baseline;
-    gap: 0 clamp(0.9rem, 2.4vw, 1.8rem);
+    align-items: center;
+    gap: 7px;
   }
 
-  .voci li { display: flex; align-items: baseline; }
-
-  .voci li:not(:last-child)::after {
-    content: '·';
-    color: var(--text-faint);
-    margin-left: clamp(0.9rem, 2.4vw, 1.8rem);
+  .segno {
+    display: grid;
+    place-items: center;
+    box-sizing: content-box;
+    width: 27px;
+    height: 27px;
+    /* bersaglio 44×44 senza cambiare la dimensione del segno */
+    padding: 8px;
+    margin: -8px;
+    --mk-tile: transparent;
+    --mk-ink: rgba(242, 239, 233, 0.52);
+    transition: transform 0.22s ease;
   }
 
-  .voce {
-    display: block;
-    text-decoration: none;
-    padding: 0.35rem 0;
+  .segno svg { display: block; width: 100%; height: 100%; }
+
+  .segno:hover, .segno:focus-visible {
+    transform: translateY(-2px);
+    --mk-tile: var(--acceso);
+    --mk-ink: var(--bg-void);
   }
 
-  .nome {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: clamp(1.1rem, 2.3vw, 1.85rem);
-    line-height: 1.15;
-    color: var(--text-soft);
-  }
+  .segno:focus-visible { outline: 2px solid var(--text-soft); outline-offset: 3px; border-radius: 4px; }
 
-  /* Il taglio dell'attenzione: chi non è puntato scende in sordina.
-     --text-dim e non --text-faint: le voci restano link leggibili anche
-     da spente (il faint le porterebbe a 2,5:1). */
-  .voci ul:hover .nome { color: var(--text-dim); }
-  .voci ul .voce:hover .nome { color: var(--text-soft); }
-
-  .verso {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0.9rem;
-    text-align: center;
-    font-family: 'Manrope', sans-serif;
-    font-size: clamp(0.74rem, 1.4vw, 0.86rem);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    line-height: 1.4;
-    color: var(--text-dim);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .voce:hover .verso,
-  .voce:focus-visible .verso { opacity: 1; }
-
-  .voce:focus-visible {
-    outline: 2px solid var(--imagina-ink);
-    outline-offset: 4px;
-  }
-
-  /* ══ I SIPARI ══
-     <dialog> nativo: focus trap, ESC, aria-modal e ritorno del focus
-     alla voce d'origine li dà il browser. Qui restano il taglio, la
-     cromia e la chiusura fuori campo. */
+  /* ══ IL SIPARIO DEL PROFILO ══ */
   .sipario {
     position: fixed;
     inset: 0;
@@ -465,14 +497,11 @@ const structuredData = {
     border: 0;
     overflow: auto;
     overscroll-behavior: contain;
-    background: var(--campo, var(--bg-void));
-    color: var(--inchiostro, var(--text-soft));
+    background: var(--bg-void);
+    color: var(--text-soft);
   }
 
   .sipario::backdrop { background: transparent; }
-
-  /* IL TAGLIO — copertura piena in 280ms, easing secco, niente rimbalzo.
-     Il sipario cala dall'alto e copre il palco. */
   .sipario[open] { animation: taglio 0.28s cubic-bezier(0.2, 0, 0, 1) both; }
 
   @keyframes taglio {
@@ -480,20 +509,12 @@ const structuredData = {
     to   { clip-path: inset(0 0 0 0); }
   }
 
-  /* LA DISSOLVENZA — solo per Mutamenti (e per il logo). */
-  .sipario--mutamenti[open] { animation: dissolvenza 0.32s ease both; }
-
-  @keyframes dissolvenza {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
   .sipario-in {
     min-height: 100%;
+    max-width: 60ch;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    /* "safe": quando il contenuto è più alto della finestra si allinea in
-       alto invece di far sparire il capo oltre il bordo superiore. */
     justify-content: center;
     justify-content: safe center;
     padding: clamp(4.5rem, 9vh, 6rem) clamp(1.4rem, 6vw, 3rem) clamp(2.5rem, 6vh, 4rem);
@@ -503,7 +524,6 @@ const structuredData = {
     position: absolute;
     top: clamp(0.9rem, 2.4vw, 1.6rem);
     right: clamp(0.9rem, 2.4vw, 1.6rem);
-    z-index: 2;
     width: 44px;
     height: 44px;
     display: grid;
@@ -520,8 +540,6 @@ const structuredData = {
   .chiudi:hover { opacity: 1; }
   .chiudi:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; opacity: 1; }
 
-  /* --text-dim e non --text-faint: a 11px maiuscoletto spaziato il faint
-     resta sotto il minimo AA sulla carta. */
   .kicker {
     font-family: 'Manrope', sans-serif;
     font-size: 0.68rem;
@@ -529,44 +547,8 @@ const structuredData = {
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--text-dim);
-    margin: 0 0 1.6rem;
-  }
-
-  /* ── il sipario della casa ── */
-  .casa-in { max-width: 60ch; margin: 0 auto; width: 100%; }
-
-  /* Il profilo è diventato una lettura lunga: il corpo scende di mezzo
-     punto rispetto alla v1 e l'interlinea sale, così cinque blocchi si
-     scansionano invece di pesare. */
-  .profilo {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: clamp(1.02rem, 1.6vw, 1.18rem);
-    line-height: 1.55;
-    color: var(--text-soft);
-    margin: 0 0 1rem;
-  }
-
-  .profilo:last-child { margin-bottom: 0; }
-  .profilo b { font-weight: 700; }
-
-  /* i quattro link ai progetti: qui il magenta scurito regge il testo
-     piccolo (5,8:1), quindi l'accento può stare nella parola */
-  .profilo a {
-    color: var(--imagina-ink);
-    text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--imagina-ink) 45%, transparent);
-  }
-
-  .profilo a:hover { border-bottom-color: var(--imagina-ink); }
-  .profilo a:focus-visible { outline: 2px solid var(--imagina-ink); outline-offset: 3px; }
-
-  /* Il kicker e i titoletti sono due maiuscoletti spaziati a poche righe
-     di distanza: senza un filetto si leggevano come due righe della
-     stessa cosa. Il filetto lo promuove a testata dell'overlay. */
-  .casa-in > .kicker {
+    margin: 0 0 2.2rem;
     padding-bottom: 1.1rem;
-    margin-bottom: 2.2rem;
     border-bottom: 1px solid var(--hairline);
   }
 
@@ -582,6 +564,27 @@ const structuredData = {
     margin: 0 0 0.9rem;
   }
 
+  .profilo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+    line-height: 1.55;
+    color: var(--text-soft);
+    margin: 0 0 1rem;
+  }
+
+  .profilo:last-child { margin-bottom: 0; }
+  .profilo b { font-weight: 700; }
+
+  .profilo a {
+    color: var(--imagina-ink);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--imagina-ink) 45%, transparent);
+  }
+
+  .profilo a:hover { border-bottom-color: var(--imagina-ink); }
+  .profilo a:focus-visible { outline: 2px solid var(--imagina-ink); outline-offset: 3px; }
+
   .piede-blocco {
     position: sticky;
     bottom: 0;
@@ -590,9 +593,6 @@ const structuredData = {
     background: var(--bg-void);
   }
 
-  /* Con un profilo lungo il testo scorre sotto il piede: una sfumatura
-     corta sopra il filetto ammorbidisce il taglio, che altrimenti
-     tronca le righe di netto. */
   .piede-blocco::before {
     content: '';
     position: absolute;
@@ -614,20 +614,14 @@ const structuredData = {
     font-size: 0.82rem;
   }
 
-  .accessi a, .accessi button {
+  .accessi a {
     color: var(--text-dim);
     text-decoration: none;
-    background: none;
-    border: 0;
     padding: 0.3rem 0;
-    font: inherit;
-    cursor: pointer;
   }
 
-  .accessi a:hover, .accessi button:hover { color: var(--imagina-ink); }
-  .accessi a:focus-visible, .accessi button:focus-visible {
-    outline: 2px solid var(--imagina-ink); outline-offset: 3px;
-  }
+  .accessi a:hover { color: var(--imagina-ink); }
+  .accessi a:focus-visible { outline: 2px solid var(--imagina-ink); outline-offset: 3px; }
 
   .piede {
     margin: 1.4rem 0 0;
@@ -636,219 +630,177 @@ const structuredData = {
     color: var(--text-dim);
   }
 
-  /* ── i sipari di marchio ── */
-  .marchio-in { align-items: center; text-align: center; }
+  /* ══ TELEFONO (§10) ══ */
+  @media (max-width: 760px) {
+    .cornice { inset: 12px; }
+    .riga { font-size: 0.62rem; letter-spacing: 0.12em; }
+    .riga--as { top: 28px; left: 28px; right: 28px; }
+    .riga--ad { top: 24px; right: 28px; }
+    .riga--bs { display: none; }
 
-  .marchio {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: min(72vw, 420px);
-    max-height: 26svh;
-    margin: 0 0 clamp(1.6rem, 4vh, 2.4rem);
-  }
+    .logotipo { width: 78vw; }
+    .visione { max-width: 18ch; }
 
-  .riga {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: clamp(1.25rem, 3.2vw, 1.9rem);
-    line-height: 1.4;
-    max-width: 22ch;
-    margin: 0 0 clamp(2rem, 5vh, 2.8rem);
-  }
+    .dispacci { left: 24px; right: 24px; bottom: 104px; }
 
-  .entra {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: inherit;
-    text-decoration: none;
-    padding: 0.7rem 0.2rem;
-    border-bottom: 1px solid currentColor;
-  }
-
-  .entra:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-
-  /* Su touch il passaggio del mouse non esiste: il verso diventa la
-     prima riga del sipario (BRIEF-HOME §3). */
-  .verso-tocco { display: none; }
-
-  @media (hover: none) {
-    .verso-tocco {
-      display: block;
-      font-family: 'Manrope', sans-serif;
-      font-size: 0.8rem;
-      line-height: 1.5;
-      /* 0.85 e non 0.72: sotto questa soglia la riga scendeva a 3,6:1
-         sul campo petrolio di Tipicità, sotto l'AA per il testo piccolo. */
-      opacity: 0.85;
-      max-width: 26ch;
-      margin: 0 0 clamp(1.8rem, 5vh, 2.6rem);
+    /* i quattro segni scendono in basso al centro */
+    .segni {
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 34px;
+      flex-direction: column;
+      gap: 0.5rem;
     }
   }
 
-  /* ── Mutamenti ── */
-  .mutamenti-in { max-width: 52ch; margin: 0 auto; width: 100%; }
-
-  .feed { list-style: none; margin: 0; padding: 0; }
-
-  .feed li {
-    padding: 1.1rem 0;
-    border-top: 1px solid var(--hairline);
-  }
-
-  .quando {
-    display: block;
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.68rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.35rem;
-  }
-
-  .cosa {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 600;
-    font-size: clamp(1.05rem, 2vw, 1.28rem);
-    line-height: 1.45;
-    color: var(--text-soft);
-  }
-
-  /* ══ TELEFONO — stessa inquadratura, voci impilate in basso ══ */
-  @media (max-width: 760px) {
-    .voci ul { flex-direction: column; align-items: center; gap: 0.55rem; }
-    .voci li:not(:last-child)::after { content: none; }
-    .voci { padding-top: 1.4rem; }
-    .verso { display: none; }
-    .hero { max-height: 42svh; }
-  }
-
   /* ══ REDUCED MOTION ══
-     Il video lascia il posto al poster (lo decide lo script: senza play()
-     resta il poster, che è l'ultimo fotogramma) e i tagli diventano
-     dissolvenze istantanee. */
+     Niente video: le due pose, ferme. Il logotipo resta in screen, così
+     il poster con alfa non porta rettangoli. */
   @media (prefers-reduced-motion: reduce) {
-    .sipario[open],
-    .sipario--mutamenti[open] { animation: none; }
+    .visione { transition: none; }
+    .segno { transition: none; }
   }
 </style>
 
 <script>
-  // ══ LA REGIA DEI SIPARI ══
-  // <dialog> nativo: focus trap, ESC, aria-modal e ritorno del focus alla
-  // voce d'origine sono del browser. Qui restano tre cose:
-  //   1. i quattro nomi sono <a> veri → si intercetta il click semplice,
-  //      non quello con modificatori (ctrl/cmd/shift/tasto centrale);
-  //   2. la history: aprire fa pushState, il back del browser chiude il
-  //      sipario invece di uscire dal sito;
-  //   3. il video: gira UNA volta e si ferma sull'ultimo fotogramma.
-  //      Con prefers-reduced-motion non parte affatto e resta il poster.
-  function regia() {
-    const palco = document.querySelector('.palco');
-    if (!palco || palco.dataset.regia) return;
-    palco.dataset.regia = '1';
+  // ══ LA REGIA DELLA CASA ══
+  function casa() {
+    const campo = document.querySelector('.casa');
+    if (!campo || campo.dataset.on) return;
+    campo.dataset.on = '1';
 
-    let aperto = null;   // il <dialog> attualmente in scena
-    let guardia = false; // stiamo manovrando noi la history
-    let impilato = false; // la voce corrente della history è nostra?
+    const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // risparmio dati: se il browser lo dichiara, niente video
+    const risparmio = navigator.connection && navigator.connection.saveData === true;
+    const fermo = ridotto || risparmio;
 
-    const sipario = (id) => document.getElementById(id);
+    const logo = document.getElementById('logotipo');
+    const fondale = document.getElementById('fondale');
+    const visione = document.getElementById('visione');
 
-    // alza il sipario SENZA toccare la history (serve al ritorno dal back
-    // e all'apertura da link con l'ancora già dentro)
-    function mostra(id) {
-      const d = sipario(id);
-      if (!d) return false;
-      if (aperto === d) return true;
-      if (aperto) { const p = aperto; aperto = null; p.close(); }
-      aperto = d;
-      d.showModal();
-      return true;
+    // ── il logotipo: si compone UNA volta sola, poi resta ──
+    // Alla seconda visita non si ricompone: il poster è l'ultimo
+    // fotogramma, quindi basta non farlo partire.
+    let giaVisto = false;
+    try { giaVisto = sessionStorage.getItem('casa-logo') === '1'; } catch {}
+
+    function mostraVisione() { visione.classList.add('entra'); }
+
+    if (fermo || giaVisto) {
+      mostraVisione();
+    } else {
+      logo.addEventListener('ended', () => {
+        mostraVisione();
+        try { sessionStorage.setItem('casa-logo', '1'); } catch {}
+      }, { once: true });
+      const p = logo.play();
+      if (p && p.catch) p.catch(() => mostraVisione());
     }
 
-    // apertura da interazione: impila una voce di history, così il back
-    // del browser chiude il sipario invece di uscire dal sito
-    function apri(id) {
-      if (!mostra(id)) return;
+    if (!fermo) {
+      const f = fondale.play();
+      if (f && f.catch) f.catch(() => {});
+    }
+
+    // ── il sipario del profilo ──
+    // <dialog> nativo: trappola del fuoco, ESC, aria-modal e ritorno del
+    // fuoco alla voce d'origine li dà il browser. Qui resta la history:
+    // aprire impila, il back del browser chiude invece di uscire.
+    const sipario = document.getElementById('ov-imagina');
+    let aperto = false, impilato = false, guardia = false;
+
+    function apri(daAncora) {
+      if (aperto) return;
+      aperto = true;
+      sipario.showModal();
       guardia = true;
-      history.pushState({ sipario: id }, '', '#' + id);
+      if (daAncora) { history.replaceState({ sipario: 1 }, '', '#chi-siamo'); impilato = false; }
+      else { history.pushState({ sipario: 1 }, '', '#chi-siamo'); impilato = true; }
       guardia = false;
-      impilato = true;
     }
 
     function chiudi(daHistory) {
       if (!aperto) return;
-      const d = aperto;
-      aperto = null;
-      d.close();
+      aperto = false;
+      sipario.close();
       if (daHistory) return;
-      if (impilato) {
-        impilato = false;
-        guardia = true;
-        history.back();
-      } else {
-        // sipario aperto da un link con l'ancora: non c'è nulla da
-        // spopolare, si toglie solo l'ancora dall'indirizzo. Senza questo
-        // ramo l'ESC farebbe un back vero e USCIREBBE dal sito.
-        history.replaceState({}, '', location.pathname + location.search);
-      }
+      if (impilato) { impilato = false; guardia = true; history.back(); }
+      else history.replaceState({}, '', location.pathname + location.search);
     }
 
-    // ESC (e ogni altra chiusura nativa) deve rimettere in pari la history
-    document.querySelectorAll('dialog.sipario').forEach((d) => {
-      d.addEventListener('close', () => { if (aperto === d) chiudi(false); });
-      // click fuori dal contenuto = click sul dialog stesso
-      d.addEventListener('click', (e) => { if (e.target === d) chiudi(false); });
-    });
+    document.querySelectorAll('[data-apre]').forEach((b) => b.addEventListener('click', () => apri(false)));
+    sipario.querySelector('[data-chiude]').addEventListener('click', () => chiudi(false));
+    sipario.addEventListener('click', (e) => { if (e.target === sipario) chiudi(false); });
+    // ESC e ogni altra chiusura nativa devono rimettere in pari la history
+    sipario.addEventListener('close', () => { if (aperto) chiudi(false); });
 
-    document.querySelectorAll('[data-chiude]').forEach((b) => {
-      b.addEventListener('click', () => chiudi(false));
-    });
-
-    // le voci: <a> veri, intercettati solo sul click semplice
-    document.querySelectorAll('[data-apre]').forEach((el) => {
-      el.addEventListener('click', (e) => {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-        e.preventDefault();
-        apri(el.getAttribute('data-apre'));
-      });
-    });
-
-    // La history in capture: le View Transitions di Astro ascoltano
-    // popstate in bubble, e i nostri stati non sono affari loro.
+    // in cattura: le View Transitions di Astro ascoltano popstate in
+    // bolla, e i nostri stati non sono affari loro
     window.addEventListener('popstate', (e) => {
       const nostro = e.state && e.state.sipario;
-      if (!guardia && !aperto && !nostro) return; // non ci riguarda
+      if (!guardia && !aperto && !nostro) return;
       e.stopImmediatePropagation();
       if (guardia) { guardia = false; return; }
-      if (nostro) { mostra(nostro); impilato = true; return; }
+      if (nostro) { apri(true); return; }
       if (aperto) chiudi(true);
     }, true);
 
-    // link condiviso con l'ancora già dentro: si apre il sipario giusto,
-    // ma senza impilare (la voce di history è già quella di partenza)
-    const iniziale = location.hash.slice(1);
-    if (iniziale && mostra(iniziale)) {
-      history.replaceState({ sipario: iniziale }, '', '#' + iniziale);
-      impilato = false;
-    }
+    if (location.hash === '#chi-siamo') apri(true);
 
-    // ══ IL LOGO CHE SI COMPONE — una volta sola, poi resta ══
-    const video = document.getElementById('hero');
-    if (video) {
-      const fermo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!fermo) {
-        // muted + playsinline: la riproduzione da script è consentita.
-        // Se il browser la rifiuta resta il poster, che è l'ultimo
-        // fotogramma: la pagina è identica, senza il gesto.
-        const p = video.play();
-        if (p && p.catch) p.catch(() => {});
-      }
-    }
+    // ── i dispacci ──
+    // Se il feed non risponde o è vuoto la riga non compare: la sezione
+    // resta `hidden` e in basso non c'è nessuno scheletro.
+    const zona = document.getElementById('dispacci');
+    const lista = document.getElementById('dispacci-lista');
+
+    fetch('/api/dispacci?categoria=0')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const voci = (d && d.dispacci) || [];
+        if (!voci.length) return;
+
+        voci.forEach((v) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = v.link;
+          a.rel = 'noopener';
+          const quando = document.createElement('span');
+          quando.className = 'quando';
+          const dt = new Date(v.data);
+          quando.textContent = Number.isNaN(dt.getTime())
+            ? ''
+            : dt.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+          a.appendChild(quando);
+          a.appendChild(document.createTextNode(v.titolo));
+          li.appendChild(a);
+          lista.appendChild(li);
+        });
+
+        zona.hidden = false;
+        const voci_li = Array.from(lista.children);
+        let i = 0;
+        voci_li[0].classList.add('in-onda');
+
+        // Ruota ogni sei secondi in dissolvenza. Si ferma al passaggio e
+        // al fuoco: chi legge o chi naviga da tastiera deve poter fermare.
+        let timer = null;
+        const gira = () => {
+          voci_li[i].classList.remove('in-onda');
+          i = (i + 1) % voci_li.length;
+          voci_li[i].classList.add('in-onda');
+        };
+        const via = () => { if (!timer && voci_li.length > 1) timer = setInterval(gira, 6000); };
+        const stop = () => { clearInterval(timer); timer = null; };
+        zona.addEventListener('mouseenter', stop);
+        zona.addEventListener('mouseleave', via);
+        zona.addEventListener('focusin', stop);
+        zona.addEventListener('focusout', via);
+        via();
+      })
+      .catch(() => { /* fallback silenzioso: la riga non compare */ });
   }
 
-  document.addEventListener('astro:page-load', regia);
-  regia();
+  document.addEventListener('astro:page-load', casa);
+  casa();
 </script>
