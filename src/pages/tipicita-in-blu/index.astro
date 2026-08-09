@@ -108,6 +108,29 @@ const structuredData = {
 
   <!-- ══ QUADRO D'APERTURA · LA PLANCIA ══ -->
   <header class="plancia">
+    {/* IL FONDALE (Paolo, 09/08/2026). Il mare sta DIETRO la plancia, non
+        al posto suo: la pagina resta quella con il reticolo e le
+        coordinate, il video è materia in movimento al 30%.
+        Crudo non reggeva — la scia del sole mangiava la riga di
+        coordinate e la cromia passava dal navy al grigio caldo. Qui è
+        desaturato, sfocato e scurito già in codifica (l'acqua che
+        scintilla è il caso peggiore per un codec: sfocandola il file
+        passa da 29 MB a 327 KB), con dissolvenze in entrata e in uscita
+        perché la giuntura del loop non si veda.
+        Sta per primo nel DOM: sopra ci vanno il reticolo e il contenuto,
+        senza bisogno di z-index. */}
+    <video
+      class="fondale"
+      src="/tib/fondo.mp4"
+      poster="/tib/fondo-poster.jpg"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+      tabindex="-1"
+    ></video>
     <div class="grigliato" aria-hidden="true"></div>
     <div class="plancia-in">
       <h1 class="sr-only">Tipicità in Blu</h1>
@@ -291,6 +314,34 @@ const structuredData = {
       radial-gradient(ellipse 80% 60% at 50% 42%, rgba(32, 159, 182, 0.16), transparent 70%),
       var(--bg-void);
   }
+  /* Il fondale. Il 30% è la soglia trovata a schermo: sopra, la riga di
+     coordinate in ciano comincia a faticare; sotto, il mare non si vede
+     più muovere. Se un domani il testo dovesse soffrire si scende di
+     opacità, non si ingrandisce il testo. */
+  .fondale {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.30;
+    pointer-events: none;
+  }
+
+  /* Reduced motion: resta la posa, ferma. Il video non parte nemmeno,
+     perché senza autoplay il browser non lo scarica. */
+  @media (prefers-reduced-motion: reduce) {
+    .fondale { display: none; }
+    .plancia {
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 42%, rgba(32, 159, 182, 0.16), transparent 70%),
+        linear-gradient(rgba(10, 26, 43, 0.70), rgba(10, 26, 43, 0.70)),
+        url('/tib/fondo-poster.jpg');
+      background-size: auto, auto, cover;
+      background-position: center;
+    }
+  }
+
   /* carta nautica appena percettibile: reticolo di strumento, zero asset */
   .grigliato {
     position: absolute;
