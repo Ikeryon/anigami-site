@@ -75,6 +75,45 @@ const cartoline = [
   { f: '2017-piobbico.jpg', t: 'Sagra del polentone alla carbonara — Piobbico', a: '2017' },
 ];
 
+// ══════════════════════════════════════════════════════════════════════
+// IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08/08/2026)
+//
+// Nove caselle quadrate; al clic si apre il video. Ogni sezione della
+// pagina avrà il proprio elemento visuale: qui è questa griglia, e la
+// griglia è RANDOMICA — l'ordine cambia a ogni visita. Non è un vezzo:
+// è la micro-firma del quadro metanarrativo, le atmosfere mai identiche
+// due volte.
+//
+// ⚠️ COME SI RIEMPIE, quando arrivano i materiali. Ogni voce:
+//   { id, titolo, clip, poster, yt }
+//   clip   = spezzone corto e MUTO in public/gt/racconto/ — è l'anteprima
+//            che si anima nella casella al passaggio. Regola: 8–15s,
+//            1080p in ingresso, esce sotto i 300 KB.
+//   poster = il primo fotogramma, JPG quadrato: è ciò che si vede a
+//            riposo e ciò che si carica davvero (le clip hanno
+//            preload="none").
+//   yt     = l'ID YouTube del montato intero, quello che si apre al clic.
+//            Facciata: l'iframe nasce solo all'apertura e da
+//            youtube-nocookie.com, così nessun cookie parte prima del
+//            consenso e la pagina non paga il player finché non serve.
+//
+// Le voci senza `clip`/`poster` restano segnaposto nella cromia del
+// marchio: l'ossatura si giudica completa anche a materiale mancante.
+const raccontoVideo = [
+  // L'unico materiale già in cartella. Era una figure a sé sotto il
+  // testo: diventa la prima casella, perché due dispositivi video nella
+  // stessa sezione sono uno di troppo.
+  { id: 'lavinia', titolo: 'Lavinia Atipica', clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '' },
+  { id: 'v2', titolo: 'Da assegnare' },
+  { id: 'v3', titolo: 'Da assegnare' },
+  { id: 'v4', titolo: 'Da assegnare' },
+  { id: 'v5', titolo: 'Da assegnare' },
+  { id: 'v6', titolo: 'Da assegnare' },
+  { id: 'v7', titolo: 'Da assegnare' },
+  { id: 'v8', titolo: 'Da assegnare' },
+  { id: 'v9', titolo: 'Da assegnare' },
+];
+
 // Le soste dell'itinerario: sono i waypoint della barra-strada.
 //
 // ⚠️ L'ETICHETTA NON È IL TITOLO (Paolo, 08/08/2026). In barra i nomi
@@ -159,12 +198,32 @@ const theme = {
         <div class="racconto">
           <p class="lungo" data-reveal>Il Grand Tour non ha mai elencato tappe: le ha sempre affidate a qualcuno. È nato nel 2014 con una lettera — Gioacchino che scrive al nipote Francesco, emigrato e in procinto di tornare con la sua Heidi, per promettergli un viaggio autentico nelle Marche. Un itinerario nato come invito al ritorno. Sulla strada è arrivata Lavinia Atipica, viaggiatrice dissacrante, curiosa, pronta a mettersi in gioco davanti a ogni bellezza — e tornata anni dopo, come tornano i viaggiatori veri. Oggi il passo lo detta Martino: erede del Picchio leggendario che guidò i Piceni a fondare queste terre, picchio della generazione alpha, con un sano spirito d'avventura. Debutta nel 2026 come guida della community del Grand Tour delle Marche, e a dargli forma è l'illustratrice marchigiana Simona Pagano, che firma anche una serie di illustrazioni che raccontano le Marche in stile cartoon. Da una lettera a un picchio: il racconto cambia voce, la strada resta. Chi segue il Grand Tour non consulta un calendario — tiene il passo di un personaggio.</p>
 
-          <figure class="lavinia" data-reveal>
-            <video controls preload="none" poster="/gt/lavinia-poster.jpg" width="640" height="360">
-              <source src="/gt/lavinia.mp4" type="video/mp4" />
-            </video>
-            <figcaption>Lavinia Atipica, dall'archivio del Grand Tour.</figcaption>
-          </figure>
+          {/* IL COMPENDIO VISUALE. I bottoni sono bottoni veri: senza JS
+              non aprono niente, ma le anteprime e i titoli restano in
+              pagina, e il video di Lavinia resta raggiungibile dal suo
+              file. L'ordine lo mescola lo script con `order`, quindi il
+              DOM non si tocca e senza JS la griglia è quella scritta. */}
+          <ul class="griglia" id="griglia-racconto" aria-label="Il racconto in video">
+            {raccontoVideo.map((v) => (
+              <li>
+                <button
+                  class:list={['cella', { vuota: !v.poster }]}
+                  type="button"
+                  data-yt={v.yt || undefined}
+                  data-titolo={v.titolo}
+                  disabled={!v.yt && !v.clip}
+                >
+                  {v.poster && (
+                    <img class="cella-poster" src={v.poster} alt="" loading="lazy" width="400" height="400" />
+                  )}
+                  {v.clip && (
+                    <video class="cella-clip" src={v.clip} muted loop playsinline preload="none" aria-hidden="true"></video>
+                  )}
+                  <span class="cella-eti">{v.titolo}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
         {/* CREDITO DI MARTINO (Paolo, 08/08/2026). La riga di credito in
             coda alla sezione è stata tolta: il credito sta dentro il
@@ -263,6 +322,20 @@ const theme = {
       <p data-reveal>Il Grand Tour non finisce: riparte. La prossima sosta è già sulla mappa — e come ogni anno, qualcosa resterà anche dopo.</p>
     </section>
   </main>
+
+  {/* IL SIPARIO DEL VIDEO. <dialog> nativo: trappola del fuoco, ESC e
+      ritorno del fuoco alla casella d'origine li dà il browser. L'iframe
+      NON esiste finché non si apre — facciata: nessun cookie di YouTube
+      prima del clic, e la pagina non paga il player finché non serve. */}
+  <dialog class="proiezione" id="proiezione" aria-label="Video">
+    <button class="pr-chiudi" type="button" data-chiude aria-label="Chiudi">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="pr-in">
+      <div class="pr-telaio" id="pr-telaio"></div>
+      <p class="pr-titolo" id="pr-titolo"></p>
+    </div>
+  </dialog>
 </BaseLayout>
 
 <style is:global>
@@ -468,6 +541,161 @@ const theme = {
   /* ── il filo del racconto ── */
   .racconto { display: grid; grid-template-columns: 1.25fr 1fr; gap: 2.4rem; align-items: start; }
   .lungo { font-size: 1.04rem; }
+  /* ══ IL COMPENDIO VISUALE — griglia 3×3 ══
+     Caselle quadrate, tre per riga a qualunque larghezza: una griglia
+     3×3 che diventa 3×1 non è più una griglia. Sotto i 560px le caselle
+     si fanno piccole ma restano nove, e l'insieme resta leggibile
+     perché ognuna porta il proprio titolo. */
+  .griglia {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(0.35rem, 1vw, 0.6rem);
+  }
+
+  .cella {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+    background: var(--bg-deep);
+    cursor: pointer;
+    /* l'ordine lo assegna lo script: il DOM resta quello scritto */
+    order: var(--ord, 0);
+  }
+
+  .cella-poster, .cella-clip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cella-clip { opacity: 0; transition: opacity 0.3s var(--ease); }
+  .cella:hover .cella-clip, .cella:focus-visible .cella-clip { opacity: 1; }
+
+  /* velo in basso: il titolo deve leggersi su qualunque fotogramma */
+  .cella::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(43, 29, 22, 0.82), transparent);
+    pointer-events: none;
+  }
+
+  .cella-eti {
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.5rem;
+    z-index: 1;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    color: #fbf4ec;
+    text-align: left;
+    text-wrap: pretty;
+  }
+
+  .cella:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+
+  /* Le caselle ancora senza materiale: non un rettangolo grigio, ma
+     un'atmosfera nel colore del marchio — così l'ossatura si giudica
+     completa anche prima che arrivino i video. */
+  .cella.vuota {
+    background:
+      radial-gradient(ellipse 120% 90% at 25% 0%, color-mix(in srgb, var(--brand-accent) 16%, transparent), transparent 70%),
+      linear-gradient(135deg, var(--bg-mid), var(--bg-deep) 70%);
+    cursor: default;
+  }
+  .cella.vuota::after { content: none; }
+  .cella.vuota .cella-eti { color: var(--text-faint); }
+
+  /* ══ IL SIPARIO DEL VIDEO ══ */
+  .proiezione {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(24, 16, 12, 0.94);
+    color: #fbf4ec;
+  }
+  .proiezione::backdrop { background: rgba(24, 16, 12, 0.6); }
+
+  .pr-in {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.9rem;
+    padding: clamp(3.5rem, 8vh, 5rem) clamp(1rem, 5vw, 3rem);
+  }
+
+  .pr-telaio {
+    position: relative;
+    width: 100%;
+    max-width: 68rem;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+  .pr-telaio :global(iframe),
+  .pr-telaio :global(video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .pr-titolo {
+    max-width: 68rem;
+    margin: 0 auto;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(251, 244, 236, 0.75);
+  }
+
+  .pr-chiudi {
+    position: absolute;
+    top: clamp(0.8rem, 2.5vw, 1.4rem);
+    right: clamp(0.8rem, 2.5vw, 1.4rem);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .pr-chiudi:hover { opacity: 1; }
+  .pr-chiudi:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cella-clip { transition: none; }
+  }
+
   .lavinia { margin: 0; }
   .lavinia video {
     width: 100%;
@@ -641,6 +869,84 @@ const theme = {
 <script>
   // ── L'ITINERARIO: la strada percorsa e i waypoint superati ──
   const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ══ IL COMPENDIO VISUALE: mescola, anima, proietta ══
+  (function compendio() {
+    const griglia = document.getElementById('griglia-racconto');
+    const sipario = document.getElementById('proiezione');
+    if (!griglia || !sipario) return;
+
+    const celle = Array.from(griglia.querySelectorAll('.cella'));
+
+    // MESCOLA. Si tocca solo `order`, non il DOM: l'ordine scritto resta
+    // quello che leggono i motori e chi non ha JS, e non c'è nessun
+    // salto di layout perché le caselle sono tutte quadrate uguali.
+    // Fisher-Yates sulle sole caselle che hanno materiale — i segnaposto
+    // restano in coda, altrimenti i buchi finirebbero sparsi in mezzo.
+    const piene = celle.filter((c) => !c.classList.contains('vuota'));
+    const vuote = celle.filter((c) => c.classList.contains('vuota'));
+    for (let i = piene.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [piene[i], piene[j]] = [piene[j], piene[i]];
+    }
+    [...piene, ...vuote].forEach((c, i) => c.parentElement.style.order = String(i));
+
+    // ANTEPRIME: la clip parte al passaggio e si rimette a zero quando
+    // esci. preload="none", quindi non si scarica niente finché non
+    // serve. Con reduced-motion resta il poster e basta.
+    if (!ridotto) {
+      celle.forEach((c) => {
+        const clip = c.querySelector('.cella-clip');
+        if (!clip) return;
+        const via = () => { const p = clip.play(); if (p && p.catch) p.catch(() => {}); };
+        const stop = () => { clip.pause(); clip.currentTime = 0; };
+        c.addEventListener('mouseenter', via);
+        c.addEventListener('focus', via);
+        c.addEventListener('mouseleave', stop);
+        c.addEventListener('blur', stop);
+      });
+    }
+
+    // PROIEZIONE. L'iframe nasce qui e muore alla chiusura: nessun
+    // cookie di YouTube prima del clic, e niente player che continua a
+    // girare dietro un sipario chiuso.
+    const telaio = document.getElementById('pr-telaio');
+    const titolo = document.getElementById('pr-titolo');
+
+    function apri(cella) {
+      const yt = cella.dataset.yt;
+      const clip = cella.querySelector('.cella-clip');
+      telaio.textContent = '';
+      if (yt) {
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`;
+        f.title = cella.dataset.titolo || 'Video';
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
+        f.allowFullscreen = true;
+        telaio.appendChild(f);
+      } else if (clip) {
+        // finché non c'è il montato su YouTube si proietta la clip che
+        // c'è, con i controlli e l'audio a disposizione
+        const v = document.createElement('video');
+        v.src = clip.getAttribute('src');
+        v.controls = true;
+        v.autoplay = true;
+        v.playsInline = true;
+        telaio.appendChild(v);
+      } else return;
+      titolo.textContent = cella.dataset.titolo || '';
+      sipario.setAttribute('aria-label', cella.dataset.titolo || 'Video');
+      sipario.showModal();
+    }
+
+    function chiudi() { if (sipario.open) sipario.close(); }
+
+    celle.forEach((c) => c.addEventListener('click', () => apri(c)));
+    sipario.querySelector('[data-chiude]').addEventListener('click', chiudi);
+    sipario.addEventListener('click', (e) => { if (e.target === sipario) chiudi(); });
+    // svuotare il telaio alla chiusura ferma il video, qualunque sia
+    sipario.addEventListener('close', () => { telaio.textContent = ''; titolo.textContent = ''; });
+  })();
   const percorso = document.getElementById('percorso');
   const wp = Array.from(document.querySelectorAll('.waypoints a'));
   const soste = wp.map((a) => document.getElementById(a.dataset.wp)).filter(Boolean);
