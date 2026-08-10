@@ -170,19 +170,19 @@ const alternates = [
       <p class="lede">{c.tracceLede}</p>
 
       <div class="moviola" id="moviola" role="tabpanel" tabindex="0" aria-labelledby="ytab-0">
-        <div class="mon mon-map" data-mon={c.mon.map}>
+        <div class="mon mon-map" role="group" aria-label={c.mon.map}>
           <svg viewBox="0 0 1600 820" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g id="mv-world"><Fragment set:html={mapSvg} /></g>
           </svg>
           <div class="pin" id="mv-pin" hidden></div>
         </div>
-        <div class="mon mon-title" data-mon={c.mon.title}>
+        <div class="mon mon-title" role="group" aria-label={c.mon.title}>
           <span class="myear" id="mv-year">{stages[0].y}</span>
           <h3 id="mv-title">{stages[0].t}</h3>
           <span class="mplace" id="mv-place">{stages[0].p}</span>
         </div>
-        <div class="mon mon-desc" data-mon={c.mon.desc}><p id="mv-desc"></p></div>
-        <div class="mon mon-photo" id="mv-photo" data-mon={c.mon.photo}>
+        <div class="mon mon-desc" role="group" aria-label={c.mon.desc}><p id="mv-desc"></p></div>
+        <div class="mon mon-photo" id="mv-photo" role="group" aria-label={c.mon.photo}>
           <img id="mv-img-a" class="off" alt="" />
           <img id="mv-img-b" class="off" alt="" />
           <video id="mv-video" class="off" muted loop playsinline preload="none" aria-hidden="true"></video>
@@ -509,21 +509,22 @@ const alternates = [
      regge foto singola, slideshow o video sempre nello stesso frame 16:9. */
   .moviola { display: grid; gap: 8px; grid-template-columns: 1fr 1fr;
     grid-template-areas: 'map photo' 'title desc'; background: #04191d; padding: 8px; }
+  /* i riquadri non mostrano più la sigla: il nome resta solo per i lettori
+     di schermo (aria-label sul contenitore). */
   .mon { position: relative; overflow: hidden; }
-  .mon::before { content: attr(data-mon); position: absolute; top: 0.55rem; left: 0.8rem; z-index: 2;
-    font-family: 'Manrope', sans-serif; font-size: 0.56rem; letter-spacing: 0.24em;
-    color: color-mix(in srgb, var(--tiffany) 75%, white); opacity: 0.85; }
   .mon-map { grid-area: map; background: linear-gradient(180deg, #06272c, #04191d); aspect-ratio: 16 / 9; }
   .mon-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .pin { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: #a52257;
     transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); animation: pulse 2s infinite; pointer-events: none; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); } 70% { box-shadow: 0 0 0 16px rgba(165, 34, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0); } }
   @media (prefers-reduced-motion: reduce) { .pin { animation: none; } }
-  .mon-title { grid-area: title; background: #06272c; padding: 1.4rem 1.4rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
+  /* padding simmetrico: senza l'etichetta in testa il blocco anno-titolo-luogo
+     si centra davvero nel riquadro invece di risultare spinto in basso */
+  .mon-title { grid-area: title; background: #06272c; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
   .myear { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.3em; color: var(--tiffany); }
   .mon-title h3 { color: #fff; font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.2; margin: 0.4rem 0 0.35rem; }
   .mplace { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-  .mon-desc { grid-area: desc; background: #06272c; padding: 1.4rem 1.4rem 1.2rem; }
+  .mon-desc { grid-area: desc; background: #06272c; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
   .mon-desc p { color: rgba(255, 255, 255, 0.82); font-size: 0.92rem; line-height: 1.7; margin: 0; }
   .mon-photo { grid-area: photo; background: #06272c; aspect-ratio: 16 / 9; }
   /* stesso frame per foto, slideshow (doppio buffer in dissolvenza) e video */
@@ -549,8 +550,8 @@ const alternates = [
   @media (min-width: 781px) and (max-height: 860px) {
     #tracce h2 { margin-bottom: 0.5em; }
     .lede { margin: -0.4rem 0 1rem; font-size: 0.92rem; }
-    .mon-title { padding: 1.1rem 1.3rem 0.9rem; }
-    .mon-desc { padding: 1.1rem 1.3rem 0.9rem; }
+    .mon-title { padding: 0.95rem 1.3rem; }
+    .mon-desc { padding: 0.95rem 1.3rem; }
     .mon-desc p { font-size: 0.86rem; line-height: 1.55; }
     .anni { margin: 0.8rem 0 0.3rem; }
   }
@@ -638,7 +639,7 @@ const alternates = [
     }, 1100);
   }
 
-  // ---- MON 04: foto singola o slideshow in dissolvenza (doppio buffer) ----
+  // ---- monitor archivio: foto singola o slideshow in dissolvenza (doppio buffer) ----
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let buf = 0, slideIdx = 0, slideTimer = null;
   function slideCap(s, list, i) {
@@ -738,7 +739,7 @@ const alternates = [
     es.forEach((e) => { if (e.isIntersecting) essbg.play().catch(() => {}); else essbg.pause(); });
   }, { root: document.getElementById('deck'), threshold: 0.3 }).observe(document.getElementById('essenza'));
 
-  // ---- MON 04: il video d'archivio va in pausa quando le Tracce escono di
+  // ---- monitor archivio: il video va in pausa quando le Tracce escono di
   //      scena e riprende al rientro (se la tappa attiva ha un video e non
   //      c'è reduced-motion) — stesso pattern di essbg ----
   new IntersectionObserver((es) => {

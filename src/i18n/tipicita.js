@@ -89,7 +89,9 @@ export const content = {
       ],
     },
     tracceLede: `Una rotta che si allunga edizione dopo edizione. Trascina il cursore lungo gli anni.`,
-    mon: { map: 'MON 01 · MAPPA', title: 'MON 02 · TITOLO', desc: 'MON 03 · SINTESI', photo: 'MON 04 · ARCHIVIO' },
+    // nomi accessibili dei riquadri: non si vedono più in pagina, servono
+    // solo ai lettori di schermo → niente sigle di bobina
+    mon: { map: 'Mappa', title: 'Titolo', desc: 'Sintesi', photo: 'Archivio' },
     placeholder: `Foto d'archivio — in selezione`,
     aria: {
       menu: 'Capitoli', schema: 'La formula', anni: 'Anni della rotta', scrub: 'Cursore degli anni',
@@ -135,8 +137,8 @@ export const content = {
       // BOZZA da validare con Paolo/Cowork.
       { t: 'X Settimana della Cucina Italiana nel Mondo', p: 'EXPO2025 Osaka, Giappone', caption: 'EXPO2025 Osaka — dalla missione giapponese. [BOZZA]',
         d: 'Da EXPO Osaka riparte la rotta: il Giappone ospita la X Settimana della Cucina Italiana nel Mondo. [BOZZA]' },
-      { t: 'X Settimana della Cucina Italiana nel Mondo', p: 'Bahia Blanca, Buenos Aires, Ushuaia', caption: 'Dalla rotta argentina — e ritorno a Fermo. [BOZZA]',
-        d: 'La rotta più lunga mai percorsa: tremila chilometri tra Bahía Blanca, gemellata con Fermo, Buenos Aires e Ushuaia — la biodiversità mediterranea alla città più australe del mondo, alla vigilia del verdetto Unesco. E l’anno dopo l’Argentina sale sui banchi di Fermo.' },
+      { t: 'X Settimana della Cucina Italiana nel Mondo', p: 'Bahia Blanca, Buenos Aires, Ushuaia', caption: 'Dalla rotta argentina. [BOZZA]',
+        d: 'La rotta più lunga mai percorsa: tremila chilometri tra Bahía Blanca, gemellata con Fermo, Buenos Aires e Ushuaia — la biodiversità mediterranea alla città più australe del mondo, alla vigilia del verdetto Unesco.' },
     ],
   },
 
@@ -188,7 +190,7 @@ export const content = {
       ],
     },
     tracceLede: `A route that grows longer with every edition. Drag the cursor along the years.`,
-    mon: { map: 'MON 01 · MAP', title: 'MON 02 · TITLE', desc: 'MON 03 · BRIEF', photo: 'MON 04 · ARCHIVE' },
+    mon: { map: 'Map', title: 'Title', desc: 'Brief', photo: 'Archive' },
     placeholder: `Archive photos — selection in progress`,
     aria: {
       menu: 'Chapters', schema: 'The formula', anni: 'Years of the route', scrub: 'Cursor along the years',
@@ -228,8 +230,8 @@ export const content = {
         d: `A brodetto master class for Japanese chefs, a food-science agreement between Ritsumeikan and Camerino universities and, in Osaka, Kumiko Muraji's osteria cooking marchigiano: the best routes already have someone travelling them in reverse.` },
       { t: '10th Week of Italian Cuisine in the World', p: 'EXPO2025 Osaka, Japan', caption: `EXPO2025 Osaka — from the Japanese mission. [DRAFT]`,
         d: `From EXPO Osaka the route sets out again: Japan hosts the 10th Week of Italian Cuisine in the World. [DRAFT]` },
-      { t: '10th Week of Italian Cuisine in the World', p: 'Bahía Blanca, Buenos Aires, Ushuaia', caption: `From the Argentine route — and back to Fermo. [DRAFT]`,
-        d: `The longest route yet: three thousand kilometres through Bahía Blanca — Fermo's twin city — Buenos Aires and Ushuaia, bringing Mediterranean biodiversity to the world's southernmost city on the eve of the UNESCO verdict. A year later, Argentina sets up its own stall in Fermo.` },
+      { t: '10th Week of Italian Cuisine in the World', p: 'Bahía Blanca, Buenos Aires, Ushuaia', caption: `From the Argentine route. [DRAFT]`,
+        d: `The longest route yet: three thousand kilometres through Bahía Blanca — Fermo's twin city — Buenos Aires and Ushuaia, bringing Mediterranean biodiversity to the world's southernmost city on the eve of the UNESCO verdict.` },
     ],
   },
 };
