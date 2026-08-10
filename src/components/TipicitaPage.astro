@@ -95,7 +95,7 @@ const alternates = [
 
   <!-- ══ QUADRO 1 · Il campo ══ -->
   <header class="quadro q-hero" id="top">
-    <video autoplay muted loop playsinline poster="/tipicita/poster.jpg">
+    <video id="herovid" autoplay muted loop playsinline poster="/tipicita/poster.jpg">
       <source src="/tipicita/loop.mp4" type="video/mp4" />
     </video>
     <div class="veil" aria-hidden="true"></div>
@@ -732,6 +732,24 @@ const alternates = [
     } });
   }, { root: deck, threshold: 0.6 });
   quadri.forEach((q) => qObs.observe(q));
+
+  // ---- IL CAMPO: attacco variabile del loop ----
+  // Il visual è un loop con zoom: ripartire sempre dallo stesso fotogramma si
+  // nota, chi torna sulla pagina rivede la stessa entrata. A ogni caricamento
+  // si aggancia in un punto diverso. Si sta lontani dalla coda (85%) per non
+  // ricominciare da capo dopo un istante, e si cerca il punto PRIMA che parta
+  // la riproduzione: il poster copre l'attesa, così non si vede il fotogramma
+  // zero prima del salto. Al giro di loop successivo riparte da 0, come prima.
+  const hero = document.getElementById('herovid');
+  if (hero && !prefersReduced.matches) {
+    const aggancia = () => {
+      const d = hero.duration;
+      if (!isFinite(d) || d < 2) return; // durata ignota: si lascia com'è
+      try { hero.currentTime = Math.random() * d * 0.85; } catch (e) {}
+    };
+    if (hero.readyState >= 1) aggancia();
+    else hero.addEventListener('loadedmetadata', aggancia, { once: true });
+  }
 
   // ---- Essenza: la filigrana video gira solo quando il quadro è in scena ----
   const essbg = document.getElementById('essbg');
