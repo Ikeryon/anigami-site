@@ -26,22 +26,51 @@
 <!-- Consenso cookie gestito da CookieYes -->
 <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/07bc8b3a4b1da0fac9ea02b8022bf82d/script.js"></script>
 
-<!-- Google Analytics 4 — attivato da CookieYes (categoria "analytics") -->
-<script type="text/plain" data-cookieyes="cookieyes-analytics" async src="https://www.googletagmanager.com/gtag/js?id=G-8BLXLHZXZN"></script>
-<script type="text/plain" data-cookieyes="cookieyes-analytics">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8BLXLHZXZN');
-</script>
-
-<!-- Meta Pixel — attivato da CookieYes (categoria "advertisement") -->
-<script type="text/plain" data-cookieyes="cookieyes-advertisement">
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2852415708396585');
-  fbq('track', 'PageView');
+<!-- GA4 + Meta Pixel: caricati da noi appena CookieYes registra il consenso.
+     Gli script "gated" (type="text/plain" data-cookieyes="...") non venivano mai
+     riattivati dal banner: fbq e gtag non esistevano e nessun evento partiva. -->
+<script>
+(function () {
+  var GA_ID = 'G-8BLXLHZXZN';
+  var PIXEL_ID = '2852415708396585';
+  var gaLoaded = false, pixelLoaded = false;
+  // Ogni tracker guarda la propria categoria: chi accetta solo "analytics"
+  // non deve far partire il Pixel, e viceversa.
+  function granted(category) {
+    try {
+      if (typeof window.getCkyConsent === 'function') {
+        var c = window.getCkyConsent();
+        if (c && c.categories) return !!c.categories[category];
+      }
+    } catch (e) {}
+    var ck = document.cookie.split('; ').find(function (x) { return x.indexOf('cookieyes-consent') === 0; });
+    return !!(ck && ck.indexOf(category + ':yes') > -1);
+  }
+  function loadGA() {
+    if (gaLoaded) return; gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    var g = document.createElement('script');
+    g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(g);
+    gtag('js', new Date()); gtag('config', GA_ID);
+  }
+  function loadPixel() {
+    if (pixelLoaded) return; pixelLoaded = true;
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', PIXEL_ID); fbq('track', 'PageView');
+  }
+  function check() {
+    if (granted('analytics')) loadGA();
+    if (granted('advertisement')) loadPixel();
+    return gaLoaded && pixelLoaded;
+  }
+  if (document.readyState !== 'loading') check();
+  else document.addEventListener('DOMContentLoaded', check);
+  document.addEventListener('cookieyes_consent_update', check);
+  var n = 0, t = setInterval(function(){ n++; if (check() || n > 30) clearInterval(t); }, 1000);
+})();
 </script>
 
 <style>
