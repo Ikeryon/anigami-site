@@ -26,22 +26,51 @@
 <!-- Consenso cookie gestito da CookieYes -->
 <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/07bc8b3a4b1da0fac9ea02b8022bf82d/script.js"></script>
 
-<!-- Google Analytics 4 — attivato da CookieYes (categoria "analytics") -->
-<script type="text/plain" data-cookieyes="cookieyes-analytics" async src="https://www.googletagmanager.com/gtag/js?id=G-8BLXLHZXZN"></script>
-<script type="text/plain" data-cookieyes="cookieyes-analytics">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8BLXLHZXZN');
-</script>
-
-<!-- Meta Pixel — attivato da CookieYes (categoria "advertisement") -->
-<script type="text/plain" data-cookieyes="cookieyes-advertisement">
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2852415708396585');
-  fbq('track', 'PageView');
+<!-- GA4 + Meta Pixel: caricati da noi appena CookieYes registra il consenso.
+     Gli script "gated" (type="text/plain" data-cookieyes="...") non venivano mai
+     riattivati dal banner: fbq e gtag non esistevano e nessun evento partiva. -->
+<script>
+(function () {
+  var GA_ID = 'G-8BLXLHZXZN';
+  var PIXEL_ID = '2852415708396585';
+  var gaLoaded = false, pixelLoaded = false;
+  // Ogni tracker guarda la propria categoria: chi accetta solo "analytics"
+  // non deve far partire il Pixel, e viceversa.
+  function granted(category) {
+    try {
+      if (typeof window.getCkyConsent === 'function') {
+        var c = window.getCkyConsent();
+        if (c && c.categories) return !!c.categories[category];
+      }
+    } catch (e) {}
+    var ck = document.cookie.split('; ').find(function (x) { return x.indexOf('cookieyes-consent') === 0; });
+    return !!(ck && ck.indexOf(category + ':yes') > -1);
+  }
+  function loadGA() {
+    if (gaLoaded) return; gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    var g = document.createElement('script');
+    g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(g);
+    gtag('js', new Date()); gtag('config', GA_ID);
+  }
+  function loadPixel() {
+    if (pixelLoaded) return; pixelLoaded = true;
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', PIXEL_ID); fbq('track', 'PageView');
+  }
+  function check() {
+    if (granted('analytics')) loadGA();
+    if (granted('advertisement')) loadPixel();
+    return gaLoaded && pixelLoaded;
+  }
+  if (document.readyState !== 'loading') check();
+  else document.addEventListener('DOMContentLoaded', check);
+  document.addEventListener('cookieyes_consent_update', check);
+  var n = 0, t = setInterval(function(){ n++; if (check() || n > 30) clearInterval(t); }, 1000);
+})();
 </script>
 
 <style>
@@ -127,6 +156,22 @@
   }
   .btn-outline:active { transform: scale(0.98); }
 
+  /* --- Rassicurazione sotto le CTA dell'hero --- */
+  .hero-reassure{
+    max-width:520px;
+    margin:16px auto 6px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px 18px;
+    font-size:0.98rem;
+    line-height:1.55;
+    color:var(--ink-soft);
+  }
+  .hero-reassure strong{ color:var(--ink); }
+  .hero-mini{ font-size:0.85rem; margin:6px 0 0; }
+  .hero-mini a{ color:var(--ink-dim); text-decoration:underline; }
+
   body { padding-bottom: 0; }
   @media (max-width: 720px) { body.has-sticky { padding-bottom: 76px; } }
 </style>
@@ -155,12 +200,10 @@
         <span>🎬 Video di massimo 2 minuti</span>
       </div>
       <div class="hero-ctas">
-        <a href="#iscrizione" class="btn-primary" data-cta="hero">Voglio partecipare</a>
-        <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener" class="btn-secondary" data-cta="regolamento">📄 Scarica il regolamento</a>
+        <a href="#iscrizione" class="btn-primary" data-cta="hero">Pre-iscriviti gratis · 30 secondi</a>
       </div>
-      <p class="hero-sub" style="margin-top:20px; font-size:0.92rem;">
-        Non serve avere già il video pronto: pre-iscriviti ora, riceverai via email le istruzioni e il link per completare la candidatura.
-      </p>
+      <p class="hero-reassure">✅ <strong>Non serve avere già il video.</strong> Ti pre-iscrivi ora (bastano nome, email e un contatto), poi prepari il video con calma: ti mandiamo noi istruzioni e link, passo passo.</p>
+      <p class="hero-mini"><a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener" data-cta="regolamento">Vuoi prima leggere il regolamento? Scaricalo qui (PDF)</a></p>
       <div class="hero-photo">
         <img src="/contest-assets/hero.jpg" alt="Un partecipante racconta la sua ricetta al microfono durante l'edizione 2025" style="border-radius:20px; width:100%;">
       </div>
@@ -196,6 +239,71 @@
         </div>
       </div>
       <p class="section-sub" style="margin-top:24px; margin-bottom:0;">I video correttamente iscritti saranno pubblicati online e votabili dal 16 al 25 settembre 2026.</p>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="block" id="iscrizione">
+    <div class="container">
+      <h2 class="section-title">Pre-iscriviti ora — bastano 30 secondi.</h2>
+      <p class="section-sub">Ti servono solo i tuoi contatti. <strong>Il video non serve adesso:</strong> dopo l'iscrizione ricevi via email le istruzioni e il link per completare la candidatura, e lo prepari con calma.</p>
+
+      <div class="form-card">
+        <form id="form-iscrizione" novalidate>
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" autocomplete="family-name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="whatsapp">Numero WhatsApp / cellulare</label>
+            <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="Es. 333 123 4567" required>
+          </div>
+          <div class="field">
+            <label for="city">Città di provenienza</label>
+            <input type="text" id="city" name="city" autocomplete="address-level2" required>
+          </div>
+
+          <div class="field">
+            <label>A che punto sei con la tua ricetta?</label>
+            <div class="field-radio">
+              <label><input type="radio" name="statoRicetta" value="Ho gia l'idea" required> Ho già l'idea della ricetta</label>
+              <label><input type="radio" name="statoRicetta" value="Sto ancora decidendo"> Sto ancora decidendo cosa preparare</label>
+              <label><input type="radio" name="statoRicetta" value="Video gia pronto"> Ho già girato (o quasi finito) il video</label>
+            </div>
+          </div>
+
+          <div class="field-check">
+            <input type="checkbox" id="privacy" name="consensoPrivacy" required>
+            <label for="privacy">Autorizzo il trattamento dei dati per la gestione della partecipazione al contest, secondo l'<a href="/cookie-policy/" target="_blank">informativa privacy e cookie policy</a>.</label>
+          </div>
+          <div class="field-check">
+            <input type="checkbox" id="newsletter" name="consensoNewsletter">
+            <label for="newsletter">Voglio ricevere aggiornamenti sul contest e sulle iniziative di Imagina.</label>
+          </div>
+
+          <button type="submit" id="submit-btn">Voglio partecipare</button>
+          <div class="form-message error" id="form-error"></div>
+        </form>
+
+        <p class="support-note">Hai dubbi? La segreteria è a disposizione su <a href="https://wa.me/390737685623">WhatsApp 0737 685623</a> o via email a <a href="mailto:segreteria@tipicita.it">segreteria@tipicita.it</a>.</p>
+      </div>
+
+      <!-- CONDIVISIONE -->
+      <div class="share-box">
+        <p>Conosci qualcuno che dovrebbe partecipare? Fai girare la voce.</p>
+        <div class="share-btns">
+          <a class="wa" id="share-wa" href="#" target="_blank" rel="noopener" data-cta="share-wa">💬 Condividi su WhatsApp</a>
+          <a id="share-fb" href="#" target="_blank" rel="noopener" data-cta="share-fb">📘 Condividi su Facebook</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -367,71 +475,6 @@
     </div>
   </section>
 
-  <!-- FORM -->
-  <section class="block" id="iscrizione">
-    <div class="container">
-      <h2 class="section-title">Pre-iscriviti ora.</h2>
-      <p class="section-sub">Compila il modulo: riceverai subito via email il link per completare la candidatura con nome della ricetta, ingredienti e video.</p>
-
-      <div class="form-card">
-        <form id="form-iscrizione" novalidate>
-          <div class="field">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" autocomplete="given-name" required>
-          </div>
-          <div class="field">
-            <label for="cognome">Cognome</label>
-            <input type="text" id="cognome" name="cognome" autocomplete="family-name" required>
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" autocomplete="email" required>
-          </div>
-          <div class="field">
-            <label for="whatsapp">Numero WhatsApp / cellulare</label>
-            <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="Es. 333 123 4567" required>
-          </div>
-          <div class="field">
-            <label for="city">Città di provenienza</label>
-            <input type="text" id="city" name="city" autocomplete="address-level2" required>
-          </div>
-
-          <div class="field">
-            <label>A che punto sei con la tua ricetta?</label>
-            <div class="field-radio">
-              <label><input type="radio" name="statoRicetta" value="Ho gia l'idea" required> Ho già l'idea della ricetta</label>
-              <label><input type="radio" name="statoRicetta" value="Sto ancora decidendo"> Sto ancora decidendo cosa preparare</label>
-              <label><input type="radio" name="statoRicetta" value="Video gia pronto"> Ho già girato (o quasi finito) il video</label>
-            </div>
-          </div>
-
-          <div class="field-check">
-            <input type="checkbox" id="privacy" name="consensoPrivacy" required>
-            <label for="privacy">Autorizzo il trattamento dei dati per la gestione della partecipazione al contest, secondo l'<a href="https://tipicita.it/privacy.php" target="_blank" rel="noopener">informativa privacy</a>.</label>
-          </div>
-          <div class="field-check">
-            <input type="checkbox" id="newsletter" name="consensoNewsletter">
-            <label for="newsletter">Voglio ricevere aggiornamenti sul contest e sulle iniziative di Imagina.</label>
-          </div>
-
-          <button type="submit" id="submit-btn">Voglio partecipare</button>
-          <div class="form-message error" id="form-error"></div>
-        </form>
-
-        <p class="support-note">Hai dubbi? La segreteria è a disposizione su <a href="https://wa.me/390737685623">WhatsApp 0737 685623</a> o via email a <a href="mailto:segreteria@tipicita.it">segreteria@tipicita.it</a>.</p>
-      </div>
-
-      <!-- CONDIVISIONE -->
-      <div class="share-box">
-        <p>Conosci qualcuno che dovrebbe partecipare? Fai girare la voce.</p>
-        <div class="share-btns">
-          <a class="wa" id="share-wa" href="#" target="_blank" rel="noopener" data-cta="share-wa">💬 Condividi su WhatsApp</a>
-          <a id="share-fb" href="#" target="_blank" rel="noopener" data-cta="share-fb">📘 Condividi su Facebook</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- GRAND TOUR PARTNERSHIP -->
   <section class="block alt">
     <div class="container" style="text-align:center;">
@@ -450,7 +493,7 @@
 
   <footer class="site-footer">
     Iniziativa promossa dal Comune di Sefro e cofinanziata dal GALPA Marche nell'ambito del Programma FEAMPA.<br>
-    <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener">Regolamento ufficiale (PDF)</a> · <a href="https://tipicita.it/privacy.php" target="_blank" rel="noopener">Privacy policy</a> · <a href="/cookie-policy/">Cookie policy</a><br><br>
+    <a href="/contest-assets/regolamento-la-trota-e-il-verdicchio-2026.pdf" target="_blank" rel="noopener">Regolamento ufficiale (PDF)</a> · <a href="/cookie-policy/">Cookie policy</a><br><br>
     Imagina Srl Società Benefit · Viale Giacomo Leopardi, 14 – Camerino (MC)<br>
     <a href="mailto:info@anigami.it">info@anigami.it</a> · Tel 0737.685623 · P.IVA/C.F. IT 01115460436
   </footer>
