@@ -121,8 +121,17 @@ const alternates = [
       <div class="trio">
         {c.trama.map((t) => <article><h3>{t.h3}</h3><p>{t.p}</p></article>)}
       </div>
+      <!-- Le due fotografie si estraggono a sorte nel browser (vedi lo script
+           in fondo al capitolo Essenza): niente src qui, così si scaricano
+           solo le tre sorteggiate e non anche quelle scartate.
+           width/height dichiarati e altezza fissata dal CSS: nessuno
+           spostamento di layout mentre arrivano. -->
       <figure class="duo">
-        {c.tramaDuo.map((im) => <img src={im.src} alt={im.alt} loading="lazy" />)}
+        {c.tramaDuo.map(() => <img data-tf width="1400" height="788" alt={c.tfAlt} />)}
+        <noscript>
+          <img src="/tipicita/trama/tf-014.jpg" width="1400" height="788" alt={c.tfAlt} />
+          <img src="/tipicita/trama/tf-097.jpg" width="1400" height="788" alt={c.tfAlt} />
+        </noscript>
       </figure>
     </div>
   </section>
@@ -143,7 +152,10 @@ const alternates = [
             <span class="idx">{String(i + 1).padStart(2, '0')}</span>
             {card.kick && <p class="kick">{card.kick}</p>}
             {card.img
-              ? <img src={card.img.src} alt={card.img.alt} loading="lazy" />
+              ? <Fragment>
+                  <img data-tf width="1400" height="788" alt={c.tfAlt} />
+                  <noscript><img src="/tipicita/trama/tf-143.jpg" width="1400" height="788" alt={c.tfAlt} /></noscript>
+                </Fragment>
               : <Fragment set:html={card.body} />}
           </article>
         ))}
@@ -153,6 +165,43 @@ const alternates = [
     </div>
     <div class="hprog" aria-hidden="true"><span id="hfill"></span></div>
   </section>
+
+  <script is:inline>
+    // LE FOTOGRAFIE A SORTE — un solo sorteggio per l'intera pagina.
+    // Sta qui, subito dopo l'ultima immagine con data-tf e non in onload:
+    // l'assegnazione avviene PRIMA del disegno, quindi niente lampo e si
+    // scarica solo ciò che è stato estratto.
+    // Il sorteggio è nel browser e non al build: il sito è statico, e
+    // sorteggiare in fase di generazione darebbe tre foto fisse fino al
+    // deploy successivo — cioè l'opposto di quel che serve.
+    (function () {
+      var N = 189;
+      var imgs = document.querySelectorAll('img[data-tf]');
+      if (!imgs.length) return;
+      // tre indici DISTINTI: la stessa foto non deve uscire due volte nella
+      // stessa pagina, nemmeno a due capitoli di distanza.
+      function pesca() {
+        var s = [];
+        while (s.length < 3) {
+          var n = 1 + Math.floor(Math.random() * N);
+          if (s.indexOf(n) === -1) s.push(n);
+        }
+        return s;
+      }
+      var prec = [];
+      try { prec = JSON.parse(sessionStorage.getItem('tf-terna') || '[]'); } catch (e) {}
+      var t = pesca(), giri = 0;
+      // se la nuova terna ripete tutti e tre gli indici di prima, si ripesca:
+      // rende vera la promessa di «sempre diverse» da un accesso all'altro
+      while (giri++ < 8 && prec.length === 3 && t.every(function (n) { return prec.indexOf(n) > -1; })) t = pesca();
+      try { sessionStorage.setItem('tf-terna', JSON.stringify(t)); } catch (e) {}
+      for (var i = 0; i < imgs.length; i++) {
+        var n = String(t[i % 3]);
+        while (n.length < 3) n = '0' + n;
+        imgs[i].src = '/tipicita/trama/tf-' + n + '.jpg';
+      }
+    })();
+  </script>
 
   <!-- ══ QUADRO 4 · .Motore / .Engine — lo schema in moto ══ -->
   <section class="quadro" id="motore">

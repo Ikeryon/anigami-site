@@ -94,16 +94,19 @@ export const content = {
       { h3: `Lab di co-creazione glocal`, p: `Progetti condivisi con università, imprese, istituzioni. Non per raccontare l'Italia al mondo, ma per costruirla insieme a chi la guarda da fuori.` },
       { h3: `Piattaforma per il territorio`, p: `Una rete che mette in relazione persone, luoghi, storie — la stessa rete di circa 300 realtà pubbliche e private che sostiene ogni edizione.` },
     ],
-    tramaDuo: [
-      { src: '/tipicita/trama-1.jpg', alt: 'La pasta di Campofilone esposta a Tipicità' },
-      { src: '/tipicita/trama-2.jpg', alt: 'Un intervento sul palco di Tipicità: radici e traiettorie' },
-    ],
+    // Le fotografie di .Trama e .Essenza si estraggono a sorte nel browser da
+    // public/tipicita/trama/ (189 scatti). Qui non c'è più una sorgente fissa:
+    // il markup emette segnaposto con data-tf e lo script assegna le tre src.
+    // Alt generico e uguale per tutte: con 189 fotografie una descrizione
+    // puntuale non è possibile, e una falsa sarebbe peggio di una generica.
+    tfAlt: 'Tipicità Festival, immagine d’archivio',
+    tramaDuo: [{}, {}],
     essenza: [
       { cls: 'lead-card', body: `<p class="cl">La tipicità<br/>non è un'etichetta.</p><p class="cs">È <strong>la traccia che un territorio lascia</strong> dentro le cose che genera.</p>` },
       { cls: 'key-card', body: `<p>Tipicità è <em>una risposta culturale</em> a uno stimolo ambientale.</p>` },
       { kick: `la traccia`, body: `<p>Il ciauscolo non è tipico delle Marche perché qualcuno l'ha deciso. Lo è perché qualcuno, prima di chiunque altro, ha interpretato in quella forma <strong>il clima, l'allevamento, i tempi di una collina precisa</strong> — quella, e non un'altra.</p>` },
       { kick: `la traccia`, body: `<p>E vale per un salume come per un software: una software house di Mumbai e una di Tolentino non lavoreranno mai allo stesso modo.</p><p>Non è una differenza di competenza. <strong>È una differenza di territorio.</strong></p>` },
-      { cls: 'photo-card', img: { src: '/tipicita/essenza-1.jpg', alt: 'Salumi e formaggi del territorio sui banchi del festival' } },
+      { cls: 'photo-card', img: { tf: true } },
       { kick: `l'attraversamento`, body: `<p>Ma nessuna tipicità resta viva da sola. Il pomodoro arriva da un altro continente, prima di diventare <strong>più napoletano del napoletano stesso</strong>.</p><p>E la cucina italiana è patrimonio Unesco per il motivo opposto a quello che si crede: perché è un prodotto globale, mutato e mutevole.</p>` },
       { cls: 'key-card', body: `<p>Il locale non sopravvive isolandosi dal mondo — <em>sopravvive attraversandolo</em>.</p>` },
       { kick: `la tensione`, body: `<p><strong>Traiettorie</strong> e <strong>indigene</strong>: due parole che tirano in direzioni opposte, e per questo si tengono in piedi a vicenda.</p><p>Traiettoria è aerea — rotte, mercati, il mondo che si muove. Indigeno è caldo, quasi primordiale — l'istinto di un luogo, prima che diventi racconto.</p>` },
@@ -206,16 +209,14 @@ export const content = {
       { h3: `A glocal co-creation lab`, p: `Shared projects with universities, companies and institutions. Not to tell Italy to the world, but to build it together with those who see it from the outside.` },
       { h3: `A platform for the territory`, p: `A network connecting people, places and stories — the same three hundred public and private partners that stand behind every edition.` },
     ],
-    tramaDuo: [
-      { src: '/tipicita/trama-1.jpg', alt: 'Campofilone pasta on display at Tipicità' },
-      { src: '/tipicita/trama-2.jpg', alt: 'A talk on the Tipicità stage: roots and trajectories' },
-    ],
+    tfAlt: 'Tipicità Festival, archive image',
+    tramaDuo: [{}, {}],
     essenza: [
       { cls: 'lead-card', body: `<p class="cl">Typicity is<br/>not a label.</p><p class="cs">It is <strong>the trace a territory leaves</strong> in what it creates.</p>` },
       { cls: 'key-card', body: `<p>Tipicità is <em>a cultural response</em> to an environmental stimulus.</p>` },
       { kick: `the trace`, body: `<p>Ciauscolo — the soft, spreadable salami of these hills — is not typical of the Marche because someone decided it. It is because someone, before anyone else, interpreted in that form <strong>the climate, the farming, the tempo of one precise hillside</strong> — that one, and no other.</p>` },
       { kick: `the trace`, body: `<p>And it holds for a salami as for software: a dev house in Mumbai and one in Tolentino will never work the same way.</p><p>Not a difference in skill. <strong>A difference in territory.</strong></p>` },
-      { cls: 'photo-card', img: { src: '/tipicita/essenza-1.jpg', alt: 'Cured meats and cheeses of the territory on the festival stalls' } },
+      { cls: 'photo-card', img: { tf: true } },
       { kick: `the crossing`, body: `<p>Yet no typicity survives alone. The tomato arrived from another continent before becoming <strong>more Neapolitan than Naples itself</strong>.</p><p>And Italian cuisine is a UNESCO candidate for the opposite reason to the one you would expect: because it is a global product — changed, and still changing.</p>` },
       { cls: 'key-card', body: `<p>The local does not survive by sealing itself off from the world — <em>it survives by crossing it.</em></p>` },
       { kick: `the tension`, body: `<p><strong>Trajectories</strong> and <strong>native</strong>: two words pulling in opposite directions — which is why they hold each other upright.</p><p>Trajectory is airborne: routes, markets, a world in motion. Native is warm, almost primal: the instinct of a place, before it becomes a story.</p>` },
