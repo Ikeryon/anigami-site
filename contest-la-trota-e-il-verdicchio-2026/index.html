@@ -73,6 +73,27 @@
 })();
 </script>
 
+<!-- Intento: primo focus/digitazione sul form = l'utente ha iniziato a compilare.
+     Segnale intermedio tra PageView e Lead, per il pubblico "iniziato ma non finito". -->
+<script>
+(function () {
+  function init() {
+    var form = document.querySelector('#iscrizione form') || document.querySelector('form');
+    if (!form) return;
+    var fired = false;
+    function fireStart() {
+      if (fired) return; fired = true;
+      if (window.fbq) fbq('trackCustom', 'IscrizioneStart');
+      if (typeof gtag === 'function') gtag('event', 'iscrizione_start');
+    }
+    form.addEventListener('focusin', fireStart, { once: true });
+    form.addEventListener('input', fireStart, { once: true });
+  }
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
 <style>
   /* --- Barra annuncio + countdown urgenza --- */
   .announce {
