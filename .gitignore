@@ -29,3 +29,8 @@ tipicita-loop.mp4
 /*.mp4
 /*.eps
 
+
+# Output di build: lo rigenera Vercel a ogni deploy (vercel.json →
+# outputDirectory: dist). Era versionato per errore: 203 file che a ogni
+# compilazione producevano conflitti su file che nessuno ha scritto a mano.
+dist/
