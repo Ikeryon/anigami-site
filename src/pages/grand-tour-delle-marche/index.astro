@@ -104,14 +104,28 @@ const cartoline = [
 // dell'iframe serve a evitare.
 const bacino = raccontoBacino;
 
-// ⚠️ QUI si mette l'id YouTube del Grand Tour 2026, quando c'è.
-const GT2026 = '';
+// Id YouTube del Grand Tour 2026 (Paolo, 19/08). La miniatura è già in
+// public/gt/racconto/: non si tira da i.ytimg.com a ogni visita.
+const GT2026 = '1QqzlfCNBdw';
 
 // Sorteggio al build: senza JavaScript la griglia è comunque piena e
 // completa, ed è questa la versione che leggono i motori. Lo script in
 // pagina rimescola a ogni visita.
 const mescola = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
 const sorteggiati = mescola([...bacino]).slice(0, 7);
+
+// IL RACCONTO — testo di Paolo (19/08/2026), sostituisce la versione
+// precedente. Trascritto fedelmente: corretti solo tre refusi meccanici
+// (una maiuscola a inizio inciso, "grand tour" minuscolo dove altrove è
+// marchio, una doppia spaziatura). Le altre osservazioni sono a report,
+// non applicate: il testo è suo.
+const raccontoTesto = [
+  `Con una lettera scritta dallo zio Gioacchino che scrive a Francesco, marchigiano emigrato e in procinto di tornare con la compagna Heidi prendeva il via nel 2014 la prima edizione del Grand Tour delle Marche, con il claim “Il modo migliore per viaggiare nelle Marche è viverle”.`,
+  `Era l’anno che precedeva Expo Milano e il Grand Tour delle Marche nasceva allo scopo di fornire una chiave di lettura immediata e chiara su quelle esperienze che permettano al viaggiatore di immergersi nella comunità locale e di entrare in contatto con l’anima autentica delle Marche. Un intreccio di eventi capaci di completarsi e compenetrarsi attraverso enogastronomia, saper fare, musica, sport, arte e tutto ciò che rende uniche le Marche.`,
+  `La promessa di un viaggio autentico, capace di raccontare non solo le Marche della tradizione, ma anche tutto il complesso e affascinante mondo della biodiversità della creatività, dall’artigianato artistico al design digitale. Un racconto contemporaneo e vivo, che a un certo punto è stato affidato ad una voce diversa dal solito, una viaggiatrice fuori dagli schemi, Lavinia Atipica, che ha dato vita ad una narrazione parallela, con le sue avventure al limite del camp ha raccontato il lato B del Grand Tour, personaggi, peculiarità e note di colore che poi sono quelle parti del viaggio che restano per sempre nella memoria.`,
+  `Un viaggio oltre la destinazione, perché il Grand Tour non è stare in un posto, ma è l’essenza stessa del viaggio.`,
+  `E cosa meglio della regione Marche può impersonare l’essenza autentica del viaggio? Una regione nata da un viaggio, da un gruppo di giovani sabini alla ricerca di una nuova partenza, guidati dalla speranza e da un picchio sacro a Marte. Così dal 2026 abbiamo scelto una nuova voce, Martino, picchio giramondo erede di quel leggendario volatile. A dargli forma, un’interprete di quel saper fare che è nel dna del Grand Tour: l’illustratrice marchigiana Simona Pagano, che firma anche una serie di illustrazioni che raccontano le Marche in stile cartoon e dei magneti esclusivi.`,
+];
 
 const raccontoVideo = [
   { id: 'lavinia', titolo: 'Lavinia Atipica', clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '', fissa: true },
@@ -203,7 +217,7 @@ const theme = {
       <div class="wrap">
         <h2 id="h-racconto" data-reveal>Il filo del racconto</h2>
         <div class="racconto">
-          <p class="lungo" data-reveal>Il Grand Tour non ha mai elencato tappe: le ha sempre affidate a qualcuno. È nato nel 2014 con una lettera — Gioacchino che scrive al nipote Francesco, emigrato e in procinto di tornare con la sua Heidi, per promettergli un viaggio autentico nelle Marche. Un itinerario nato come invito al ritorno. Sulla strada è arrivata Lavinia Atipica, viaggiatrice dissacrante, curiosa, pronta a mettersi in gioco davanti a ogni bellezza — e tornata anni dopo, come tornano i viaggiatori veri. Oggi il passo lo detta Martino: erede del Picchio leggendario che guidò i Piceni a fondare queste terre, picchio della generazione alpha, con un sano spirito d'avventura. Debutta nel 2026 come guida della community del Grand Tour delle Marche, e a dargli forma è l'illustratrice marchigiana Simona Pagano, che firma anche una serie di illustrazioni che raccontano le Marche in stile cartoon. Da una lettera a un picchio: il racconto cambia voce, la strada resta. Chi segue il Grand Tour non consulta un calendario — tiene il passo di un personaggio.</p>
+          {raccontoTesto.map((t) => <p class="lungo" data-reveal>{t}</p>)}
 
           {/* IL COMPENDIO VISUALE. I bottoni sono bottoni veri: senza JS
               non aprono niente, ma le anteprime e i titoli restano in
@@ -882,10 +896,10 @@ const theme = {
 
     const celle = Array.from(griglia.querySelectorAll('.cella'));
 
-    // RIPESCA. Le due caselle fisse — Lavinia e il Grand Tour 2026 —
-    // restano dove sono; le altre sette vengono ripescate a caso dal
-    // bacino a ogni visita. Si cambiano solo src e attributi, mai il
-    // numero di caselle: la griglia è già disegnata e non salta.
+    // RIPESCA. Le due caselle fisse — Lavinia e il Grand Tour 2026 — ci
+    // sono sempre; le altre sette vengono ripescate a caso dal bacino a
+    // ogni visita. Si cambiano solo src e attributi, mai il numero di
+    // caselle: la griglia è già disegnata e non salta.
     // Senza JS resta il sorteggio fatto al build, che è comunque una
     // griglia piena — ed è quella che leggono i motori.
     let bacino = [];
@@ -904,6 +918,23 @@ const theme = {
         if (img) img.src = '/gt/racconto/' + v.id + '.jpg';
       });
     }
+
+    // LE POSIZIONI. Anche le due caselle fisse cambiano posto a ogni
+    // visita: ci sono sempre, ma non sempre nello stesso riquadro.
+    // Si spostano i nodi nel DOM e non si usa `order` del CSS: con
+    // `order` l'ordine visivo e quello di tabulazione divergono, e chi
+    // naviga da tastiera salterebbe da una casella all'altra senza una
+    // logica apparente. Spostando i nodi, i due ordini restano lo stesso.
+    (function rimescolaPosizioni() {
+      const voci = Array.from(griglia.children);
+      for (let i = voci.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [voci[i], voci[j]] = [voci[j], voci[i]];
+      }
+      const f = document.createDocumentFragment();
+      voci.forEach((v) => f.appendChild(v));
+      griglia.appendChild(f);
+    })();
 
     // ANTEPRIME: la clip parte al passaggio e si rimette a zero quando
     // esci. preload="none", quindi non si scarica niente finché non
