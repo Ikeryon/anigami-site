@@ -62,8 +62,33 @@ export const content = {
       { href: '#essenza', label: '.Essenza' },
       { href: '#motore', label: '.Motore' },
       { href: '#tracce', label: '.Tracce' },
+      { href: '#soglia', label: '.Soglia' },
     ],
-    chapters: { trama: 'Trama', essenza: 'Essenza', motore: 'Motore', tracce: 'Tracce' },
+    chapters: { trama: 'Trama', essenza: 'Essenza', motore: 'Motore', tracce: 'Tracce', soglia: 'Soglia' },
+    // .Soglia — la porta d'ingresso. Le due opzioni NON sono due porte sulla
+    // stessa stanza: il minisito è per chi espone, la mail per tutto il resto.
+    // Se sembrano intercambiabili, la segreteria riceve richieste da espositore
+    // e il modulo del minisito proposte che non c'entrano.
+    // Niente annata nelle etichette: il minisito cambia anno e il pulsante
+    // invecchierebbe da solo.
+    soglia: {
+      lede: 'Il festival si costruisce con chi lo attraversa: produttori, territori, istituzioni, scuole, chi porta un mestiere e chi porta un progetto. Da qui si entra in due modi.',
+      espositori: {
+        label: 'Esporre al festival',
+        href: 'https://tipicita.it/minisito_espositori.php',
+        sotto: 'Spazi, formati e condizioni per la prossima edizione, sul sito di Tipicità.',
+        esterno: 'si apre su tipicita.it, nuova scheda',
+      },
+      segreteria: {
+        label: 'Scrivere alla segreteria',
+        href: 'mailto:segreteria@tipicita.it?subject=Partecipare%20a%20Tipicit%C3%A0%20Festival',
+        sotto: 'Per tutto il resto: collaborazioni, progetti, eventi, proposte da valutare insieme.',
+        // in chiaro sotto il pulsante: su un mailto nudo, chi usa solo webmail
+        // non arriva da nessuna parte e non torna indietro a cercarlo
+        indirizzo: 'segreteria@tipicita.it',
+      },
+    },
+    sito: { label: 'tipicita.it', href: 'https://tipicita.it', esterno: 'si apre su tipicita.it, nuova scheda' },
     trama: [
       { h3: `Dal locale al globale`, p: `Festival, rassegne e incontri tematici — enogastronomia, turismo, design, ricerca, sostenibilità. Non capitoli separati: la stessa domanda, vista da angolazioni diverse.` },
       { h3: `Lab di co-creazione glocal`, p: `Progetti condivisi con università, imprese, istituzioni. Non per raccontare l'Italia al mondo, ma per costruirla insieme a chi la guarda da fuori.` },
@@ -157,8 +182,25 @@ export const content = {
       { href: '#essenza', label: '.Essence' },
       { href: '#motore', label: '.Engine' },
       { href: '#tracce', label: '.Traces' },
+      { href: '#soglia', label: '.Threshold' },
     ],
-    chapters: { trama: 'Thread', essenza: 'Essence', motore: 'Engine', tracce: 'Traces' },
+    chapters: { trama: 'Thread', essenza: 'Essence', motore: 'Engine', tracce: 'Traces', soglia: 'Threshold' },
+    soglia: {
+      lede: `The festival is built with those who cross it: producers, territories, institutions, schools, people bringing a craft and people bringing a project. There are two ways in.`,
+      espositori: {
+        label: 'Exhibit at the festival',
+        href: 'https://tipicita.it/minisito_espositori.php',
+        sotto: 'Spaces, formats and terms for the next edition, on the Tipicità website.',
+        esterno: 'opens on tipicita.it, new tab',
+      },
+      segreteria: {
+        label: 'Write to the secretariat',
+        href: 'mailto:segreteria@tipicita.it?subject=Taking%20part%20in%20Tipicit%C3%A0%20Festival',
+        sotto: 'For everything else: partnerships, projects, events, proposals to weigh together.',
+        indirizzo: 'segreteria@tipicita.it',
+      },
+    },
+    sito: { label: 'tipicita.it', href: 'https://tipicita.it', esterno: 'opens on tipicita.it, new tab' },
     trama: [
       { h3: `From local to global`, p: `Festivals, showcases and thematic forums — food, tourism, design, research, sustainability. Not separate chapters: the same question, seen from different angles.` },
       { h3: `A glocal co-creation lab`, p: `Shared projects with universities, companies and institutions. Not to tell Italy to the world, but to build it together with those who see it from the outside.` },

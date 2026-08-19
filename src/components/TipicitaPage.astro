@@ -80,6 +80,14 @@ const alternates = [
         <nav aria-label={c.aria.menu}>
           {c.menu.map((m) => <a href={m.href} data-q={m.href.slice(1)}>{m.label}</a>)}
         </nav>
+        <!-- Il rimando al sito del festival sta qui perché la barra si
+             assottiglia da sola spegnendo marchio e navigazione, ma NON
+             .to-lang: quello che vive in questa zona resta raggiungibile da
+             ogni quadro senza aggiungere nulla allo schermo negli altri stati.
+             Esce dal dominio, quindi lo dice anche a chi non lo vede. -->
+        <a class="to-sito" href={c.sito.href} target="_blank" rel="noopener noreferrer">
+          {c.sito.label}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {c.sito.esterno}</span>
+        </a>
         <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
       </div>
     </div>
@@ -205,6 +213,37 @@ const alternates = [
     </div>
   </section>
 
+  <!-- ══ QUADRO 6 · .Soglia / .Threshold — la porta d'ingresso ══
+       Chiude il mazzo, che dopo la moviola finiva sul vuoto (il footer di
+       sito è spento apposta: non entrava nel deck).
+       Due porte DISTINTE, e il testo lo dice: il minisito è per chi espone,
+       la mail per tutto il resto. La gerarchia la fa il peso — primario
+       pieno, secondario in tratto — non la dimensione: questa landing non
+       ha mai chiesto niente a chi legge e non deve suonare come una vendita. -->
+  <section class="quadro q-soglia" id="soglia" aria-labelledby="h-soglia">
+    <div class="q-in narrow">
+      <h2 id="h-soglia">{c.chapters.soglia}</h2>
+      <p class="lede">{c.soglia.lede}</p>
+
+      <div class="porte">
+        <div class="porta">
+          <a class="pulsante pulsante--pieno" href={c.soglia.espositori.href} target="_blank" rel="noopener noreferrer">
+            {c.soglia.espositori.label}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {c.soglia.espositori.esterno}</span>
+          </a>
+          <p class="porta-sotto">{c.soglia.espositori.sotto}</p>
+        </div>
+
+        <div class="porta">
+          <a class="pulsante pulsante--tratto" href={c.soglia.segreteria.href}>{c.soglia.segreteria.label}</a>
+          <p class="porta-sotto">{c.soglia.segreteria.sotto}</p>
+          <!-- in chiaro e selezionabile: su un mailto nudo chi usa solo
+               webmail non arriva da nessuna parte -->
+          <p class="indirizzo">{c.soglia.segreteria.indirizzo}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   </div>
 
   <button class="next" id="deck-next" aria-label={c.aria.deckNext}>↓</button>
@@ -299,7 +338,8 @@ const alternates = [
   }
   .tbarra.js:not(.vista):focus-within .tbarra-marchio,
   .tbarra.js:not(.vista):focus-within nav { opacity: 1; pointer-events: auto; }
-  .tbarra.js:not(.vista):focus-within .to-lang { color: var(--text-dim); }
+  .tbarra.js:not(.vista):focus-within .to-lang,
+  .tbarra.js:not(.vista):focus-within .to-sito { color: var(--text-dim); }
 
   @media (prefers-reduced-motion: reduce) {
     .tbarra, .tbarra.js .tbarra-marchio, .tbarra.js nav { transition: none; }
@@ -324,19 +364,29 @@ const alternates = [
   .tbarra nav a[aria-current] { color: var(--brand-accent); border-bottom-color: var(--tiffany); }
   .tbarra nav a:focus-visible,
   .tbarra-marchio:focus-visible,
-  .tbarra .to-lang:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+  .tbarra .to-lang:focus-visible,
+  .tbarra .to-sito:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
 
   /* Il selettore lingua smette di galleggiare nell'angolo: è il "dato a
      destra" della barra, come le coordinate sul TIB. Via il
      mix-blend-mode, che serviva a reggere su qualunque cromia gli
      passasse sotto — qui sotto passa solo il vetro della barra. */
-  .tbarra .to-lang { margin-left: auto; flex: none; font-family: 'Manrope', sans-serif;
+  .tbarra .to-lang { margin-left: 0.9rem; flex: none; font-family: 'Manrope', sans-serif;
     font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
     color: var(--text-dim); padding: 0.35rem 0; transition: color 0.3s ease; }
   .tbarra .to-lang:hover { color: var(--brand-accent); }
+
+  /* stesso trattamento del selettore lingua, un gradino più attenuato:
+     è un rimando, non un comando. La spinta a destra ora parte da qui. */
+  .tbarra .to-sito { margin-left: auto; flex: none; font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.08em; text-decoration: none;
+    color: var(--text-dim); padding: 0.35rem 0; white-space: nowrap;
+    transition: color 0.3s ease; }
+  .tbarra .to-sito:hover { color: var(--brand-accent); }
   /* sull'apertura il selettore è l'unica cosa in vista, sul campo petrolio */
-  .tbarra.js:not(.vista) .to-lang { color: rgba(255, 255, 255, 0.88); }
-  @media (prefers-reduced-motion: reduce) { .tbarra .to-lang { transition: none; } }
+  .tbarra.js:not(.vista) .to-lang,
+  .tbarra.js:not(.vista) .to-sito { color: rgba(255, 255, 255, 0.88); }
+  @media (prefers-reduced-motion: reduce) { .tbarra .to-lang, .tbarra .to-sito { transition: none; } }
 
   @media (max-width: 560px) {
     .tbarra-in { gap: 0.9rem; padding: 0.5rem 1rem; }
@@ -504,6 +554,37 @@ const alternates = [
 
   /* ── La moviola ── */
   .lede { color: var(--text-dim); margin: -0.6rem 0 1.6rem; }
+
+  /* ── .Soglia: la porta d'ingresso ──
+     Le due porte stanno sullo stesso piano tipografico degli h3 degli altri
+     quadri: la gerarchia la fa il peso (pieno contro tratto), non la misura. */
+  .q-soglia { background: var(--bg-deep); }
+  .porte { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2.4rem; margin-top: 2rem; }
+  .porta { display: flex; flex-direction: column; align-items: flex-start; }
+  .pulsante {
+    display: inline-block; font-family: 'Manrope', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.06em; text-decoration: none; padding: 0.85rem 1.5rem;
+    border: 1px solid var(--brand-accent); transition: background 0.25s ease, color 0.25s ease;
+  }
+  .pulsante--pieno { background: var(--brand-accent); color: #fff; }
+  .pulsante--pieno:hover { background: var(--tiffany); border-color: var(--tiffany); }
+  .pulsante--tratto { background: transparent; color: var(--brand-accent); }
+  .pulsante--tratto:hover { background: var(--brand-accent); color: #fff; }
+  .pulsante:active { transform: translateY(1px); }
+  .pulsante:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+  .porta-sotto { margin: 0.9rem 0 0; font-size: 0.9rem; line-height: 1.6;
+    color: var(--text-dim); max-width: 34ch; }
+  .indirizzo { margin: 0.5rem 0 0; font-family: 'Manrope', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.02em; color: var(--brand-accent); user-select: all; }
+  @media (prefers-reduced-motion: reduce) {
+    .pulsante { transition: none; }
+    .pulsante:active { transform: none; }
+  }
+  /* schermo stretto: le porte si impilano e restano nell'ordine di lettura */
+  @media (max-width: 680px) {
+    .porte { grid-template-columns: 1fr; gap: 2rem; margin-top: 1.6rem; }
+    .porta-sotto { max-width: none; }
+  }
   /* Banco di regia: due monitor 16:9 affiancati (mappa · archivio) e sotto
      la targhetta a due colonne (titolo · sintesi). Il monitor archivio
      regge foto singola, slideshow o video sempre nello stesso frame 16:9. */
@@ -702,7 +783,7 @@ const alternates = [
   // ---- LA BARRA DEI CAPITOLI (al posto dei puntini, 08/08/2026) ----
   // Le ancore restano <a href="#..."> vere: senza JS il deck si sposta
   // comunque, qui si aggiunge solo lo scorrimento morbido e lo stato.
-  const ids = ['top', 'trama', 'essenza', 'motore', 'tracce'];
+  const ids = ['top', 'trama', 'essenza', 'motore', 'tracce', 'soglia'];
   const tbarra = document.getElementById('tbarra');
   const voci = Array.from(document.querySelectorAll('.tbarra nav a'));
   const marchio = document.querySelector('.tbarra-marchio');
