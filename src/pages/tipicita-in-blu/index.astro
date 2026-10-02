@@ -286,10 +286,18 @@ const ripieghiStriscia = [0, 1, 2].map(
 
 // Le schede tecniche a lato delle due aperture: fatti già affermati altrove in
 // pagina, messi in colonna. Una scheda non introduce mai un dato nuovo.
-// L'edizione (Paolo, 02/10/2026, con lo specchietto 1ª 2014 → 13ª 2026):
-// la contraddizione del reportage è sciolta. La dodicesima è il 2025 e le
-// parti che dicevano «undicesima» erano rimaste dall'anno prima. La 13ª si è
-// svolta dal 16 al 22 maggio 2026, quindi il 2027 è la quattordicesima.
+// ⚠️ PROVENIENZA DI «DURATA» E «PROSSIMA» — risponde a TIB-CORREZIONI §4,
+// che ne chiedeva la rimozione perché non stanno in nessun documento di
+// consegna. È vero che non ci stanno: vengono da Paolo direttamente, il
+// 02/10/2026, insieme allo specchietto delle edizioni 1ª 2014 → 13ª 2026.
+//   · durata: «confermo 7 giorni da sabato a venerdì successivo»;
+//   · edizione: «nel 2027 sarà la 14».
+// Lo specchietto scioglie anche la contraddizione del reportage: la 12ª È il
+// 2025, quindi le parti che dicevano «undicesima» erano rimaste dall'anno
+// prima, e gli «otto giorni» erano un conteggio sbagliato — la 13ª si è
+// svolta dal 16 al 22 maggio 2026, che è sabato-venerdì.
+// Sono quindi dati confermati dalla fonte, non dedotti. Se un domani si
+// decide comunque di toglierli, si cancellano queste due righe e basta.
 // Qui va il numero e non l'anno: l'anno sta già nella riga-plancia in cima.
 const schedaRotta = [
   ['Dove', 'Ancona — Mole Vanvitelliana, Marina Dorica, Piazza Cavour'],
@@ -526,22 +534,18 @@ const structuredData = {
           <div class="blocco c1-7" data-reveal>
             <h3>L'architettura</h3>
             <p>La manifestazione ha tre matrici, e ognuna ha il suo tempo e il suo luogo.</p>
-            <dl class="tempi">
-              {architettura.map((a) => (
-                <>
-                  <dt>{a.nome}</dt>
-                  <dd>{a.testo}</dd>
-                </>
-              ))}
-            </dl>
           </div>
         </div>
 
         {/* LA STRISCIA DELLE TRE MATRICI: una tabella di marcia, che è
-             esattamente il registro della plancia. L'informazione è già nel
-             testo qui sopra — questa è la sua forma, non la sua unica sede,
-             e per questo il disegno è aria-hidden e porta a fianco la
-             legenda scritta. */}
+             esattamente il registro della plancia.
+             Sta PRIMA delle tre descrizioni e non dopo: è qui che si capisce
+             in due secondi che forma ha la manifestazione — un weekend denso,
+             una settimana di lavoro, un circuito che li tiene insieme — e un
+             colpo d'occhio che arriva dopo la spiegazione non è più un colpo
+             d'occhio. Il testo resta, sotto.
+             L'informazione vive comunque nel testo: per questo il disegno è
+             aria-hidden e porta la legenda scritta. */}
         <div class="campo">
           <div class="c1-12 quadro quadro--marcia" data-reveal>
             <span class="quadro-label">La tabella di marcia</span>
@@ -562,6 +566,21 @@ const structuredData = {
             </div>
             <p class="a-nota">Sette giorni, dal sabato al venerdì successivo: due di Weekend Blu, cinque di Giornate della Blue Economy, e il circuito cittadino a tratteggio su tutta la durata, perché è diffuso in città e non concentrato in una sede.</p>
           </div>
+        </div>
+
+        {/* Le tre descrizioni, sotto la striscia e non al suo posto. Vanno su
+             tre colonne e non in elenco: così ciascuna sta sotto la sua barra
+             invece di impilarsi in una colonna stretta con mezzo campo vuoto
+             a destra. Il filetto in testa a ogni voce la lega alla barra. */}
+        <div class="campo">
+          <dl class="tempi c1-12" data-reveal>
+            {architettura.map((a) => (
+              <div class="tempo">
+                <dt>{a.nome}</dt>
+                <dd>{a.testo}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         {/* I FORMATI (v3 §4): la prova, dopo la tesi. Ogni formato ha la sua
@@ -815,15 +834,21 @@ const structuredData = {
           {/* Cronologia e non schede pari: anno e città in monospazio come
                intestazione di ogni voce, che nel registro della plancia si
                legge come un giornale di bordo. */}
+          {/* Libro mastro a due colonne: a sinistra l'intestazione — indice,
+               città e data in monospazio — a destra il corpo. Prima stavano
+               incolonnati uno sotto l'altro e il testo occupava poco più di
+               metà campo, lasciando il resto bianco senza che ci fosse
+               niente. Così la riga di registro attraversa tutta la gabbia e
+               la misura di lettura resta quella giusta. */}
           <ol class="cronologia">
             {cronologia.map((v, i) => (
               <li>
-                <span class="c-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div class="c-testa">
+                  <span class="c-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="c-quando">{v.testa}</span>
+                  {v.sotto && <span class="c-sotto">{v.sotto}</span>}
+                </div>
                 <div class="c-corpo">
-                  <p class="c-testa">
-                    <span class="c-quando">{v.testa}</span>
-                    {v.sotto && <span class="c-sotto">{v.sotto}</span>}
-                  </p>
                   {v.par.map((p) => <p class="c-par" set:html={p} />)}
                 </div>
               </li>
@@ -833,7 +858,9 @@ const structuredData = {
         </div>
 
         <div class="campo">
-          <div class="blocco c1-7" data-reveal>
+          {/* Cinque voci brevi: su due colonne riempiono il campo, mentre
+               incolonnate lasciavano cinque colonne vuote a destra. */}
+          <div class="c1-12" data-reveal>
             <h3>Chi trova cosa</h3>
             <ul class="trova">
               {trova.map((t) => <li>{t}</li>)}
@@ -1115,24 +1142,31 @@ const structuredData = {
      bisogno di respiro: senza, le due righe si toccano e sembrano uno */
   .blocco p + p { margin-top: 1.1em; }
 
-  /* ── L'architettura: tre voci con il nome in evidenza e la descrizione
-       di seguito. dl e non ul perché sono definizioni: nome e contenuto. ── */
-  .tempi { margin: 1.2rem 0 0; }
+  /* ── L'architettura: le tre descrizioni sotto la striscia, una per
+       colonna, ciascuna sotto la sua barra. dl e non ul perché sono
+       definizioni: nome e contenuto. ── */
+  .tempi {
+    margin: 1.4rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gut);
+  }
+  /* il filetto in testa lega la voce alla barra che le sta sopra */
+  .tempo { border-top: 1px solid var(--brand-accent); padding-top: 0.9rem; }
   .tempi dt {
     color: var(--text-soft);
     font-weight: 600;
     letter-spacing: 0.01em;
   }
   .tempi dd {
-    margin: 0.2rem 0 0;
-    padding: 0 0 0.9rem 0;
+    margin: 0.3rem 0 0;
     color: var(--text-dim);
-    line-height: 1.75;
-    border-bottom: 1px solid rgba(233, 238, 242, 0.07);
+    line-height: 1.7;
+    font-size: 0.94rem;
   }
-  .tempi dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
-  .tempi dt + dd { margin-top: 0.2rem; }
-  .tempi dd + dt { margin-top: 0.9rem; }
+  @media (max-width: 820px) {
+    .tempi { grid-template-columns: 1fr; gap: 1.4rem; }
+  }
 
   /* ── I formati: quattro schede, ciascuna con la sua lastra. ──
      Due colonne e non auto-fit: i formati sono quattro, e con auto-fit a
@@ -1333,7 +1367,10 @@ const structuredData = {
     grid-template-columns: repeat(12, 1fr);
     gap: 1.8rem var(--gut);
   }
-  .lettura { margin: 0; grid-column: span 3; }
+  /* span 4 e non 3: le letture normali sono tre, e a span 3 chiudevano la
+     riga a nove colonne lasciandone tre vuote. A span 4 la riga è esatta, e
+     lo zero scende da solo — che è quello che deve fare. */
+  .lettura { margin: 0; grid-column: span 4; }
   /* LA ROTTURA DELLA REGOLARITÀ è il modo di dare peso a un dato senza
      scrivere che è importante. Una sola per pagina: con due, nessuna delle
      due pesa più. */
@@ -1539,42 +1576,41 @@ const structuredData = {
 
   /* ── la cronologia: giornale di bordo. L'indice e la data in monospazio
        fanno da intestazione, il corpo rientra sotto. ── */
+  /* due colonne: l'intestazione di registro a sinistra, il corpo a destra.
+     La riga attraversa tutta la gabbia, ma la misura di lettura resta quella
+     della sola colonna del corpo. */
   .cronologia { list-style: none; margin: 1.2rem 0 0; padding: 0; }
   .cronologia li {
-    display: flex;
-    gap: 1rem;
-    padding: 1.1rem 0;
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0 var(--gut);
+    padding: 1.3rem 0;
     border-bottom: 1px solid var(--hairline);
   }
   .cronologia li:first-child { padding-top: 0.2rem; }
   .cronologia li:last-child { border-bottom: 0; padding-bottom: 0; }
   .c-idx {
+    display: block;
     font-size: 0.68rem;
     color: var(--brand-accent);
-    flex: none;
-    padding-top: 0.3rem;
+    margin-bottom: 0.45rem;
   }
-  .c-corpo { max-width: 66ch; }
-  .c-testa {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 0.7rem;
-    margin: 0 0 0.5rem;
-  }
+  .c-corpo { max-width: 68ch; }
+  .c-testa { margin: 0; }
   .c-quando {
+    display: block;
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    line-height: 1.5;
     color: var(--text-soft);
   }
   .c-sotto {
+    display: block;
+    margin-top: 0.3rem;
     font-size: 0.8rem;
     color: var(--text-faint);
   }
-  /* il separatore è generato: sparisce da solo quando le due parti si
-     impilano su schermo stretto */
-  .c-sotto::before { content: '— '; }
   .c-par {
     margin: 0;
     color: var(--text-dim);
@@ -1584,12 +1620,24 @@ const structuredData = {
   .c-par + .c-par { margin-top: 0.9em; }
   .c-par :global(b) { color: var(--text-soft); font-weight: 600; }
 
-  .trova { list-style: none; margin: 0; padding: 0; }
+  /* due colonne: cinque voci brevi incolonnate lasciavano cinque colonne
+     vuote a destra. Su due, la riga resta corta e il campo si riempie. */
+  .trova {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 calc(var(--gut) * 2);
+  }
   .trova li {
     padding: 0.7rem 0 0.7rem 1.4rem;
     position: relative;
     color: var(--text-dim);
     line-height: 1.7;
+  }
+  @media (max-width: 820px) {
+    .trova { grid-template-columns: 1fr; gap: 0; }
   }
   .trova li::before {
     content: '';
@@ -1636,11 +1684,13 @@ const structuredData = {
      Qui restano gli aggiustamenti di corpo e di spaziatura della plancia e
      dei pannelli, che non sono questioni di griglia. */
   @media (max-width: 820px) {
-    /* le letture tornano in coppia e lo zero si prende tutta la riga: la
-       rottura si legge anche quando le colonne sono due */
-    .lettura { grid-column: span 6; }
+    /* lo zero si prende tutta la riga: la rottura si legge anche a colonna
+       stretta, ed è lì che deve leggersi di più */
     .lettura--grande { grid-column: span 12; }
     .formati { grid-template-columns: 1fr 1fr; }
+    /* la cronologia perde la spalla e torna a registro impilato: 15rem di
+       intestazione su 702px lascerebbero al corpo una misura da giornale */
+    .cronologia li { grid-template-columns: 1fr; gap: 0.7rem 0; }
   }
   @media (max-width: 620px) {
     .plancia { min-height: 78svh; padding: 5rem 1.2rem 3rem; }
@@ -1657,16 +1707,14 @@ const structuredData = {
     .s-voce { font-size: 0.78rem; }
     .formati { grid-template-columns: 1fr; gap: 2rem; }
     .estensione { font-size: 0.78rem; }
-    .cronologia li { gap: 0.8rem; }
     .c-par { font-size: 0.9rem; }
+    /* una lettura per riga: a questa larghezza tre o due per riga spezzano
+       «oltre 30» a metà */
+    .lettura { grid-column: span 12; }
     .letture { gap: 1.4rem 1.2rem; }
     .l-desc { font-size: 0.78rem; }
     .quadro, .metriche { padding: 1.2rem 1.1rem 1.1rem; }
     .matrici { gap: 1.6rem; }
-  }
-  @media (max-width: 420px) {
-    /* a questa larghezza due letture per riga spezzano «oltre 30» a metà */
-    .lettura { grid-column: span 12; }
   }
 
   /* ══ MOTO: solo dissolvenza; sotto reduced-motion sparisce del tutto ══ */
