@@ -31,7 +31,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 // I quattro segni (§9). Sul campo scuro si usano le varianti accese,
 // come sulla pellicola delle pagine scure.
 const segni = [
-  { id: 'tipicita', simbolo: 'mk-tipicita', nome: 'Tipicità Festival', href: '/tipicita/', acceso: '#05606a' },
+  { id: 'tipicita', simbolo: 'mk-tipicita', nome: 'Tipicità', href: '/tipicita/', acceso: '#05606a' },
   { id: 'grand-tour', simbolo: 'mk-grand-tour', nome: 'Grand Tour delle Marche', href: '/grand-tour-delle-marche/', acceso: '#d1544c' },
   { id: 'tipicita-in-blu', simbolo: 'mk-tipicita-in-blu', nome: 'Tipicità in Blu', href: '/tipicita-in-blu/', acceso: '#209fb6' },
   { id: 'evo', simbolo: 'mk-evo', nome: 'EVO', href: '/evo/', acceso: '#b8497a' },
@@ -170,7 +170,14 @@ const structuredData = {
         <h3 class="titoletto">Chi siamo</h3>
         <p class="profilo">Imagina è una società benefit con sede a Camerino, nelle Marche. Dal 1991 lavora nel marketing territoriale e nella comunicazione integrata, con una specializzazione netta su due comparti: l'agroalimentare e il turistico-territoriale.</p>
         <p class="profilo">È una microimpresa che opera su scala internazionale, e la cosa sta in piedi per una ragione precisa: Imagina è il referente di un partenariato pubblico-privato che oggi conta circa trecento entità, pubbliche e private, che si riconoscono nel valore territorio. Non è una rete di patrocini: è la struttura con cui si lavora tutto l'anno.</p>
-        <p class="profilo">Da questo trentennio nasce il patrimonio di progettualità che vive sotto il marchio ombrello Tipicità e nelle sue declinazioni — <a href="/tipicita/">Tipicità Festival</a>, il <a href="/grand-tour-delle-marche/">Grand Tour delle Marche</a>, <a href="/tipicita-in-blu/">Tipicità in Blu</a> ed <a href="/evo/">EVO</a>. Quattro progetti autonomi, quattro linguaggi, una sola rete.</p>
+        {/* ⚠️ RISCRITTA, non ripulita (02/10/2026). Da quest'anno la
+             manifestazione si chiama «Tipicità» e basta: togliere qui la
+             parola «Festival» avrebbe dato all'ombrello e a una delle sue
+             declinazioni lo stesso nome nella stessa riga. Quando il
+             prodotto di punta prende il nome dell'ombrello, si smette di
+             nominarlo e lo si indica — da qui «il festival di Fermo».
+             I link restano gli stessi. */}
+        <p class="profilo">Da questo trentennio nasce il patrimonio di progettualità che vive sotto il marchio ombrello Tipicità e nelle sue declinazioni — il <a href="/tipicita/">festival di Fermo</a>, il <a href="/grand-tour-delle-marche/">Grand Tour delle Marche</a>, <a href="/tipicita-in-blu/">Tipicità in Blu</a> ed <a href="/evo/">EVO</a>. Quattro progetti autonomi, quattro linguaggi, una sola rete.</p>
       </section>
 
       <section class="blocco-profilo">

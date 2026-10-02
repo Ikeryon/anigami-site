@@ -53,8 +53,8 @@ export const content = {
   it: {
     htmlLang: 'it',
     meta: {
-      title: 'Tipicità Festival — Fermo, 12-14 marzo 2027',
-      description: 'Tipicità Festival, Fermo, 12-14 marzo 2027: dal 1993 il festival delle traiettorie indigene tra enogastronomia, artigianato e cultura del territorio.',
+      title: 'Tipicità — Fermo, 12-14 marzo 2027',
+      description: 'Tipicità, Fermo, 12-14 marzo 2027: dal 1993 il festival delle traiettorie indigene tra enogastronomia, artigianato e cultura del territorio.',
     },
     payoff: { src: '/logos/tipicita-payoff-it.svg', alt: 'il festival delle traiettorie indigene' },
     menu: [
@@ -99,7 +99,7 @@ export const content = {
     // il markup emette segnaposto con data-tf e lo script assegna le tre src.
     // Alt generico e uguale per tutte: con 189 fotografie una descrizione
     // puntuale non è possibile, e una falsa sarebbe peggio di una generica.
-    tfAlt: 'Tipicità Festival, immagine d’archivio',
+    tfAlt: 'Tipicità, immagine d’archivio',
     tramaDuo: [{}, {}],
     essenza: [
       { cls: 'lead-card', body: `<p class="cl">La tipicità<br/>non è un'etichetta.</p><p class="cs">È <strong>la traccia che un territorio lascia</strong> dentro le cose che genera.</p>` },
@@ -176,8 +176,8 @@ export const content = {
   en: {
     htmlLang: 'en',
     meta: {
-      title: 'Tipicità Festival — Fermo, Italy · 12–14 March 2027',
-      description: 'Tipicità Festival, Fermo (Marche, Italy), 12–14 March 2027: since 1993, the festival of native trajectories — food, craftsmanship and the culture of place.',
+      title: 'Tipicità — Fermo, Italy · 12–14 March 2027',
+      description: 'Tipicità, Fermo (Marche, Italy), 12–14 March 2027: since 1993, the festival of native trajectories — food, craftsmanship and the culture of place.',
     },
     payoff: { src: '/logos/tipicita-payoff-en.svg', alt: 'the festival of native trajectories' },
     menu: [
@@ -209,7 +209,7 @@ export const content = {
       { h3: `A glocal co-creation lab`, p: `Shared projects with universities, companies and institutions. Not to tell Italy to the world, but to build it together with those who see it from the outside.` },
       { h3: `A platform for the territory`, p: `A network connecting people, places and stories — the same three hundred public and private partners that stand behind every edition.` },
     ],
-    tfAlt: 'Tipicità Festival, archive image',
+    tfAlt: 'Tipicità, archive image',
     tramaDuo: [{}, {}],
     essenza: [
       { cls: 'lead-card', body: `<p class="cl">Typicity is<br/>not a label.</p><p class="cs">It is <strong>the trace a territory leaves</strong> in what it creates.</p>` },
