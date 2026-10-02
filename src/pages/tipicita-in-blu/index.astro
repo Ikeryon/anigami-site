@@ -12,11 +12,14 @@ import Pellicola from '../../components/Pellicola.astro';
 // dispositivi di Tipicità e non si ereditano. Niente timeline/giornale di
 // bordo (rimosso in v2 su indicazione di Paolo).
 //
-// TESTI: trascritti TALI E QUALI da TESTI-TIB.md v2 (Cowork 06/08/2026).
-// Sono BOZZE da validare — non riscriverli. §3 del file è un'appendice di
-// profiling per Paolo e NON va in pagina.
+// TESTI: trascritti TALI E QUALI da TESTI-TIB.md v3 (Cowork 19/08/2026),
+// che sostituisce integralmente la v2 ed è rivisto sul reportage 2025.
+// Non riscriverli. §1 e §5 del file sono diagnosi e avvertenze per Paolo e
+// NON vanno in pagina.
 // Registro da SCHEDA: si afferma ciò che la piattaforma È, mai "potremmo".
-// Sailing Chef ed eventi pubblici restano fuori (profilo tecnico).
+// I quattro formati pubblici ora CI SONO (v3 §4): erano fuori nella v2 per
+// tenere un profilo tecnico, ma sono la prova visibile della tesi della
+// pagina, e la prova sta dopo la tesi.
 //
 // MOTO: solo taglio e dissolvenza (ANIGAMI-REGIA §1). Una intenzione per
 // viewport, durate 200–600ms, easing unico condiviso con Tipicità.
@@ -33,38 +36,136 @@ const theme = {
   '--hairline': 'rgba(233, 238, 242, 0.16)',
 };
 
-// Il quadro strumenti: i temi come readout di plancia, non come elenco.
+// L'ARCHITETTURA (TESTI-TIB v3 §2.4, blocco nuovo). Va subito dopo la visione:
+// è la risposta alla domanda che il lettore si fa da tre paragrafi — che cosa
+// succede, di preciso.
+// ⚠️ NIENTE DATE IN QUESTO TESTO. Le date della prossima edizione stanno nella
+// riga-plancia in cima e in nessun altro posto: se finiscono anche qui, ogni
+// anno vanno corrette in tre punti e uno resta indietro.
+// NB: il reportage chiama "matrici" questi tre blocchi di calendario. È la
+// stessa parola che in codice nomina le due sezioni della pagina (.Rotta e
+// .Cantiere) — in pagina non si incrociano mai, perché la nav mostra i nomi
+// delle sezioni e non la parola. Le sezioni restano due.
+const architettura = [
+  {
+    nome: 'Il Weekend Blu',
+    testo: 'due giorni ad alta intensità fra Marina Dorica e la Mole Vanvitelliana: regate, esperienze di cucina, mostre, visite.',
+  },
+  {
+    nome: 'Le Giornate della Blue Economy',
+    testo: 'cinque giorni di lavoro fra la Mole, la Facoltà di Ingegneria dell’Università Politecnica delle Marche e il Passetto: formazione, innovazione, imprese, ricerca, e in chiusura l’hackathon e il forum.',
+  },
+  {
+    nome: 'Il circuito cittadino',
+    testo: 'per tutta la durata, mostre e itinerari nei luoghi della città e nei locali che aderiscono, che tengono insieme le due anime e le portano fuori dalle sedi.',
+  },
+];
+
+// I FORMATI (TESTI-TIB v3 §4). Stanno in .Rotta, dopo l'architettura: sono la
+// prova, e la prova va dopo la tesi. Non aprono una terza sezione — la regola
+// delle due matrici resta.
+const formati = [
+  {
+    nome: 'Blu Village',
+    dove: 'la cittadella della ricerca sul mare, in Piazza Cavour, con l’Università Politecnica delle Marche',
+    testo: 'Per una giornata la ricerca sul mare esce dai laboratori e si mette in piazza: exhibit, talk, laboratori, dimostrazioni. Scienza, innovazione, sostenibilità e impresa in un racconto che si può toccare con mano. Il mare smette di essere solo l’elemento identitario del territorio e diventa una piattaforma di conoscenza condivisa.',
+  },
+  {
+    nome: 'Sailing Chef',
+    dove: 'Marina Dorica, apre la stagione velica',
+    testo: 'Una regata gourmet. Ogni equipaggio riceve una cassetta di prodotti ittici abbinati a eccellenze agricole selezionate; in navigazione la ciurma cucina, e al rientro in porto una giuria assaggia. La classifica nasce dall’incontro fra performance sportiva, creatività culinaria e capacità di raccontare il mare attraverso i sapori.',
+  },
+  {
+    nome: 'Visita il Cantiere',
+    dove: 'partenza dalla Mole, accesso gratuito su prenotazione',
+    testo: 'Un luogo normalmente chiuso si apre: la cantieristica navale vista da dentro, le professioni blu, i processi produttivi, il design. Cittadini, appassionati, studenti e famiglie entrano nel cuore di un luogo simbolico per l’economia e l’identità marittima della città.',
+  },
+  {
+    nome: 'Menù in Blu e Aperiblu',
+    dove: 'nei locali della città',
+    testo: 'Il festival esce dalle sedi e si distribuisce in città: per una settimana il circuito dei ristoranti e dei bar propone il pesce dell’Adriatico. È il modo più semplice per dire che il mare, qui, non è un tema di convegno.',
+  },
+];
+
+// IL QUADRO STRUMENTI: i sette ambiti veri (TESTI-TIB v3 §2.5).
+// ⚠️ I dieci tag di prima erano verosimili, ed era quello il problema:
+// verosimili invece che veri. Questa è la tassonomia della manifestazione,
+// quella disegnata a ruota nel reportage 2025. Sono SETTE, e il numero conta:
+// la ruota ha sette settori, e il conto si legge.
 const strumenti = [
-  'Cantieristica e nautica',
-  "Tutela dell'ecosistema marino",
-  'Pesca e acquacoltura',
-  'Porti e logistica',
-  'Biotecnologie blu',
-  'Energia dal mare',
-  'Turismo costiero',
-  'Scienze e dati del mare',
-  'Mestieri e formazione',
-  'Cultura marinara',
+  'Innovazione e start-up',
+  'Idrosfera',
+  'Multifunzionalità',
+  'Economia circolare',
+  'Cantieristica navale',
+  'Confronti internazionali',
+  'Ricerca e progetti europei',
 ];
 
-// Le metriche. `to` = valore finale per il conteggio; il testo finale è
-// comunque già nel markup (senza JS resta leggibile, e non c'è salto di
-// layout perché la larghezza è riservata prima di animare).
+// L'estensione tematica per esteso: in corpo minore, sotto gli ambiti. È la
+// parte che un europrogettista legge davvero.
+const estensione =
+  'Cultura, cibo e territorio, turismo, filiera ittica e acquacoltura, specie autoctone e aliene. Cantieristica, nautica e diporto, infrastrutture e mobilità, sub-fornitura nautica. Intelligenza artificiale e nuove tecnologie, creatività applicata, nuova impresa giovanile. Sostenibilità, economia circolare e del riuso, ciclo delle acque e depurazione. Progetti europei e internazionalizzazione.';
+
+// LE METRICHE (TESTI-TIB v3 §2.6) — cambio di sostanza, non di forma.
+// Fuori i 216,7 miliardi e le tre cifre nazionali: non sono numeri di Tipicità
+// in Blu ma dell'economia del mare italiana, e un dato non tuo in posizione di
+// dato tuo è la cosa che logora di più la fiducia di chi legge.
+// Dentro quattro numeri propri, scelti perché INVECCHIANO PIANO: una landing
+// dura più di un'edizione. Per la stessa ragione non ci sono le cifre di
+// edizione (8 giorni, 34 partner, 31 iniziative): il reportage si contraddice
+// sull'edizione a cui appartengono — §5 del documento — e finché non è chiaro
+// non vanno attribuite al 2025.
+// Niente più conteggio da zero: su «2014» e su «0» un contatore che sale è
+// un effetto su numeri che non lo meritano (GRIGLIA-TIB §5).
 const metriche = [
-  { to: 216.7, dec: 1, suffix: ' mld €', label: 'il valore della filiera del mare in Italia, l’11,3% del PIL' },
-  { to: 232841, dec: 0, suffix: '', label: 'le imprese della blue economy italiana' },
-  { to: 1089710, dec: 0, suffix: '', label: 'gli occupati, in crescita del 7,7%' },
-  { to: 15.9, dec: 1, prefix: '+', suffix: '%', label: 'la crescita del valore aggiunto diretto' },
+  { num: '2014', label: 'l’anno della prima edizione: il festival è oltre il giro di boa del suo primo decennio' },
+  { num: 'oltre 30', label: 'i partner pubblici e privati di ogni edizione' },
+  { num: 'oltre 25', label: 'le aziende del territorio che la sostengono' },
+  { num: '0', label: 'i contributi pubblici ricevuti' },
 ];
-const fmt = (v, dec) => v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 
-// Gli specchi del cantiere: gli esempi, sempre DOPO la piattaforma.
-const specchi = [
-  'Ad Ancona, nel vivo del festival, l’hackathon italo-croato: laureati e giovani imprenditori delle due sponde su sfide poste dalle PMI della nautica — transizione digitale, sostenibilità, ESG — dentro il programma Interreg BLUESLINKS.',
-  // ⚠️ È QUI che iNEST va nominato, e solo qui: la selezione degli
-  // spin-off a Trieste l'ha proposta il consorzio insieme a Barcolana.
-  'A Trieste, dentro Barcolana, la selezione degli spin-off universitari proposta dal consorzio di ricerca iNEST: squadre multidisciplinari, sfide che vanno dalla biologia degli ecosistemi al gemello digitale dell’Alto Adriatico, con KIC One Water al tavolo.',
-  'Tra un appuntamento e l’altro, il lavoro che non si vede: reti di progetto, scambi tra laboratori, accompagnamento delle idee premiate verso bandi e mercati.',
+// GLI SPECCHI DEL CANTIERE (TESTI-TIB v3 §3.3): non tre schede pari ma una
+// cronologia. L'hackathon non è un evento del 2025 — le edizioni di Ancona
+// sono DUE, ed è da lì che è partita quella di Trieste. Un formato che nasce
+// in casa, si ripete e poi viene adottato altrove dimostra da sé che The Blue
+// Way non è un cartellone ma un cantiere che produce.
+// ⚠️ PATERNITÀ: The Blue Way nasce da Tipicità in Blu e dal Polo Tecnologico
+// Alto Adriatico. iNEST compare qui perché è nei progetti dentro cui
+// l'hackathon 2024 è nato e perché promuove la tappa triestina — non nella
+// nascita della piattaforma.
+// ⚠️ Le fonti pubbliche sulla tappa di Trieste NON dicono che discende dalle
+// due edizioni anconetane: quella è la storia di casa, e qui è affermata come
+// tale senza contraddire il fatto che a Trieste i promotori sono iNEST e
+// Barcolana.
+const cronologia = [
+  {
+    testa: 'Ancona, maggio 2024',
+    sotto: 'la prima edizione',
+    par: [
+      'Quarantun partecipanti da tutto il mondo, otto squadre, quarantotto ore. Curata dal Polo Tecnologico Alto Adriatico dentro i progetti Reginna 4.0 e iNEST, con l’Università Politecnica delle Marche, l’Università di Trieste, l’OGS, l’IRBIM del CNR e il Comune di Ancona. Vince <b>Finding Algae</b>: un drone che raccoglie le alghe che infestano fondali e litorali. La squadra vincitrice è mista, studenti di Ancona e di Trieste insieme — le due città lavoravano già allo stesso tavolo prima che a Trieste ci fosse una tappa.',
+    ],
+  },
+  {
+    testa: 'Ancona, 22–23 maggio 2025',
+    sotto: 'la seconda edizione',
+    par: [
+      '«The nautical edition»: il campo si stringe sulla nautica. Quarantotto ore dentro il BLUESLINKS Innovation Hub del programma Interreg Italia-Croazia, aperte a laureati e giovani startupper delle due sponde, con facilitatori bilingui italiano-croato. Le sfide arrivano dalle imprese e riguardano Transizione 5.0 ed ESG. Networking, presentazione delle challenge, prototipazione, pitch davanti alla giuria, voucher tecnologici ai primi due team. Vince <b>Blue Access</b>, una piattaforma per rendere il turismo marino più accessibile e inclusivo.',
+    ],
+  },
+  {
+    testa: 'Trieste, 13–14 ottobre 2025',
+    sotto: 'il format cambia città',
+    par: [
+      'Dalle due edizioni anconetane nasce <b>The Blue Way Hack</b>, all’Urban Center di Trieste dentro Barcolana57. Lo promuove il consorzio di ricerca iNEST e lo organizza il Polo Tecnologico Alto Adriatico; Tipicità in Blu e The Blue Way sono fra i partner, insieme a OGS, alle università di Trieste, Udine, Ancona e Bari e a FermoTech. Trenta partecipanti in rappresentanza di quindici start-up e spin-off universitari da Friuli Venezia Giulia, Veneto, Marche e Puglia; oltre trenta ore su cinque temi — biologia degli ecosistemi marini, rischi fisici e chimici dell’idrosfera, trasporto costiero sostenibile, pianificazione integrata fra terra e mare, gemello digitale dell’Alto Adriatico.',
+      'Cambiando città il formato ha alzato il tiro: ad Ancona correvano squadre di studenti, a Trieste imprese già costituite.',
+    ],
+  },
+  {
+    testa: 'Il lavoro che non si vede',
+    sotto: '',
+    par: ['Reti di progetto, scambi tra laboratori, accompagnamento delle idee premiate verso bandi e mercati.'],
+  },
 ];
 
 // Chi trova cosa: scheda, non pitch. Si descrive, non si offre.
@@ -172,7 +273,10 @@ const structuredData = {
              verificate nei materiali di casa (REGISTRO §3): scende di grado
              dal payoff e diventa testo, qui, dove diceva già la stessa cosa
              con più parole. */}
-        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il festival dove il mare incontra le persone che su quel sistema lavorano — imprese, ricercatori, istituzioni, naviganti — e chi nel mare vede una risorsa da capire prima ancora che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
+        {/* v3 §2.1: aggiunti «pescatori, cuochi». Minimo e non casuale — la
+             squadra tiene insieme scienziati e operatori portuali, e qui si
+             elencava solo la metà istituzionale. */}
+        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il festival dove il mare incontra le persone che su quel sistema lavorano — imprese, ricercatori, istituzioni, naviganti, pescatori, cuochi — e chi nel mare vede una risorsa da capire prima che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
 
         {/* LA POSIZIONE (integrazione 07/08 dai materiali di casa): il
              dettaglio erudito è breve, esatto, e fonda — non decora. */}
@@ -181,37 +285,72 @@ const structuredData = {
           <p>Ancona è il luogo esatto di questo discorso. Il nome viene dal greco <i lang="grc-Latn">Ankón</i>, gomito: la costa che si piega e si spinge dentro l'Adriatico. Una città di terra affacciata sul mare, con il porto che va da Marina Dorica all'arco di Traiano, e il quartier generale del festival alla Mole Vanvitelliana — ex lazzaretto su un'isola artificiale, fra la terra e l'acqua. Il sodalizio fra le due cose non è una metafora: è la geografia.</p>
         </div>
 
+        {/* v3 §2.3: riscritta con le parole del reportage. «Da mare a mare» e
+             «il mare non è soltanto scenario ma principio generatore» sono
+             formule testuali di casa, non invenzioni — per questo restano
+             così come sono. Cambia anche l'attacco: «è una descrizione» e non
+             «è un metodo», perché il metodo è dichiarato più sotto, nella
+             squadra, e due volte sarebbe una ripetizione. */}
         <div class="blocco" data-reveal>
           <h3>La visione</h3>
-          <p>"Mare, laboratorio di futuro" non è uno slogan: è un metodo. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico, la Mole Vanvitelliana, e le fa dialogare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa.</p>
-          <p>E il perimetro non si ferma alla costa. <b>Il mare inizia dalla montagna</b>: è la frase con cui Tipicità e il Polo Tecnologico Alto Adriatico hanno portato questo discorso a Ecomondo, ed è un'affermazione idrografica prima che retorica. Bacini, fiumi, aree interne e acque costiere sono un sistema solo, e trattarli separati è il modo più rapido per sbagliare le politiche di tutti e due.</p>
+          <p>«Mare, laboratorio di futuro» non è uno slogan: è una descrizione. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico e le fa parlare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa. È un festival «da mare a mare», che si innesta nel tessuto cittadino e lo trasforma in un ecosistema dove il mare non è soltanto scenario, ma principio generatore di idee, progetti e collaborazioni.</p>
+          <p>E il perimetro non si ferma alla costa. <b>Il mare inizia dalla montagna</b>: è la frase con cui Tipicità e il Polo Tecnologico Alto Adriatico hanno aperto Ecomondo, ed è un'affermazione idrografica prima che retorica. Bacini, fiumi, aree interne e acque costiere sono un sistema solo, e trattarli separati è il modo più rapido per sbagliare le politiche di tutti e due.</p>
+        </div>
+
+        {/* L'ARCHITETTURA (v3 §2.4): che cosa succede, di preciso. */}
+        <div class="blocco" data-reveal>
+          <h3>L'architettura</h3>
+          <p>La manifestazione ha tre matrici, e ognuna ha il suo tempo e il suo luogo.</p>
+          <dl class="tempi">
+            {architettura.map((a) => (
+              <>
+                <dt>{a.nome}</dt>
+                <dd>{a.testo}</dd>
+              </>
+            ))}
+          </dl>
+        </div>
+
+        {/* I FORMATI (v3 §4): la prova, dopo la tesi. */}
+        <div class="blocco blocco--largo" data-reveal>
+          <h3>I formati</h3>
+          <div class="formati">
+            {formati.map((f, i) => (
+              <article class="formato">
+                <span class="f-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h4>{f.nome}</h4>
+                <p class="f-dove">{f.dove}</p>
+                <p class="f-testo">{f.testo}</p>
+              </article>
+            ))}
+          </div>
         </div>
 
         <!-- il quadro strumenti: readout di plancia, non elenco puntato -->
         <div class="quadro" data-reveal>
-          <span class="quadro-label">Il quadro strumenti · i temi sul tavolo</span>
+          <span class="quadro-label">Il quadro strumenti · gli ambiti</span>
           <ul class="strumenti">
             {strumenti.map((s, i) => (
               <li><span class="s-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="s-voce">{s}</span></li>
             ))}
           </ul>
+          <p class="estensione">{estensione}</p>
         </div>
 
-        <!-- il pannello metriche: le cifre contano da zero all'ingresso -->
+        <!-- il pannello delle letture: numeri propri, che invecchiano piano -->
         <div class="metriche" data-reveal>
           <span class="quadro-label">Le metriche</span>
           <dl class="letture">
             {metriche.map((m) => (
               <div class="lettura">
-                <dt class="l-num" data-to={m.to} data-dec={m.dec} data-prefix={m.prefix ?? ''} data-suffix={m.suffix}>
-                  {(m.prefix ?? '') + fmt(m.to, m.dec) + m.suffix}
-                </dt>
+                <dt class="l-num">{m.num}</dt>
                 <dd class="l-desc">{m.label}</dd>
               </div>
             ))}
           </dl>
-          <p class="fonte">XIII Rapporto Nazionale sull'Economia del Mare, 2025</p>
-          <p class="q-nota">Il punto della rotta: il valore diretto dell'economia del mare è ancora una frazione del potenziale — la distanza tra il dato e il potenziale è la rotta del festival.</p>
+          {/* Lo zero è il dato che fa il lavoro, e si lascia spiegare in una
+               riga, senza compiacimento (v3 §2.6). */}
+          <p class="q-nota">Tipicità in Blu non riceve contributi pubblici: è sostenuta dalle imprese del territorio e da investimenti arrivati ad Ancona dal bacino adriatico. È la prova più concreta che i temi trattati generano economia, e non solo conversazione.</p>
         </div>
 
         {/* Rinominato "Il corridoio": il titolo "La posizione" è passato al
@@ -226,10 +365,21 @@ const structuredData = {
 
         <div class="blocco" data-reveal>
           <h3>L'equipaggio</h3>
-          {/* MSC tolto (Paolo, 09/08/2026): dopo Fincantieri l'elenco resta
-              più ampio e tecnico — le filiere del blu e le associazioni di
-              categoria al posto del singolo armatore. Marina Dorica resta. */}
-          <p>Comune di Ancona, Regione Marche, Università Politecnica delle Marche, Fincantieri e le filiere produttive del blu, le associazioni di categoria, Marina Dorica, Ecomondo, il sistema camerale e bancario del territorio. Non un cartellone di patrocini: le realtà che tengono la barra, ciascuna per la propria parte di rotta.</p>
+          {/* ⚠️ CORREZIONE FATTUALE (v3 §2.8). Fincantieri e MSC sono usciti:
+              nel reportage non compaiono fra i partner, e un nome sbagliato
+              nell'elenco dei partner è l'errore che un partner vero nota per
+              primo. L'elenco è ora per gradi, come nei materiali di casa:
+              i soggetti con un ruolo dichiarato prima, la rete convocata
+              dopo. Marina Dorica resta, come partner tecnico. */}
+          <p>Partner istituzionali: Comune di Ancona, Camera di Commercio delle Marche, Regione Marche. Partner scientifico: Università Politecnica delle Marche. Project partner: Banco Marchigiano. Partner tecnico: Marina Dorica.</p>
+          <p>E intorno, la rete che il festival convoca ogni anno: atenei e centri di ricerca, poli tecnologici, aziende di servizi pubblici, associazioni di categoria e professionali, sodalizi culturali, imprese leader dei rispettivi comparti, grandi gruppi cooperativi.</p>
+        </div>
+
+        {/* LA SQUADRA (v3 §2.9, blocco nuovo): chiude .Rotta. Dice l'ascolto
+             come procedura, senza aureola — è la voce di casa già scritta. */}
+        <div class="blocco" data-reveal>
+          <h3>La squadra</h3>
+          <p>Chi sta al tavolo, di solito, non sta allo stesso tavolo. Scienziati e docenti, ricercatori e specialisti, divulgatori e scrittori, chef affermati ed emergenti, pescatori e operatori portuali, viticoltori e ristoratori. Il metodo è dichiarato ed è bottom up: si raccolgono i bisogni delle diverse anime che cooperano, e si lavora perché il confronto non sia verticale. Le contaminazioni che ne escono non sono un effetto collaterale — sono il prodotto.</p>
         </div>
       </div>
     </section>
@@ -256,16 +406,32 @@ const structuredData = {
           {/* La definizione ufficiale, quella usata a Ecomondo: è la più
                esatta e conviene tenerla testuale (TESTI-TIB §2ter). */}
           <p>La definizione ufficiale, quella usata a Ecomondo, è la più esatta e conviene tenerla: una <b>piattaforma di condivisione fisica e digitale per stimolare un'ampia alleanza di talenti, energie e competenze</b>, sull'area individuata come Polo del Mare Adriatico.</p>
+          {/* v3 §3.2: il posizionamento, riga nuova dal reportage. Va subito
+               dopo la definizione perché dice DOVE la piattaforma si colloca,
+               che è la cosa che mancava. */}
+          <p>È un percorso di sviluppo che tiene insieme divulgazione scientifica, creatività e visione territoriale, e che si proietta in contesti nuovi e internazionali. Colloca Tipicità in Blu al centro dello scacchiere adriatico-ionico come modello di cooperazione fra territori uniti dal mare e dalle sfide della transizione blu.</p>
           <p>The Blue Way non coincide con la manifestazione: lavora tutto l'anno, con ricadute sul territorio italiano e oltre. È una piattaforma permanente che collega gli atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — le imprese che pongono le sfide e i giovani che le raccolgono. Il metodo è quello del cantiere: si progetta, si prototipa, si vara. E ogni varo apre il progetto successivo.</p>
         </div>
 
-        <div class="blocco" data-reveal>
+        <div class="blocco blocco--largo" data-reveal>
           <h3>Gli specchi del cantiere</h3>
-          <ul class="specchi">
-            {specchi.map((s, i) => (
-              <li><span class="sp-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span>{s}</span></li>
+          {/* Cronologia e non schede pari: anno e città in monospazio come
+               intestazione di ogni voce, che nel registro della plancia si
+               legge come un giornale di bordo. */}
+          <ol class="cronologia">
+            {cronologia.map((v, i) => (
+              <li>
+                <span class="c-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div class="c-corpo">
+                  <p class="c-testa">
+                    <span class="c-quando">{v.testa}</span>
+                    {v.sotto && <span class="c-sotto">{v.sotto}</span>}
+                  </p>
+                  {v.par.map((p) => <p class="c-par" set:html={p} />)}
+                </div>
+              </li>
             ))}
-          </ul>
+          </ol>
         </div>
 
         <div class="blocco" data-reveal>
@@ -296,7 +462,8 @@ const structuredData = {
   /* ── Token della pagina: una sola curva, durate corte. Stessa curva
        usata su Tipicità, così il sito ha un'unica mano. ── */
   .plancia, .barra, main { --ease: cubic-bezier(0.55, 0.05, 0.18, 1); }
-  .mono, .fix, .quadro-label, .s-idx, .sp-idx, .fonte, .barra nav a, .matrici a {
+  .mono, .fix, .quadro-label, .s-idx, .f-idx, .c-idx, .c-quando,
+  .barra nav a, .matrici a {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
 
@@ -462,7 +629,8 @@ const structuredData = {
   /* text-wrap: pretty → il browser evita le ultime righe con una parola sola
      (righe orfane trovate in audit a 390 e 1440). Dove non è supportato,
      degrada al ritorno a capo normale. */
-  .apertura, .blocco p, .q-nota, .l-desc, .specchi li, .trova li { text-wrap: pretty; }
+  .apertura, .blocco p, .q-nota, .l-desc, .trova li,
+  .tempi dd, .f-testo, .c-par, .estensione { text-wrap: pretty; }
 
   .apertura {
     font-size: clamp(1.02rem, 1.5vw, 1.16rem);
@@ -472,10 +640,73 @@ const structuredData = {
     margin: 0 0 2.6rem;
   }
   .blocco { margin: 0 0 2.4rem; max-width: 62ch; }
+  /* i blocchi che contengono una griglia interna (i formati, la cronologia)
+     non possono stare in 62ch: la misura di lettura vale per il paragrafo,
+     non per il pannello */
+  .blocco--largo { max-width: none; }
   .blocco p { color: var(--text-dim); line-height: 1.75; margin: 0; }
   /* i blocchi con due paragrafi (La visione, Il cantiere aperto) hanno
      bisogno di respiro: senza, le due righe si toccano e sembrano uno */
   .blocco p + p { margin-top: 1.1em; }
+
+  /* ── L'architettura: tre voci con il nome in evidenza e la descrizione
+       di seguito. dl e non ul perché sono definizioni: nome e contenuto. ── */
+  .tempi { margin: 1.2rem 0 0; }
+  .tempi dt {
+    color: var(--text-soft);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .tempi dd {
+    margin: 0.2rem 0 0;
+    padding: 0 0 0.9rem 0;
+    color: var(--text-dim);
+    line-height: 1.75;
+    border-bottom: 1px solid rgba(233, 238, 242, 0.07);
+  }
+  .tempi dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  .tempi dt + dd { margin-top: 0.2rem; }
+  .tempi dd + dt { margin-top: 0.9rem; }
+
+  /* ── I formati: quattro schede brevi. Filo a sinistra e indice in
+       monospazio — la scheda tecnica, non la card. ── */
+  /* due colonne e non auto-fit: i formati sono quattro, e con auto-fit a
+     1440 entrano in tre — il quarto resta orfano su una riga sua. 2×2 non
+     lascia orfani a nessuna larghezza. */
+  .formati {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.8rem 2.2rem;
+    margin-top: 1.4rem;
+  }
+  .formato {
+    padding-left: 1.2rem;
+    border-left: 1px solid var(--hairline);
+  }
+  .f-idx {
+    display: block;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    color: var(--brand-accent);
+    margin-bottom: 0.5rem;
+  }
+  .formato h4 {
+    margin: 0 0 0.25rem;
+    font-size: 1.02rem;
+    color: var(--text-soft);
+  }
+  .f-dove {
+    margin: 0 0 0.6rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-faint);
+  }
+  .f-testo {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
 
   /* ── il quadro strumenti: readout, due colonne di sigle ── */
   .quadro, .metriche {
@@ -541,12 +772,17 @@ const structuredData = {
     color: var(--text-dim);
     max-width: 26ch;
   }
-  .fonte {
-    margin: 1.4rem 0 0;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-faint);
+  /* l'estensione tematica: corpo minore sotto gli ambiti, non in maiuscoletto
+     — è un paragrafo da leggere, non un'etichetta. 0.82rem con questo colore
+     resta sopra il 4.5:1 sul fondo del pannello. */
+  .estensione {
+    margin: 1.3rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(233, 238, 242, 0.07);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: 72ch;
   }
   .q-nota {
     margin: 1rem 0 0;
@@ -556,18 +792,54 @@ const structuredData = {
     max-width: 62ch;
   }
 
-  /* ── specchi e scheda ── */
-  .specchi, .trova { list-style: none; margin: 0; padding: 0; }
-  .specchi li {
+  /* ── la cronologia: giornale di bordo. L'indice e la data in monospazio
+       fanno da intestazione, il corpo rientra sotto. ── */
+  .cronologia { list-style: none; margin: 1.2rem 0 0; padding: 0; }
+  .cronologia li {
     display: flex;
-    gap: 0.9rem;
-    padding: 0.9rem 0;
+    gap: 1rem;
+    padding: 1.1rem 0;
     border-bottom: 1px solid var(--hairline);
-    color: var(--text-dim);
-    line-height: 1.7;
   }
-  .specchi li:first-child { padding-top: 0.3rem; }
-  .sp-idx { font-size: 0.68rem; color: var(--brand-accent); flex: none; padding-top: 0.35rem; }
+  .cronologia li:first-child { padding-top: 0.2rem; }
+  .cronologia li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .c-idx {
+    font-size: 0.68rem;
+    color: var(--brand-accent);
+    flex: none;
+    padding-top: 0.3rem;
+  }
+  .c-corpo { max-width: 66ch; }
+  .c-testa {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.7rem;
+    margin: 0 0 0.5rem;
+  }
+  .c-quando {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+  .c-sotto {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+  }
+  /* il separatore è generato: sparisce da solo quando le due parti si
+     impilano su schermo stretto */
+  .c-sotto::before { content: '— '; }
+  .c-par {
+    margin: 0;
+    color: var(--text-dim);
+    line-height: 1.75;
+    font-size: 0.96rem;
+  }
+  .c-par + .c-par { margin-top: 0.9em; }
+  .c-par :global(b) { color: var(--text-soft); font-weight: 600; }
+
+  .trova { list-style: none; margin: 0; padding: 0; }
   .trova li {
     padding: 0.7rem 0 0.7rem 1.4rem;
     position: relative;
@@ -632,6 +904,18 @@ const structuredData = {
     .fix--apertura span + span::before { content: none; margin: 0; }
     .strumenti { grid-template-columns: 1fr; }
     .s-voce { font-size: 0.78rem; }
+    /* su schermo stretto il filo verticale dei formati costa 1.2rem di
+       misura utile: diventa un filo orizzontale sopra, che non la mangia */
+    .formato {
+      padding-left: 0;
+      padding-top: 0.9rem;
+      border-left: 0;
+      border-top: 1px solid var(--hairline);
+    }
+    .formati { grid-template-columns: 1fr; gap: 1.2rem; }
+    .estensione { font-size: 0.78rem; }
+    .cronologia li { gap: 0.8rem; }
+    .c-par { font-size: 0.9rem; }
     .letture { grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
     .l-desc { font-size: 0.78rem; }
     .quadro, .metriche { padding: 1.2rem 1.1rem 1.1rem; }
@@ -643,48 +927,15 @@ const structuredData = {
 
   /* ══ MOTO: solo dissolvenza; sotto reduced-motion sparisce del tutto ══ */
   @media (prefers-reduced-motion: reduce) {
-    .matrici a, .barra nav a, .varco, .l-num { transition: none; }
+    .matrici a, .barra nav a, .varco { transition: none; }
   }
 </style>
 
 <script>
-  // ── LE METRICHE CONTANO DA ZERO ──
-  // Una volta sola, all'ingresso in viewport (niente loop). Il valore
-  // finale è già nel markup: senza JS resta leggibile, e la larghezza
-  // viene riservata PRIMA di azzerare, così non c'è scarto di layout.
-  const ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const nums = Array.from(document.querySelectorAll('.l-num'));
-
-  function conta(el) {
-    const to = parseFloat(el.dataset.to);
-    const dec = parseInt(el.dataset.dec, 10);
-    const pre = el.dataset.prefix || '';
-    const suf = el.dataset.suffix || '';
-    const scrivi = (v) => {
-      el.textContent = pre + v.toLocaleString('it-IT', { minimumFractionDigits: dec, maximumFractionDigits: dec }) + suf;
-    };
-    const D = 600; // dentro la forbice 200–600ms della regia
-    const t0 = performance.now();
-    (function tick(t) {
-      const p = Math.min(1, (t - t0) / D);
-      scrivi(to * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-      else scrivi(to);
-    })(t0);
-  }
-
-  if (nums.length && !ridotto && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((voci) => {
-      voci.forEach((v) => {
-        if (!v.isIntersecting) return;
-        io.unobserve(v.target); // una volta sola
-        const el = v.target;
-        el.style.minWidth = el.getBoundingClientRect().width + 'px'; // niente salto
-        conta(el);
-      });
-    }, { threshold: 0.6 });
-    nums.forEach((n) => io.observe(n));
-  }
+  // Il conteggio da zero delle metriche è stato rimosso con i numeri che lo
+  // giustificavano: sui dati nuovi — «2014», «0» — un contatore che sale è un
+  // effetto su cifre che non lo meritano (GRIGLIA-TIB §5), e su uno zero è
+  // semplicemente un'animazione che non si vede.
 
   // ── la barra segna la matrice in cui ci si trova ──
   const voci = Array.from(document.querySelectorAll('.barra nav a'));
