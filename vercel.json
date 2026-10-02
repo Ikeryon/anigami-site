@@ -3,5 +3,15 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/contest-la-trota-e-il-verdicchio-2026", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/contest-la-trota-e-il-verdicchio-2026/", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/invio-materiale-contest-la-trota-e-il-verdicchio-2026", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/invio-materiale-contest-la-trota-e-il-verdicchio-2026/", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/conferma-iscrizione-contest", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/conferma-iscrizione-contest/", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/materiale-ricevuto", "destination": "/grand-tour-delle-marche/", "permanent": true },
+    { "source": "/materiale-ricevuto/", "destination": "/grand-tour-delle-marche/", "permanent": true }
+  ]
 }
