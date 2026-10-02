@@ -181,33 +181,121 @@ const trova = [
 
 // ── LE IMMAGINI: due famiglie e due soltanto (GRIGLIA-TIB §3) ──
 //
-// ⚠️ STATO DI RISERVA. In public/tib/ ci sono due file: fondo.mp4 e il suo
-// poster. Fotografie di Tipicità in Blu non ne esiste nessuna, né nel
-// repository né nelle cartelle collegate — l'archivio è quello del festival di
-// Fermo, che è un'altra manifestazione e non si saccheggia per riempire questa.
-// Finché il materiale non arriva, ogni lastra resta il campo virato con la sua
-// etichetta: dignitoso, e non sembra un errore. Quando le fotografie ci saranno
-// basta dare un `src` qui — markup, misure e viratura sono già al loro posto.
+// L'ARCHIVIO (Paolo, 02/10/2026). 82 scatti consegnati, 555 MB: convertiti a
+// 1400px in 3:2 — la stessa misura delle 189 di .Trama — e scesi a 12,5 MB,
+// media 162 KB. 71 su 82 erano GIÀ in 3:2: il formato scelto per la lastra
+// combacia con l'archivio senza ritagliare niente.
+// Dieci sono rimasti fuori, per le regole che valgono anche su .Trama: marchi
+// di sponsor leggibili in primo piano, una persona sola riconoscibile al
+// microfono, una data stampata su un banner. Ne restano 72.
 //
-// La didascalia è obbligatoria e porta un fatto: se non aggiunge niente, la
-// lastra non serve.
-const lastre = {
-  'Blu Village': { idx: '01', did: ['Blu Village', 'Piazza Cavour'], src: null },
-  'Sailing Chef': { idx: '02', did: ['Sailing Chef', 'Marina Dorica'], src: null },
-  'Visita il Cantiere': { idx: '03', did: ['Visita il Cantiere', 'il bacino'], src: null },
-  'Menù in Blu e Aperiblu': { idx: '04', did: ['Menù in Blu', 'i locali della città'], src: null },
+// ⚠️ NON SI ESTRAE A CASO DA TUTTO. Ogni lastra pesca dal suo bacino, perché
+// la didascalia deve restare vera qualunque scatto esca: sotto «Visita il
+// Cantiere» può finire solo una fotografia di cantiere. La varietà la fa
+// l'estrazione dentro il bacino, non il disordine.
+//
+// La didascalia porta due fatti verificabili e nessuna interpretazione: che
+// cosa si vede e l'anno dell'edizione. L'anno viene dai metadati dello scatto,
+// non da me.
+const foto = [
+  // 3 e 62 stavano in 'citta' ma pescano nella banda, che è l'unica immagine
+  // grande della pagina: un figurante in banchina e un tramonto sono belli e
+  // non dicono il lungomare. Spostati, restano raggiungibili dalla striscia.
+  [1, 'ricerca', 2025], [2, 'ricerca', 2025], [3, 'scena', 2019], [4, 'mestiere', 2019],
+  [5, 'saloncino', 2019], [6, 'ricerca', 2019], [7, 'ricerca', 2019], [8, 'ricerca', 2019],
+  [9, 'mestiere', 2019], [10, 'tavola', 2019], [11, 'convegno', 2019], [12, 'visita', 2019],
+  [13, 'visita', 2019], [14, 'regata', 2024], [15, 'citta', 2024], [16, 'convegno', 2022],
+  [17, 'regata', 2024], [18, 'bordo', 2022], [19, 'mostra', 2024], [20, 'convegno', 2025],
+  [21, 'convegno', 2024], [22, 'cucina', 2024], [23, 'scena', 2024], [24, 'citta', 2024],
+  [25, 'regata', 2023], [26, 'regata', 2023], [27, 'cucina', 2023], [28, 'ragazzi', 2023],
+  [29, 'regata', 2023], [30, 'cucina', 2023], [31, 'convegno', 2023], [32, 'convegno', 2023],
+  [33, 'sala', 2023], [34, 'convegno', 2023], [35, 'convegno', 2023], [36, 'mostra', 2025],
+  [37, 'tavolo', 2023, 1], [38, 'tavolo', 2023], [39, 'convegno', 2023], [40, 'ragazzi', 2023],
+  [41, 'mostra', 2023], [42, 'convegno', 2023], [43, 'convegno', 2023], [44, 'convegno', 2023],
+  [45, 'convegno', 2024], [46, 'tavolo', 2024, 1], [47, 'regata', 2024], [48, 'tavolo', 2024],
+  [49, 'convegno', 2024], [50, 'convegno', 2024], [51, 'hackathon', 2024, 1],
+  [52, 'hackathon', 2024, 1], [53, 'scena', 2024], [54, 'tavola', 2024], [55, 'tavola', 2024],
+  [56, 'convegno', 2025], [57, 'citta', 2025], [58, 'regata', 2025], [59, 'convegno', 2025],
+  [60, 'cantiere', 2025], [61, 'mestiere', 2025], [62, 'mare', 2025], [63, 'convegno', 2025],
+  [64, 'convegno', 2025], [65, 'ragazzi', 2025], [66, 'convegno', 2025], [67, 'saloncino', 2026],
+  [68, 'cantiere', 2026], [69, 'convegno', 2026], [70, 'tavola', 2026], [71, 'convegno', 2026],
+  [72, 'convegno', 2026],
+];
+
+// Per ogni gruppo: l'etichetta della didascalia e il testo alternativo.
+// Sono separati perché servono a due cose diverse — la didascalia nomina, il
+// testo alternativo descrive a chi non vede. Entrambi valgono per qualunque
+// scatto del gruppo, ed entrambi li riscrive il JS dopo l'estrazione: un alt
+// fisso sul bacino sarebbe falso non appena esce lo scatto di un altro
+// sottogruppo.
+const gruppi = {
+  ricerca: ['i banchi della ricerca', 'Il pubblico ai banchi della ricerca sul mare'],
+  mestiere: ['il mestiere', 'Mani al lavoro su un mestiere del mare'],
+  citta: ['Ancona', 'Ancona vista dal mare, con il porto'],
+  mare: ['il mare', "Il mare aperto davanti alla costa d'Ancona"],
+  regata: ['la regata', 'Barche a vela in regata davanti ad Ancona'],
+  cucina: ['la cucina', 'La preparazione del pesce durante il festival'],
+  tavola: ['la tavola', 'Una degustazione in uno dei locali della città'],
+  cantiere: ['il cantiere', 'Il cantiere navale aperto ai visitatori'],
+  mostra: ['la mostra', 'Visitatori davanti a una mostra del festival'],
+  saloncino: ['il saloncino', 'Un banco tematico con i prodotti del mare'],
+  hackathon: ["l'hackathon", 'Squadre di giovani al lavoro durante l’hackathon'],
+  tavolo: ['il tavolo di lavoro', 'Un tavolo di lavoro fra gli addetti del settore'],
+  convegno: ['il convegno', 'Il pubblico a un incontro del festival'],
+  scena: ['la scena', 'Un momento di spettacolo durante il festival'],
+  visita: ['la visita', 'Una visita guidata ai luoghi del porto'],
+  ragazzi: ['i ragazzi', 'Studenti e ragazzi a un laboratorio del festival'],
+  bordo: ['a bordo', 'Un dettaglio a bordo, durante la navigazione'],
+  sala: ['la sala', 'Una delle sale che ospitano il festival'],
 };
-// l'unica lastra verticale della pagina: 3:4, a fianco della squadra
-const lastraSquadra = { idx: '05', did: ['Il tavolo di lavoro', 'Ancona'], src: null };
-// l'unica fotografia a colori pieni: la cerniera fra .Rotta e l'architettura
-const banda = { did: ['Il waterfront', 'Ancona, dal porto a Marina Dorica'], src: null };
+const etichette = Object.fromEntries(Object.entries(gruppi).map(([k, v]) => [k, v[0]]));
+
+// I bacini, uno per lastra. `alt` è il testo alternativo del gruppo: vale per
+// qualunque scatto esca, perché descrive la scena e non il singolo fotogramma.
+const bacini = {
+  'Blu Village': { idx: '01', gruppi: ['ricerca', 'ragazzi', 'saloncino'], alt: 'I banchi della ricerca sul mare, con il pubblico' },
+  'Sailing Chef': { idx: '02', gruppi: ['regata', 'cucina'], alt: 'La regata e la cucina a bordo' },
+  'Visita il Cantiere': { idx: '03', gruppi: ['cantiere'], alt: 'Il cantiere navale visto da dentro' },
+  'Menù in Blu e Aperiblu': { idx: '04', gruppi: ['tavola'], alt: 'La tavola e le degustazioni in città' },
+};
+// l'unica lastra verticale della pagina: 3:4, a fianco della squadra. Pesca
+// solo fra i momenti di confronto veri — non fra i panel con i microfoni.
+const bacinoSquadra = { idx: '05', gruppi: ['tavolo', 'hackathon'], alt: 'Un tavolo di lavoro' };
+// l'unica fotografia a colori pieni della pagina: la cerniera fra .Rotta e
+// l'architettura. Pesca fra le vedute della città e del porto.
+// ⚠️ MANCA ANCORA la veduta dall'alto del lungomare, dal porto a Marina
+// Dorica, che sarebbe il soggetto giusto: nell'archivio non c'è.
+const bacinoBanda = { gruppi: ['citta'], alt: 'Ancona e il suo porto' };
+// la striscia: pesca da tutto, perché il suo argomento È la varietà
+const bacinoStriscia = { gruppi: Object.keys(etichette) };
+
+// Aiuti di costruzione. Il valore reso dal server è un ripiego deterministico:
+// serve a chi ha JS spento (dentro <noscript>) e a dare alla didascalia un
+// testo coerente prima che l'estrazione avvenga. L'<img> viva resta SENZA src
+// — altrimenti il browser scaricherebbe il ripiego e poi di nuovo lo scatto
+// estratto, due volte per ogni lastra.
+const nelBacino = (gruppi, vert) =>
+  foto.filter((f) => gruppi.includes(f[1]) && (!vert || f[3]));
+const ripiego = (gruppi, vert) => nelBacino(gruppi, vert)[0];
+const sorgente = (f, vert) => `/tib/foto/tib-${String(f[0]).padStart(3, '0')}${vert ? '-v' : ''}.jpg`;
+// tre ripieghi distanti fra loro, così senza JS la striscia non mostra tre
+// volte lo stesso scatto
+const ripieghiStriscia = [0, 1, 2].map(
+  (k) => nelBacino(bacinoStriscia.gruppi)[Math.floor((k * foto.length) / 3)]
+);
 
 // Le schede tecniche a lato delle due aperture: fatti già affermati altrove in
 // pagina, messi in colonna. Una scheda non introduce mai un dato nuovo.
+// L'edizione (Paolo, 02/10/2026, con lo specchietto 1ª 2014 → 13ª 2026):
+// la contraddizione del reportage è sciolta. La dodicesima è il 2025 e le
+// parti che dicevano «undicesima» erano rimaste dall'anno prima. La 13ª si è
+// svolta dal 16 al 22 maggio 2026, quindi il 2027 è la quattordicesima.
+// Qui va il numero e non l'anno: l'anno sta già nella riga-plancia in cima.
 const schedaRotta = [
   ['Dove', 'Ancona — Mole Vanvitelliana, Marina Dorica, Piazza Cavour'],
   ['Coordinate', '43°37′N 13°30′E'],
-  ['Dalla prima edizione', '2014'],
+  ['Durata', 'sette giorni, dal sabato al venerdì'],
+  ['Prossima', 'la quattordicesima edizione'],
 ];
 const schedaCantiere = [
   ['Nasce da', 'Tipicità in Blu e Polo Tecnologico Alto Adriatico'],
@@ -240,10 +328,14 @@ const settore = (i, n) => {
 // Tabella di marcia, che è esattamente il registro della plancia. Le durate
 // sono quelle dichiarate nel testo dell'architettura — due giorni e cinque
 // giorni — e l'asse è la loro somma: sette.
-// ⚠️ Niente «otto giorni»: quella cifra viene dalla parte del reportage che si
-// contraddice sull'edizione (TESTI-TIB §5), e un asse disegnato su un numero
-// incerto è un errore che si vede.
-const GIORNI = 7;
+// DURATA CONFERMATA (Paolo, 02/10/2026): sette giorni, dal sabato al venerdì
+// successivo. Gli «otto giorni» del reportage erano un conteggio sbagliato —
+// e infatti la 13ª si è svolta dal 16 al 22 maggio 2026, che è sabato-venerdì.
+// L'asse porta quindi le iniziali dei giorni e non dei numeri progressivi: la
+// settimana ha una forma, e un calendario che parte di sabato la dice meglio
+// di «1 2 3 4 5 6 7».
+const GIORNI = ['S', 'D', 'L', 'M', 'M', 'G', 'V'];
+const GIORNI_ESTESI = ['sabato', 'domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì'];
 const marcia = [
   { nome: 'Weekend Blu', dove: 'Marina Dorica · la Mole', da: 1, a: 3, tratto: false },
   { nome: 'Giornate della Blue Economy', dove: 'la Mole · Ingegneria · il Passetto', da: 3, a: 8, tratto: false },
@@ -416,16 +508,15 @@ const structuredData = {
            appena capito CHE COSA è e sta per scoprire COM'È FATTO: è la
            cerniera. Una banda funziona perché è una — due sono un carosello
            lento. */}
-      <figure class="banda" data-reveal>
-        {banda.src ? (
-          <img src={banda.src} alt="" width="2400" height="1000" loading="lazy" decoding="async" />
-        ) : (
-          <div class="banda-riserva" aria-hidden="true"><em>in attesa di materiale</em></div>
-        )}
+      <figure class="banda" data-reveal data-bacino={JSON.stringify(bacinoBanda.gruppi)}>
+        {/* sta sotto la piega: lazy anche lei, o si contende la banda con il
+            video della plancia proprio mentre quello parte */}
+        <img data-foto alt={bacinoBanda.alt} width="1400" height="933" loading="lazy" decoding="async" />
+        <noscript><img src={sorgente(ripiego(bacinoBanda.gruppi))} alt={bacinoBanda.alt} /></noscript>
         <figcaption class="wrap">
           <span class="d-idx">Banda</span>
-          <span class="d-voce">{banda.did[0]}</span>
-          <span class="d-luogo">{banda.did[1]}</span>
+          <span class="d-voce" data-did>{etichette[ripiego(bacinoBanda.gruppi)[1]]}</span>
+          <span class="d-luogo" data-anno>{ripiego(bacinoBanda.gruppi)[2]}</span>
         </figcaption>
       </figure>
 
@@ -456,7 +547,7 @@ const structuredData = {
             <span class="quadro-label">La tabella di marcia</span>
             <div class="assi">
               <span class="a-scala" aria-hidden="true">
-                {Array.from({ length: GIORNI }, (_, i) => <i>{i + 1}</i>)}
+                {GIORNI.map((g, i) => <i title={GIORNI_ESTESI[i]}>{g}</i>)}
               </span>
               {marcia.map((m) => (
                 <>
@@ -469,7 +560,7 @@ const structuredData = {
                 </>
               ))}
             </div>
-            <p class="a-nota">Le durate sono quelle dichiarate qui sopra: due giorni, cinque giorni, e il circuito che tiene insieme tutto il periodo — a tratteggio perché è diffuso in città e non concentrato in una sede.</p>
+            <p class="a-nota">Sette giorni, dal sabato al venerdì successivo: due di Weekend Blu, cinque di Giornate della Blue Economy, e il circuito cittadino a tratteggio su tutta la durata, perché è diffuso in città e non concentrato in una sede.</p>
           </div>
         </div>
 
@@ -480,21 +571,19 @@ const structuredData = {
             <h3>I formati</h3>
             <div class="formati">
               {formati.map((f) => {
-                const l = lastre[f.nome];
+                const b = bacini[f.nome];
+                const r = ripiego(b.gruppi);
                 return (
                   <article class="formato">
-                    <figure class="lastra">
+                    <figure class="lastra" data-bacino={JSON.stringify(b.gruppi)}>
                       <div class="l-img">
-                        {l.src ? (
-                          <img src={l.src} alt="" width="1200" height="800" loading="lazy" decoding="async" />
-                        ) : (
-                          <em aria-hidden="true">in attesa</em>
-                        )}
+                        <img data-foto alt={b.alt} width="1400" height="933" loading="lazy" decoding="async" />
+                        <noscript><img src={sorgente(r)} alt={b.alt} width="1400" height="933" loading="lazy" /></noscript>
                       </div>
                       <figcaption>
-                        <span class="d-idx">{l.idx}</span>
-                        <span class="d-voce">{l.did[0]}</span>
-                        <span class="d-luogo">{l.did[1]}</span>
+                        <span class="d-idx">{b.idx}</span>
+                        <span class="d-voce" data-did>{etichette[r[1]]}</span>
+                        <span class="d-luogo" data-anno>{r[2]}</span>
                       </figcaption>
                     </figure>
                     <h4>{f.nome}</h4>
@@ -503,6 +592,35 @@ const structuredData = {
                   </article>
                 );
               })}
+            </div>
+          </div>
+        </div>
+
+        {/* LA STRISCIA DEL REPERTORIO. Pesca da tutto l'archivio e non da un
+             bacino solo, perché qui il soggetto È la varietà: tre lastre che
+             a ogni caricamento mostrano tre edizioni e tre forme diverse.
+             Non è un carosello — non si muove e non scorre: è una griglia che
+             cambia fra una visita e l'altra.
+             ⚠️ TESTO MIO, da far validare: è una parafrasi di quanto detto da
+             Paolo il 02/10/2026 e non viene da TESTI-TIB. Se Cowork lo
+             riscrive, si sostituisce qui e basta. */}
+        <div class="campo">
+          <div class="c1-12" data-reveal>
+            <span class="quadro-label">Negli anni</span>
+            <p class="rep-nota">Il festival ha cambiato forma molte volte: convegni in sale moderne e in luoghi storici, hackathon, regate, saloncini di degustazione, appuntamenti tecnici, tavoli di lavoro. Il mezzo cambia ogni volta, il punto no — al centro restano i temi.</p>
+            <div class="repertorio">
+              {ripieghiStriscia.map((r) => (
+                <figure class="lastra" data-bacino={JSON.stringify(bacinoStriscia.gruppi)} data-striscia>
+                  <div class="l-img">
+                    <img data-foto alt="Un momento di una delle edizioni del festival" width="1400" height="933" loading="lazy" decoding="async" />
+                    <noscript><img src={sorgente(r)} alt="Un momento di una delle edizioni del festival" width="1400" height="933" loading="lazy" /></noscript>
+                  </div>
+                  <figcaption>
+                    <span class="d-voce" data-did>{etichette[r[1]]}</span>
+                    <span class="d-luogo" data-anno>{r[2]}</span>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </div>
@@ -626,18 +744,20 @@ const structuredData = {
             <h3>La squadra</h3>
             <p>Chi sta al tavolo, di solito, non sta allo stesso tavolo. Scienziati e docenti, ricercatori e specialisti, divulgatori e scrittori, chef affermati ed emergenti, pescatori e operatori portuali, viticoltori e ristoratori. Il metodo è dichiarato ed è bottom up: si raccolgono i bisogni delle diverse anime che cooperano, e si lavora perché il confronto non sia verticale. Le contaminazioni che ne escono non sono un effetto collaterale — sono il prodotto.</p>
           </div>
-          <figure class="lastra lastra--alta c9-12" data-reveal>
+          <figure
+            class="lastra lastra--alta c9-12"
+            data-reveal
+            data-bacino={JSON.stringify(bacinoSquadra.gruppi)}
+            data-vert
+          >
             <div class="l-img">
-              {lastraSquadra.src ? (
-                <img src={lastraSquadra.src} alt="" width="900" height="1200" loading="lazy" decoding="async" />
-              ) : (
-                <em aria-hidden="true">in attesa</em>
-              )}
+              <img data-foto alt={bacinoSquadra.alt} width="900" height="1200" loading="lazy" decoding="async" />
+              <noscript><img src={sorgente(ripiego(bacinoSquadra.gruppi, true), true)} alt={bacinoSquadra.alt} width="900" height="1200" loading="lazy" /></noscript>
             </div>
             <figcaption>
-              <span class="d-idx">{lastraSquadra.idx}</span>
-              <span class="d-voce">{lastraSquadra.did[0]}</span>
-              <span class="d-luogo">{lastraSquadra.did[1]}</span>
+              <span class="d-idx">{bacinoSquadra.idx}</span>
+              <span class="d-voce" data-did>{etichette[ripiego(bacinoSquadra.gruppi, true)[1]]}</span>
+              <span class="d-luogo" data-anno>{ripiego(bacinoSquadra.gruppi, true)[2]}</span>
             </figcaption>
           </figure>
         </div>
@@ -731,6 +851,12 @@ const structuredData = {
       </p>
     </section>
   </main>
+
+  {/* Il manifesto dell'archivio per lo script: JSON e non define:vars, così
+       il dato resta leggibile nel sorgente e lo script resta un modulo
+       normale che Astro può raggruppare con gli altri. */}
+  <script type="application/json" id="tib-foto" is:inline set:html={JSON.stringify(foto)}></script>
+  <script type="application/json" id="tib-etichette" is:inline set:html={JSON.stringify(gruppi)}></script>
 </BaseLayout>
 
 <style is:global>
@@ -1072,26 +1198,9 @@ const structuredData = {
   }
   /* lo stato di riserva: il campo virato con la sua etichetta. Dignitoso, e
      non sembra un errore — che è meglio di una fotografia sbagliata. */
-  /* la velatura non è un vezzo: sul punto chiaro del gradiente l'etichetta
-     scendeva a 3,35:1, sotto il 4,5:1 richiesto per il testo piccolo. Così
-     sta a 6,8:1 — e per di più il campo in riserva si distingue a colpo
-     d'occhio da una fotografia vera, che è esattamente quello che deve fare.
-     Quando la fotografia arriva, l'etichetta non viene resa e la velatura
-     sparisce con lei. */
-  .l-img em {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: rgba(10, 26, 43, 0.42);
-    font-style: normal;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(233, 238, 242, 0.78);
-    z-index: 2;
-  }
+  /* il fondo in gradiente resta sotto l'immagine: è quello che si vede nel
+     mezzo secondo fra il disegno della pagina e l'arrivo dello scatto
+     estratto, ed è nella cromia giusta invece che grigio */
 
   /* la didascalia: SEMPRE presente, mai sovrimpressa, mai decorativa.
      Se una didascalia non aggiunge un fatto, la lastra non serve. */
@@ -1128,40 +1237,45 @@ const structuredData = {
     margin: clamp(3rem, 7vh, 5rem) 0;
     padding: 0;
   }
-  .banda > img, .banda-riserva {
+  /* nessuna viratura qui: è l'unica fotografia a colori pieni della pagina,
+     ed è il colore stesso a essere il contenuto */
+  .banda > img {
     display: block;
     width: 100%;
     height: 56svh;
     min-height: 340px;
     object-fit: cover;
-  }
-  .banda-riserva {
-    position: relative;
-    background:
-      linear-gradient(180deg, rgba(10, 26, 43, 0.15), rgba(10, 26, 43, 0.75)),
-      linear-gradient(115deg, #1b5f74, #2b8ea6 38%, #7fb3c4 55%, #c8b89a 72%, #8a7f6b);
-  }
-  /* stessa ragione della lastra: al centro della banda il gradiente è
-     chiaro e l'etichetta scendeva a 2,84:1 */
-  .banda-riserva em {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: rgba(10, 26, 43, 0.42);
-    font-style: normal;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: rgba(233, 238, 242, 0.8);
+    background: linear-gradient(115deg, #14384a, #1d5468 45%, #2a7f95 70%, #3f6b78);
   }
   /* la didascalia della banda torna dentro la gabbia: è l'unica parte della
      banda che obbedisce alla griglia */
   .banda figcaption { margin-top: 0.8rem; }
   /* a 390 la banda non deve mangiare mezzo schermo */
   @media (max-width: 700px) {
-    .banda > img, .banda-riserva { height: 42svh; min-height: 230px; }
+    .banda > img { height: 42svh; min-height: 230px; }
+  }
+
+  /* ── LA STRISCIA DEL REPERTORIO ──
+     Tre lastre affiancate che cambiano a ogni caricamento. Non scorre e non
+     si muove: è una griglia, non un carosello. */
+  .rep-nota {
+    margin: 0 0 1.6rem;
+    max-width: 62ch;
+    color: var(--text-dim);
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+  .repertorio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gut);
+  }
+  /* Sotto 820 scende a colonna singola come tutto il resto della griglia.
+     Non si nasconde la terza lastra: un elemento in display:none viene
+     scaricato lo stesso, e sarebbe 160 KB buttati su una connessione
+     telefonica. */
+  @media (max-width: 820px) {
+    .repertorio { grid-template-columns: 1fr; gap: 2rem; }
   }
 
   /* ── il quadro strumenti: readout, due colonne di sigle ── */
@@ -1568,6 +1682,82 @@ const structuredData = {
   // giustificavano: sui dati nuovi — «2014», «0» — un contatore che sale è un
   // effetto su cifre che non lo meritano (GRIGLIA-TIB §5), e su uno zero è
   // semplicemente un'animazione che non si vede.
+
+  // ── LE LASTRE SI ESTRAGGONO A OGNI CARICAMENTO ──
+  // Ogni lastra pesca SOLO dal suo bacino, perché la didascalia deve restare
+  // vera qualunque scatto esca. Nessuno scatto compare due volte nella stessa
+  // visita, e sessionStorage evita di riproporre la stessa mano alla visita
+  // successiva — stesso meccanismo delle fotografie di .Trama.
+  // L'<img> arriva senza src: lo si assegna qui, così il ripiego dentro
+  // <noscript> non viene mai scaricato da chi ha JS.
+  // letto con prudenza: se il manifesto non c'è, le lastre restano al loro
+  // ripiego e il resto dello script — la ruota, la barra — continua a
+  // funzionare. Un null non letto qui fermerebbe tutto il modulo.
+  const leggi = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (e) { return null; }
+  };
+  const FOTO = leggi('tib-foto');
+  const ETICHETTE = leggi('tib-etichette');
+
+  const lastre = Array.from(document.querySelectorAll('[data-bacino]'));
+
+  // Se il manifesto non arriva, le lastre resterebbero vuote: il ripiego sta
+  // dentro <noscript>, che con JS attivo non viene reso. Con JS attivo però
+  // il suo contenuto è leggibile come testo, e da lì si recupera la sorgente.
+  // Caso che non deve capitare — ma una pagina senza fotografie è peggio di
+  // sei righe in più.
+  if ((!FOTO || !ETICHETTE) && lastre.length) {
+    lastre.forEach((fig) => {
+      const img = fig.querySelector('[data-foto]');
+      const ns = fig.querySelector('noscript');
+      if (!img || img.getAttribute('src') || !ns) return;
+      const m = ns.textContent.match(/src="([^"]+)"/);
+      if (m) img.src = m[1];
+    });
+  }
+
+  if (FOTO && ETICHETTE && lastre.length) {
+    let scorsa = [];
+    try { scorsa = JSON.parse(sessionStorage.getItem('tib-mano') || '[]'); } catch (e) {}
+
+    const usati = new Set();
+    const mano = [];
+
+    lastre.forEach((fig) => {
+      const gruppi = JSON.parse(fig.dataset.bacino);
+      const vert = 'vert' in fig.dataset;
+      const bacino = FOTO.filter((f) => gruppi.includes(f[1]) && (!vert || f[3]));
+      // prima si prova senza ripescare né i già usati né quelli della visita
+      // precedente; se il bacino è troppo piccolo si allenta, un vincolo per
+      // volta, invece di restare senza fotografia
+      let scelta = bacino.filter((f) => !usati.has(f[0]) && !scorsa.includes(f[0]));
+      if (!scelta.length) scelta = bacino.filter((f) => !usati.has(f[0]));
+      if (!scelta.length) scelta = bacino;
+      if (!scelta.length) return;
+
+      const f = scelta[Math.floor(Math.random() * scelta.length)];
+      usati.add(f[0]);
+      mano.push(f[0]);
+
+      const n = String(f[0]).padStart(3, '0');
+      const img = fig.querySelector('[data-foto]');
+      if (img) {
+        // prima l'alt, poi la sorgente: se l'immagine arriva dalla cache il
+        // browser può dipingerla subito, e non deve esistere un istante in
+        // cui è a schermo con la descrizione del bacino invece che la sua
+        img.alt = ETICHETTE[f[1]][1];
+        img.src = '/tib/foto/tib-' + n + (vert ? '-v' : '') + '.jpg';
+      }
+      const did = fig.querySelector('[data-did]');
+      if (did) did.textContent = ETICHETTE[f[1]][0];
+      const anno = fig.querySelector('[data-anno]');
+      if (anno) anno.textContent = f[2];
+    });
+
+    try { sessionStorage.setItem('tib-mano', JSON.stringify(mano)); } catch (e) {}
+  }
 
   // ── LA RUOTA E IL SUO ELENCO SI ACCENDONO A VICENDA ──
   // Un di più, non un veicolo: l'informazione sta tutta nell'elenco, che è la
