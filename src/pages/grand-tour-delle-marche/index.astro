@@ -6,6 +6,7 @@ import temi from '../../assets/gt-temi.json';
 import tappe from '../../assets/gt-tappe.json';
 import eventi from '../../assets/gt-eventi.json';
 import raccontoBacino from '../../assets/gt-racconto.json';
+import { content } from '../../i18n/grand-tour.js';
 
 // LANDING GRAND TOUR DELLE MARCHE — la fabula è L'ITINERARIO
 // (ANIGAMI-METANARRATIVA §3): la barra dei capitoli è una strada con
@@ -33,48 +34,27 @@ import raccontoBacino from '../../assets/gt-racconto.json';
 // Porto Sant'Elpidio, Serra Sant'Abbondio). Verificato sui dati.
 const norm = (s) => s.replace(/[’ʼ]/g, "'");
 
-const nucleiOrdine = [
-  'enogastronomia', 'vino & spiriti', 'mare & pesca', 'tradizioni & comunità',
-  'cultura & spettacolo', 'storia & rievocazioni', 'natura & outdoor',
-  'saper fare & design', 'innovazione', 'sport',
-];
-const etichetta = (k) => k.charAt(0).toUpperCase() + k.slice(1);
+// I TESTI stanno in src/i18n/grand-tour.js, nella stessa forma di
+// tipicita.js. Finche' esiste solo `it` non c'e' rotta inglese e non
+// c'e' selettore di lingua.
+const lang = 'it';
+const c = content[lang];
 
-// Righe di esempio: le tre fornite da Cowork si trascrivono tali e quali.
-// Per gli altri sette nuclei NON invento il "cosa": mostro i luoghi, che
-// sono dato verificato. Le righe mancanti sono segnate in SOSPESI.md.
-const esempiForniti = {
-  'saper fare & design': 'il cappello a Montappone, la carta a Fabriano, la pelle a Tolentino, la fisarmonica a Castelfidardo…',
-  'mare & pesca': 'il brodetto a Porto Recanati, le cozze a Pedaso, la piccola pesca a San Benedetto…',
-  'storia & rievocazioni': 'i Templari a Castignano, la battaglia delle Nazioni a Sassoferrato, gli scavi di Monte Rinaldo…',
-};
-const nuclei = nucleiOrdine.filter((k) => temi[k]).map((k) => ({
+// Le etichette e le righe di esempio dei nuclei stanno in i18n: nel JSON
+// restano soltanto le chiavi, che da qui in avanti sono identificatori.
+const nuclei = c.temi.ordine.filter((k) => temi[k]).map((k) => ({
   key: k,
-  label: etichetta(k),
+  label: c.temi.etichette[k],
   comuni: temi[k].map(norm),
-  esempi: esempiForniti[k] || temi[k].slice(0, 5).map(norm).join(', ') + '…',
-  daCompletare: !esempiForniti[k],
+  esempi: c.temi.esempi[k] || temi[k].slice(0, 5).map(norm).join(', ') + '…',
+  daCompletare: !c.temi.esempi[k],
 }));
 
 const toccati = tappe.comuni.length;
 const edizioni = Object.keys(tappe.years).length;
 const primaTappa = tappe.first;
 
-const cartoline = [
-  { f: '2015-montecarotto.jpg', t: 'Verdicchio in Festa & Jazz — Montecarotto', a: '2015' },
-  { f: '2015-fermo.jpg', t: 'Made in Marche Gallery — Fermo', a: '2015' },
-  { f: '2015-pollenza.jpg', t: 'Antiquariato e artigianato artistico — Pollenza', a: '2015' },
-  { f: '2016-sefro.jpg', t: 'La Trota e il Verdicchio — Sefro', a: '2016' },
-  { f: '2016-fabriano.jpg', t: 'Fabriano Creative City', a: '2016' },
-  { f: '2016-montedinove.jpg', t: 'Sibillini in Rosa — Montedinove', a: '2016' },
-  { f: '2016-recanati.jpg', t: 'Recanati, città del buon vivere', a: '2016' },
-  { f: '2016-senigallia.jpg', t: 'Pane Nostrum — Senigallia', a: '2016' },
-  { f: '2016-venarotta.jpg', t: 'Le meraviglie del ricamo — Venarotta', a: '2016' },
-  { f: '2017-acquasanta.jpg', t: "Festa d'Autunno — Acquasanta Terme", a: '2017' },
-  { f: '2017-apecchio.jpg', t: 'Tartufo e Alogastronomia — Apecchio', a: '2017' },
-  { f: '2017-pesaro.jpg', t: 'Candele sotto le stelle — Pesaro', a: '2017' },
-  { f: '2017-piobbico.jpg', t: 'Sagra del polentone alla carbonara — Piobbico', a: '2017' },
-];
+const cartoline = c.cartoline.voci;
 
 // ══════════════════════════════════════════════════════════════════════
 // IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08–09/08/2026)
@@ -119,19 +99,13 @@ const sorteggiati = mescola([...bacino]).slice(0, 7);
 // (una maiuscola a inizio inciso, "grand tour" minuscolo dove altrove è
 // marchio, una doppia spaziatura). Le altre osservazioni sono a report,
 // non applicate: il testo è suo.
-const raccontoTesto = [
-  `Con una lettera scritta dallo zio Gioacchino che scrive a Francesco, marchigiano emigrato e in procinto di tornare con la compagna Heidi prendeva il via nel 2014 la prima edizione del Grand Tour delle Marche, con il claim “Il modo migliore per viaggiare nelle Marche è viverle”.`,
-  `Era l’anno che precedeva Expo Milano e il Grand Tour delle Marche nasceva allo scopo di fornire una chiave di lettura immediata e chiara su quelle esperienze che permettano al viaggiatore di immergersi nella comunità locale e di entrare in contatto con l’anima autentica delle Marche. Un intreccio di eventi capaci di completarsi e compenetrarsi attraverso enogastronomia, saper fare, musica, sport, arte e tutto ciò che rende uniche le Marche.`,
-  `La promessa di un viaggio autentico, capace di raccontare non solo le Marche della tradizione, ma anche tutto il complesso e affascinante mondo della biodiversità della creatività, dall’artigianato artistico al design digitale. Un racconto contemporaneo e vivo, che a un certo punto è stato affidato ad una voce diversa dal solito, una viaggiatrice fuori dagli schemi, Lavinia Atipica, che ha dato vita ad una narrazione parallela, con le sue avventure al limite del camp ha raccontato il lato B del Grand Tour, personaggi, peculiarità e note di colore che poi sono quelle parti del viaggio che restano per sempre nella memoria.`,
-  `Un viaggio oltre la destinazione, perché il Grand Tour non è stare in un posto, ma è l’essenza stessa del viaggio.`,
-  `E cosa meglio della regione Marche può impersonare l’essenza autentica del viaggio? Una regione nata da un viaggio, da un gruppo di giovani sabini alla ricerca di una nuova partenza, guidati dalla speranza e da un picchio sacro a Marte. Così dal 2026 abbiamo scelto una nuova voce, Martino, picchio giramondo erede di quel leggendario volatile. A dargli forma, un’interprete di quel saper fare che è nel dna del Grand Tour: l’illustratrice marchigiana Simona Pagano, che firma anche una serie di illustrazioni che raccontano le Marche in stile cartoon e dei magneti esclusivi.`,
-];
+const raccontoTesto = c.racconto.par;
 
 const raccontoVideo = [
-  { id: 'lavinia', titolo: 'Lavinia Atipica', clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '', fissa: true },
+  { id: 'lavinia', titolo: c.racconto.lavinia, clip: '/gt/lavinia.mp4', poster: '/gt/lavinia-poster.jpg', yt: '', fissa: true },
   GT2026
-    ? { id: 'gt2026', titolo: 'Grand Tour delle Marche 2026', poster: `/gt/racconto/${GT2026}.jpg`, yt: GT2026, fissa: true }
-    : { id: 'gt2026', titolo: 'Grand Tour delle Marche 2026 — in arrivo', fissa: true },
+    ? { id: 'gt2026', titolo: c.racconto.gt2026, poster: `/gt/racconto/${GT2026}.jpg`, yt: GT2026, fissa: true }
+    : { id: 'gt2026', titolo: c.racconto.gt2026Attesa, fissa: true },
   ...sorteggiati.map((v) => ({ id: v.id, titolo: v.titolo, poster: `/gt/racconto/${v.id}.jpg`, yt: v.id })),
 ];
 
@@ -143,14 +117,7 @@ const raccontoVideo = [
 // comunità», «Geometria variabile», «Cartoline dal viaggio». È la stessa
 // regola dei lemmi di EVO, e risolve anche la striscia che intorno ai
 // 1024px tagliava fuori l'ultima tappa.
-const soste = [
-  { id: 'racconto', label: 'Il racconto' },
-  { id: 'laboratorio-di-comunita', label: 'La comunità' },
-  { id: 'geometria-variabile', label: 'La geometria' },
-  { id: 'incubatore', label: "L'incubatore" },
-  { id: 'strada-fatta', label: 'La strada' },
-  { id: 'cartoline', label: 'Le cartoline' },
-];
+const soste = c.strada.soste;
 
 // CROMIA (10/07/2026): carta calda, il colore dei borghi d'estate, con i
 // corallo ufficiali (ee726c / f6ac7c) come accento. Per i testi #d1544c,
@@ -169,8 +136,9 @@ const theme = {
 ---
 
 <BaseLayout
-  title="Grand Tour delle Marche — un itinerario tra borghi e comunità"
-  description="Grand Tour delle Marche: dal 2014 un laboratorio di comunità a geometria variabile. 73 comuni, 13 edizioni, un solo viaggio tra i borghi marchigiani."
+  title={c.meta.title}
+  description={c.meta.description}
+  lang={lang}
   accent="#d1544c"
   theme={theme}
 >
@@ -179,12 +147,10 @@ const theme = {
   <!-- ══ PARTENZA ══ -->
   <header class="partenza">
     <div class="partenza-in">
-      <h1 class="sr-only">Grand Tour delle Marche</h1>
-      <img class="marchio" src="/logos/grand-tour-color.svg" alt="Grand Tour delle Marche" width="420" height="168" />
+      <h1 class="sr-only">{c.partenza.titolo}</h1>
+      <img class="marchio" src="/logos/grand-tour-color.svg" alt={c.partenza.marchioAlt} width="420" height="168" />
       <p class="dati">
-        <span>dal 2014</span>
-        <span>13ª edizione (2026)</span>
-        <span>itinerario diffuso tra borghi e comunità delle Marche</span>
+        {c.partenza.dati.map((d) => <span>{d}</span>)}
       </p>
     </div>
     <div class="cue" aria-hidden="true"></div>
@@ -194,7 +160,7 @@ const theme = {
   <div class="strada">
     <div class="strada-in">
       <img class="strada-marchio" src="/logos/grand-tour-color.svg" alt="" width="86" height="34" />
-      <nav class="waypoints" aria-label="Le soste dell'itinerario">
+      <nav class="waypoints" aria-label={c.strada.aria}>
         <span class="tracciato" aria-hidden="true"><span class="percorso" id="percorso"></span></span>
         {soste.map((s) => (
           <a href={`#${s.id}`} data-wp={s.id}><span class="wp-punto" aria-hidden="true"></span>{s.label}</a>
@@ -205,17 +171,17 @@ const theme = {
 
   <main>
     <!-- ══ EXERGO — la lettera del 2014 ══ -->
-    <section class="exergo" aria-label="Esergo">
+    <section class="exergo" aria-label={c.exergo.aria}>
       <blockquote data-reveal>
-        <p>«Non come una guida che ti fa fare il solito giro turistico, ma come un amico che ti porta a scoprire casa sua.»</p>
-        <cite>dalla lettera di Gioacchino, 2014</cite>
+        <p>{c.exergo.cit}</p>
+        <cite>{c.exergo.fonte}</cite>
       </blockquote>
     </section>
 
     <!-- ══ IL FILO DEL RACCONTO ══ -->
     <section class="sosta" id="racconto" aria-labelledby="h-racconto">
       <div class="wrap">
-        <h2 id="h-racconto" data-reveal>Il filo del racconto</h2>
+        <h2 id="h-racconto" data-reveal>{c.racconto.h2}</h2>
         <div class="racconto">
           {raccontoTesto.map((t) => <p class="lungo" data-reveal>{t}</p>)}
 
@@ -224,7 +190,7 @@ const theme = {
               pagina, e il video di Lavinia resta raggiungibile dal suo
               file. L'ordine lo mescola lo script con `order`, quindi il
               DOM non si tocca e senza JS la griglia è quella scritta. */}
-          <ul class="griglia" id="griglia-racconto" aria-label="Il racconto in video">
+          <ul class="griglia" id="griglia-racconto" aria-label={c.racconto.grigliaAria}>
             {raccontoVideo.map((v) => (
               <li>
                 {/* Nessuna didascalia in casella: il fotogramma e basta.
@@ -265,12 +231,10 @@ const theme = {
     <!-- ══ LE TRE SOSTE — testi [LAVORATO], invariati ══ -->
     <section class="sosta sosta--alt" id="laboratorio-di-comunita" aria-labelledby="h-lab">
       <div class="wrap">
-        <h2 id="h-lab" data-reveal>Laboratorio di comunità</h2>
+        <h2 id="h-lab" data-reveal>{c.laboratorio.h2}</h2>
         <div class="lab">
           <div class="lab-testo">
-            <p data-reveal>Un evento è molto più di una festa. L'evento è la punta di un iceberg fatto di lavoro, confronti, investimento economico e umano che coinvolge un'intera comunità. È uno stress test fondamentale capace di mettere in luce punti di forza e debolezza di un territorio.</p>
-            <p data-reveal>Oggi la “destinazione” e il suo management, le DMO, sono al centro del dibattito. E l'evento è uno strumento fondamentale in chiave di costruzione di DMO perché niente come l'evento permette un coinvolgimento ampio, una mappatura reale, una misurazione sotto sforzo delle potenzialità inespresse di una destinazione.</p>
-            <p data-reveal>Concertazione, ascolto e coinvolgimento non sono la premessa gentile di quel lavoro: ne sono la condizione. Negli anni il Grand Tour ha viaggiato attraverso le comunità, coinvolgendole in maniera ampia, fornendo un importante barometro delle potenzialità della destinazione.</p>
+            {c.laboratorio.par.map((t) => <p data-reveal set:html={t} />)}
           </div>
 
           {/* L'ICEBERG. Non un'illustrazione decorativa: è la figura che il
@@ -283,7 +247,7 @@ const theme = {
               ripeterle a voce sarebbe rumore. */}
           <figure class="iceberg" data-reveal>
             <svg viewBox="0 0 460 400" role="img"
-                 aria-label="L’evento è la punta di un iceberg: sopra la linea di galleggiamento la parte che il pubblico vede, sotto la massa che la regge — lavoro, confronti, investimento economico e umano, comunità.">
+                 aria-label={c.laboratorio.iceberg.aria}>
               <defs>
                 {/* l'acqua sfuma verso il fondo: un rettangolo pieno mostrava
                     i propri bordi e sembrava una scatola incollata sopra */}
@@ -332,13 +296,13 @@ const theme = {
                 <path d="M248 280 H300" /><circle cx="248" cy="280" r="2.5" />
                 <path d="M216 328 H300" /><circle cx="216" cy="328" r="2.5" />
               </g>
-              <text class="ib-et ib-et--su" x="308" y="97">l’evento</text>
-              <text class="ib-et" x="308" y="191">lavoro</text>
-              <text class="ib-et" x="308" y="237">confronti</text>
-              <text class="ib-et" x="308" y="285">investimento</text>
-              <text class="ib-et" x="308" y="333">comunità</text>
+              <text class="ib-et ib-et--su" x="308" y="97">{c.laboratorio.iceberg.etichette[0]}</text>
+              <text class="ib-et" x="308" y="191">{c.laboratorio.iceberg.etichette[1]}</text>
+              <text class="ib-et" x="308" y="237">{c.laboratorio.iceberg.etichette[2]}</text>
+              <text class="ib-et" x="308" y="285">{c.laboratorio.iceberg.etichette[3]}</text>
+              <text class="ib-et" x="308" y="333">{c.laboratorio.iceberg.etichette[4]}</text>
             </svg>
-            <figcaption>Ciò che si vede, e ciò che lo regge.</figcaption>
+            <figcaption>{c.laboratorio.iceberg.did}</figcaption>
           </figure>
         </div>
       </div>
@@ -346,17 +310,15 @@ const theme = {
 
     <section class="sosta" id="geometria-variabile" aria-labelledby="h-geo">
       <div class="wrap">
-        <h2 id="h-geo" data-reveal>Geometria variabile</h2>
-        <p data-reveal>Un borgo di poche centinaia di abitanti e una città capoluogo non hanno bisogno della stessa cosa. Così in tredici edizioni il formato ha cambiato forma ogni volta: dove non c'era niente il Grand Tour ha inventato da zero un appuntamento che prima non esisteva; dove il tema non stava in un solo paese ha costruito un'esperienza estesa a un intero areale; dove esisteva già una manifestazione radicata è entrato da ospite, senza nessuna intenzione di annettersela.</p>
-        <p data-reveal>Non è lo stesso evento replicato: è lo stesso principio in forme diverse. E non è flessibilità per vocazione — è la conseguenza dell'ascolto, perché chi ascolta davvero non può standardizzare. Vale anche per il perimetro: una destinazione non coincide quasi mai con un confine amministrativo. Si tiene insieme per affinità e per vocazione — una valle, un paesaggio, una filiera — e la geometria dell'itinerario segue quella, non la carta.</p>
+        <h2 id="h-geo" data-reveal>{c.geometria.h2}</h2>
+        {c.geometria.par.map((t) => <p data-reveal set:html={t} />)}
       </div>
     </section>
 
     <section class="sosta sosta--alt" id="incubatore" aria-labelledby="h-inc">
       <div class="wrap">
-        <h2 id="h-inc" data-reveal>Incubatore</h2>
-        <p data-reveal>Non tutto quello che nasce dentro il formato resta legato al suo calendario. Alcune cose imparano a camminare da sole: tornano ogni anno anche quando l'itinerario è altrove, con la propria organizzazione e il proprio pubblico, e a un certo punto non hanno più bisogno di noi. Sono la prova che il laboratorio ha funzionato.</p>
-        <p data-reveal>Il segno non è mai quanto dura la festa. È cosa resta quando il Grand Tour è già ripartito: operatori che prima non si conoscevano e adesso si telefonano, un appuntamento che qualcun altro ha preso in mano, una comunità che si è accorta di essere una destinazione. È da qui che un territorio può incamminarsi verso una DMO — non da un organigramma, ma da un gruppo che ha già imparato a decidere insieme.</p>
+        <h2 id="h-inc" data-reveal>{c.incubatore.h2}</h2>
+        {c.incubatore.par.map((t) => <p data-reveal set:html={t} />)}
       </div>
     </section>
 
@@ -364,19 +326,19 @@ const theme = {
          Il tema accende i luoghi. Niente cursore-anni: non è una moviola. -->
     <section class="sosta strada-fatta" id="strada-fatta" aria-labelledby="h-strada">
       <div class="wrap">
-        <h2 id="h-strada" data-reveal>La strada fatta</h2>
-        <p class="sotto" data-reveal>{toccati} comuni · {edizioni} edizioni · un solo viaggio</p>
+        <h2 id="h-strada" data-reveal>{c.strada_fatta.h2}</h2>
+        <p class="sotto" data-reveal>{c.strada_fatta.sotto.replace('%c', toccati).replace('%e', edizioni)}</p>
 
         <div class="dovecosa" data-reveal>
           <div class="mappa">
-            <svg viewBox="6 72 988 1006" role="img" aria-label={`Mappa delle Marche: ${toccati} comuni toccati dall'itinerario su 225`}>
+            <svg viewBox="6 72 988 1006" role="img" aria-label={c.strada_fatta.mappaAria.replace('%c', toccati)}>
               <Fragment set:html={mapSvg} />
             </svg>
             <div class="tip" id="tip" hidden aria-hidden="true" data-eventi={JSON.stringify(eventi)}></div>
           </div>
 
           <div class="nuclei">
-            <span class="nuclei-label" id="lbl-nuclei">I nuclei tematici</span>
+            <span class="nuclei-label" id="lbl-nuclei">{c.strada_fatta.nucleiLabel}</span>
             <div class="chip-lista" role="radiogroup" aria-labelledby="lbl-nuclei" id="chips">
               {nuclei.map((n, i) => (
                 <button
@@ -390,7 +352,7 @@ const theme = {
                 >{n.label}</button>
               ))}
             </div>
-            <p class="esempi" id="esempi" role="status" aria-live="polite">Passa su un nucleo per vedere dove è passato.</p>
+            <p class="esempi" id="esempi" role="status" aria-live="polite">{c.strada_fatta.attesa}</p>
           </div>
         </div>
       </div>
@@ -399,8 +361,8 @@ const theme = {
     <!-- ══ CARTOLINE DAL VIAGGIO ══ -->
     <section class="sosta sosta--alt" id="cartoline" aria-labelledby="h-cart">
       <div class="wrap">
-        <h2 id="h-cart" data-reveal>Cartoline dal viaggio</h2>
-        <p class="sotto" data-reveal>Dall'archivio: le cartoline ufficiali delle prime edizioni.</p>
+        <h2 id="h-cart" data-reveal>{c.cartoline.h2}</h2>
+        <p class="sotto" data-reveal>{c.cartoline.sotto}</p>
       </div>
       <div class="teca" data-reveal>
         <ul>
@@ -417,8 +379,8 @@ const theme = {
     </section>
 
     <!-- ══ RIPARTENZA ══ -->
-    <section class="ripartenza" aria-label="Chiusura">
-      <p data-reveal>Il Grand Tour non finisce: riparte. La prossima sosta è già sulla mappa — e come ogni anno, qualcosa resterà anche dopo.</p>
+    <section class="ripartenza" aria-label={c.ripartenza.aria}>
+      <p data-reveal>{c.ripartenza.par}</p>
     </section>
   </main>
 
@@ -426,8 +388,8 @@ const theme = {
       ritorno del fuoco alla casella d'origine li dà il browser. L'iframe
       NON esiste finché non si apre — facciata: nessun cookie di YouTube
       prima del clic, e la pagina non paga il player finché non serve. */}
-  <dialog class="proiezione" id="proiezione" aria-label="Video">
-    <button class="pr-chiudi" type="button" data-chiude aria-label="Chiudi">
+  <dialog class="proiezione" id="proiezione" aria-label={c.proiezione.etichetta}>
+    <button class="pr-chiudi" type="button" data-chiude aria-label={c.proiezione.chiudi}>
       <span aria-hidden="true">&times;</span>
     </button>
     <div class="pr-in">
@@ -1004,6 +966,10 @@ const theme = {
   (function compendio() {
     const griglia = document.getElementById('griglia-racconto');
     const sipario = document.getElementById('proiezione');
+    // il ripiego del titolo si legge dall'etichetta che il sipario ha già in
+    // pagina, invece di stare scritto qui dentro: quando arriverà l'inglese
+    // basta cambiarla in src/i18n/grand-tour.js
+    const etichettaSipario = (sipario && sipario.getAttribute('aria-label')) || 'Video';
     if (!griglia || !sipario) return;
 
     const celle = Array.from(griglia.querySelectorAll('.cella'));
@@ -1077,7 +1043,7 @@ const theme = {
       if (yt) {
         const f = document.createElement('iframe');
         f.src = `https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0`;
-        f.title = cella.dataset.titolo || 'Video';
+        f.title = cella.dataset.titolo || etichettaSipario;
         f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture';
         f.allowFullscreen = true;
         telaio.appendChild(f);
@@ -1092,7 +1058,7 @@ const theme = {
         telaio.appendChild(v);
       } else return;
       titolo.textContent = cella.dataset.titolo || '';
-      sipario.setAttribute('aria-label', cella.dataset.titolo || 'Video');
+      sipario.setAttribute('aria-label', cella.dataset.titolo || etichettaSipario);
       sipario.showModal();
     }
 

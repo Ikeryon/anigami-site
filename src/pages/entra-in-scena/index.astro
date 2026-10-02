@@ -1,8 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ImaginaHeader from '../../components/ImaginaHeader.astro';
+import { content } from '../../i18n/entra-in-scena.js';
 // NOTA PER PAOLO: pagina contatti minima — da rifinire (form? indirizzo
 // specifico per collaborazioni vs stampa? ancora da decidere insieme).
+
+// I testi stanno in src/i18n/entra-in-scena.js. Finché esiste solo `it` non
+// c'è rotta /en/ e non c'è selettore di lingua.
+const lang = 'it';
+const c = content[lang];
 
 // Pagine Imagina su bianco luminoso (cromie 10/07/2026).
 const theme = {
@@ -15,16 +21,12 @@ const theme = {
   '--hairline': 'rgba(27, 26, 31, 0.13)',
 };
 ---
-<BaseLayout
-  title="Entra in scena — Imagina Srl Società Benefit"
-  description="Contatti Imagina Srl Società Benefit, Camerino."
-  theme={theme}
->
+<BaseLayout title={c.meta.title} description={c.meta.description} lang={lang} theme={theme}>
   <ImaginaHeader slot="header" />
 
   <main class="container" style="padding-top: 6rem;">
-    <h1>Entra in scena</h1>
-    <p><a class="trace-link" href="mailto:info@anigami.it">info@anigami.it</a></p>
-    <p>Viale Giacomo Leopardi, 14 – Camerino (MC)</p>
+    <h1>{c.titolo}</h1>
+    <p><a class="trace-link" href={`mailto:${c.email}`}>{c.email}</a></p>
+    <p>{c.indirizzo}</p>
   </main>
 </BaseLayout>
