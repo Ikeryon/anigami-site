@@ -1,0 +1,1001 @@
+---
+// LANDING TIPICITÀ — componente condiviso IT/EN.
+// Il design, i quadri e le interazioni sono APPROVATI: qui cambia solo la
+// lingua dei testi (src/i18n/tipicita.js). Geo/media/pin delle tappe sono
+// condivisi tra le due lingue; i testi arrivano per indice.
+// Menù a doppia codifica (.Trama/.Thread ecc.): MAI spiegarla, in nessuna lingua.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pellicola from './Pellicola.astro';
+import mapSvg from '../assets/tipicita-map.svg?raw';
+import boxes from '../assets/tipicita-map-boxes.json';
+import { content, buildStages } from '../i18n/tipicita.js';
+
+interface Props { lang: 'it' | 'en'; }
+const { lang } = Astro.props;
+const c = content[lang];
+const stages = buildStages(lang);
+
+// PALETTE (nota Paolo, 05/08): base bianco + PETROLIO #035f6a; accenti
+// TIFFANY #14b5bd (hex UFFICIALI estratti dagli SVG del lockup, 05/08).
+const theme = {
+  '--bg-void': '#fcfcfa',
+  '--tiffany': '#14b5bd',
+  '--bg-deep': '#eef4f4',
+  '--bg-mid': '#e2eded',
+  '--text-soft': '#1e2a2c',
+  '--text-dim': 'rgba(30, 42, 44, 0.68)',
+  '--text-faint': 'rgba(30, 42, 44, 0.44)',
+  '--hairline': 'rgba(5, 96, 106, 0.16)',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: 'Tipicità',
+  inLanguage: lang,
+  startDate: '2027-03-12',
+  endDate: '2027-03-14',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  description: c.meta.description,
+  location: { '@type': 'Place', name: 'Fermo', address: { '@type': 'PostalAddress', addressLocality: 'Fermo', addressRegion: 'Marche', addressCountry: 'IT' } },
+  organizer: { '@type': 'Organization', name: 'Imagina Srl Società Benefit', url: 'https://anigami.it' },
+};
+
+// alternate per hreflang (IT alla radice, EN sotto /en/)
+const alternates = [
+  { hreflang: 'it', href: '/tipicita/' },
+  { hreflang: 'en', href: '/en/tipicita/' },
+  { hreflang: 'x-default', href: '/tipicita/' },
+];
+---
+
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  accent="#05606a"
+  structuredData={structuredData}
+  theme={theme}
+  lang={c.htmlLang}
+  alternates={alternates}
+>
+  <Fragment slot="header">
+    <Pellicola lang={lang} current="tipicita" mode="light" />
+
+    <!-- LA BARRA DEI CAPITOLI (08/08/2026, richiesta di Paolo): stessa
+         grammatica delle altre tre landing — filo in alto, marchio a
+         sinistra, i capitoli, un dato a destra. Sostituisce i puntini
+         laterali, che di questa pagina nascondevano proprio la cosa che
+         porta il senso: la doppia codifica vive nelle PAROLE, e cinque
+         pallini sono l'unica navigazione che garantisce che nessuno le
+         legga. Qui il "dato a destra" è il selettore lingua, che così
+         smette di galleggiare per conto suo nell'angolo.
+         Fissa e non sticky: a scorrere è .deck, e dentro un contenitore
+         con scroll-snap una sticky sfalsa i punti di aggancio. -->
+    <div class="tbarra" id="tbarra">
+      <div class="tbarra-in">
+        <a class="tbarra-marchio" href="#top" aria-label="Tipicità">
+          <img src="/logos/tipicita-wordmark.svg" alt="" width="200" height="61" />
+        </a>
+        <nav aria-label={c.aria.menu}>
+          {c.menu.map((m) => <a href={m.href} data-q={m.href.slice(1)}>{m.label}</a>)}
+        </nav>
+        <!-- Il rimando al sito del festival sta qui perché la barra si
+             assottiglia da sola spegnendo marchio e navigazione, ma NON
+             .to-lang: quello che vive in questa zona resta raggiungibile da
+             ogni quadro senza aggiungere nulla allo schermo negli altri stati.
+             Esce dal dominio, quindi lo dice anche a chi non lo vede. -->
+        <a class="to-sito" href={c.sito.href} target="_blank" rel="noopener noreferrer">
+          {c.sito.label}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {c.sito.esterno}</span>
+        </a>
+        <a class="to-lang" href={c.langToggle.href} hreflang={c.langToggle.to} aria-label={c.langToggle.aria}>{c.langToggle.label}</a>
+      </div>
+    </div>
+    <script is:inline>
+      // Abilita lo stato ridotto della barra sull'apertura, prima del
+      // primo paint. Senza questa riga (JS spento) la barra resta piena
+      // e i capitoli restano navigabili: è il fallback voluto.
+      document.getElementById('tbarra')?.classList.add('js');
+    </script>
+  </Fragment>
+
+  <div class="deck" id="deck">
+
+  <!-- ══ QUADRO 1 · Il campo ══ -->
+  <header class="quadro q-hero" id="top">
+    <video id="herovid" autoplay muted loop playsinline poster="/tipicita/poster.jpg">
+      <source src="/tipicita/loop.mp4" type="video/mp4" />
+    </video>
+    <div class="veil" aria-hidden="true"></div>
+    <div class="q-hero-content">
+      <img class="wordmark" src="/logos/tipicita-wordmark-white.svg" alt="Tipicità" />
+      <img class="payoff" src={c.payoff.src} alt={c.payoff.alt} />
+    </div>
+    <div class="cue" aria-hidden="true"></div>
+  </header>
+
+  <!-- ══ QUADRO 2 · .Trama / .Thread ══ -->
+  <section class="quadro" id="trama">
+    <div class="q-in">
+      <h2>{c.chapters.trama}</h2>
+      <div class="trio">
+        {c.trama.map((t) => <article><h3>{t.h3}</h3><p>{t.p}</p></article>)}
+      </div>
+      <!-- Le due fotografie si estraggono a sorte nel browser (vedi lo script
+           in fondo al capitolo Essenza): niente src qui, così si scaricano
+           solo le tre sorteggiate e non anche quelle scartate.
+           width/height dichiarati e altezza fissata dal CSS: nessuno
+           spostamento di layout mentre arrivano. -->
+      <figure class="duo">
+        {c.tramaDuo.map(() => <img data-tf width="1400" height="788" alt={c.tfAlt} />)}
+        <noscript>
+          <img src="/tipicita/trama/tf-014.jpg" width="1400" height="788" alt={c.tfAlt} />
+          <img src="/tipicita/trama/tf-097.jpg" width="1400" height="788" alt={c.tfAlt} />
+        </noscript>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ══ QUADRO 3 · .Essenza / .Essence — il capitolo che si sfoglia ══ -->
+  <section class="quadro q-ess" id="essenza">
+    <video class="ess-bg" id="essbg" muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="/tipicita/essenza-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="ess-head">
+      <h2>{c.chapters.essenza}</h2>
+      <span class="hint">{c.essHint} <span aria-hidden="true">→</span></span>
+    </div>
+    <div class="hwrap">
+      <div class="hscroll" id="hscroll">
+        {c.essenza.map((card, i) => (
+          <article class={card.cls ? `card ${card.cls}` : 'card'}>
+            <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+            {card.kick && <p class="kick">{card.kick}</p>}
+            {card.img
+              ? <Fragment>
+                  <img data-tf width="1400" height="788" alt={c.tfAlt} />
+                  <noscript><img src="/tipicita/trama/tf-143.jpg" width="1400" height="788" alt={c.tfAlt} /></noscript>
+                </Fragment>
+              : <Fragment set:html={card.body} />}
+          </article>
+        ))}
+      </div>
+      <button class="hbtn hprev" id="hprev" aria-label={c.aria.prev}>‹</button>
+      <button class="hbtn hnext" id="hnext" aria-label={c.aria.next}>›</button>
+    </div>
+    <div class="hprog" aria-hidden="true"><span id="hfill"></span></div>
+  </section>
+
+  <script is:inline>
+    // LE FOTOGRAFIE A SORTE — un solo sorteggio per l'intera pagina.
+    // Sta qui, subito dopo l'ultima immagine con data-tf e non in onload:
+    // l'assegnazione avviene PRIMA del disegno, quindi niente lampo e si
+    // scarica solo ciò che è stato estratto.
+    // Il sorteggio è nel browser e non al build: il sito è statico, e
+    // sorteggiare in fase di generazione darebbe tre foto fisse fino al
+    // deploy successivo — cioè l'opposto di quel che serve.
+    (function () {
+      var N = 189;
+      var imgs = document.querySelectorAll('img[data-tf]');
+      if (!imgs.length) return;
+      // tre indici DISTINTI: la stessa foto non deve uscire due volte nella
+      // stessa pagina, nemmeno a due capitoli di distanza.
+      function pesca() {
+        var s = [];
+        while (s.length < 3) {
+          var n = 1 + Math.floor(Math.random() * N);
+          if (s.indexOf(n) === -1) s.push(n);
+        }
+        return s;
+      }
+      var prec = [];
+      try { prec = JSON.parse(sessionStorage.getItem('tf-terna') || '[]'); } catch (e) {}
+      var t = pesca(), giri = 0;
+      // se la nuova terna ripete tutti e tre gli indici di prima, si ripesca:
+      // rende vera la promessa di «sempre diverse» da un accesso all'altro
+      while (giri++ < 8 && prec.length === 3 && t.every(function (n) { return prec.indexOf(n) > -1; })) t = pesca();
+      try { sessionStorage.setItem('tf-terna', JSON.stringify(t)); } catch (e) {}
+      for (var i = 0; i < imgs.length; i++) {
+        var n = String(t[i % 3]);
+        while (n.length < 3) n = '0' + n;
+        imgs[i].src = '/tipicita/trama/tf-' + n + '.jpg';
+      }
+    })();
+  </script>
+
+  <!-- ══ QUADRO 4 · .Motore / .Engine — lo schema in moto ══ -->
+  <section class="quadro" id="motore">
+    <div class="q-in narrow">
+      <h2>{c.chapters.motore}</h2>
+      <div class="banco">
+        <span class="blabel" aria-hidden="true">{c.motore.blabel}</span>
+        <div class="schema" role="tablist" aria-label={c.aria.schema}>
+          <span class="flow" aria-hidden="true"></span>
+          {c.motore.nodes.map((n, i) => (
+            <button class={i === 0 ? 'nodo on' : 'nodo'} id={`mtab-${i}`} data-m={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls="mpanel">{n}</button>
+          ))}
+        </div>
+        <div class="mpanel" id="mpanel" role="tabpanel" tabindex="0" aria-labelledby="mtab-0" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ QUADRO 5 · .Tracce / .Traces — la moviola ══ -->
+  <section class="quadro" id="tracce">
+    <div class="q-in">
+      <h2>{c.chapters.tracce}</h2>
+      <p class="lede">{c.tracceLede}</p>
+
+      <div class="moviola" id="moviola" role="tabpanel" tabindex="0" aria-labelledby="ytab-0">
+        <div class="mon mon-map" role="group" aria-label={c.mon.map}>
+          <svg viewBox="0 0 1600 820" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g id="mv-world"><Fragment set:html={mapSvg} /></g>
+          </svg>
+          <div class="pin" id="mv-pin" hidden></div>
+        </div>
+        <div class="mon mon-title" role="group" aria-label={c.mon.title}>
+          <span class="myear" id="mv-year">{stages[0].y}</span>
+          <h3 id="mv-title">{stages[0].t}</h3>
+          <span class="mplace" id="mv-place">{stages[0].p}</span>
+        </div>
+        <div class="mon mon-desc" role="group" aria-label={c.mon.desc}><p id="mv-desc"></p></div>
+        <div class="mon mon-photo" id="mv-photo" role="group" aria-label={c.mon.photo}>
+          <img id="mv-img-a" class="off" alt="" />
+          <img id="mv-img-b" class="off" alt="" />
+          <video id="mv-video" class="off" muted loop playsinline preload="none" aria-hidden="true"></video>
+          <span class="mcap" id="mv-cap">{c.placeholder}</span>
+        </div>
+      </div>
+
+      <div class="anni" id="mv-anni" role="tablist" aria-label={c.aria.anni}>
+        {stages.map((s, i) => (
+          <button class={s.key ? 'anno key' : 'anno'} id={`ytab-${i}`} data-i={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls="moviola">{s.y}{s.tag && <small> · {s.tag}</small>}</button>
+        ))}
+      </div>
+      <input class="scrub" id="mv-scrub" type="range" min="0" max={stages.length - 1} step="1" value="0" aria-label={c.aria.scrub} />
+
+      <noscript>
+        <ol class="fallback">
+          {stages.map((s) => <li><b>{s.y}</b> — {s.t} · {s.p}. {s.d}</li>)}
+        </ol>
+      </noscript>
+    </div>
+  </section>
+
+  <!-- ══ QUADRO 6 · .Soglia / .Threshold — la porta d'ingresso ══
+       Chiude il mazzo, che dopo la moviola finiva sul vuoto (il footer di
+       sito è spento apposta: non entrava nel deck).
+       Due porte DISTINTE, e il testo lo dice: il minisito è per chi espone,
+       la mail per tutto il resto. La gerarchia la fa il peso — primario
+       pieno, secondario in tratto — non la dimensione: questa landing non
+       ha mai chiesto niente a chi legge e non deve suonare come una vendita. -->
+  <section class="quadro q-soglia" id="soglia" aria-labelledby="h-soglia">
+    <div class="q-in narrow">
+      <h2 id="h-soglia">{c.chapters.soglia}</h2>
+      <p class="lede">{c.soglia.lede}</p>
+
+      <div class="porte">
+        <div class="porta">
+          <a class="pulsante pulsante--pieno" href={c.soglia.espositori.href} target="_blank" rel="noopener noreferrer">
+            {c.soglia.espositori.label}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {c.soglia.espositori.esterno}</span>
+          </a>
+          <p class="porta-sotto">{c.soglia.espositori.sotto}</p>
+        </div>
+
+        <div class="porta">
+          <a class="pulsante pulsante--tratto" href={c.soglia.segreteria.href}>{c.soglia.segreteria.label}</a>
+          <p class="porta-sotto">{c.soglia.segreteria.sotto}</p>
+          <!-- in chiaro e selezionabile: su un mailto nudo chi usa solo
+               webmail non arriva da nessuna parte -->
+          <p class="indirizzo">{c.soglia.segreteria.indirizzo}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <button class="next" id="deck-next" aria-label={c.aria.deckNext}>↓</button>
+</BaseLayout>
+
+
+<style is:global>
+  /* La mappa della moviola (contenuto iniettato) */
+  #mv-world path { fill: rgba(255, 255, 255, 0.07); stroke: rgba(255, 255, 255, 0.15); stroke-width: 0.5; }
+  #mv-world path.on { fill: #10787f; fill: color-mix(in srgb, #14b5bd 50%, #0b3a41); stroke: #7fe0dc; stroke-width: 0.8; }
+  #mv-world { transition: transform 1.5s cubic-bezier(0.55, 0.05, 0.18, 1); transform-origin: 0 0; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { #mv-world { transition: none; } }
+  /* il footer di sito non entra nel deck a slide */
+  footer.site-footer { display: none; }
+  /* Motore: il pannello è iniettato a runtime → stili globali */
+  .mpanel p { font-size: 1.08rem; line-height: 1.75; color: rgba(30,42,44,.68); margin: 0 0 1em; }
+  .mpanel p strong { font-weight: 500; color: #05606a; }
+  .mpanel .mnum { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.2rem, 7vw, 4.6rem);
+    font-weight: 600; color: #05606a; line-height: 1; margin: 0 0 0.15em; }
+  .mpanel .mnum small { font-size: 0.32em; color: #14b5bd; font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.2em; text-transform: uppercase; vertical-align: 0.5em; margin-left: 0.6em; }
+  .mpanel .chips { list-style: none; margin: 0.4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .mpanel .chips li { font-family: 'Manrope', sans-serif; font-size: 0.76rem; color: #05606a;
+    border: 1px solid rgba(20,181,189,.55); border-radius: 999px; padding: 0.36rem 0.85rem;
+    background: rgba(20,181,189,.07); opacity: 0; transform: translateY(8px) scale(0.96);
+    transition: opacity 0.4s ease, transform 0.4s ease; }
+  .mpanel .chips li.mount { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .mpanel .chips li { opacity: 1; transform: none; transition: none; } }
+  /* quadri: aggancio */
+
+</style>
+
+<style>
+  /* PULIZIA 07/08/2026 (BRIEF-MENU §6.3): il .to-home è stato tolto. Il
+     segno Imagina compare una volta sola per pagina, ed è il monogramma
+     dentro la pellicola. */
+
+  /* Focus da tastiera: anello visibile e coerente su TUTTI i controlli.
+     :focus-visible → compare solo con tastiera, non altera lo stato a
+     riposo; outline non sposta il layout. Petrolio sui controlli su
+     fondo chiaro (≈8:1 sul bianco), bianco su quelli sopra il campo teal. */
+  .nodo:focus-visible, .anno:focus-visible,
+  .hbtn:focus-visible, .next:focus-visible, .scrub:focus-visible {
+    outline: 2px solid var(--brand-accent); outline-offset: 2px; }
+
+  /* ══ LA BARRA DEI CAPITOLI (08/08/2026) ══
+     Stessa grammatica della strada del Grand Tour e della barra del TIB:
+     vetro sottile, marchio a sinistra, i capitoli, un dato a destra.
+     Entra in dissolvenza quando lasci l'apertura — sull'hero non serve,
+     lì il campo petrolio deve restare intero.
+     Fissa e non sticky: a scorrere è .deck, e dentro un contenitore con
+     scroll-snap una sticky sfalsa i punti di aggancio. */
+  /* Due stati, un solo oggetto. SULL'APERTURA la barra è trasparente e
+     mostra soltanto il selettore lingua: il campo petrolio resta intero,
+     ma chi arriva dall'inglese non deve scorrere per trovare come
+     cambiare lingua. DAL SECONDO QUADRO si riempie di vetro e scopre
+     marchio e capitoli. Il selettore non si sposta di un pixel fra i due
+     stati: cambia solo il colore.
+     ⚠️ Lo stato pieno è quello di DEFAULT: la classe .js — messa da uno
+     script inline in coda al markup — è ciò che abilita lo stato ridotto
+     sull'apertura. Al contrario, senza JavaScript la barra resterebbe
+     trasparente e i capitoli invisibili: nessuna navigazione. */
+  .tbarra {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 25;
+    background: color-mix(in srgb, var(--bg-void) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tbarra.js:not(.vista) {
+    background: transparent;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
+  .tbarra.js .tbarra-marchio,
+  .tbarra.js nav { transition: opacity 0.3s ease; }
+  /* opacity e non visibility: con visibility: hidden i capitoli uscivano
+     dall'ordine di tabulazione, e da tastiera sull'apertura non c'era più
+     modo di raggiungerli. Così restano raggiungibili, e il pointer-events
+     evita che il mouse peschi un link invisibile. */
+  .tbarra.js:not(.vista) .tbarra-marchio,
+  .tbarra.js:not(.vista) nav { opacity: 0; pointer-events: none; }
+
+  /* chi ci arriva col Tab fa comparire la barra: il fuoco non deve mai
+     finire su qualcosa che non si vede */
+  .tbarra.js:not(.vista):focus-within {
+    background: color-mix(in srgb, var(--bg-void) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--hairline);
+  }
+  .tbarra.js:not(.vista):focus-within .tbarra-marchio,
+  .tbarra.js:not(.vista):focus-within nav { opacity: 1; pointer-events: auto; }
+  .tbarra.js:not(.vista):focus-within .to-lang,
+  .tbarra.js:not(.vista):focus-within .to-sito { color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tbarra, .tbarra.js .tbarra-marchio, .tbarra.js nav { transition: none; }
+  }
+
+  .tbarra-in { max-width: 70rem; margin: 0 auto; padding: 0.55rem 1.6rem;
+    display: flex; align-items: center; gap: 1.6rem; }
+  /* l'angolo in alto a destra è della pellicola, che non si sposta mai */
+  @media (min-width: 760px) { .tbarra-in { padding-right: 265px; } }
+
+  .tbarra-marchio { display: block; flex: none; line-height: 0; }
+  .tbarra-marchio img { height: 24px; width: auto; display: block; }
+
+  .tbarra nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.4rem; }
+  .tbarra nav a {
+    font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; color: var(--text-dim);
+    padding: 0.35rem 0; border-bottom: 1px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .tbarra nav a:hover { color: var(--brand-accent); }
+  .tbarra nav a[aria-current] { color: var(--brand-accent); border-bottom-color: var(--tiffany); }
+  .tbarra nav a:focus-visible,
+  .tbarra-marchio:focus-visible,
+  .tbarra .to-lang:focus-visible,
+  .tbarra .to-sito:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+
+  /* Il selettore lingua smette di galleggiare nell'angolo: è il "dato a
+     destra" della barra, come le coordinate sul TIB. Via il
+     mix-blend-mode, che serviva a reggere su qualunque cromia gli
+     passasse sotto — qui sotto passa solo il vetro della barra. */
+  .tbarra .to-lang { margin-left: 0.9rem; flex: none; font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+    color: var(--text-dim); padding: 0.35rem 0; transition: color 0.3s ease; }
+  .tbarra .to-lang:hover { color: var(--brand-accent); }
+
+  /* stesso trattamento del selettore lingua, un gradino più attenuato:
+     è un rimando, non un comando. La spinta a destra ora parte da qui. */
+  .tbarra .to-sito { margin-left: auto; flex: none; font-family: 'Manrope', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.08em; text-decoration: none;
+    color: var(--text-dim); padding: 0.35rem 0; white-space: nowrap;
+    transition: color 0.3s ease; }
+  .tbarra .to-sito:hover { color: var(--brand-accent); }
+  /* sull'apertura il selettore è l'unica cosa in vista, sul campo petrolio */
+  .tbarra.js:not(.vista) .to-lang,
+  .tbarra.js:not(.vista) .to-sito { color: rgba(255, 255, 255, 0.88); }
+  @media (prefers-reduced-motion: reduce) { .tbarra .to-lang, .tbarra .to-sito { transition: none; } }
+
+  @media (max-width: 560px) {
+    .tbarra-in { gap: 0.9rem; padding: 0.5rem 1rem; }
+    .tbarra-marchio img { height: 19px; }
+    .tbarra nav { gap: 0.2rem 0.9rem; }
+    .tbarra nav a { font-size: 0.66rem; letter-spacing: 0.06em; }
+  }
+
+  /* IL DECK: navigazione a quadri — una slide alla volta, non scroll
+     continuo. Snap obbligatorio; i quadri lunghi scorrono AL LORO
+     INTERNO prima di passare al successivo. */
+  .deck { height: 100vh; height: 100svh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { .deck { scroll-behavior: auto; } }
+  .quadro { height: 100vh; height: 100svh; display: flex; align-items: center; scroll-snap-align: start;
+    scroll-snap-stop: always; position: relative; overflow: hidden; }
+  .q-in { max-width: 1050px; margin: 0 auto; padding: clamp(2.5rem, 6vh, 4rem) 1.6rem; width: 100%;
+    max-height: 100vh; max-height: 100svh; overflow-y: auto; }
+  .q-in.narrow { max-width: 800px; }
+
+  /* La barra è fissa e copre il bordo alto del quadro: i quadri che non
+     sono l'apertura le lasciano il posto. Il contenuto è centrato, quindi
+     il padding in più lo scende quel tanto che basta a stare comodo. */
+  .quadro:not(.q-hero) .q-in { padding-top: calc(clamp(2.5rem, 6vh, 4rem) + 2.6rem); }
+
+  /* La freccia resta: è il gesto del deck, non navigazione. Sul telefono
+     però l'angolo in basso è già della pellicola, e due bottoni tondi a
+     dieci pixel l'uno dall'altro sono un invito a sbagliare bersaglio. */
+  .next { position: fixed; right: 1.6rem; bottom: 1.4rem; z-index: 20; width: 42px; height: 42px;
+    border-radius: 50%; border: 1px solid var(--tiffany); color: var(--tiffany); background: rgba(252,252,250,.75);
+    font-size: 1.1rem; cursor: pointer; line-height: 1; }
+  .next:hover { background: var(--tiffany); color: #fff; }
+  @media (max-width: 759px) { .next { display: none; } }
+
+  h2 { color: var(--brand-accent); font-size: clamp(1.7rem, 3.6vw, 2.3rem); margin-bottom: 1.2em; }
+  h2::before { content: '.'; font-weight: 700; color: var(--tiffany); }
+
+  /* ── Quadro 1: il campo col visual ── */
+  .q-hero { background: var(--brand-accent); overflow: hidden; flex-direction: column; justify-content: center; text-align: center; }
+  .q-hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+  .q-hero .veil { position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, #044f57 100%);
+    background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 30%, color-mix(in srgb, var(--brand-accent) 82%, black) 100%); }
+  .q-hero-content { position: relative; padding: 0 1.6rem; }
+  .wordmark { width: min(74vw, 540px); height: auto; filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.35)); }
+  /* il payoff ufficiale è tiffany: sul campo teal non si legge → forzato in
+     bianco (come il wordmark) via filtro, senza toccare l'asset SVG */
+  .payoff { width: min(70vw, 500px); height: auto; margin: 1.2rem auto 2.4rem; display: block;
+    filter: brightness(0) invert(1); }
+  /* Il menù dell'hero è stato tolto: i capitoli li porta la barra, che
+     resta con te per tutta la lettura invece di sparire al primo scroll.
+     L'apertura torna a essere quello che sono le aperture delle altre
+     tre landing — campo, marchio, payoff, e basta. */
+  .cue { position: absolute; bottom: 1.6rem; left: 50%; width: 1px; height: 52px;
+    background: linear-gradient(rgba(255, 255, 255, 0.85), transparent); animation: cue 2.4s ease-in-out infinite; }
+  @keyframes cue { 0% { transform: scaleY(0); transform-origin: top; } 45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  @media (prefers-reduced-motion: reduce) { .cue { animation: none; } .q-hero video { display: none; } }
+
+  /* ── Trama ── */
+  .trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 1.2rem; margin-bottom: 1.8rem; }
+  .trio article { background: var(--bg-deep); padding: 1.6rem 1.4rem; }
+  .trio h3 { font-size: 1.12rem; margin-bottom: 0.4rem; }
+  .trio p { font-size: 0.92rem; line-height: 1.65; color: var(--text-dim); margin: 0; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0; }
+  .duo img { width: 100%; height: 300px; object-fit: cover; display: block; }
+  @media (max-width: 640px) { .duo { grid-template-columns: 1fr; } .duo img { height: 220px; } }
+
+  /* ── Essenza: il capitolo che si sfoglia ── */
+  .q-ess { background: var(--bg-deep); flex-direction: column; justify-content: center; align-items: stretch; position: relative; }
+  .ess-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.15; filter: saturate(0.6); pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { .ess-bg { display: none; } }
+  .q-ess > :not(.ess-bg) { position: relative; z-index: 1; }
+  .ess-head { max-width: 1050px; margin: 0 auto; padding: 0 1.6rem; width: 100%;
+    display: flex; align-items: baseline; justify-content: space-between; }
+  .ess-head h2 { margin-bottom: 0.6em; }
+  .hint { font-family: 'Manrope', sans-serif; font-size: 0.66rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--tiffany); }
+  .hwrap { position: relative; }
+  .hscroll { display: flex; gap: 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 1.6rem max(calc((100vw - 1050px) / 2 + 1.6rem), 1.6rem) 1.2rem;
+    scrollbar-width: none; scroll-behavior: smooth; }
+  .hscroll::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .hscroll { scroll-behavior: auto; } }
+  .card { flex: 0 0 min(78vw, 420px); scroll-snap-align: center; background: #fff;
+    border: 1px solid var(--hairline); padding: 2rem 1.9rem 1.8rem; position: relative;
+    min-height: 380px; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; transform: translateX(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .card.vis { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .card { opacity: 1; transform: none; transition: none; } }
+  .card .idx { position: absolute; top: 0.9rem; right: 1.1rem; font-family: 'Manrope', sans-serif;
+    font-size: 0.62rem; letter-spacing: 0.2em; color: var(--text-faint); }
+  /* ⚠️ i corpi delle card arrivano da set:html (dizionario i18n): Astro NON
+     marca con lo scope gli elementi iniettati, quindi le regole che li
+     riguardano devono passare da :global(), altrimenti non li agganciano.
+     Il contenitore .card resta scoped (è nel template). */
+  .card :global(p) { font-size: 1.02rem; line-height: 1.72; margin: 0 0 1em; }
+  .card :global(p:last-child) { margin-bottom: 0; }
+  .card :global(p strong) { font-weight: 500; color: var(--brand-accent); }
+  .card .kick { font-family: 'Manrope', sans-serif; font-size: 0.64rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--tiffany); margin-bottom: 1.2em; }
+  .lead-card :global(.cl) { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    line-height: 1.15; color: var(--text-soft); margin-bottom: 0.55em; }
+  .lead-card :global(.cs) { font-size: 1.05rem; }
+  .card :global(.cl-small) { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; line-height: 1.3; }
+  .key-card { background: var(--brand-accent); border-color: transparent; }
+  .key-card :global(p) { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    line-height: 1.35; color: #fff; }
+  .key-card :global(em) { font-style: italic; color: #bfeff2; }
+  .photo-card { padding: 0; overflow: hidden; }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hbtn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px;
+    border-radius: 50%; border: 1px solid var(--tiffany); color: var(--brand-accent);
+    background: rgba(255, 255, 255, 0.9); font-size: 1.3rem; line-height: 1; cursor: pointer; }
+  .hbtn:hover { background: var(--tiffany); color: #fff; }
+  .hprev { left: 0.9rem; } .hnext { right: 0.9rem; }
+  .hprog { max-width: 1050px; margin: 0.6rem auto 0; padding: 0 1.6rem; width: 100%; }
+  .hprog span { display: block; height: 2px; width: 0%; background: var(--tiffany); transition: width 0.15s linear; }
+
+  /* ── Motore: lo schema in moto ──
+     v3 (cesello, 06/08): tutto dentro un "banco" incorniciato — etichetta
+     tecnica, schema e pannello condividono la stessa gabbia e lo stesso
+     ritmo. Niente più pannello che fluttua largo sotto uno schema stretto. */
+  .banco { position: relative; border: 1px solid var(--hairline); background: #fff;
+    padding: clamp(1.8rem, 3.5vh, 2.6rem) clamp(1.4rem, 3vw, 2.4rem); }
+  .banco::after { content: ''; position: absolute; top: -1px; left: -1px; width: 26px; height: 26px;
+    border-top: 2px solid var(--tiffany); border-left: 2px solid var(--tiffany); pointer-events: none; }
+  .blabel { position: absolute; top: 0.7rem; right: 1rem; font-family: 'Manrope', sans-serif;
+    font-size: 0.56rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-faint); }
+  .schema { position: relative; display: flex; margin: 0.4rem 0 0; }
+  .flow { position: absolute; left: 12.5%; right: 12.5%; top: 9px; height: 2px;
+    background: repeating-linear-gradient(90deg, var(--brand-accent) 0 9px, transparent 9px 16px);
+    animation: flow 1.1s linear infinite; opacity: 0.55; }
+  @keyframes flow { to { background-position: 16px 0; } }
+  @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+  .nodo { flex: 1; background: none; border: none; cursor: pointer; padding: 1.7rem 0.4rem 0.9rem;
+    position: relative; font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim); transition: color 0.25s ease; }
+  .nodo::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 16px; height: 16px; border-radius: 50%; background: var(--bg-void);
+    border: 2px solid var(--brand-accent); transition: all 0.3s ease; }
+  .nodo:hover { color: var(--brand-accent); }
+  .nodo:hover::before { border-color: var(--tiffany); }
+  .nodo.on { color: var(--brand-accent); font-weight: 500; }
+  .nodo.on::before { background: var(--tiffany); border-color: var(--tiffany);
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--tiffany) 18%, transparent); }
+  .mpanel { min-height: 15.5rem; padding: 1.6rem 0 0; margin-top: 0.5rem;
+    border-top: 1px solid var(--hairline); }
+  .mpanel > :global(*) { max-width: 62ch; }
+  @media (max-height: 820px) { .mpanel { min-height: 13rem; } }
+  .mpanel p { font-size: 1.08rem; line-height: 1.75; color: var(--text-dim); }
+  .mpanel p strong { font-weight: 500; color: var(--brand-accent); }
+  .mpanel .mnum { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.2rem, 7vw, 4.6rem);
+    font-weight: 600; color: var(--brand-accent); line-height: 1; margin: 0 0 0.15em; }
+  .mpanel .mnum small { font-size: 0.32em; color: var(--tiffany); font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.2em; text-transform: uppercase; vertical-align: 0.5em; margin-left: 0.6em; }
+  .chips { list-style: none; margin: 0.4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .chips li { font-family: 'Manrope', sans-serif; font-size: 0.76rem; color: var(--brand-accent);
+    border: 1px solid color-mix(in srgb, var(--tiffany) 55%, transparent); border-radius: 999px;
+    padding: 0.36rem 0.85rem; background: color-mix(in srgb, var(--tiffany) 7%, transparent);
+    opacity: 0; transform: translateY(8px) scale(0.96); transition: opacity 0.4s ease, transform 0.4s ease; }
+  .chips li.mount { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .chips li { opacity: 1; transform: none; transition: none; } }
+  @media (max-width: 560px) { .nodo { font-size: 0.56rem; letter-spacing: 0.1em; } }
+
+  /* ── La moviola ── */
+  .lede { color: var(--text-dim); margin: -0.6rem 0 1.6rem; }
+
+  /* ── .Soglia: la porta d'ingresso ──
+     Le due porte stanno sullo stesso piano tipografico degli h3 degli altri
+     quadri: la gerarchia la fa il peso (pieno contro tratto), non la misura. */
+  .q-soglia { background: var(--bg-deep); }
+  .porte { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2.4rem; margin-top: 2rem; }
+  .porta { display: flex; flex-direction: column; align-items: flex-start; }
+  .pulsante {
+    display: inline-block; font-family: 'Manrope', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.06em; text-decoration: none; padding: 0.85rem 1.5rem;
+    border: 1px solid var(--brand-accent); transition: background 0.25s ease, color 0.25s ease;
+  }
+  .pulsante--pieno { background: var(--brand-accent); color: #fff; }
+  .pulsante--pieno:hover { background: var(--tiffany); border-color: var(--tiffany); }
+  .pulsante--tratto { background: transparent; color: var(--brand-accent); }
+  .pulsante--tratto:hover { background: var(--brand-accent); color: #fff; }
+  .pulsante:active { transform: translateY(1px); }
+  .pulsante:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+  .porta-sotto { margin: 0.9rem 0 0; font-size: 0.9rem; line-height: 1.6;
+    color: var(--text-dim); max-width: 34ch; }
+  .indirizzo { margin: 0.5rem 0 0; font-family: 'Manrope', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.02em; color: var(--brand-accent); user-select: all; }
+  @media (prefers-reduced-motion: reduce) {
+    .pulsante { transition: none; }
+    .pulsante:active { transform: none; }
+  }
+  /* schermo stretto: le porte si impilano e restano nell'ordine di lettura */
+  @media (max-width: 680px) {
+    .porte { grid-template-columns: 1fr; gap: 2rem; margin-top: 1.6rem; }
+    .porta-sotto { max-width: none; }
+  }
+  /* Banco di regia: due monitor 16:9 affiancati (mappa · archivio) e sotto
+     la targhetta a due colonne (titolo · sintesi). Il monitor archivio
+     regge foto singola, slideshow o video sempre nello stesso frame 16:9. */
+  .moviola { display: grid; gap: 8px; grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'map photo' 'title desc'; background: #04191d; padding: 8px; }
+  /* i riquadri non mostrano più la sigla: il nome resta solo per i lettori
+     di schermo (aria-label sul contenitore). */
+  .mon { position: relative; overflow: hidden; }
+  .mon-map { grid-area: map; background: linear-gradient(180deg, #06272c, #04191d); aspect-ratio: 16 / 9; }
+  .mon-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pin { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: #a52257;
+    transform: translate(-50%, -50%); box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); animation: pulse 2s infinite; pointer-events: none; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0.5); } 70% { box-shadow: 0 0 0 16px rgba(165, 34, 87, 0); } 100% { box-shadow: 0 0 0 0 rgba(165, 34, 87, 0); } }
+  @media (prefers-reduced-motion: reduce) { .pin { animation: none; } }
+  /* padding simmetrico: senza l'etichetta in testa il blocco anno-titolo-luogo
+     si centra davvero nel riquadro invece di risultare spinto in basso */
+  .mon-title { grid-area: title; background: #06272c; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
+  .myear { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.3em; color: var(--tiffany); }
+  .mon-title h3 { color: #fff; font-size: clamp(1.2rem, 2.4vw, 1.6rem); line-height: 1.2; margin: 0.4rem 0 0.35rem; }
+  .mplace { font-family: 'Manrope', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+  .mon-desc { grid-area: desc; background: #06272c; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; justify-content: center; }
+  .mon-desc p { color: rgba(255, 255, 255, 0.82); font-size: 0.92rem; line-height: 1.7; margin: 0; }
+  .mon-photo { grid-area: photo; background: #06272c; aspect-ratio: 16 / 9; }
+  /* stesso frame per foto, slideshow (doppio buffer in dissolvenza) e video */
+  .mon-photo img, .mon-photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 1; transition: opacity 0.9s ease; }
+  .mon-photo img.off, .mon-photo video.off { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .mon-photo img, .mon-photo video { transition: none; } }
+  /* stato vuoto: la targhetta "in selezione" resta centrata nel monitor */
+  .mon-photo.empty { display: flex; align-items: center; justify-content: center; }
+  .mcap { position: absolute; left: 0; bottom: 0; z-index: 2; font-family: 'Manrope', sans-serif; font-size: 0.66rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255, 255, 255, 0.5); padding: 0.4rem 0.8rem; background: rgba(4, 25, 29, 0.65); }
+  .mon-photo.empty .mcap { position: static; background: none; }
+  /* smartphone: gli ANNI restano il gesto-firma → salgono sopra i monitor
+     (regia §5: barra degli anni sempre a portata di pollice) */
+  @media (max-width: 780px) {
+    .moviola { grid-template-columns: 1fr; grid-template-areas: 'map' 'title' 'photo' 'desc'; }
+    #tracce .q-in { display: flex; flex-direction: column; }
+    #tracce h2 { order: 0; } #tracce .lede { order: 1; }
+    #tracce .anni { order: 2; margin: 0 0 0.6rem; } #tracce .scrub { order: 3; margin: 0 0 1rem; }
+    #tracce .moviola { order: 4; }
+  }
+  /* laptop bassi: la moviola deve stare TUTTA nel quadro, anni compresi */
+  @media (min-width: 781px) and (max-height: 860px) {
+    #tracce h2 { margin-bottom: 0.5em; }
+    .lede { margin: -0.4rem 0 1rem; font-size: 0.92rem; }
+    .mon-title { padding: 0.95rem 1.3rem; }
+    .mon-desc { padding: 0.95rem 1.3rem; }
+    .mon-desc p { font-size: 0.86rem; line-height: 1.55; }
+    .anni { margin: 0.8rem 0 0.3rem; }
+  }
+
+  /* la barra degli anni resta SEMPRE su una riga: scorre in orizzontale e le
+     tappe si dissolvono ai bordi. Così regge anche l'aggiunta di nuove tappe
+     senza andare a capo e scomporre il quadro. */
+  .anni { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1.1rem; margin: 1.2rem 0 0.4rem;
+    scrollbar-width: none; scroll-behavior: smooth;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 22px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 22px), transparent 100%); }
+  .anni::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .anni { scroll-behavior: auto; } }
+  .anno { flex: 0 0 auto; white-space: nowrap;
+    font-family: 'Manrope', sans-serif; font-size: 0.74rem; letter-spacing: 0.1em; background: none; border: none;
+    color: var(--text-faint); cursor: pointer; padding: 0.3rem 0.1rem; border-bottom: 2px solid transparent; }
+  .anno small { font-size: 0.82em; opacity: 0.75; letter-spacing: 0.06em; } /* sigla di bobina per anni doppi (2018 · NY / · AL) */
+  .anno.key { color: #a52257; opacity: 0.75; }
+  .anno.on { color: var(--tiffany); border-color: var(--tiffany); opacity: 1; }
+  .anno.key.on { color: #a52257; border-color: #a52257; }
+  .scrub { width: 100%; accent-color: var(--tiffany); margin: 0.2rem 0 0; }
+  .fallback { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+
+</style>
+
+<script define:vars={{ stages, boxes, MOTORE: c.motore.panels, PLACEHOLDER: c.placeholder }}>
+  // LA MOVIOLA — il cursore lungo gli anni attiva i monitor sincronizzati.
+  const world = document.getElementById('mv-world');
+  const pin = document.getElementById('mv-pin');
+  const yearEl = document.getElementById('mv-year');
+  const titleEl = document.getElementById('mv-title');
+  const placeEl = document.getElementById('mv-place');
+  const descEl = document.getElementById('mv-desc');
+  const imgs = [document.getElementById('mv-img-a'), document.getElementById('mv-img-b')];
+  const videoEl = document.getElementById('mv-video');
+  const photoMon = document.getElementById('mv-photo');
+  const capEl = document.getElementById('mv-cap');
+  const scrub = document.getElementById('mv-scrub');
+  const anni = Array.from(document.querySelectorAll('.anno'));
+  const anniBar = document.getElementById('mv-anni');
+  const mapBox = document.querySelector('.mon-map');
+  const VB = { w: 1600, h: 820 };
+  let cur = -1;
+  let pinTimer = null;
+
+  function activate(i) {
+    i = Math.max(0, Math.min(stages.length - 1, i));
+    if (i === cur) return;
+    cur = i;
+    const s = stages[i];
+    yearEl.textContent = s.y;
+    titleEl.textContent = s.t;
+    placeEl.textContent = s.p;
+    descEl.textContent = s.d;
+    anni.forEach((a, j) => { a.classList.toggle('on', j === i); a.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    document.getElementById('moviola').setAttribute('aria-labelledby', 'ytab-' + i);
+    // la barra scorre su una riga sola: tieni la tappa attiva sempre in vista
+    // (scorro solo la barra, non gli antenati, per non muovere il deck).
+    // Calcolo per rettangoli: offsetLeft sarebbe relativo a .quadro, che è
+    // l'offsetParent posizionato, non alla barra.
+    const el = anni[i];
+    const barR = anniBar.getBoundingClientRect(), elR = el.getBoundingClientRect();
+    const delta = (elR.left - barR.left) - (barR.width - elR.width) / 2;
+    anniBar.scrollTo({ left: anniBar.scrollLeft + delta, behavior: scrollBehavior() });
+    scrub.value = i;
+    showMedia(s);
+    document.querySelectorAll('#mv-world path.on').forEach((p) => p.classList.remove('on'));
+    const b = boxes[s.c];
+    if (!b) return;
+    const w = b.x1 - b.x0, h = b.y1 - b.y0;
+    const k = Math.min(6, 1 / Math.max((w * 2.3) / VB.w, (h * 2.3) / VB.h));
+    const tx = VB.w / 2 - k * (b.x0 + w / 2), ty = VB.h / 2 - k * (b.y0 + h / 2);
+    world.style.transform = `translate(${tx}px, ${ty}px) scale(${k})`;
+    document.querySelectorAll(`#mv-world path[data-c="${s.c}"]`).forEach((p) => p.classList.add('on'));
+    pin.hidden = true;
+    clearTimeout(pinTimer);
+    pinTimer = setTimeout(() => {
+      const r = mapBox.getBoundingClientRect();
+      const scale = Math.max(r.width / VB.w, r.height / VB.h); // slice
+      const offX = (r.width - VB.w * scale) / 2, offY = (r.height - VB.h * scale) / 2;
+      const pxx = s.px ?? b.cx, pyy = s.py ?? b.cy; // pin sulla città, non sul baricentro
+      pin.style.left = (k * pxx + tx) * scale + offX + 'px';
+      pin.style.top = (k * pyy + ty) * scale + offY + 'px';
+      pin.hidden = false;
+    }, 1100);
+  }
+
+  // ---- monitor archivio: foto singola o slideshow in dissolvenza (doppio buffer) ----
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let buf = 0, slideIdx = 0, slideTimer = null;
+  function slideCap(s, list, i) {
+    const base = s.caption || '';
+    capEl.textContent = list.length > 1 ? `${base} · ${i + 1}/${list.length}` : base;
+  }
+  function setSlide(list, i, s) {
+    slideIdx = i;
+    const front = imgs[buf], back = imgs[1 - buf];
+    back.alt = s.caption || s.t;
+    const go = () => { back.classList.remove('off'); front.classList.add('off'); buf = 1 - buf; slideCap(s, list, i); };
+    back.onload = null;
+    back.src = list[i];
+    if (back.complete) go(); else back.onload = go;
+  }
+  // dispatcher del monitor archivio: video · slideshow · foto singola · vuoto.
+  // Lo stesso frame 16:9 accoglie tutti e tre i tipi (dati da Cowork/Paolo:
+  //   s.video (+ s.poster) · s.photos: [] · s.photo). Video muto/loop/inline.
+  function showMedia(s) {
+    if (s.video) {
+      clearInterval(slideTimer); slideTimer = null;
+      imgs.forEach((im) => { im.classList.add('off'); im.onload = null; });
+      photoMon.classList.remove('empty');
+      if (videoEl.getAttribute('src') !== s.video) videoEl.src = s.video;
+      if (s.poster) videoEl.poster = s.poster; else videoEl.removeAttribute('poster');
+      videoEl.setAttribute('aria-label', s.caption || s.t);
+      videoEl.classList.remove('off');
+      capEl.textContent = s.caption || '';
+      if (REDUCED) videoEl.pause();
+      else { const p = videoEl.play(); if (p && p.catch) p.catch(() => {}); }
+      return;
+    }
+    videoEl.classList.add('off'); videoEl.pause();
+    showPhotos(s.photos || (s.photo ? [s.photo] : null), s);
+  }
+  function showPhotos(list, s) {
+    clearInterval(slideTimer); slideTimer = null;
+    if (!list || !list.length) {
+      imgs.forEach((im) => { im.classList.add('off'); im.onload = null; });
+      photoMon.classList.add('empty');
+      capEl.textContent = PLACEHOLDER;
+      return;
+    }
+    photoMon.classList.remove('empty');
+    setSlide(list, 0, s);
+    if (list.length > 1) slideTimer = setInterval(() => {
+      // gira solo quando il quadro Tracce è in scena
+      if (mapBox.getBoundingClientRect().bottom > 0 && mapBox.getBoundingClientRect().top < innerHeight)
+        setSlide(list, (slideIdx + 1) % list.length, s);
+    }, REDUCED ? 5200 : 3800);
+  }
+
+  // ---- deck: puntini, freccia, quadro attivo ----
+  const deck = document.getElementById('deck');
+  // rispetta prefers-reduced-motion anche negli scroll pilotati da JS
+  // (scrollIntoView/scrollTo con behavior:'smooth' ignorano il CSS)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollBehavior = () => (prefersReduced.matches ? 'auto' : 'smooth');
+  const quadri = Array.from(deck.querySelectorAll('.quadro'));
+  // ---- LA BARRA DEI CAPITOLI (al posto dei puntini, 08/08/2026) ----
+  // Le ancore restano <a href="#..."> vere: senza JS il deck si sposta
+  // comunque, qui si aggiunge solo lo scorrimento morbido e lo stato.
+  const ids = ['top', 'trama', 'essenza', 'motore', 'tracce', 'soglia'];
+  const tbarra = document.getElementById('tbarra');
+  const voci = Array.from(document.querySelectorAll('.tbarra nav a'));
+  const marchio = document.querySelector('.tbarra-marchio');
+  let quadroCorrente = 0;
+
+  function goQ(id) { document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior() }); }
+
+  [...voci, marchio].filter(Boolean).forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault(); goQ(a.getAttribute('href').slice(1));
+  }));
+
+  document.getElementById('deck-next').addEventListener('click', () => {
+    goQ(ids[Math.min(ids.length - 1, quadroCorrente + 1)]);
+  });
+
+  const qObs = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) {
+      const i = quadri.indexOf(e.target);
+      quadroCorrente = i;
+      // la barra non c'è sull'apertura: lì il campo petrolio resta intero
+      tbarra.classList.toggle('vista', i > 0);
+      voci.forEach((a) => {
+        const suo = a.dataset.q === ids[i];
+        if (suo) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      });
+      document.getElementById('deck-next').style.visibility = i === quadri.length - 1 ? 'hidden' : 'visible';
+    } });
+  }, { root: deck, threshold: 0.6 });
+  quadri.forEach((q) => qObs.observe(q));
+
+  // ---- IL CAMPO: attacco variabile del loop ----
+  // Il visual è un loop con zoom: ripartire sempre dallo stesso fotogramma si
+  // nota, chi torna sulla pagina rivede la stessa entrata. A ogni caricamento
+  // si aggancia in un punto diverso. Si sta lontani dalla coda (85%) per non
+  // ricominciare da capo dopo un istante, e si cerca il punto PRIMA che parta
+  // la riproduzione: il poster copre l'attesa, così non si vede il fotogramma
+  // zero prima del salto. Al giro di loop successivo riparte da 0, come prima.
+  const hero = document.getElementById('herovid');
+  if (hero && !prefersReduced.matches) {
+    const aggancia = () => {
+      const d = hero.duration;
+      if (!isFinite(d) || d < 2) return; // durata ignota: si lascia com'è
+      try { hero.currentTime = Math.random() * d * 0.85; } catch (e) {}
+    };
+    if (hero.readyState >= 1) aggancia();
+    else hero.addEventListener('loadedmetadata', aggancia, { once: true });
+  }
+
+  // ---- Essenza: la filigrana video gira solo quando il quadro è in scena ----
+  const essbg = document.getElementById('essbg');
+  new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) essbg.play().catch(() => {}); else essbg.pause(); });
+  }, { root: document.getElementById('deck'), threshold: 0.3 }).observe(document.getElementById('essenza'));
+
+  // ---- monitor archivio: il video va in pausa quando le Tracce escono di
+  //      scena e riprende al rientro (se la tappa attiva ha un video e non
+  //      c'è reduced-motion) — stesso pattern di essbg ----
+  new IntersectionObserver((es) => {
+    es.forEach((e) => {
+      if (e.isIntersecting) { if (!videoEl.classList.contains('off') && !REDUCED) videoEl.play().catch(() => {}); }
+      else videoEl.pause();
+    });
+  }, { root: document.getElementById('deck'), threshold: 0.3 }).observe(document.getElementById('tracce'));
+
+  // ---- Essenza: card orizzontali — snap, frecce, avanzamento, rotella ----
+  const hs = document.getElementById('hscroll');
+  const hfill = document.getElementById('hfill');
+  const cards = Array.from(hs.querySelectorAll('.card'));
+  const cObs = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('vis'); cObs.unobserve(e.target); } });
+  }, { root: hs, threshold: 0.35 });
+  cards.forEach((c) => cObs.observe(c));
+  // frecce per INDICE di card (scrollBy relativo + snap mandatory si
+  // pestavano i piedi: tre click rapidi avanzavano di una card sola)
+  function cardNear() {
+    // ai bordi lo snap non può centrare la prima/ultima card → indice esplicito
+    if (hs.scrollLeft <= 4) return 0;
+    if (hs.scrollLeft >= hs.scrollWidth - hs.clientWidth - 4) return cards.length - 1;
+    const mid = hs.scrollLeft + hs.clientWidth / 2;
+    let best = 0, bd = Infinity;
+    cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
+    return best;
+  }
+  let hTarget = null, hIdle = null;
+  function goCard(dir) {
+    hTarget = Math.max(0, Math.min(cards.length - 1, (hTarget ?? cardNear()) + dir));
+    const c = cards[hTarget];
+    hs.scrollTo({ left: c.offsetLeft + c.offsetWidth / 2 - hs.clientWidth / 2, behavior: scrollBehavior() });
+  }
+  document.getElementById('hprev').addEventListener('click', () => goCard(-1));
+  document.getElementById('hnext').addEventListener('click', () => goCard(1));
+  hs.addEventListener('scroll', () => {
+    const max = hs.scrollWidth - hs.clientWidth;
+    hfill.style.width = (max > 0 ? (hs.scrollLeft / max) * 100 : 100) + '%';
+    clearTimeout(hIdle); hIdle = setTimeout(() => { hTarget = null; }, 180); // scroll fermo → si riparte dalla card visibile
+  }, { passive: true });
+  // LA ROTELLA DENTRO ESSENZA: finché ci sono card, lo scroll verticale si
+  // traduce in avanzamento orizzontale (una card per gesto); esaurite le card,
+  // l'evento passa al deck e si torna a scorrere in verticale.
+  // NB: si avanza per INDICE, non sommando deltaY a scrollLeft — con
+  // scroll-snap x mandatory lo snap ririchiamerebbe la card più vicina a ogni
+  // frame, dando la sensazione che tutto si blocchi.
+  // Il listener sta sul quadro intero (non solo sulla striscia) così funziona
+  // anche col puntatore sul titolo o ai bordi.
+  const essSection = document.getElementById('essenza');
+  let wheelLock = false;
+  essSection.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // gesto orizzontale da trackpad: lascialo fare
+    const max = hs.scrollWidth - hs.clientWidth;
+    const giu = e.deltaY > 0;
+    const atEdge = giu ? hs.scrollLeft >= max - 2 : hs.scrollLeft <= 2;
+    if (atEdge) return; // fine (o inizio) del capitolo → prosegue il deck
+    e.preventDefault();
+    if (wheelLock) return; // un gesto = una card (il trackpad emette raffiche di eventi)
+    wheelLock = true;
+    goCard(giu ? 1 : -1);
+    setTimeout(() => { wheelLock = false; }, 420);
+  }, { passive: false });
+
+  // ---- Motore: schema in moto ----
+  const M = MOTORE;
+  const mpanel = document.getElementById('mpanel');
+  const nodi = Array.from(document.querySelectorAll('.nodo'));
+  let mTimers = [];
+  function motor(i) {
+    mTimers.forEach(clearTimeout); mTimers = [];
+    nodi.forEach((n, j) => { n.classList.toggle('on', j === i); n.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    mpanel.setAttribute('aria-labelledby', 'mtab-' + i);
+    mpanel.innerHTML = M[i].body;
+    if (M[i].h === 'count') {
+      const el = document.getElementById('mcount');
+      if (prefersReduced.matches) { el.textContent = '~300'; }
+      else {
+        const T = 900, t0 = performance.now();
+        (function tick(t) { const p = Math.min(1, (t - t0) / T);
+          el.textContent = '~' + Math.round(300 * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick); })(t0);
+      }
+    }
+    if (M[i].h === 'gears') {
+      mpanel.querySelectorAll('.chips li').forEach((li, k) => {
+        mTimers.push(setTimeout(() => li.classList.add('mount'), 90 * k));
+      });
+    }
+  }
+  nodi.forEach((n) => n.addEventListener('click', () => motor(+n.dataset.m)));
+  motor(0);
+
+  scrub.addEventListener('input', () => activate(+scrub.value));
+  anni.forEach((a) => a.addEventListener('click', () => activate(+a.dataset.i)));
+  // frecce sulla tablist degli anni (pattern ARIA tabs, il focus segue la
+  // selezione). Sul range lo scrub gestisce già le frecce da solo: tenere
+  // il listener qui evita il doppio scatto quando il fuoco è sul cursore.
+  document.getElementById('mv-anni').addEventListener('keydown', (e) => {
+    let ni = cur;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') ni = Math.min(stages.length - 1, cur + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ni = Math.max(0, cur - 1);
+    else if (e.key === 'Home') ni = 0;
+    else if (e.key === 'End') ni = stages.length - 1;
+    else return;
+    e.preventDefault();
+    activate(ni);
+    anni[ni].focus();
+  });
+  activate(0);
+</script>

@@ -1,0 +1,1643 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Pellicola from '../../components/Pellicola.astro';
+import { content } from '../../i18n/tipicita-in-blu.js';
+
+// LANDING TIPICITÀ IN BLU — la fabula è LA STRUMENTAZIONE
+// (ANIGAMI-METANARRATIVA §3): la pagina è una PLANCIA. Sezioni codificate,
+// coordinate, dati in evidenza, registro tecnico-nautico. La sobrietà È la
+// fabula: qui il virtuosismo sta nella precisione, non nell'effetto.
+//
+// ⚠️ OSSATURA NON REPLICABILE: due sole matrici, .Rotta e .Cantiere.
+// Niente deck a quadri, niente moviola, niente card orizzontali: sono
+// dispositivi di Tipicità e non si ereditano. Niente timeline/giornale di
+// bordo (rimosso in v2 su indicazione di Paolo).
+//
+// TESTI: trascritti TALI E QUALI da TESTI-TIB.md v3 (Cowork 19/08/2026),
+// che sostituisce integralmente la v2 ed è rivisto sul reportage 2025.
+// Non riscriverli. §1 e §5 del file sono diagnosi e avvertenze per Paolo e
+// NON vanno in pagina.
+// Registro da SCHEDA: si afferma ciò che la piattaforma È, mai "potremmo".
+// I quattro formati pubblici ora CI SONO (v3 §4): erano fuori nella v2 per
+// tenere un profilo tecnico, ma sono la prova visibile della tesi della
+// pagina, e la prova sta dopo la tesi.
+//
+// MOTO: solo taglio e dissolvenza (ANIGAMI-REGIA §1). Una intenzione per
+// viewport, durate 200–600ms, easing unico condiviso con Tipicità.
+
+const theme = {
+  '--bg-void': '#0a1a2b',
+  '--bg-deep': '#112438',
+  '--bg-mid': '#173049',
+  '--text-soft': '#e9eef2',
+  '--text-dim': 'rgba(233, 238, 242, 0.72)',
+  // 0.58: sotto questa soglia il testo piccolo scende sotto il 4.5:1 AA
+  // sul fondo #0a1a2b (verificato a schermo, non a occhio).
+  '--text-faint': 'rgba(233, 238, 242, 0.58)',
+  '--hairline': 'rgba(233, 238, 242, 0.16)',
+};
+
+// I TESTI stanno in src/i18n/tipicita-in-blu.js, nella stessa forma di
+// tipicita.js. Finche' esiste solo `it` non c'e' rotta /en/tipicita-in-blu/
+// e non c'e' selettore di lingua: una rotta inglese che mostra testo
+// italiano e' peggio di una rotta che non c'e'.
+const lang = 'it';
+const c = content[lang];
+
+// Scorciatoie. La pagina legge da queste e non da `c` ovunque: il markup
+// resta leggibile, e il punto di attacco della traduzione resta uno solo.
+const architettura = c.rotta.architettura.voci;
+const formati = c.rotta.formati.voci;
+const strumenti = c.rotta.strumenti.voci;
+const estensione = c.rotta.estensione;
+const metriche = c.rotta.metriche.voci;
+const cronologia = c.cantiere.specchi.voci;
+const trova = c.cantiere.trova.voci;
+const schedaRotta = c.rotta.scheda;
+const schedaCantiere = c.cantiere.scheda;
+const marcia = c.rotta.marcia.voci;
+const GIORNI = c.rotta.marcia.giorni;
+const GIORNI_ESTESI = c.rotta.marcia.giorniEstesi;
+
+// ── LE IMMAGINI: due famiglie e due soltanto (GRIGLIA-TIB §3) ──
+//
+// L'ARCHIVIO (Paolo, 02/10/2026). 82 scatti consegnati, 555 MB: convertiti a
+// 1400px in 3:2 — la stessa misura delle 189 di .Trama — e scesi a 12,5 MB,
+// media 162 KB. 71 su 82 erano GIÀ in 3:2: il formato scelto per la lastra
+// combacia con l'archivio senza ritagliare niente.
+// Dieci sono rimasti fuori, per le regole che valgono anche su .Trama: marchi
+// di sponsor leggibili in primo piano, una persona sola riconoscibile al
+// microfono, una data stampata su un banner. Ne restano 72.
+//
+// ⚠️ NON SI ESTRAE A CASO DA TUTTO. Ogni lastra pesca dal suo bacino, perché
+// la didascalia deve restare vera qualunque scatto esca: sotto «Visita il
+// Cantiere» può finire solo una fotografia di cantiere. La varietà la fa
+// l'estrazione dentro il bacino, non il disordine.
+//
+// La didascalia porta due fatti verificabili e nessuna interpretazione: che
+// cosa si vede e l'anno dell'edizione. L'anno viene dai metadati dello scatto,
+// non da me.
+const foto = [
+  // 3 e 62 stavano in 'citta' ma pescano nella banda, che è l'unica immagine
+  // grande della pagina: un figurante in banchina e un tramonto sono belli e
+  // non dicono il lungomare. Spostati, restano raggiungibili dalla striscia.
+  [1, 'ricerca', 2025], [2, 'ricerca', 2025], [3, 'scena', 2019], [4, 'mestiere', 2019],
+  [5, 'saloncino', 2019], [6, 'ricerca', 2019], [7, 'ricerca', 2019], [8, 'ricerca', 2019],
+  [9, 'mestiere', 2019], [10, 'tavola', 2019], [11, 'convegno', 2019], [12, 'visita', 2019],
+  // 14 passa da 'regata' a 'citta': con 15 sono le due sole vedute ampie del
+  // fronte mare — barca, gru del porto e il colle col duomo sullo sfondo —
+  // e la banda deve pescare solo fra quelle.
+  [13, 'visita', 2019], [14, 'citta', 2024], [15, 'citta', 2024], [16, 'convegno', 2022],
+  [17, 'regata', 2024], [18, 'bordo', 2022], [19, 'mostra', 2024], [20, 'convegno', 2025],
+  // 24 esce da 'citta': è un gruppo di spalle davanti all'arco di Traiano,
+  // cioè una visita, non una veduta del porto.
+  [21, 'convegno', 2024], [22, 'cucina', 2024], [23, 'scena', 2024], [24, 'visita', 2024],
+  [25, 'regata', 2023], [26, 'regata', 2023], [27, 'cucina', 2023], [28, 'ragazzi', 2023],
+  // ⚠️ 30 e 55 sono USCITI DALL'ARCHIVIO (i file sono stati cancellati):
+  // in 30 il marchio «amap» è grande e leggibile in alto, in 55 il marchio
+  // «Coop» lo è in mezzo all'inquadratura. La regola di .Trama vale per
+  // tutte le lastre e non solo per lo slot in cui ci si accorge del
+  // problema: una lastra deve dire il capitolo, non promuovere qualcuno —
+  // tanto più un marchio che in pagina compare già, correttamente, fra i
+  // partner.
+  [29, 'regata', 2023], [31, 'convegno', 2023], [32, 'convegno', 2023],
+  [33, 'sala', 2023], [34, 'convegno', 2023], [35, 'convegno', 2023], [36, 'mostra', 2025],
+  [37, 'tavolo', 2023, 1], [38, 'tavolo', 2023], [39, 'convegno', 2023], [40, 'ragazzi', 2023],
+  [41, 'mostra', 2023], [42, 'convegno', 2023], [43, 'convegno', 2023], [44, 'convegno', 2023],
+  [45, 'convegno', 2024], [46, 'tavolo', 2024, 1], [47, 'regata', 2024], [48, 'tavolo', 2024],
+  [49, 'convegno', 2024], [50, 'convegno', 2024], [51, 'hackathon', 2024, 1],
+  // 54 e 57 escono da 'tavola' e da 'citta': sono ricevimenti all'aperto —
+  // per la lastra «La tavola» serve un tavolo, un locale, il pesce in
+  // tavola, e per la banda una veduta, non una folla.
+  [52, 'hackathon', 2024, 1], [53, 'scena', 2024], [54, 'aperitivo', 2024],
+  [56, 'convegno', 2025], [57, 'aperitivo', 2025], [58, 'regata', 2025], [59, 'convegno', 2025],
+  [60, 'cantiere', 2025], [61, 'mestiere', 2025], [62, 'mare', 2025], [63, 'convegno', 2025],
+  [64, 'convegno', 2025], [65, 'ragazzi', 2025], [66, 'convegno', 2025], [67, 'saloncino', 2026],
+  [68, 'cantiere', 2026], [69, 'convegno', 2026], [70, 'tavola', 2026], [71, 'convegno', 2026],
+  [72, 'convegno', 2026],
+];
+
+// Per ogni gruppo: l'etichetta della didascalia e il testo alternativo.
+// Sono separati perché servono a due cose diverse — la didascalia nomina, il
+// testo alternativo descrive a chi non vede. Entrambi valgono per qualunque
+// scatto del gruppo, ed entrambi li riscrive il JS dopo l'estrazione: un alt
+// fisso sul bacino sarebbe falso non appena esce lo scatto di un altro
+// sottogruppo.
+const gruppi = c.gruppiFoto;
+const etichette = Object.fromEntries(Object.entries(gruppi).map(([k, v]) => [k, v[0]]));
+
+// I bacini, uno per lastra. `alt` e' il testo alternativo del gruppo: vale
+// per qualunque scatto esca, perche' descrive la scena e non il fotogramma.
+const bacini = Object.fromEntries(
+  formati.map((f) => [f.nome, { idx: f.idx, gruppi: f.gruppi, alt: f.alt }])
+);
+// l'unica lastra verticale della pagina: 3:4, a fianco della squadra. Pesca
+// solo fra i momenti di confronto veri — non fra i panel con i microfoni.
+const bacinoSquadra = {
+  idx: c.rotta.squadra.idx, gruppi: c.rotta.squadra.gruppi, alt: c.rotta.squadra.alt,
+};
+// l'unica fotografia a colori pieni della pagina: la cerniera fra .Rotta e
+// l'architettura. Pesca fra le vedute della citta' e del porto.
+const bacinoBanda = { gruppi: c.rotta.banda.gruppi, alt: c.rotta.banda.alt };
+// la striscia: pesca da tutto, perche' il suo argomento E' la varieta'
+const bacinoStriscia = { gruppi: Object.keys(etichette) };
+
+// Aiuti di costruzione. Il valore reso dal server è un ripiego deterministico:
+// serve a chi ha JS spento (dentro <noscript>) e a dare alla didascalia un
+// testo coerente prima che l'estrazione avvenga. L'<img> viva resta SENZA src
+// — altrimenti il browser scaricherebbe il ripiego e poi di nuovo lo scatto
+// estratto, due volte per ogni lastra.
+const nelBacino = (gruppi, vert) =>
+  foto.filter((f) => gruppi.includes(f[1]) && (!vert || f[3]));
+const ripiego = (gruppi, vert) => nelBacino(gruppi, vert)[0];
+const sorgente = (f, vert) => `/tib/foto/tib-${String(f[0]).padStart(3, '0')}${vert ? '-v' : ''}.jpg`;
+// tre ripieghi distanti fra loro, così senza JS la striscia non mostra tre
+// volte lo stesso scatto
+const ripieghiStriscia = [0, 1, 2].map(
+  (k) => nelBacino(bacinoStriscia.gruppi)[Math.floor((k * foto.length) / 3)]
+);
+
+// Le schede tecniche a lato delle due aperture: fatti già affermati altrove in
+// pagina, messi in colonna. Una scheda non introduce mai un dato nuovo.
+
+// ── LA RUOTA DEGLI AMBITI ──
+// Sette settori su un anello, quadrante vuoto al centro: legge come un
+// quadrante di strumento e non come un grafico a torta. Le tinte sono tutte
+// nella scala del blu della pagina — nessun arcobaleno.
+// Il disegno è decorativo: l'informazione vive nell'elenco a fianco, che è la
+// versione accessibile della ruota (GRIGLIA-TIB §7).
+const TINTE = ['#0d3b4c', '#12556b', '#187a94', '#209fb6', '#3fb3c6', '#166a83', '#0f4a5e'];
+const RUOTA = { cx: 100, cy: 100, r: 82, ri: 30, gap: 1.6 };
+const settore = (i, n) => {
+  const { cx, cy, r, ri, gap } = RUOTA;
+  const passo = 360 / n;
+  const P = (a, rad) => [
+    +(cx + rad * Math.cos(((a - 90) * Math.PI) / 180)).toFixed(2),
+    +(cy + rad * Math.sin(((a - 90) * Math.PI) / 180)).toFixed(2),
+  ];
+  const a0 = i * passo + gap, a1 = (i + 1) * passo - gap;
+  const [x0, y0] = P(a0, r), [x1, y1] = P(a1, r);
+  const [x2, y2] = P(a1, ri), [x3, y3] = P(a0, ri);
+  return `M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1} L${x2} ${y2} A${ri} ${ri} 0 0 0 ${x3} ${y3} Z`;
+};
+
+// ── LA STRISCIA DELLE TRE MATRICI ──
+// Tabella di marcia, che è esattamente il registro della plancia. Le durate
+// sono quelle dichiarate nel testo dell'architettura — due giorni e cinque
+// giorni — e l'asse è la loro somma: sette.
+
+// ── IL FRAMMENTO DI CARTA ──
+// ⚠️ Il profilo NON è disegnato a mano: è ricalcato da coordinate reali di
+// porti e capi (proiezione equirettangolare centrata sul medio Adriatico, poi
+// ruotata perché l'asse del bacino — Venezia-Otranto — diventi orizzontale e le
+// due sponde si leggano parallele). Scala unica sui due assi: nessuna
+// deformazione, 1 unità = 0,98 km. Controllo sulle distanze vere: Ancona-Zara
+// 149 contro 145 km, Ancona-Rimini 91 contro 92, Ancona-Pescara 139 contro 140.
+// Una costa adriatica sbagliata la nota chiunque abiti su quella costa, cioè il
+// pubblico di questa pagina.
+// Si vede il gomito: il Conero sporge di venticinque chilometri sulla linea di
+// costa, ed è esattamente l'Ankón di cui parla «La posizione».
+const CARTA = {
+  box: '0 0 420 240',
+  ovest:
+    'M33.8 206.3 L57.3 218.8 L85.4 218.9 L104 216.3 L116.5 208.5 L129.3 207.5 L150.3 203.7 L167.1 199.6 L174.4 192.8 L182.1 190.7 L186.3 191.1 L189.8 194 L198.8 197.3 L212.9 201.7 L221.2 202.4 L227.8 206.9 L237.3 209.6 L252.7 219.4 L273.3 228.3 L292.1 232.4 L310.8 233.1 L331.3 230 L363.9 223.1 L393 218.6 L423.6 203.5',
+  est:
+    'M18.4 58.8 L40.2 69.8 L55.3 78.3 L85.1 79.9 L97.8 84.2 L97.6 63.5 L84.2 44.4 L69.3 16.6 L77.1 9.1 L113.1 1.8 L131 5.1 L155.6 25 L180.2 27.5 L219.2 21.8 L227.7 25.8 L223.5 48.2 L250.7 47.5 L292.3 35.3 L329.7 28.1 L340.7 16.9 L360.1 6.3 L389.8 -4.2',
+  ancona: [174.4, 192.8],
+  zara: [223.5, 48.2],
+};
+
+// DATE (Paolo, 07/08/2026): la riga-plancia guarda avanti a maggio 2027.
+// Il giorno esatto non è ancora fissato → schema.org con precisione al mese
+// (formato valido) e nessun claim di giorni che poi andrebbe corretto.
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: c.sd.name,
+  startDate: '2027-05',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: c.sd.luogo,
+    address: { '@type': 'PostalAddress', addressLocality: c.sd.citta, addressRegion: c.sd.regione, addressCountry: 'IT' },
+  },
+  organizer: { '@type': 'Organization', name: c.sd.organizzatore, url: 'https://anigami.it' },
+};
+---
+
+<BaseLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  lang={lang}
+  accent="#209fb6"
+  structuredData={structuredData}
+  theme={theme}
+>
+  <Pellicola slot="header" current="tipicita-in-blu" mode="dark" />
+
+  <!-- ══ QUADRO D'APERTURA · LA PLANCIA ══ -->
+  <header class="plancia">
+    {/* IL FONDALE (Paolo, 09/08/2026). Il mare sta DIETRO la plancia, non
+        al posto suo: la pagina resta quella con il reticolo e le
+        coordinate, il video è materia in movimento al 30%.
+        Crudo non reggeva — la scia del sole mangiava la riga di
+        coordinate e la cromia passava dal navy al grigio caldo. Qui è
+        desaturato, sfocato e scurito già in codifica (l'acqua che
+        scintilla è il caso peggiore per un codec: sfocandola il file
+        passa da 29 MB a 327 KB), con dissolvenze in entrata e in uscita
+        perché la giuntura del loop non si veda.
+        Sta per primo nel DOM: sopra ci vanno il reticolo e il contenuto,
+        senza bisogno di z-index. */}
+    <video
+      class="fondale"
+      src="/tib/fondo.mp4"
+      poster="/tib/fondo-poster.jpg"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+      tabindex="-1"
+    ></video>
+    <div class="grigliato" aria-hidden="true"></div>
+    <div class="plancia-in">
+      <h1 class="sr-only">{c.plancia.titolo}</h1>
+      <img class="marchio" src="/logos/tipicita-in-blu-white.svg" alt={c.plancia.marchioAlt} width="320" height="120" />
+      <p class="payoff">{c.plancia.payoff}</p>
+      <!-- righe-dato in segmenti: su schermo stretto scendono UNO PER RIGA
+           invece di spezzarsi a caso — la plancia resta plancia. -->
+      <p class="fix fix--apertura">
+        {c.plancia.fix.map((f) => <span>{f}</span>)}
+      </p>
+      <nav class="matrici" aria-label={c.plancia.navAria}>
+        {c.matrici.map((m) => <a href={`#${m.id}`}>{m.label}</a>)}
+      </nav>
+    </div>
+  </header>
+
+  <!-- barra di strumento: resta agganciata, segna dove si è -->
+  <div class="barra">
+    <div class="barra-in">
+      <img class="barra-marchio" src="/logos/tipicita-in-blu-white.svg" alt="" width="90" height="34" />
+      <nav aria-label={c.barra.navAria}>
+        {c.matrici.map((m) => <a href={`#${m.id}`} data-nav={m.id}>{m.label}</a>)}
+      </nav>
+      <span class="fix barra-fix" aria-hidden="true">{c.barra.fix}</span>
+    </div>
+  </div>
+
+  <main>
+    <!-- ══ .ROTTA — che cosa è, dove guarda ══ -->
+    <section class="matrice" id="rotta" aria-labelledby="h-rotta">
+      <div class="wrap">
+        <h2 id="h-rotta" data-reveal>{c.rotta.h2}</h2>
+
+        {/* «dove il mare incontra le persone» è una delle tre righe-firma
+             verificate nei materiali di casa (REGISTRO §3): scende di grado
+             dal payoff e diventa testo, qui, dove diceva già la stessa cosa
+             con più parole. */}
+        {/* v3 §2.1: aggiunti «pescatori, cuochi». Minimo e non casuale — la
+             squadra tiene insieme scienziati e operatori portuali, e qui si
+             elencava solo la metà istituzionale. */}
+        <div class="campo">
+          <div class="c1-7">
+            <p class="apertura" data-reveal set:html={c.rotta.apertura} />
+
+            {/* LA POSIZIONE (integrazione 07/08 dai materiali di casa): il
+                 dettaglio erudito è breve, esatto, e fonda — non decora. */}
+            <div class="blocco" data-reveal>
+              <h3>{c.rotta.posizione.h3}</h3>
+              <p set:html={c.rotta.posizione.par} />
+            </div>
+          </div>
+
+          {/* La scheda a lato: fatti già affermati in pagina, messi in
+               colonna. Non introduce mai un dato nuovo — se lo facesse
+               sarebbe un paragrafo travestito da strumento. */}
+          <aside class="c9-12 scheda" data-reveal>
+            <dl>
+              {schedaRotta.map(([voce, val]) => (
+                <>
+                  <dt>{voce}</dt>
+                  <dd>{val}</dd>
+                </>
+              ))}
+            </dl>
+          </aside>
+        </div>
+
+        {/* v3 §2.3: riscritta con le parole del reportage. «Da mare a mare» e
+             «il mare non è soltanto scenario ma principio generatore» sono
+             formule testuali di casa, non invenzioni — per questo restano
+             così come sono. Cambia anche l'attacco: «è una descrizione» e non
+             «è un metodo», perché il metodo è dichiarato più sotto, nella
+             squadra, e due volte sarebbe una ripetizione. */}
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>{c.rotta.visione.h3}</h3>
+            {c.rotta.visione.par.map((t) => <p set:html={t} />)}
+          </div>
+        </div>
+      </div>
+
+      {/* LA BANDA — l'unica cosa che esce dalla gabbia, e l'unica fotografia a
+           colori pieni di tutta la pagina. Sta qui perché qui il lettore ha
+           appena capito CHE COSA è e sta per scoprire COM'È FATTO: è la
+           cerniera. Una banda funziona perché è una — due sono un carosello
+           lento. */}
+      <figure class="banda" data-reveal data-bacino={JSON.stringify(bacinoBanda.gruppi)}>
+        {/* sta sotto la piega: lazy anche lei, o si contende la banda con il
+            video della plancia proprio mentre quello parte */}
+        <img data-foto alt={bacinoBanda.alt} width="1400" height="933" loading="lazy" decoding="async" />
+        <noscript><img src={sorgente(ripiego(bacinoBanda.gruppi))} alt={bacinoBanda.alt} /></noscript>
+        <figcaption class="wrap">
+          <span class="d-idx">{c.rotta.banda.idx}</span>
+          <span class="d-voce" data-did>{etichette[ripiego(bacinoBanda.gruppi)[1]]}</span>
+          <span class="d-luogo" data-anno>{ripiego(bacinoBanda.gruppi)[2]}</span>
+        </figcaption>
+      </figure>
+
+      <div class="wrap">
+        {/* L'ARCHITETTURA (v3 §2.4): che cosa succede, di preciso. */}
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>{c.rotta.architettura.h3}</h3>
+            <p>{c.rotta.architettura.lead}</p>
+          </div>
+        </div>
+
+        {/* LA STRISCIA DELLE TRE MATRICI: una tabella di marcia, che è
+             esattamente il registro della plancia.
+             Sta PRIMA delle tre descrizioni e non dopo: è qui che si capisce
+             in due secondi che forma ha la manifestazione — un weekend denso,
+             una settimana di lavoro, un circuito che li tiene insieme — e un
+             colpo d'occhio che arriva dopo la spiegazione non è più un colpo
+             d'occhio. Il testo resta, sotto.
+             L'informazione vive comunque nel testo: per questo il disegno è
+             aria-hidden e porta la legenda scritta. */}
+        <div class="campo">
+          <div class="c1-12 quadro quadro--marcia" data-reveal>
+            <span class="quadro-label">{c.rotta.marcia.label}</span>
+            <div class="assi">
+              <span class="a-scala" aria-hidden="true">
+                {GIORNI.map((g, i) => <i title={GIORNI_ESTESI[i]}>{g}</i>)}
+              </span>
+              {marcia.map((m) => (
+                <>
+                  <span class="a-nome"><b>{m.nome}</b><i>{m.dove}</i></span>
+                  <span
+                    class:list={['a-barra', m.tratto && 'a-barra--rada']}
+                    style={`grid-column:${m.da + 1}/${m.a + 1}`}
+                    aria-hidden="true"
+                  ></span>
+                </>
+              ))}
+            </div>
+            <p class="a-nota">{c.rotta.marcia.nota}</p>
+          </div>
+        </div>
+
+        {/* Le tre descrizioni, sotto la striscia e non al suo posto. Vanno su
+             tre colonne e non in elenco: così ciascuna sta sotto la sua barra
+             invece di impilarsi in una colonna stretta con mezzo campo vuoto
+             a destra. Il filetto in testa a ogni voce la lega alla barra. */}
+        <div class="campo">
+          <dl class="tempi c1-12" data-reveal>
+            {architettura.map((a) => (
+              <div class="tempo">
+                <dt>{a.nome}</dt>
+                <dd>{a.testo}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        {/* I FORMATI (v3 §4): la prova, dopo la tesi. Ogni formato ha la sua
+             lastra, in cornice a filo e virata nella cromia della pagina. */}
+        <div class="campo">
+          <div class="c1-12" data-reveal>
+            <h3>{c.rotta.formati.h3}</h3>
+            <div class="formati">
+              {formati.map((f) => {
+                const b = bacini[f.nome];
+                const r = ripiego(b.gruppi);
+                return (
+                  <article class="formato">
+                    <figure class="lastra" data-bacino={JSON.stringify(b.gruppi)}>
+                      <div class="l-img">
+                        <img data-foto alt={b.alt} width="1400" height="933" loading="lazy" decoding="async" />
+                        <noscript><img src={sorgente(r)} alt={b.alt} width="1400" height="933" loading="lazy" /></noscript>
+                      </div>
+                      <figcaption>
+                        <span class="d-idx">{b.idx}</span>
+                        <span class="d-voce" data-did>{etichette[r[1]]}</span>
+                        <span class="d-luogo" data-anno>{r[2]}</span>
+                      </figcaption>
+                    </figure>
+                    <h4>{f.nome}</h4>
+                    <p class="f-dove">{f.dove}</p>
+                    <p class="f-testo">{f.testo}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* LA STRISCIA DEL REPERTORIO. Pesca da tutto l'archivio e non da un
+             bacino solo, perché qui il soggetto È la varietà: tre lastre che
+             a ogni caricamento mostrano tre edizioni e tre forme diverse.
+             Non è un carosello — non si muove e non scorre: è una griglia che
+             cambia fra una visita e l'altra.
+             ⚠️ TESTO MIO, da far validare: è una parafrasi di quanto detto da
+             Paolo il 02/10/2026 e non viene da TESTI-TIB. Se Cowork lo
+             riscrive, si sostituisce qui e basta. */}
+        <div class="campo">
+          <div class="c1-12" data-reveal>
+            <span class="quadro-label">{c.rotta.repertorio.label}</span>
+            <p class="rep-nota">{c.rotta.repertorio.nota}</p>
+            <div class="repertorio">
+              {ripieghiStriscia.map((r) => (
+                <figure class="lastra" data-bacino={JSON.stringify(bacinoStriscia.gruppi)} data-striscia>
+                  <div class="l-img">
+                    <img data-foto alt={c.rotta.repertorio.alt} width="1400" height="933" loading="lazy" decoding="async" />
+                    <noscript><img src={sorgente(r)} alt={c.rotta.repertorio.alt} width="1400" height="933" loading="lazy" /></noscript>
+                  </div>
+                  <figcaption>
+                    <span class="d-voce" data-did>{etichette[r[1]]}</span>
+                    <span class="d-luogo" data-anno>{r[2]}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* IL QUADRO STRUMENTI: la ruota, e a fianco il suo elenco.
+             ⚠️ L'elenco NON è una didascalia del disegno: è la sede
+             dell'informazione. La ruota ha role="img" e una sola etichetta,
+             i settori sono presentazionali, e se il disegno non arriva — CSS
+             spento, SVG bloccato — la pagina dice ancora tutto quello che
+             deve dire. L'accensione reciproca è un di più, e sotto
+             prefers-reduced-motion perde la transizione, non l'effetto. */}
+        <div class="campo campo--ruota">
+          <div class="c1-5 ruota-campo" data-reveal>
+            <svg
+              class="ruota"
+              id="ruota"
+              viewBox="0 0 200 200"
+              role="img"
+              aria-label={c.rotta.strumenti.aria.replace('%s', strumenti.join(', '))}
+            >
+              {strumenti.map((s, i) => (
+                <path d={settore(i, strumenti.length)} fill={TINTE[i]} data-i={i} />
+              ))}
+            </svg>
+          </div>
+          <div class="c7-12 quadro" data-reveal>
+            <span class="quadro-label">{c.rotta.strumenti.label}</span>
+            <ul class="strumenti" id="ambiti">
+              {strumenti.map((s, i) => (
+                <li data-i={i}><span class="s-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="s-voce">{s}</span></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="campo">
+          <p class="estensione c1-8" data-reveal>{estensione}</p>
+        </div>
+
+        {/* IL PANNELLO DELLE LETTURE: numeri propri, che invecchiano piano.
+             Lo zero rompe la regolarità — sei colonne invece di tre, il filo
+             in ciano, il numero a corpo enorme e la spiegazione accanto e non
+             sotto. La rottura della regolarità è il modo di dare peso a un
+             dato senza scrivere che è importante. Una sola per pagina:
+             se se ne aggiunge una seconda, nessuna delle due pesa più. */}
+        <div class="campo">
+          <div class="c1-12 metriche" data-reveal>
+            <span class="quadro-label">{c.rotta.metriche.label}</span>
+            <dl class="letture">
+              {metriche.map((m) => (
+                <div class="lettura">
+                  <dt class="l-num">{m.num}</dt>
+                  <dd class="l-desc">{m.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+
+        {/* Rinominato "Il corridoio": il titolo "La posizione" è passato al
+             blocco nuovo sull'etimologia. TESTI-TIB §1 li chiama entrambi
+             "La posizione" — è una svista del documento, e due h3 identici
+             nella stessa sezione non si possono tenere. Questo blocco parla
+             dello spazio geopolitico, non del luogo. */}
+        <div class="campo campo--carta">
+          <div class="blocco c1-5" data-reveal>
+            <h3>{c.rotta.corridoio.h3}</h3>
+            <p set:html={c.rotta.corridoio.par} />
+          </div>
+
+          {/* IL FRAMMENTO DI CARTA. Il profilo è ricalcato da coordinate
+               reali: vedi la nota su CARTA nel frontmatter. Il disegno non
+               porta informazione che non sia già scritta a fianco, quindi è
+               aria-hidden e non chiede un'etichetta da leggere. */}
+          <div class="c7-12 carta-campo" data-reveal>
+            <svg class="carta" viewBox={CARTA.box} aria-hidden="true" focusable="false">
+              <defs>
+                <pattern id="tib-reticolo" width="32" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M32 0 L0 0 0 32" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.14" />
+                </pattern>
+              </defs>
+              <rect width="420" height="240" fill="url(#tib-reticolo)" />
+              <path class="k-costa" d={CARTA.ovest} />
+              <path class="k-costa" d={CARTA.est} />
+              {/* la rotta: Ancona verso la sponda opposta */}
+              <path class="k-rotta" d={`M${CARTA.ancona[0]} ${CARTA.ancona[1]} L${CARTA.zara[0]} ${CARTA.zara[1]}`} />
+              <g class="k-croce">
+                <line x1={CARTA.ancona[0] - 9} y1={CARTA.ancona[1]} x2={CARTA.ancona[0] + 9} y2={CARTA.ancona[1]} />
+                <line x1={CARTA.ancona[0]} y1={CARTA.ancona[1] - 9} x2={CARTA.ancona[0]} y2={CARTA.ancona[1] + 9} />
+                <circle cx={CARTA.ancona[0]} cy={CARTA.ancona[1]} r="3.5" />
+              </g>
+              <text class="k-targa" x={CARTA.ancona[0] + 13} y={CARTA.ancona[1] - 7}>{c.rotta.carta.targhe.ancona}</text>
+              <text class="k-targa k-targa--fioca" x="300" y="78">{c.rotta.carta.targhe.est}</text>
+              <text class="k-targa k-targa--fioca" x="36" y="150">{c.rotta.carta.targhe.mare}</text>
+            </svg>
+            <p class="carta-did">{c.rotta.carta.did}</p>
+          </div>
+        </div>
+
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>{c.rotta.equipaggio.h3}</h3>
+          {/* ⚠️ CORREZIONE FATTUALE (v3 §2.8). Fincantieri e MSC sono usciti:
+              nel reportage non compaiono fra i partner, e un nome sbagliato
+              nell'elenco dei partner è l'errore che un partner vero nota per
+              primo. L'elenco è ora per gradi, come nei materiali di casa:
+              i soggetti con un ruolo dichiarato prima, la rete convocata
+              dopo. Marina Dorica resta, come partner tecnico. */}
+            {c.rotta.equipaggio.par.map((t) => <p set:html={t} />)}
+          </div>
+        </div>
+
+        {/* LA SQUADRA (v3 §2.9, blocco nuovo): chiude .Rotta. Dice l'ascolto
+             come procedura, senza aureola — è la voce di casa già scritta.
+             A lato l'unica lastra verticale della pagina: 3:4, che è il
+             formato del ritratto di gruppo. */}
+        <div class="campo campo--squadra">
+          <div class="blocco c1-8" data-reveal>
+            <h3>{c.rotta.squadra.h3}</h3>
+            <p>{c.rotta.squadra.par}</p>
+          </div>
+          <figure
+            class="lastra lastra--alta c9-12"
+            data-reveal
+            data-bacino={JSON.stringify(bacinoSquadra.gruppi)}
+            data-vert
+          >
+            <div class="l-img">
+              <img data-foto alt={bacinoSquadra.alt} width="900" height="1200" loading="lazy" decoding="async" />
+              <noscript><img src={sorgente(ripiego(bacinoSquadra.gruppi, true), true)} alt={bacinoSquadra.alt} width="900" height="1200" loading="lazy" /></noscript>
+            </div>
+            <figcaption>
+              <span class="d-idx">{bacinoSquadra.idx}</span>
+              <span class="d-voce" data-did>{etichette[ripiego(bacinoSquadra.gruppi, true)[1]]}</span>
+              <span class="d-luogo" data-anno>{ripiego(bacinoSquadra.gruppi, true)[2]}</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ .CANTIERE — The Blue Way ══
+         Regola di Paolo: la piattaforma PRIMA, gli esempi POI. Mai il contrario. -->
+    <section class="matrice matrice--alt" id="cantiere" aria-labelledby="h-cantiere">
+      <div class="wrap">
+        <h2 id="h-cantiere" data-reveal>{c.cantiere.h2}</h2>
+
+        {/* ⚠️ CORREZIONE FATTUALE (Paolo, 07/08/2026 — TESTI-TIB §2bis).
+             La paternità di The Blue Way è di due soggetti soltanto:
+             Tipicità in Blu e il Polo Tecnologico Alto Adriatico. iNEST
+             non c'entra con la nascita — ha collaborato ad alcuni
+             progetti sviluppati DENTRO The Blue Way, e il suo nome resta
+             solo lì (la voce su Trieste, negli specchi del cantiere).
+             NB: commento in stile JSX e non commento HTML, perché quelli
+             finiscono nel sorgente pubblicato — e una nota editoriale su
+             un errore di attribuzione non deve leggersi in pagina. */}
+        <div class="campo">
+          <div class="c1-7">
+            <p class="apertura" data-reveal>{c.cantiere.apertura}</p>
+          </div>
+          <aside class="c9-12 scheda" data-reveal>
+            <dl>
+              {schedaCantiere.map(([voce, val]) => (
+                <>
+                  <dt>{voce}</dt>
+                  <dd>{val}</dd>
+                </>
+              ))}
+            </dl>
+          </aside>
+        </div>
+
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>{c.cantiere.aperto.h3}</h3>
+          {/* La definizione ufficiale, quella usata a Ecomondo: è la più
+               esatta e conviene tenerla testuale (TESTI-TIB §2ter). */}
+          {c.cantiere.aperto.par.map((t) => <p set:html={t} />)}
+          </div>
+        </div>
+
+        <div class="campo">
+          <div class="c1-12" data-reveal>
+          <h3>{c.cantiere.specchi.h3}</h3>
+          {/* Cronologia e non schede pari: anno e città in monospazio come
+               intestazione di ogni voce, che nel registro della plancia si
+               legge come un giornale di bordo. */}
+          {/* Libro mastro a due colonne: a sinistra l'intestazione — indice,
+               città e data in monospazio — a destra il corpo. Prima stavano
+               incolonnati uno sotto l'altro e il testo occupava poco più di
+               metà campo, lasciando il resto bianco senza che ci fosse
+               niente. Così la riga di registro attraversa tutta la gabbia e
+               la misura di lettura resta quella giusta. */}
+          <ol class="cronologia">
+            {cronologia.map((v, i) => (
+              <li>
+                <div class="c-testa">
+                  <span class="c-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="c-quando">{v.testa}</span>
+                  {v.sotto && <span class="c-sotto">{v.sotto}</span>}
+                </div>
+                <div class="c-corpo">
+                  {v.par.map((p) => <p class="c-par" set:html={p} />)}
+                </div>
+              </li>
+            ))}
+          </ol>
+          </div>
+        </div>
+
+        <div class="campo">
+          {/* Cinque voci brevi: su due colonne riempiono il campo, mentre
+               incolonnate lasciavano cinque colonne vuote a destra. */}
+          <div class="c1-12" data-reveal>
+            <h3>{c.cantiere.trova.h3}</h3>
+            <ul class="trova">
+              {trova.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CHIUSURA — una riga, da plancia ══ -->
+    <section class="chiusura" aria-label={c.chiusura.aria}>
+      <p class="fix fix--chiusura" data-reveal>
+        {c.chiusura.testo}
+        <a class="varco" href={c.chiusura.varco.href} target="_blank" rel="noopener">{c.chiusura.varco.label}</a>
+      </p>
+    </section>
+  </main>
+
+  {/* Il manifesto dell'archivio per lo script: JSON e non define:vars, così
+       il dato resta leggibile nel sorgente e lo script resta un modulo
+       normale che Astro può raggruppare con gli altri. */}
+  <script type="application/json" id="tib-foto" is:inline set:html={JSON.stringify(foto)}></script>
+  <script type="application/json" id="tib-etichette" is:inline set:html={JSON.stringify(gruppi)}></script>
+</BaseLayout>
+
+<style is:global>
+  /* selezione nei colori del marchio (dettaglio che si nota se manca) */
+  ::selection { background: rgba(32, 159, 182, 0.32); color: #fff; }
+</style>
+
+<style>
+  /* ── Token della pagina: una sola curva, durate corte. Stessa curva
+       usata su Tipicità, così il sito ha un'unica mano. ── */
+  .plancia, .barra, main { --ease: cubic-bezier(0.55, 0.05, 0.18, 1); }
+  .mono, .fix, .quadro-label, .s-idx, .c-idx, .c-quando,
+  .barra nav a, .matrici a {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  /* ══ LA PLANCIA ══ */
+  .plancia {
+    position: relative;
+    min-height: 88svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 1.6rem 4rem;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 42%, rgba(32, 159, 182, 0.16), transparent 70%),
+      var(--bg-void);
+  }
+  /* Il fondale. Il 30% è la soglia trovata a schermo: sopra, la riga di
+     coordinate in ciano comincia a faticare; sotto, il mare non si vede
+     più muovere. Se un domani il testo dovesse soffrire si scende di
+     opacità, non si ingrandisce il testo. */
+  .fondale {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.30;
+    pointer-events: none;
+  }
+
+  /* Reduced motion: resta la posa, ferma. Il video non parte nemmeno,
+     perché senza autoplay il browser non lo scarica. */
+  @media (prefers-reduced-motion: reduce) {
+    .fondale { display: none; }
+    .plancia {
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 42%, rgba(32, 159, 182, 0.16), transparent 70%),
+        linear-gradient(rgba(10, 26, 43, 0.70), rgba(10, 26, 43, 0.70)),
+        url('/tib/fondo-poster.jpg');
+      background-size: auto, auto, cover;
+      background-position: center;
+    }
+  }
+
+  /* carta nautica appena percettibile: reticolo di strumento, zero asset */
+  .grigliato {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(233, 238, 242, 0.055) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgba(233, 238, 242, 0.055) 0 1px, transparent 1px 64px);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 78%);
+    pointer-events: none;
+  }
+  .plancia-in { position: relative; max-width: 60rem; }
+  .marchio { width: min(64vw, 320px); height: auto; display: block; margin: 0 auto; }
+  .payoff {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+    color: var(--text-soft);
+    margin: 1.6rem 0 1.8rem;
+    line-height: 1.25;
+  }
+  .fix {
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--brand-accent);
+    margin: 0;
+  }
+  /* i segmenti stanno in riga, separati dal punto medio; il separatore è
+     generato, così sparisce da solo quando i segmenti si impilano */
+  .fix--apertura {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    line-height: 1.9;
+  }
+  .fix--apertura span + span::before {
+    content: '·';
+    margin-right: 0.6rem;
+    color: var(--text-faint);
+  }
+  .matrici {
+    display: flex;
+    justify-content: center;
+    gap: 2.2rem;
+    margin-top: 2.6rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+  .matrici a {
+    color: var(--text-soft);
+    text-decoration: none;
+    padding: 0.4rem 0.2rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .matrici a:hover { border-color: var(--brand-accent); }
+  .matrici a:active { color: var(--brand-accent); }
+
+  /* ══ BARRA DI STRUMENTO ══ */
+  .barra {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: color-mix(in srgb, var(--bg-void) 86%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .barra-in {
+    max-width: 68rem;
+    margin: 0 auto;
+    padding: 0.7rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+  /* spazio per la capsula fissa in alto a destra (BRIEF-MENU §6) */
+  @media (min-width: 760px) {
+    .barra-in { padding-right: 265px; }
+  }
+  .barra-marchio { height: 26px; width: auto; flex: none; opacity: 0.9; }
+  .barra nav { display: flex; gap: 1.4rem; }
+  .barra nav a {
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+    text-decoration: none;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .barra nav a:hover { color: var(--text-soft); }
+  .barra nav a:active { color: var(--brand-accent); }
+  .barra nav a[aria-current='true'] { color: var(--brand-accent); border-color: var(--brand-accent); }
+  .barra-fix { margin-left: auto; color: var(--text-faint); font-size: 0.7rem; }
+  @media (max-width: 560px) { .barra-fix { display: none; } }
+
+  /* ══ MATRICI ══ */
+  .matrice { padding: clamp(3.4rem, 9vh, 6rem) 0; }
+  .matrice--alt { background: var(--bg-deep); }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 var(--gut); }
+
+  /* ══ LA GRIGLIA: DODICI CAMPI ══
+     Dodici colonne dentro 68rem, gronda 1.6rem, modulo verticale di 64px —
+     che non è un numero scelto a caso: è il passo del reticolo di carta
+     nautica già disegnato in .grigliato. La pagina aveva già la sua griglia
+     addosso, e finora nessun contenuto la usava.
+
+     Regola unica: LA PLANCIA È L'UNICO BLOCCO CENTRATO DELLA PAGINA. Tutto
+     il resto dichiara il campo che occupa. Una plancia non è una colonna: è
+     un pannello con campi di dimensioni diverse, e finché ogni blocco è largo
+     uguale e centrato uguale nessuna gerarchia è possibile. */
+  main { --gut: 1.6rem; --mod: 64px; }
+  .campo {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gut);
+  }
+  .campo + .campo { margin-top: var(--mod); }
+  /* i campi che portano una grafica respirano di un modulo in più: la ruota e
+     la carta hanno bisogno di stare sole per leggersi */
+  .campo--ruota, .campo--carta, .campo--squadra { margin-top: calc(var(--mod) * 1.5); }
+
+  .c1-5 { grid-column: 1 / 6; }
+  .c1-7 { grid-column: 1 / 8; }
+  .c1-8 { grid-column: 1 / 9; }
+  .c1-12 { grid-column: 1 / 13; }
+  .c7-12 { grid-column: 7 / 13; }
+  .c9-12 { grid-column: 9 / 13; }
+
+  /* Un solo punto di rottura, e sotto si collassa tutto a colonna singola.
+     Due punti di rottura si tengono in ordine; quattro no. */
+  @media (max-width: 820px) {
+    .c1-5, .c1-7, .c1-8, .c1-12, .c7-12, .c9-12 { grid-column: 1 / 13; }
+    .campo { row-gap: 2rem; }
+    .campo + .campo,
+    .campo--ruota, .campo--carta, .campo--squadra { margin-top: 2.8rem; }
+  }
+
+  /* ── la scheda tecnica a lato: colonna di fatti, non paragrafo ── */
+  .scheda dl { margin: 0; }
+  .scheda dt {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .scheda dd {
+    margin: 0.3rem 0 0;
+    padding-bottom: 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .scheda dd + dt { margin-top: 0.9rem; }
+  .scheda dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  /* su schermo stretto la scheda sta sotto l'apertura: le serve un filo in
+     testa, o galleggia */
+  @media (max-width: 820px) {
+    .scheda { border-top: 1px solid var(--brand-accent); padding-top: 1rem; }
+  }
+
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--brand-accent);
+    margin: 0 0 1.4rem;
+  }
+  h2::before { content: '.'; color: var(--text-faint); }
+
+  h3 {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    margin: 0 0 0.6rem;
+  }
+
+  /* text-wrap: pretty → il browser evita le ultime righe con una parola sola
+     (righe orfane trovate in audit a 390 e 1440). Dove non è supportato,
+     degrada al ritorno a capo normale. */
+  .apertura, .blocco p, .l-desc, .trova li,
+  .tempi dd, .f-testo, .c-par, .estensione { text-wrap: pretty; }
+
+  .apertura {
+    font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+    line-height: 1.75;
+    color: var(--text-soft);
+    max-width: 60ch;
+    margin: 0 0 2.6rem;
+  }
+  .blocco { margin: 0 0 2.4rem; max-width: 62ch; }
+  /* la misura di lettura è un massimo, non una larghezza: dove il campo è
+     più stretto di 62ch comanda il campo */
+  .blocco p { color: var(--text-dim); line-height: 1.75; margin: 0; }
+  /* i blocchi con due paragrafi (La visione, Il cantiere aperto) hanno
+     bisogno di respiro: senza, le due righe si toccano e sembrano uno */
+  .blocco p + p { margin-top: 1.1em; }
+
+  /* ── L'architettura: le tre descrizioni sotto la striscia, una per
+       colonna, ciascuna sotto la sua barra. dl e non ul perché sono
+       definizioni: nome e contenuto. ── */
+  .tempi {
+    margin: 1.4rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gut);
+  }
+  /* il filetto in testa lega la voce alla barra che le sta sopra */
+  .tempo { border-top: 1px solid var(--brand-accent); padding-top: 0.9rem; }
+  .tempi dt {
+    color: var(--text-soft);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .tempi dd {
+    margin: 0.3rem 0 0;
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-size: 0.94rem;
+  }
+  @media (max-width: 820px) {
+    .tempi { grid-template-columns: 1fr; gap: 1.4rem; }
+  }
+
+  /* ── I formati: quattro schede, ciascuna con la sua lastra. ──
+     Due colonne e non auto-fit: i formati sono quattro, e con auto-fit a
+     1440 entrano in tre — il quarto resta orfano su una riga sua. 2×2 non
+     lascia orfani a nessuna larghezza. */
+  .formati {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.6rem var(--gut);
+    margin-top: 1.4rem;
+  }
+  .formato h4 {
+    margin: 0 0 0.25rem;
+    font-size: 1.02rem;
+    color: var(--text-soft);
+  }
+  .f-dove {
+    margin: 0 0 0.6rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--text-faint);
+  }
+  .f-testo {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  /* ══ LE IMMAGINI: DUE FAMIGLIE, E SOLO DUE ══ */
+
+  /* ── 1. LA LASTRA ──
+     Inserto in cornice a filo, virato nella cromia della pagina.
+     NIENTE raggio d'angolo e NIENTE ombra: sarebbero il depliant.
+     Formato 3:2 — non 16:9. Il 16:9 è il formato dei monitor della moviola
+     di Tipicità: usarlo qui sarebbe un prestito da un'altra fabula. Il 3:2 è
+     il formato della fotografia documentaria, ed è quello giusto per una
+     scheda tecnica. L'unica eccezione è la lastra verticale della squadra.
+     aspect-ratio sul contenitore e width/height sull'immagine: al
+     caricamento non si muove un pixel. */
+  .lastra { margin: 0 0 0.9rem; }
+  .l-img {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+    background: linear-gradient(140deg, #14384a, #1d5468 45%, #2a7f95 70%, #3f6b78);
+    /* la viratura: la fotografia resta perfettamente leggibile, ma
+       APPARTIENE alla pagina invece di sedercisi sopra. È il modo per usare
+       materiale d'archivio molto vario — luci diverse, anni diversi,
+       fotografi diversi — senza che la pagina diventi un collage. */
+    filter: saturate(0.55) contrast(1.05);
+  }
+  .lastra--alta .l-img { aspect-ratio: 3 / 4; }
+  .l-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .l-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(32, 159, 182, 0.18), rgba(10, 26, 43, 0.30));
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+  /* lo stato di riserva: il campo virato con la sua etichetta. Dignitoso, e
+     non sembra un errore — che è meglio di una fotografia sbagliata. */
+  /* il fondo in gradiente resta sotto l'immagine: è quello che si vede nel
+     mezzo secondo fra il disegno della pagina e l'arrivo dello scatto
+     estratto, ed è nella cromia giusta invece che grigio */
+
+  /* la didascalia: SEMPRE presente, mai sovrimpressa, mai decorativa.
+     Se una didascalia non aggiunge un fatto, la lastra non serve. */
+  .lastra figcaption, .banda figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    align-items: baseline;
+    margin-top: 0.7rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .d-idx { color: var(--brand-accent); }
+  .d-voce { color: var(--text-dim); }
+  .d-luogo { color: var(--text-faint); }
+  /* il separatore è generato, così sparisce da solo quando la didascalia va
+     a capo su schermo stretto */
+  .lastra figcaption span + span::before,
+  .banda figcaption span + span::before {
+    content: '·';
+    margin-right: 0.7rem;
+    color: var(--text-faint);
+  }
+
+  /* ── 2. LA BANDA ──
+     L'unica fotografia a colori pieni di tutta la pagina, e l'unica cosa che
+     esce dalla gabbia. È la cerniera fra .Rotta e l'architettura: il punto in
+     cui il lettore ha capito CHE COSA è e sta per scoprire COM'È FATTO.
+     Una banda funziona perché è una: due sono un carosello lento. */
+  .banda {
+    position: relative;
+    margin: clamp(3rem, 7vh, 5rem) 0;
+    padding: 0;
+  }
+  /* nessuna viratura qui: è l'unica fotografia a colori pieni della pagina,
+     ed è il colore stesso a essere il contenuto */
+  .banda > img {
+    display: block;
+    width: 100%;
+    height: 56svh;
+    min-height: 340px;
+    object-fit: cover;
+    background: linear-gradient(115deg, #14384a, #1d5468 45%, #2a7f95 70%, #3f6b78);
+  }
+  /* la didascalia della banda torna dentro la gabbia: è l'unica parte della
+     banda che obbedisce alla griglia */
+  .banda figcaption { margin-top: 0.8rem; }
+  /* a 390 la banda non deve mangiare mezzo schermo */
+  @media (max-width: 700px) {
+    .banda > img { height: 42svh; min-height: 230px; }
+  }
+
+  /* ── LA STRISCIA DEL REPERTORIO ──
+     Tre lastre affiancate che cambiano a ogni caricamento. Non scorre e non
+     si muove: è una griglia, non un carosello. */
+  .rep-nota {
+    margin: 0 0 1.6rem;
+    max-width: 62ch;
+    color: var(--text-dim);
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+  .repertorio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gut);
+  }
+  /* Sotto 820 scende a colonna singola come tutto il resto della griglia.
+     Non si nasconde la terza lastra: un elemento in display:none viene
+     scaricato lo stesso, e sarebbe 160 KB buttati su una connessione
+     telefonica. */
+  @media (max-width: 820px) {
+    .repertorio { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ── il quadro strumenti: readout, due colonne di sigle ── */
+  /* il ritmo verticale lo detta la griglia (.campo + .campo), non i margini
+     dei pannelli: se ce l'hanno anche loro, i due si sommano e il modulo da
+     64px salta */
+  .quadro, .metriche {
+    border: 1px solid var(--hairline);
+    border-left: 2px solid var(--brand-accent);
+    background: rgba(233, 238, 242, 0.028);
+    padding: 1.5rem 1.6rem 1.4rem;
+    margin: 0;
+  }
+  .quadro-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.1rem;
+  }
+  /* una colonna sola: l'elenco è la lettura della ruota, e sette voci
+     numerate 01–07 in colonna si contano a colpo d'occhio contro i sette
+     settori. Su due colonne il conto si perde. */
+  .strumenti {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .strumenti li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    padding: 0.42rem 0;
+    border-bottom: 1px solid rgba(233, 238, 242, 0.07);
+  }
+  .s-idx { font-size: 0.66rem; color: var(--brand-accent); flex: none; }
+  .s-voce {
+    font-size: 0.82rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* ── il pannello delle letture ──
+     Tre letture, quattro colonne ciascuna: la riga si chiude esatta sulle
+     dodici e il pannello non resta con un quarto vuoto a destra. */
+  .letture {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.8rem var(--gut);
+  }
+  .lettura { margin: 0; grid-column: span 4; }
+  .l-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    line-height: 1.05;
+    color: var(--brand-accent);
+    font-variant-numeric: tabular-nums;
+    margin: 0 0 0.35rem;
+  }
+  .l-desc {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+    max-width: 26ch;
+  }
+  /* l'estensione tematica: corpo minore sotto la ruota, non in maiuscoletto
+     — è un paragrafo da leggere, non un'etichetta. */
+  .estensione {
+    margin: 1.6rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  /* ── LA RUOTA DEGLI AMBITI ──
+     Sette settori su un anello con il quadrante vuoto al centro: legge come
+     un quadrante di strumento, non come un grafico a torta. Passando su un
+     settore si accende la voce corrispondente nell'elenco a fianco, e
+     viceversa: una sola intenzione, 250ms, la curva della pagina. */
+  .ruota-campo { display: grid; align-content: center; }
+  .ruota { display: block; width: 100%; max-width: 21rem; height: auto; }
+  /* a colonna singola la ruota non ha più un vicino a cui allinearsi: cresce
+     e si centra, o resta un disco piccolo in un campo vuoto */
+  @media (max-width: 820px) {
+    .ruota { max-width: 26rem; margin-inline: auto; }
+  }
+  .ruota path {
+    opacity: 0.85;
+    transition: opacity 0.25s var(--ease);
+  }
+  /* l'accensione vive solo mentre si punta qualcosa: la classe sta sul
+     contenitore, così gli altri settori si abbassano INSIEME invece che uno
+     alla volta */
+  .ruota--acceso path { opacity: 0.22; }
+  .ruota--acceso path.on { opacity: 1; }
+  .strumenti li { transition: border-color 0.25s var(--ease); }
+  .strumenti li.on { border-bottom-color: var(--brand-accent); }
+  .strumenti li.on .s-voce { color: var(--text-soft); }
+
+  /* ── LA STRISCIA DELLE TRE MATRICI ──
+     Otto colonne: il nome a sinistra e sette giorni sull'asse. È una tabella
+     di marcia, che è esattamente il registro della plancia. */
+  .assi {
+    display: grid;
+    grid-template-columns: 12rem repeat(7, 1fr);
+    gap: 0.75rem 0.35rem;
+    align-items: center;
+    margin-top: 0.3rem;
+  }
+  /* la scala ricalca le tracce del genitore: stesse 7 colonne, stessa gronda,
+     quindi i numeri cadono esattamente sopra i giorni */
+  .a-scala {
+    grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+  }
+  .a-scala i {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    text-align: center;
+  }
+  .a-nome { grid-column: 1; display: block; padding-right: 0.8rem; }
+  .a-nome b {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    line-height: 1.3;
+  }
+  .a-nome i {
+    display: block;
+    margin-top: 0.15rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-style: normal;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .a-barra {
+    height: 12px;
+    border: 1px solid var(--brand-accent);
+    background: color-mix(in srgb, var(--brand-accent) 62%, transparent);
+  }
+  /* il circuito è diffuso in città, non concentrato in una sede: a tratteggio */
+  .a-barra--rada {
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--brand-accent) 45%, transparent) 0 4px,
+      transparent 4px 9px
+    );
+  }
+  .a-nota {
+    margin: 1.2rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--text-faint);
+    text-wrap: pretty;
+  }
+  /* Sotto i 560 la colonna dei nomi costerebbe metà della striscia e i giorni
+     si ridurrebbero a 24px l'uno. Il nome sale allora sopra la sua barra, a
+     tutta larghezza: la prima colonna si azzera, così le barre continuano a
+     cadere sui giorni giusti senza che gli indici cambino di uno. */
+  @media (max-width: 560px) {
+    .assi { grid-template-columns: 0 repeat(7, 1fr); gap: 0.4rem 0.2rem; }
+    .a-scala { gap: 0.2rem; }
+    .a-nome {
+      grid-column: 1 / -1;
+      padding-right: 0;
+      margin-top: 0.7rem;
+    }
+    .a-nome b { font-size: 0.78rem; }
+    .a-nome i { font-size: 0.6rem; }
+  }
+
+  /* ── IL FRAMMENTO DI CARTA ──
+     Due coste a filo, il reticolo, Ancona con il crocino e la rotta
+     tratteggiata verso la sponda opposta. Il profilo è ricalcato da
+     coordinate reali: vedi la nota nel frontmatter. */
+  .carta-campo { display: grid; align-content: center; }
+  .carta {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--text-soft);
+    border: 1px solid var(--hairline);
+    background: rgba(10, 26, 43, 0.4);
+  }
+  .k-costa {
+    fill: none;
+    stroke: var(--brand-accent);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .k-rotta {
+    fill: none;
+    stroke: var(--text-soft);
+    stroke-width: 1;
+    stroke-dasharray: 5 4;
+    opacity: 0.55;
+  }
+  .k-croce line, .k-croce circle { stroke: var(--text-soft); stroke-width: 1; fill: none; }
+  .k-targa {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    fill: var(--text-soft);
+  }
+  .k-targa--fioca { fill: var(--text-faint); }
+  .carta-did {
+    margin: 0.8rem 0 0;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    color: var(--text-faint);
+    text-wrap: pretty;
+  }
+
+  /* ── la cronologia: giornale di bordo. L'indice e la data in monospazio
+       fanno da intestazione, il corpo rientra sotto. ── */
+  /* due colonne: l'intestazione di registro a sinistra, il corpo a destra.
+     La riga attraversa tutta la gabbia, ma la misura di lettura resta quella
+     della sola colonna del corpo. */
+  .cronologia { list-style: none; margin: 1.2rem 0 0; padding: 0; }
+  .cronologia li {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0 var(--gut);
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .cronologia li:first-child { padding-top: 0.2rem; }
+  .cronologia li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .c-idx {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--brand-accent);
+    margin-bottom: 0.45rem;
+  }
+  .c-corpo { max-width: 68ch; }
+  .c-testa { margin: 0; }
+  .c-quando {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: var(--text-soft);
+  }
+  .c-sotto {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+  }
+  .c-par {
+    margin: 0;
+    color: var(--text-dim);
+    line-height: 1.75;
+    font-size: 0.96rem;
+  }
+  .c-par + .c-par { margin-top: 0.9em; }
+  .c-par :global(b) { color: var(--text-soft); font-weight: 600; }
+
+  /* due colonne: cinque voci brevi incolonnate lasciavano cinque colonne
+     vuote a destra. Su due, la riga resta corta e il campo si riempie. */
+  .trova {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 calc(var(--gut) * 2);
+  }
+  .trova li {
+    padding: 0.7rem 0 0.7rem 1.4rem;
+    position: relative;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  @media (max-width: 820px) {
+    .trova { grid-template-columns: 1fr; gap: 0; }
+  }
+  .trova li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.35rem;
+    width: 6px;
+    height: 1px;
+    background: var(--brand-accent);
+  }
+
+  /* ══ CHIUSURA ══ */
+  .chiusura {
+    border-top: 1px solid var(--hairline);
+    padding: 2.6rem 1.6rem 3rem;
+    text-align: center;
+  }
+  .fix--chiusura { font-size: 0.8rem; line-height: 2; }
+  .varco {
+    display: inline-block;
+    color: var(--brand-accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(32, 159, 182, 0.45);
+    /* area toccabile ≥24px (WCAG 2.5.8) senza ingrandire il segno */
+    padding: 4px 2px 3px;
+    transition: border-color 0.25s var(--ease);
+  }
+  .varco:hover { border-color: var(--brand-accent); }
+  .varco:active { color: var(--text-soft); }
+
+  /* ══ FUOCO DISEGNATO — non l'anello di sistema ══ */
+  .matrici a:focus-visible,
+  .barra nav a:focus-visible,
+  .varco:focus-visible {
+    outline: none;
+    color: var(--brand-accent);
+    border-color: var(--brand-accent);
+    box-shadow: 0 2px 0 0 var(--brand-accent), 0 0 0 4px rgba(32, 159, 182, 0.18);
+    border-radius: 1px;
+  }
+
+  /* ══ RESPONSIVE: la plancia resta plancia ══
+     Sotto 820px la griglia è già collassata a colonna singola (vedi su).
+     Qui restano gli aggiustamenti di corpo e di spaziatura della plancia e
+     dei pannelli, che non sono questioni di griglia. */
+  @media (max-width: 820px) {
+    .formati { grid-template-columns: 1fr 1fr; }
+    /* la cronologia perde la spalla e torna a registro impilato: 15rem di
+       intestazione su 702px lascerebbero al corpo una misura da giornale */
+    .cronologia li { grid-template-columns: 1fr; gap: 0.7rem 0; }
+  }
+  @media (max-width: 620px) {
+    .plancia { min-height: 78svh; padding: 5rem 1.2rem 3rem; }
+    .wrap { padding: 0 1.2rem; }
+    /* schermo stretto: i segmenti scendono uno per riga, allineati e interi.
+       Niente a-capo casuale a metà di una coordinata. */
+    .fix--apertura {
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+    .fix--apertura span + span::before { content: none; margin: 0; }
+    .s-voce { font-size: 0.78rem; }
+    .formati { grid-template-columns: 1fr; gap: 2rem; }
+    .estensione { font-size: 0.78rem; }
+    .c-par { font-size: 0.9rem; }
+    /* una lettura per riga: a questa larghezza tre o due per riga spezzano
+       «oltre 30» a metà */
+    .lettura { grid-column: span 12; }
+    .letture { gap: 1.4rem 1.2rem; }
+    .l-desc { font-size: 0.78rem; }
+    .quadro, .metriche { padding: 1.2rem 1.1rem 1.1rem; }
+    .matrici { gap: 1.6rem; }
+  }
+
+  /* ══ MOTO: solo dissolvenza; sotto reduced-motion sparisce del tutto ══ */
+  @media (prefers-reduced-motion: reduce) {
+    /* la ruota perde la transizione, non l'accensione: dà fastidio il moto,
+       non il contrasto (GRIGLIA-TIB §7) */
+    .matrici a, .barra nav a, .varco, .ruota path, .strumenti li { transition: none; }
+  }
+</style>
+
+<script>
+  // Il conteggio da zero delle metriche è stato rimosso con i numeri che lo
+  // giustificavano: sui dati nuovi — «2014», «0» — un contatore che sale è un
+  // effetto su cifre che non lo meritano (GRIGLIA-TIB §5), e su uno zero è
+  // semplicemente un'animazione che non si vede.
+
+  // ── LE LASTRE SI ESTRAGGONO A OGNI CARICAMENTO ──
+  // Ogni lastra pesca SOLO dal suo bacino, perché la didascalia deve restare
+  // vera qualunque scatto esca. Nessuno scatto compare due volte nella stessa
+  // visita, e sessionStorage evita di riproporre la stessa mano alla visita
+  // successiva — stesso meccanismo delle fotografie di .Trama.
+  // L'<img> arriva senza src: lo si assegna qui, così il ripiego dentro
+  // <noscript> non viene mai scaricato da chi ha JS.
+  // letto con prudenza: se il manifesto non c'è, le lastre restano al loro
+  // ripiego e il resto dello script — la ruota, la barra — continua a
+  // funzionare. Un null non letto qui fermerebbe tutto il modulo.
+  const leggi = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (e) { return null; }
+  };
+  const FOTO = leggi('tib-foto');
+  const ETICHETTE = leggi('tib-etichette');
+
+  const lastre = Array.from(document.querySelectorAll('[data-bacino]'));
+
+  // Se il manifesto non arriva, le lastre resterebbero vuote: il ripiego sta
+  // dentro <noscript>, che con JS attivo non viene reso. Con JS attivo però
+  // il suo contenuto è leggibile come testo, e da lì si recupera la sorgente.
+  // Caso che non deve capitare — ma una pagina senza fotografie è peggio di
+  // sei righe in più.
+  if ((!FOTO || !ETICHETTE) && lastre.length) {
+    lastre.forEach((fig) => {
+      const img = fig.querySelector('[data-foto]');
+      const ns = fig.querySelector('noscript');
+      if (!img || img.getAttribute('src') || !ns) return;
+      const m = ns.textContent.match(/src="([^"]+)"/);
+      if (m) img.src = m[1];
+    });
+  }
+
+  if (FOTO && ETICHETTE && lastre.length) {
+    let scorsa = [];
+    try { scorsa = JSON.parse(sessionStorage.getItem('tib-mano') || '[]'); } catch (e) {}
+
+    const usati = new Set();
+    const mano = [];
+
+    lastre.forEach((fig) => {
+      const gruppi = JSON.parse(fig.dataset.bacino);
+      const vert = 'vert' in fig.dataset;
+      const bacino = FOTO.filter((f) => gruppi.includes(f[1]) && (!vert || f[3]));
+      // prima si prova senza ripescare né i già usati né quelli della visita
+      // precedente; se il bacino è troppo piccolo si allenta, un vincolo per
+      // volta, invece di restare senza fotografia
+      let scelta = bacino.filter((f) => !usati.has(f[0]) && !scorsa.includes(f[0]));
+      if (!scelta.length) scelta = bacino.filter((f) => !usati.has(f[0]));
+      if (!scelta.length) scelta = bacino;
+      if (!scelta.length) return;
+
+      const f = scelta[Math.floor(Math.random() * scelta.length)];
+      usati.add(f[0]);
+      mano.push(f[0]);
+
+      const n = String(f[0]).padStart(3, '0');
+      const img = fig.querySelector('[data-foto]');
+      if (img) {
+        // prima l'alt, poi la sorgente: se l'immagine arriva dalla cache il
+        // browser può dipingerla subito, e non deve esistere un istante in
+        // cui è a schermo con la descrizione del bacino invece che la sua
+        img.alt = ETICHETTE[f[1]][1];
+        img.src = '/tib/foto/tib-' + n + (vert ? '-v' : '') + '.jpg';
+      }
+      const did = fig.querySelector('[data-did]');
+      if (did) did.textContent = ETICHETTE[f[1]][0];
+      const anno = fig.querySelector('[data-anno]');
+      if (anno) anno.textContent = f[2];
+    });
+
+    try { sessionStorage.setItem('tib-mano', JSON.stringify(mano)); } catch (e) {}
+  }
+
+  // ── LA RUOTA E IL SUO ELENCO SI ACCENDONO A VICENDA ──
+  // Un di più, non un veicolo: l'informazione sta tutta nell'elenco, che è la
+  // versione accessibile del disegno. Per questo nessun elemento diventa
+  // focalizzabile — sarebbero sette fermate di tabulazione che non portano da
+  // nessuna parte (WCAG 2.4.3) — e se questo blocco non gira la pagina dice
+  // ancora tutto quello che deve dire.
+  // Sotto prefers-reduced-motion sparisce la transizione, non l'accensione:
+  // è il moto a dare fastidio, non il contrasto.
+  const ruota = document.getElementById('ruota');
+  const ambiti = document.getElementById('ambiti');
+  if (ruota && ambiti) {
+    const settori = Array.from(ruota.querySelectorAll('path'));
+    const voci = Array.from(ambiti.querySelectorAll('li'));
+
+    const accendi = (i) => {
+      ruota.classList.toggle('ruota--acceso', i !== null);
+      settori.forEach((p, k) => p.classList.toggle('on', k === i));
+      voci.forEach((l, k) => l.classList.toggle('on', k === i));
+    };
+
+    // la coppia settore/voce condivide l'indice: una sola fonte, nessun
+    // disallineamento possibile se un domani gli ambiti cambiano numero
+    [...settori, ...voci].forEach((el) => {
+      const i = Number(el.dataset.i);
+      el.addEventListener('mouseenter', () => accendi(i));
+      el.addEventListener('mouseleave', () => accendi(null));
+    });
+  }
+
+  // ── la barra segna la matrice in cui ci si trova ──
+  const voci = Array.from(document.querySelectorAll('.barra nav a'));
+  const sezioni = voci.map((a) => document.getElementById(a.dataset.nav)).filter(Boolean);
+  if (sezioni.length && 'IntersectionObserver' in window) {
+    const spia = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        voci.forEach((a) => a.setAttribute('aria-current', a.dataset.nav === e.target.id ? 'true' : 'false'));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sezioni.forEach((s) => spia.observe(s));
+  }
+</script>

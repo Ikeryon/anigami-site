@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImaginaHeader from '../../components/ImaginaHeader.astro';
+import { content } from '../../i18n/relazione-di-impatto.js';
+
+// ══════════════════════════════════════════════════════════════════════
+// RELAZIONE DI IMPATTO — predisposizione (BRIEF-HOME §4bis, 08/08/2026)
+//
+// Non è una scelta editoriale, è adempimento: la legge 208/2015 impone
+// alle società benefit di redigere ogni anno una relazione di impatto,
+// allegarla al bilancio e PUBBLICARLA SUL SITO della società.
+//
+// I testi stanno in src/i18n/relazione-di-impatto.js, insieme alla nota
+// che spiega perché la pagina è un segnaposto e che cosa ci va quando la
+// prima relazione è pronta. Finché esiste solo `it` non c'è rotta /en/ e
+// non c'è selettore di lingua.
+// ══════════════════════════════════════════════════════════════════════
+
+const lang = 'it';
+const c = content[lang];
+
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
+---
+<BaseLayout title={c.meta.title} description={c.meta.description} lang={lang} theme={theme}>
+  <ImaginaHeader slot="header" />
+
+  <main class="container" style="padding-top: 6rem;">
+    <h1>{c.titolo}</h1>
+
+    <section class="chapter">
+      {/* interpolazione normale e non set:html: questi paragrafi non hanno
+          marcatura in linea, e la & della ragione sociale va codificata —
+          set:html la lascerebbe grezza nel sorgente */}
+      {c.par.map((t) => <p>{t}</p>)}
+
+      <p><a class="trace-link" href={c.ritorno.href}>{c.ritorno.label}</a></p>
+    </section>
+  </main>
+</BaseLayout>

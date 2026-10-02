@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup — Anigami, il foglio e la piega</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #faf9f6;
+    --ink: #1b1a1f;
+    --ink-dim: rgba(27, 26, 31, 0.66);
+    --ink-faint: rgba(27, 26, 31, 0.42);
+    --hairline: rgba(27, 26, 31, 0.13);
+    --grad-a: #e9464e;
+    --grad-b: #e6007e;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* Grana di carta */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 80;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- HERO: il foglio ---------- */
+  .hero {
+    min-height: 88svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.6rem 4.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 28% 18%, color-mix(in srgb, var(--grad-a) 30%, transparent) 0%, transparent 58%),
+      radial-gradient(ellipse at 78% 82%, color-mix(in srgb, var(--grad-b) 22%, transparent) 0%, transparent 58%);
+    pointer-events: none;
+  }
+
+  /* la piega diagonale del foglio, appena percettibile */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(118deg, transparent 0 54%, rgba(27,26,31,0.045) 54.15%, transparent 54.7%);
+    pointer-events: none;
+  }
+
+  .kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin: 0 0 1rem;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin: 0;
+    max-width: 14em;
+    position: relative;
+  }
+
+  .hero .anagram {
+    display: block;
+    margin-top: 1.2rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+    color: var(--ink-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .hero .anagram em {
+    font-style: normal;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---------- LE PIEGHE: i quattro progetti ---------- */
+  .folds {
+    border-top: 1px solid var(--hairline);
+    perspective: 1600px;
+  }
+
+  .fold {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+    transform-origin: top center;
+    transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.55s ease, background 0.4s ease;
+    transform-style: preserve-3d;
+    background: var(--paper);
+  }
+
+  /* la falda si solleva come carta */
+  .fold:hover,
+  .fold:focus-visible {
+    transform: rotateX(7deg);
+    box-shadow: 0 26px 44px -28px color-mix(in srgb, var(--accent) 55%, rgba(27,26,31,0.5));
+    background: color-mix(in srgb, var(--accent) 4.5%, var(--paper));
+    z-index: 2;
+  }
+
+  /* angolo che si solleva (corner-fold) */
+  .fold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0;
+    border-color: transparent;
+    transition: border-width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fold:hover::after,
+  .fold:focus-visible::after {
+    border-width: 0 34px 34px 0;
+    border-color: var(--paper) var(--paper) color-mix(in srgb, var(--accent) 28%, var(--paper)) transparent;
+    filter: drop-shadow(-2px 2px 3px rgba(27,26,31,0.18));
+  }
+
+  .fold-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(2.4rem, 6vw, 4.2rem) 1.6rem;
+    display: flex;
+    align-items: baseline;
+    gap: clamp(1.2rem, 4vw, 2.6rem);
+  }
+
+  .fold .num {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    flex: none;
+  }
+
+  .fold h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    line-height: 1.02;
+    margin: 0 0 0.4rem;
+    transition: color 0.35s ease;
+  }
+
+  .fold:hover h2,
+  .fold:focus-visible h2 {
+    color: var(--accent);
+  }
+
+  .fold p {
+    font-size: 0.88rem;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+
+  .fold .text { flex: 1; min-width: 0; }
+
+  .fold .go {
+    font-size: 1.3rem;
+    color: var(--ink-faint);
+    flex: none;
+    align-self: center;
+    transition: color 0.35s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fold:hover .go { color: var(--accent); transform: translateX(0.5em); }
+
+  /* ---------- ULTIME PIEGHE (feed news, placeholder) ---------- */
+  .news {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(3rem, 7vw, 5rem) 1.6rem 4rem;
+  }
+
+  .news .label {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 1.6rem;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .news-card {
+    border: 1px solid var(--hairline);
+    padding: 1.3rem 1.4rem;
+    background: var(--paper);
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+    transform-origin: bottom left;
+  }
+
+  .news-card:hover {
+    transform: rotate(-0.6deg) translateY(-3px);
+    box-shadow: 6px 10px 22px -14px rgba(27, 26, 31, 0.4);
+  }
+
+  .news-card .tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tag, var(--ink-faint));
+  }
+
+  .news-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    margin: 0.4rem 0 0.3rem;
+  }
+
+  .news-card time {
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+  }
+
+  footer {
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    padding: 2.2rem 1.6rem 2.6rem;
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+  }
+
+  footer .line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--ink-dim);
+    margin-bottom: 0.4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fold, .fold::after, .news-card, .fold .go { transition: none; }
+    .fold:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="hero">
+    <p class="kicker">Imagina · dal 1991, Camerino</p>
+    <h1>Un solo foglio, molte figure.
+      <span class="anagram">im&thinsp;a&thinsp;g&thinsp;i&thinsp;n&thinsp;a → <em>a&thinsp;n&thinsp;i&thinsp;g&thinsp;a&thinsp;m&thinsp;i</em> — le stesse lettere, piegate in una forma nuova.</span>
+    </h1>
+  </section>
+
+  <section class="folds" aria-label="I progetti principali">
+    <a class="fold" href="#" style="--accent: #035f6a">
+      <span class="fold-inner">
+        <span class="num">01</span>
+        <span class="text">
+          <h2>Tipicità</h2>
+          <p>Il festival delle traiettorie indigene. Dal 1993, Fermo.</p>
+        </span>
+        <span class="go" aria-hidden="true">→</span>
+      </span>
+    </a>
+    <a class="fold" href="#" style="--accent: #d1544c">
+      <span class="fold-inner">
+        <span class="num">02</span>
+        <span class="text">
+          <h2>Grand Tour delle Marche</h2>
+          <p>Un laboratorio di comunità a geometria variabile. Dal 2015.</p>
+        </span>
+        <span class="go" aria-hidden="true">→</span>
+      </span>
+    </a>
+    <a class="fold" href="#" style="--accent: #17849b">
+      <span class="fold-inner">
+        <span class="num">03</span>
+        <span class="text">
+          <h2>Tipicità in Blu</h2>
+          <p>Mare, laboratorio di futuro. Ancona.</p>
+        </span>
+        <span class="go" aria-hidden="true">→</span>
+      </span>
+    </a>
+    <a class="fold" href="#" style="--accent: #7f1244">
+      <span class="fold-inner">
+        <span class="num">04</span>
+        <span class="text">
+          <h2>EVO</h2>
+          <p>I linguaggi del terzo millennio. Macerata.</p>
+        </span>
+        <span class="go" aria-hidden="true">→</span>
+      </span>
+    </a>
+  </section>
+
+  <section class="news">
+    <p class="label">Ultime pieghe</p>
+    <div class="news-grid">
+      <article class="news-card" style="--tag: #035f6a">
+        <span class="tag">Tipicità</span>
+        <h3>Titolo di una notizia dal feed dell'universo</h3>
+        <time>28 luglio 2026</time>
+      </article>
+      <article class="news-card" style="--tag: #17849b">
+        <span class="tag">Tipicità in Blu</span>
+        <h3>Un'altra notizia, con il colore del suo progetto</h3>
+        <time>25 luglio 2026</time>
+      </article>
+      <article class="news-card" style="--tag: #7f1244">
+        <span class="tag">EVO</span>
+        <h3>Terza notizia — le card sono fogli appoggiati</h3>
+        <time>21 luglio 2026</time>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <p class="line">Lo stesso foglio, dal 1991.</p>
+    <p>Imagina Srl Società Benefit — mockup non funzionante, solo per valutare la direzione</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,510 @@
+---
+import BrandLayout from '../../layouts/BrandLayout.astro';
+import { content } from '../../i18n/evo.js';
+
+// ══════════════════════════════════════════════════════════════════════
+// LANDING EVO — la fabula è IL VOCABOLARIO (TESTI-EVO.md v2, 07/08/2026)
+//
+// Ogni marchio ha un gesto che non presta a nessun altro: Tipicità ha i
+// quadri e la moviola, il Grand Tour la strada coi waypoint, il TIB la
+// plancia. Qui il gesto è il vocabolario, e vive nel terzo capitolo: il
+// lessico si scrive mentre lo leggi.
+//
+// ⚠️ IL LEMMA È LA NAVIGAZIONE, NON IL TITOLO. In barra dei capitoli e
+// nella riga di dizionario compare il lemma in minuscolo; l'<h2> è una
+// frase vera. Quattro <h2> che dicono "assunto", "muta", "lessico",
+// "mossa" non significherebbero niente né per chi scorre né per un
+// motore di ricerca.
+//
+// ⚠️ Le quattro righe di dizionario NON si spiegano in nessun punto
+// della pagina — stessa regola del menù bifronte di Tipicità.
+//
+// FUORI PERIMETRO: niente moviola, quadri, mappe o plancia.
+// ══════════════════════════════════════════════════════════════════════
+
+// I TESTI stanno in src/i18n/evo.js, nella stessa forma di tipicita.js.
+// Finché esiste solo `it` non c'è rotta /en/evo/ e non c'è selettore di
+// lingua: una rotta inglese che mostra testo italiano è peggio di una rotta
+// che non c'è.
+const lang = 'it';
+const c = content[lang];
+
+// I capitoli sono lemmi: etichette in minuscolo anche in barra (è la
+// forma del lemma, non un vezzo, e vale anche se stona con le altre
+// landing — vedi il .v-evo in fondo al file).
+const capitoli = c.capitoli;
+
+// CROMIA INVARIATA (TESTI-EVO §11): vinaccia profondo derivato dal
+// #7f1144 ufficiale, #b8497a come tono acceso. Il fondo scuro cambia il
+// registro del vocabolario, e in meglio: non un dizionario stampato ma
+// un dizionario che si illumina.
+//
+// --text-faint: il default di sito è 0.38 e su #190712 sta a 3,1:1 —
+// sotto l'AA. Le definizioni sono testo piccolo, quindi si alza il tono
+// e non si ingrandisce il corpo (§11): a 0.58 il contrasto è 5,7:1,
+// stessa soglia già adottata sul TIB. Misurato a schermo, non a occhio.
+const theme = {
+  '--bg-void': '#190712',
+  '--bg-deep': '#240b1a',
+  '--bg-mid': '#301023',
+  '--brand-accent': '#b8497a',
+  '--text-faint': 'rgba(236, 231, 219, 0.58)',
+};
+
+// DATI STRUTTURATI (§2): la pagina è un manifesto senza date, quindi un
+// Event sarebbe invalido — richiede startDate. Si dichiara un WebPage
+// con `about` di tipo Festival. Nessuna data finché la pagina non ne ha.
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: c.sd.name,
+  description: c.meta.description,
+  inLanguage: lang,
+  about: {
+    '@type': 'Festival',
+    name: c.marchio.nome,
+    alternateName: c.sd.alternateName,
+    url: c.congedo.sito.href,
+    location: {
+      '@type': 'Place',
+      name: c.sd.citta,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: c.sd.citta,
+        addressRegion: 'Marche',
+        addressCountry: 'IT',
+      },
+    },
+    organizer: { '@type': 'Organization', name: c.sd.organizzatore },
+  },
+};
+---
+
+<BrandLayout
+  title={c.meta.title}
+  description={c.meta.description}
+  accent="#7f1244"
+  brandName={c.marchio.nome}
+  heading={c.marchio.heading}
+  chapters={capitoli}
+  structuredData={structuredData}
+  logoSrc="/logos/evo.svg"
+  kicker={c.marchio.kicker}
+  heroLine={c.marchio.heroLine}
+  theme={theme}
+  variant="v-evo"
+  menuCurrent="evo"
+  menuMode="dark"
+  lang={lang}
+>
+  <Fragment slot="practical">
+    <span><strong>{c.pratico.etichetta}</strong> {c.pratico.valore}</span>
+  </Fragment>
+
+  <!-- ══ 1 · ASSUNTO ══ -->
+  <section class="chapter" id="assunto">
+    <h2 data-reveal>{c.assunto.h2}</h2>
+
+    {/* La riga di dizionario si compone QUI e non nel file dei testi: <b> e
+        <i> devono restare nel template, o gli stili .lemma b / .lemma i —
+        che sono scoped — non li raggiungerebbero più. */}
+    <p class="lemma" data-reveal><b>{c.assunto.riga.voce}</b> <i>{c.assunto.riga.gram}</i> — {c.assunto.riga.def}</p>
+
+    <p class="occhiello" data-reveal>{c.assunto.occhiello}</p>
+
+    {c.assunto.par.map((p) => <p data-reveal set:html={p} />)}
+
+    <h3 data-reveal>{c.assunto.h3}</h3>
+
+    {c.assunto.par2.map((p) => <p data-reveal set:html={p} />)}
+  </section>
+
+  <!-- ══ 2 · MUTA ══ -->
+  <section class="chapter" id="muta">
+    <h2 data-reveal>{c.muta.h2}</h2>
+
+    <p class="lemma" data-reveal><b>{c.muta.riga.voce}</b> <i>{c.muta.riga.gram}</i> — {c.muta.riga.def}</p>
+
+    <p class="occhiello" data-reveal set:html={c.muta.occhiello} />
+
+    {c.muta.par.map((p) => <p data-reveal set:html={p} />)}
+
+    <h3 data-reveal>{c.muta.h3}</h3>
+
+    {c.muta.par2.map((p) => <p data-reveal set:html={p} />)}
+
+    <p class="nota" data-reveal>{c.muta.nota}</p>
+  </section>
+
+  <!-- ══ 3 · LESSICO — il gesto proprio di EVO ══ -->
+  <section class="chapter" id="lessico">
+    <h2 data-reveal>{c.lessico.h2}</h2>
+
+    <p class="lemma" data-reveal><b>{c.lessico.riga.voce}</b> <i>{c.lessico.riga.gram}</i> — {c.lessico.riga.def}</p>
+
+    <p class="occhiello" data-reveal>{c.lessico.occhiello}</p>
+
+    <p data-reveal>{c.lessico.intro}</p>
+
+    <!-- Le definizioni stanno nell'HTML e si nascondono in CSS: mai
+         iniettate da JavaScript (§2). Senza JS restano tutte aperte —
+         la classe .vive la mette lo script in coda al blocco, prima del
+         primo paint, così non c'è né lampo né salto di layout. -->
+    <ul class="vocabolario" id="vocabolario">
+      {c.lessico.voci.map((v) => (
+        <li>
+          <button
+            class="voce"
+            type="button"
+            id={`voce-${v.id}`}
+            aria-expanded="true"
+            aria-controls={`def-${v.id}`}
+          >
+            <span class="voce-lemma">{v.voce}</span>
+            <span class="voce-segno" aria-hidden="true"></span>
+          </button>
+          <div class="pannello" id={`def-${v.id}`}>
+            <div><p set:html={v.def} /></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <script is:inline>
+      // Chiude le voci PRIMA del primo paint. Senza questo, il blocco
+      // comparirebbe tutto acceso e poi si spegnerebbe in dissolvenza:
+      // undici voci che sbattono le palpebre al caricamento, più il salto
+      // di layout. Va fatto qui, in coda al markup, non nello script in
+      // fondo alla pagina, che gira troppo tardi.
+      // Se non gira affatto (JS spento) il vocabolario resta aperto: è
+      // esattamente il fallback voluto.
+      (function () {
+        var blocco = document.getElementById('vocabolario');
+        if (!blocco) return;
+        blocco.classList.add('vive');
+        var voci = blocco.querySelectorAll('.voce');
+        for (var i = 0; i < voci.length; i++) voci[i].setAttribute('aria-expanded', 'false');
+      })();
+    </script>
+
+    <p class="nota" data-reveal>{c.lessico.nota}</p>
+  </section>
+
+  <!-- ══ 4 · MOSSA ══ -->
+  <section class="chapter" id="mossa">
+    <h2 data-reveal>{c.mossa.h2}</h2>
+
+    <p class="lemma" data-reveal><b>{c.mossa.riga.voce}</b> <i>{c.mossa.riga.gram}</i> — {c.mossa.riga.def}</p>
+
+    <p class="occhiello" data-reveal>{c.mossa.occhiello}</p>
+
+    <h3 data-reveal>{c.mossa.h3a}</h3>
+
+    {c.mossa.para.map((p) => <p data-reveal set:html={p} />)}
+
+    <h3 data-reveal>{c.mossa.h3b}</h3>
+
+    {c.mossa.parb.map((p) => <p data-reveal set:html={p} />)}
+  </section>
+
+  <!-- ══ CHIUSURA ══ -->
+  <div class="congedo" data-reveal>
+    <p>{c.congedo.testo}</p>
+    <p class="servizio"><a class="trace-link" href={c.congedo.sito.href}>{c.congedo.sito.label}</a></p>
+  </div>
+</BrandLayout>
+
+<style is:global>
+  /* Il lemma in barra dei capitoli resta minuscolo: è la forma del
+     lemma. Le altre landing tengono il maiuscoletto di sistema. */
+  .chapter-bar.v-evo nav a { text-transform: none; letter-spacing: 0.06em; }
+
+  /* Il kicker dell'hero: lo stile di sito lo mette in --brand-accent, che
+     sul vinaccia a 12px sta a 3,95:1 — sotto l'AA per il testo piccolo.
+     Su questa pagina passa all'inchiostro attenuato (6,4:1). L'accento
+     resta dove pesa: i titoli e il vocabolario. */
+  .brand-hero.v-evo .eyebrow { color: var(--text-dim); }
+</style>
+
+<style>
+  /* Misura di lettura fra i 62 e i 72 caratteri (§2): il contenitore di
+     sito è largo 760px, che a questo corpo farebbe righe da 88 battute. */
+  .chapter p,
+  .congedo p { max-width: 64ch; }
+
+  .chapter p:not(.lemma):not(.occhiello):not(.nota) {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: var(--text-dim);
+  }
+
+  .chapter h3 {
+    font-size: clamp(1.25rem, 2.6vw, 1.5rem);
+    line-height: 1.25;
+    color: var(--text-soft);
+    margin: 2.4rem 0 0.8rem;
+  }
+
+  /* ── LA RIGA DI DIZIONARIO ──
+     Si disegna una volta e si riusa quattro. Non è un titolo: è una
+     definizione. Filetti corti, a misura del testo e non a tutta
+     larghezza — il gesto della voce di dizionario senza imitarla. */
+  .lemma {
+    width: fit-content;
+    max-width: min(64ch, 100%);
+    margin: 0 0 1.8rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--text-dim);
+  }
+
+  /* il lemma va in accento: a 1.25rem/600 è "testo grande", quindi la
+     soglia di contrasto è 3:1 e il #b8497a la supera (3,9:1) */
+  .lemma b {
+    font-weight: 600;
+    color: var(--brand-accent);
+  }
+
+  .lemma i {
+    font-style: italic;
+    color: var(--text-faint);
+  }
+
+  /* ── OCCHIELLO ──
+     Regge il messaggio anche per chi legge solo quello. */
+  .occhiello {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text-soft);
+    margin: 0 0 1.6rem;
+  }
+
+  /* I due link della genealogia. Il testo resta inchiostro pieno: a
+     16px l'accento #b8497a sta a 3,95:1 sul vinaccia, sotto l'AA per il
+     testo piccolo. L'accento passa quindi al filetto — che a riposo dice
+     "qui c'è un link" e al passaggio si completa come traccia. */
+  /* :global perché l'occhiello della «muta» porta i suoi due link dentro il
+     testo, e il testo ora arriva da src/i18n/evo.js con set:html — gli stili
+     scoped di Astro non raggiungono il contenuto iniettato. */
+  .occhiello :global(a) {
+    color: var(--text-soft);
+    border-bottom: 1px solid color-mix(in srgb, var(--brand-accent) 60%, transparent);
+  }
+
+  /* ── NOTA ──
+     La riga che chiude un capitolo: composta come nota, non come corpo. */
+  .nota {
+    margin: 2.2rem 0 0;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--brand-accent);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--text-soft);
+  }
+
+  /* ══ IL VOCABOLARIO ══
+     Undici voci che si aprono UNA PER VOLTA senza chiudersi a vicenda:
+     chi vuole apre tutto e se lo legge di fila. Chi arriva in fondo ha
+     in mano un vocabolario che prima non aveva. */
+  .vocabolario {
+    list-style: none;
+    margin: 2.4rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .vocabolario li { border-bottom: 1px solid var(--hairline); }
+
+  .voce {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.2rem;
+    width: 100%;
+    /* bersaglio comodo su tutta la riga, non solo sul testo */
+    min-height: 48px;
+    padding: 0.85rem 0;
+    background: none;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.45rem);
+    font-weight: 600;
+    line-height: 1.3;
+    /* a riposo la voce è inchiostro spento; aprendosi si accende.
+       È l'unico punto della pagina in cui il colore si muove: solo
+       passaggio di tono in 200ms, nessun bagliore, nessuna ombra. */
+    color: var(--text-dim);
+    transition: color 0.2s ease;
+  }
+
+  .voce:hover { color: var(--text-soft); }
+  .voce[aria-expanded='true'] { color: var(--brand-accent); }
+
+  .voce:focus-visible {
+    outline: 2px solid var(--brand-accent);
+    outline-offset: 3px;
+  }
+
+  /* il segno: due filetti che formano un +, e diventano un − */
+  .voce-segno {
+    position: relative;
+    flex: none;
+    width: 13px;
+    height: 13px;
+    align-self: center;
+    opacity: 0.75;
+  }
+
+  .voce-segno::before,
+  .voce-segno::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1px;
+    background: currentColor;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .voce-segno::after { transform: translateY(-50%) rotate(90deg); }
+
+  .voce[aria-expanded='true'] .voce-segno::after {
+    transform: translateY(-50%) rotate(90deg) scaleX(0);
+    opacity: 0;
+  }
+
+  /* Il pannello: aperto di default (nessun JS = tutto leggibile).
+     Solo quando lo script ha marcato il blocco come .vive i pannelli
+     partono chiusi e la transizione ha senso. */
+  .pannello > div { overflow: hidden; }
+
+  /* La definizione è il premio del gesto, non una nota a piè di pagina:
+     sta allo stesso tono del corpo. Ad accendersi è il lemma. */
+  .pannello p {
+    margin: 0 0 1rem;
+    max-width: 62ch;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+
+  .pannello p :global(i) { font-style: italic; }
+
+  .vocabolario.vive .pannello {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.2s ease;
+  }
+
+  .vocabolario.vive .voce[aria-expanded='true'] + .pannello {
+    grid-template-rows: 1fr;
+  }
+
+  /* la definizione entra in dissolvenza, appena dopo l'apertura */
+  .vocabolario.vive .pannello p {
+    opacity: 0;
+    transition: opacity 0.2s ease 0.06s;
+  }
+
+  .vocabolario.vive .voce[aria-expanded='true'] + .pannello p { opacity: 1; }
+
+  /* ── CONGEDO ── */
+  .congedo {
+    margin-top: 3.4rem;
+    padding: 2.6rem 0 1rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .congedo p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 3.2vw, 1.8rem);
+    line-height: 1.4;
+    color: var(--text-soft);
+    margin: 0;
+  }
+
+  .congedo .servizio {
+    margin-top: 1.8rem;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 0.82rem;
+    /* poca spaziatura: è un indirizzo, e "e v o . o o o" non si legge */
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: var(--text-dim);
+  }
+
+  .congedo .servizio a { color: inherit; }
+
+  @media (max-width: 560px) {
+    /* non sotto 1.2rem: a 19,2px in 600 il lemma è ancora "testo grande"
+       e l'accento gli basta (3:1). A 1.15rem scendeva a 18,4px e la
+       soglia diventava 4,5:1, che il #b8497a non tiene. */
+    .lemma { font-size: 1.2rem; }
+    .nota { padding-left: 0.9rem; }
+  }
+
+  /* Sotto reduced motion resta solo la comparsa: niente scorrimento di
+     altezza, niente segno che si muove. */
+  @media (prefers-reduced-motion: reduce) {
+    .vocabolario.vive .pannello,
+    .vocabolario.vive .pannello p,
+    .voce,
+    .voce-segno::before,
+    .voce-segno::after { transition: none; }
+  }
+</style>
+
+<script>
+  // ══ IL VOCABOLARIO CHE SI SCRIVE ══
+  // Le voci non si chiudono a vicenda. Tastiera completa: Invio e Spazio
+  // li dà il <button>, qui si aggiungono frecce, Home e Fine.
+  function vocabolario() {
+    const blocco = document.getElementById('vocabolario');
+    if (!blocco || blocco.dataset.on) return;
+    blocco.dataset.on = '1';
+    blocco.classList.add('vive'); // ridondante col bootstrap inline, ma
+                                  // serve dopo una navigazione con le
+                                  // View Transitions
+
+    const voci = Array.from(blocco.querySelectorAll('.voce')) as HTMLButtonElement[];
+
+    voci.forEach((v, i) => {
+      // lo stato chiuso lo mette già il bootstrap inline, prima del
+      // primo paint; qui è solo una rete per il caso View Transitions
+      v.setAttribute('aria-expanded', v.getAttribute('aria-expanded') === 'true' ? 'false' : v.getAttribute('aria-expanded') || 'false');
+
+      v.addEventListener('click', () => {
+        v.setAttribute('aria-expanded', v.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      });
+
+      v.addEventListener('keydown', (e) => {
+        const k = (e as KeyboardEvent).key;
+        let dove = -1;
+        if (k === 'ArrowDown') dove = (i + 1) % voci.length;
+        else if (k === 'ArrowUp') dove = (i - 1 + voci.length) % voci.length;
+        else if (k === 'Home') dove = 0;
+        else if (k === 'End') dove = voci.length - 1;
+        if (dove < 0) return;
+        e.preventDefault();
+        voci[dove].focus();
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', vocabolario);
+  vocabolario();
+</script>

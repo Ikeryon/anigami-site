@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImaginaHeader from '../../components/ImaginaHeader.astro';
+import { content } from '../../i18n/note-di-produzione.js';
+// Colophon — fattuale, datato, senza aggettivi di merito (brief, sezione 5).
+// Qui, in chiusura, il principio del "metodo" (brief, sezione 8ter): non una
+// dichiarazione su di sé, ma un'osservazione fattuale — lo stesso schema che
+// si ripete guardando i quattro marchi fianco a fianco.
+
+// I testi stanno in src/i18n/note-di-produzione.js. Finché esiste solo `it`
+// non c'è rotta /en/ e non c'è selettore di lingua.
+const lang = 'it';
+const c = content[lang];
+
+// Pagine Imagina su bianco luminoso (cromie 10/07/2026).
+const theme = {
+  '--bg-void': '#faf9f6',
+  '--bg-deep': '#f0eee8',
+  '--bg-mid': '#e7e4db',
+  '--text-soft': '#1b1a1f',
+  '--text-dim': 'rgba(27, 26, 31, 0.66)',
+  '--text-faint': 'rgba(27, 26, 31, 0.42)',
+  '--hairline': 'rgba(27, 26, 31, 0.13)',
+};
+---
+<BaseLayout title={c.meta.title} description={c.meta.description} lang={lang} theme={theme}>
+  <ImaginaHeader slot="header" />
+
+  <main class="container" style="padding-top: 6rem;">
+    <h1>{c.titolo}</h1>
+
+    <section class="chapter">
+      <p>{c.societa}</p>
+
+      <div class="numbers">
+        {c.numeri.map((n) => (
+          <div class="stat"><strong>{n.cifra}</strong><span>{n.voce}</span></div>
+        ))}
+      </div>
+
+      <p>{c.relazioni}</p>
+    </section>
+
+    <section class="chapter">
+      <p>{c.metodo}</p>
+    </section>
+  </main>
+</BaseLayout>

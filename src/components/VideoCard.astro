@@ -1,0 +1,92 @@
+---
+// Card leggera per un video YouTube: mostra solo la thumbnail (nessun
+// iframe caricato finché non si clicca), con overlay play e didascalia.
+// Pensata per griglie con molti video (pillole, progetti di team) senza
+// appesantire la pagina con decine di embed contemporaneamente.
+interface Props {
+  youtubeId: string;
+  title: string;
+  meta?: string;
+}
+
+const { youtubeId, title, meta } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+const url = `https://www.youtube.com/watch?v=${youtubeId}`;
+---
+
+<a class="video-card" href={url} target="_blank" rel="noopener noreferrer">
+  <span class="thumb">
+    <img src={thumb} alt="" loading="lazy" />
+    <span class="play" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+    </span>
+  </span>
+  <span class="video-title">{title}</span>
+  {meta && <span class="video-meta">{meta}</span>}
+</a>
+
+<style>
+  .video-card {
+    display: block;
+    text-decoration: none;
+    color: var(--text-soft);
+  }
+
+  .thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-deep);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .video-card:hover .thumb img {
+    transform: scale(1.04);
+  }
+
+  .play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play svg {
+    width: 46px;
+    height: 46px;
+    fill: rgba(236, 231, 219, 0.9);
+    filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.6));
+    transition: transform 0.25s ease, fill 0.25s ease;
+  }
+
+  .video-card:hover .play svg {
+    transform: scale(1.1);
+    fill: var(--brand-accent);
+  }
+
+  .video-title {
+    display: block;
+    margin-top: 0.55rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    color: var(--text-soft);
+  }
+
+  .video-meta {
+    display: block;
+    margin-top: 0.15rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+</style>

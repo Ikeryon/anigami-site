@@ -1,0 +1,114 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
+// Lo sprite dei cinque segni della pellicola (BRIEF-MENU §4): inlinato UNA
+// volta sola qui, mai caricato via <img>. Con <img> i riempimenti non sono
+// raggiungibili dal CSS — è esattamente il limite della v1 (BrandRail).
+// Le custom property attraversano il confine d'ombra di <use>.
+import brandMarks from '../../public/logos/menu/brand-marks.svg?raw';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Colore accento del marchio per questa pagina (sovrascrive --brand-accent). */
+  accent?: string;
+  /** JSON-LD schema.org da iniettare invisibile in pagina (sezione 9bis del brief). */
+  structuredData?: Record<string, unknown>;
+  /** Cromia della pagina: variabili CSS che sovrascrivono i token di base
+      (--bg-void, --text-soft, ecc.). Ogni landing gioca sulle cromie del
+      proprio marchio; le pagine Imagina stanno su bianco luminoso. */
+  theme?: Record<string, string>;
+  /** Lingua della pagina (default 'it'). Le pagine bilingui la passano. */
+  lang?: string;
+  /** Alternate hreflang per le pagine tradotte (IT alla radice, EN sotto /en/). */
+  alternates?: { hreflang: string; href: string }[];
+}
+
+const { title, description, accent, structuredData, theme, lang = 'it', alternates } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.origin : '';
+
+const inlineVars = [
+  accent ? `--brand-accent: ${accent}` : null,
+  ...(theme ? Object.entries(theme).map(([k, v]) => `${k}: ${v}`) : []),
+].filter(Boolean).join('; ');
+
+const themeCss = theme
+  ? `:root { ${Object.entries(theme).map(([k, v]) => `${k}: ${v};`).join(' ')} }`
+  : null;
+---
+
+<!DOCTYPE html>
+<html lang={lang} style={inlineVars || undefined}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@300;400;500&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  {alternates && alternates.map((a) => (
+    <link rel="alternate" hreflang={a.hreflang} href={`${siteUrl}${a.href}`} />
+  ))}
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  {structuredData && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+
+  {accent && (
+    <style set:html={`:root { --brand-accent: ${accent}; }`} />
+  )}
+
+  {themeCss && <style set:html={themeCss} />}
+
+  <ViewTransitions />
+</head>
+<body>
+  <Fragment set:html={brandMarks} />
+  <slot name="header" />
+  <slot />
+  <Footer />
+
+  <script>
+    // Reveal allo scroll — progressive enhancement, vedi global.css.
+    // Con le View Transitions attive, il DOM viene sostituito a ogni
+    // navigazione: l'inizializzazione va rifatta su astro:page-load
+    // (che scatta anche al primo caricamento).
+    function initReveal() {
+      const els = document.querySelectorAll('[data-reveal]:not([data-reveal-init])');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              io.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      );
+      els.forEach((el) => {
+        el.setAttribute('data-reveal-init', '');
+        io.observe(el);
+      });
+    }
+    document.addEventListener('astro:page-load', initReveal);
+    initReveal();
+  </script>
+</body>
+</html>
