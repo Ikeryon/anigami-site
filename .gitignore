@@ -34,3 +34,12 @@ tipicita-loop.mp4
 # outputDirectory: dist). Era versionato per errore: 203 file che a ogni
 # compilazione producevano conflitti su file che nessuno ha scritto a mano.
 dist/
+
+# Cartelle di servizio sotto public/: finirebbero PUBBLICATE a indirizzi
+# raggiungibili, perché tutto quello che sta in public/ viene servito così
+# com'è. Dentro non c'era niente di riservato — provini, doppioni degli
+# asset del Grand Tour — ma era un mega e mezzo servito a nessuno scopo.
+# Via, e qui perché non tornino.
+public/_sh/
+public/_chk/
+public/_incoming/

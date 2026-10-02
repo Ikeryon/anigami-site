@@ -1,0 +1,10 @@
+# anigami.it — Imagina Srl Società Benefit
+# Il sito è aperto: non c'è niente da nascondere ai motori. Le uniche due
+# esclusioni sono la cookie policy, che porta già noindex nel suo markup,
+# e la pagina che non c'è.
+
+User-agent: *
+Allow: /
+Disallow: /cookie-policy/
+
+Sitemap: https://anigami.it/sitemap-index.xml
