@@ -179,6 +179,99 @@ const trova = [
   'Gli studenti vi trovano il primo cantiere in cui il mare è una carriera possibile, non una vacanza.',
 ];
 
+// ── LE IMMAGINI: due famiglie e due soltanto (GRIGLIA-TIB §3) ──
+//
+// ⚠️ STATO DI RISERVA. In public/tib/ ci sono due file: fondo.mp4 e il suo
+// poster. Fotografie di Tipicità in Blu non ne esiste nessuna, né nel
+// repository né nelle cartelle collegate — l'archivio è quello del festival di
+// Fermo, che è un'altra manifestazione e non si saccheggia per riempire questa.
+// Finché il materiale non arriva, ogni lastra resta il campo virato con la sua
+// etichetta: dignitoso, e non sembra un errore. Quando le fotografie ci saranno
+// basta dare un `src` qui — markup, misure e viratura sono già al loro posto.
+//
+// La didascalia è obbligatoria e porta un fatto: se non aggiunge niente, la
+// lastra non serve.
+const lastre = {
+  'Blu Village': { idx: '01', did: ['Blu Village', 'Piazza Cavour'], src: null },
+  'Sailing Chef': { idx: '02', did: ['Sailing Chef', 'Marina Dorica'], src: null },
+  'Visita il Cantiere': { idx: '03', did: ['Visita il Cantiere', 'il bacino'], src: null },
+  'Menù in Blu e Aperiblu': { idx: '04', did: ['Menù in Blu', 'i locali della città'], src: null },
+};
+// l'unica lastra verticale della pagina: 3:4, a fianco della squadra
+const lastraSquadra = { idx: '05', did: ['Il tavolo di lavoro', 'Ancona'], src: null };
+// l'unica fotografia a colori pieni: la cerniera fra .Rotta e l'architettura
+const banda = { did: ['Il waterfront', 'Ancona, dal porto a Marina Dorica'], src: null };
+
+// Le schede tecniche a lato delle due aperture: fatti già affermati altrove in
+// pagina, messi in colonna. Una scheda non introduce mai un dato nuovo.
+const schedaRotta = [
+  ['Dove', 'Ancona — Mole Vanvitelliana, Marina Dorica, Piazza Cavour'],
+  ['Coordinate', '43°37′N 13°30′E'],
+  ['Dalla prima edizione', '2014'],
+];
+const schedaCantiere = [
+  ['Nasce da', 'Tipicità in Blu e Polo Tecnologico Alto Adriatico'],
+  ['Atenei', 'Politecnica delle Marche, Trieste, Udine, Bari, SISSA'],
+  ['In rete', 'theblueway.it'],
+];
+
+// ── LA RUOTA DEGLI AMBITI ──
+// Sette settori su un anello, quadrante vuoto al centro: legge come un
+// quadrante di strumento e non come un grafico a torta. Le tinte sono tutte
+// nella scala del blu della pagina — nessun arcobaleno.
+// Il disegno è decorativo: l'informazione vive nell'elenco a fianco, che è la
+// versione accessibile della ruota (GRIGLIA-TIB §7).
+const TINTE = ['#0d3b4c', '#12556b', '#187a94', '#209fb6', '#3fb3c6', '#166a83', '#0f4a5e'];
+const RUOTA = { cx: 100, cy: 100, r: 82, ri: 30, gap: 1.6 };
+const settore = (i, n) => {
+  const { cx, cy, r, ri, gap } = RUOTA;
+  const passo = 360 / n;
+  const P = (a, rad) => [
+    +(cx + rad * Math.cos(((a - 90) * Math.PI) / 180)).toFixed(2),
+    +(cy + rad * Math.sin(((a - 90) * Math.PI) / 180)).toFixed(2),
+  ];
+  const a0 = i * passo + gap, a1 = (i + 1) * passo - gap;
+  const [x0, y0] = P(a0, r), [x1, y1] = P(a1, r);
+  const [x2, y2] = P(a1, ri), [x3, y3] = P(a0, ri);
+  return `M${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1} L${x2} ${y2} A${ri} ${ri} 0 0 0 ${x3} ${y3} Z`;
+};
+
+// ── LA STRISCIA DELLE TRE MATRICI ──
+// Tabella di marcia, che è esattamente il registro della plancia. Le durate
+// sono quelle dichiarate nel testo dell'architettura — due giorni e cinque
+// giorni — e l'asse è la loro somma: sette.
+// ⚠️ Niente «otto giorni»: quella cifra viene dalla parte del reportage che si
+// contraddice sull'edizione (TESTI-TIB §5), e un asse disegnato su un numero
+// incerto è un errore che si vede.
+const GIORNI = 7;
+const marcia = [
+  { nome: 'Weekend Blu', dove: 'Marina Dorica · la Mole', da: 1, a: 3, tratto: false },
+  { nome: 'Giornate della Blue Economy', dove: 'la Mole · Ingegneria · il Passetto', da: 3, a: 8, tratto: false },
+  // il circuito è diffuso e non concentrato: a tratteggio, non pieno
+  { nome: 'Circuito cittadino', dove: 'la città e i locali', da: 1, a: 8, tratto: true },
+];
+
+// ── IL FRAMMENTO DI CARTA ──
+// ⚠️ Il profilo NON è disegnato a mano: è ricalcato da coordinate reali di
+// porti e capi (proiezione equirettangolare centrata sul medio Adriatico, poi
+// ruotata perché l'asse del bacino — Venezia-Otranto — diventi orizzontale e le
+// due sponde si leggano parallele). Scala unica sui due assi: nessuna
+// deformazione, 1 unità = 0,98 km. Controllo sulle distanze vere: Ancona-Zara
+// 149 contro 145 km, Ancona-Rimini 91 contro 92, Ancona-Pescara 139 contro 140.
+// Una costa adriatica sbagliata la nota chiunque abiti su quella costa, cioè il
+// pubblico di questa pagina.
+// Si vede il gomito: il Conero sporge di venticinque chilometri sulla linea di
+// costa, ed è esattamente l'Ankón di cui parla «La posizione».
+const CARTA = {
+  box: '0 0 420 240',
+  ovest:
+    'M33.8 206.3 L57.3 218.8 L85.4 218.9 L104 216.3 L116.5 208.5 L129.3 207.5 L150.3 203.7 L167.1 199.6 L174.4 192.8 L182.1 190.7 L186.3 191.1 L189.8 194 L198.8 197.3 L212.9 201.7 L221.2 202.4 L227.8 206.9 L237.3 209.6 L252.7 219.4 L273.3 228.3 L292.1 232.4 L310.8 233.1 L331.3 230 L363.9 223.1 L393 218.6 L423.6 203.5',
+  est:
+    'M18.4 58.8 L40.2 69.8 L55.3 78.3 L85.1 79.9 L97.8 84.2 L97.6 63.5 L84.2 44.4 L69.3 16.6 L77.1 9.1 L113.1 1.8 L131 5.1 L155.6 25 L180.2 27.5 L219.2 21.8 L227.7 25.8 L223.5 48.2 L250.7 47.5 L292.3 35.3 L329.7 28.1 L340.7 16.9 L360.1 6.3 L389.8 -4.2',
+  ancona: [174.4, 192.8],
+  zara: [223.5, 48.2],
+};
+
 // DATE (Paolo, 07/08/2026): la riga-plancia guarda avanti a maggio 2027.
 // Il giorno esatto non è ancora fissato → schema.org con precisione al mese
 // (formato valido) e nessun claim di giorni che poi andrebbe corretto.
@@ -276,13 +369,31 @@ const structuredData = {
         {/* v3 §2.1: aggiunti «pescatori, cuochi». Minimo e non casuale — la
              squadra tiene insieme scienziati e operatori portuali, e qui si
              elencava solo la metà istituzionale. */}
-        <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il festival dove il mare incontra le persone che su quel sistema lavorano — imprese, ricercatori, istituzioni, naviganti, pescatori, cuochi — e chi nel mare vede una risorsa da capire prima che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
+        <div class="campo">
+          <div class="c1-7">
+            <p class="apertura" data-reveal>Il mare non è un paesaggio: è un sistema produttivo, scientifico e culturale. Tipicità in Blu è il festival dove il mare incontra le persone che su quel sistema lavorano — imprese, ricercatori, istituzioni, naviganti, pescatori, cuochi — e chi nel mare vede una risorsa da capire prima che da sfruttare. Una settimana all'anno, ad Ancona, l'Adriatico diventa un laboratorio a cielo aperto.</p>
 
-        {/* LA POSIZIONE (integrazione 07/08 dai materiali di casa): il
-             dettaglio erudito è breve, esatto, e fonda — non decora. */}
-        <div class="blocco" data-reveal>
-          <h3>La posizione</h3>
-          <p>Ancona è il luogo esatto di questo discorso. Il nome viene dal greco <i lang="grc-Latn">Ankón</i>, gomito: la costa che si piega e si spinge dentro l'Adriatico. Una città di terra affacciata sul mare, con il porto che va da Marina Dorica all'arco di Traiano, e il quartier generale del festival alla Mole Vanvitelliana — ex lazzaretto su un'isola artificiale, fra la terra e l'acqua. Il sodalizio fra le due cose non è una metafora: è la geografia.</p>
+            {/* LA POSIZIONE (integrazione 07/08 dai materiali di casa): il
+                 dettaglio erudito è breve, esatto, e fonda — non decora. */}
+            <div class="blocco" data-reveal>
+              <h3>La posizione</h3>
+              <p>Ancona è il luogo esatto di questo discorso. Il nome viene dal greco <i lang="grc-Latn">Ankón</i>, gomito: la costa che si piega e si spinge dentro l'Adriatico. Una città di terra affacciata sul mare, con il porto che va da Marina Dorica all'arco di Traiano, e il quartier generale del festival alla Mole Vanvitelliana — ex lazzaretto su un'isola artificiale, fra la terra e l'acqua. Il sodalizio fra le due cose non è una metafora: è la geografia.</p>
+            </div>
+          </div>
+
+          {/* La scheda a lato: fatti già affermati in pagina, messi in
+               colonna. Non introduce mai un dato nuovo — se lo facesse
+               sarebbe un paragrafo travestito da strumento. */}
+          <aside class="c9-12 scheda" data-reveal>
+            <dl>
+              {schedaRotta.map(([voce, val]) => (
+                <>
+                  <dt>{voce}</dt>
+                  <dd>{val}</dd>
+                </>
+              ))}
+            </dl>
+          </aside>
         </div>
 
         {/* v3 §2.3: riscritta con le parole del reportage. «Da mare a mare» e
@@ -291,66 +402,165 @@ const structuredData = {
              così come sono. Cambia anche l'attacco: «è una descrizione» e non
              «è un metodo», perché il metodo è dichiarato più sotto, nella
              squadra, e due volte sarebbe una ripetizione. */}
-        <div class="blocco" data-reveal>
-          <h3>La visione</h3>
-          <p>«Mare, laboratorio di futuro» non è uno slogan: è una descrizione. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico e le fa parlare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa. È un festival «da mare a mare», che si innesta nel tessuto cittadino e lo trasforma in un ecosistema dove il mare non è soltanto scenario, ma principio generatore di idee, progetti e collaborazioni.</p>
-          <p>E il perimetro non si ferma alla costa. <b>Il mare inizia dalla montagna</b>: è la frase con cui Tipicità e il Polo Tecnologico Alto Adriatico hanno aperto Ecomondo, ed è un'affermazione idrografica prima che retorica. Bacini, fiumi, aree interne e acque costiere sono un sistema solo, e trattarli separati è il modo più rapido per sbagliare le politiche di tutti e due.</p>
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>La visione</h3>
+            <p>«Mare, laboratorio di futuro» non è uno slogan: è una descrizione. Le questioni che il mare pone — energia, cibo, trasporti, clima, lavoro — non si risolvono per compartimenti. Il festival le mette nello stesso spazio fisico e le fa parlare: la ricerca accanto al cantiere, la pesca accanto alla biotecnologia, la scuola accanto all'impresa. È un festival «da mare a mare», che si innesta nel tessuto cittadino e lo trasforma in un ecosistema dove il mare non è soltanto scenario, ma principio generatore di idee, progetti e collaborazioni.</p>
+            <p>E il perimetro non si ferma alla costa. <b>Il mare inizia dalla montagna</b>: è la frase con cui Tipicità e il Polo Tecnologico Alto Adriatico hanno aperto Ecomondo, ed è un'affermazione idrografica prima che retorica. Bacini, fiumi, aree interne e acque costiere sono un sistema solo, e trattarli separati è il modo più rapido per sbagliare le politiche di tutti e due.</p>
+          </div>
         </div>
+      </div>
 
+      {/* LA BANDA — l'unica cosa che esce dalla gabbia, e l'unica fotografia a
+           colori pieni di tutta la pagina. Sta qui perché qui il lettore ha
+           appena capito CHE COSA è e sta per scoprire COM'È FATTO: è la
+           cerniera. Una banda funziona perché è una — due sono un carosello
+           lento. */}
+      <figure class="banda" data-reveal>
+        {banda.src ? (
+          <img src={banda.src} alt="" width="2400" height="1000" loading="lazy" decoding="async" />
+        ) : (
+          <div class="banda-riserva" aria-hidden="true"><em>in attesa di materiale</em></div>
+        )}
+        <figcaption class="wrap">
+          <span class="d-idx">Banda</span>
+          <span class="d-voce">{banda.did[0]}</span>
+          <span class="d-luogo">{banda.did[1]}</span>
+        </figcaption>
+      </figure>
+
+      <div class="wrap">
         {/* L'ARCHITETTURA (v3 §2.4): che cosa succede, di preciso. */}
-        <div class="blocco" data-reveal>
-          <h3>L'architettura</h3>
-          <p>La manifestazione ha tre matrici, e ognuna ha il suo tempo e il suo luogo.</p>
-          <dl class="tempi">
-            {architettura.map((a) => (
-              <>
-                <dt>{a.nome}</dt>
-                <dd>{a.testo}</dd>
-              </>
-            ))}
-          </dl>
-        </div>
-
-        {/* I FORMATI (v3 §4): la prova, dopo la tesi. */}
-        <div class="blocco blocco--largo" data-reveal>
-          <h3>I formati</h3>
-          <div class="formati">
-            {formati.map((f, i) => (
-              <article class="formato">
-                <span class="f-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h4>{f.nome}</h4>
-                <p class="f-dove">{f.dove}</p>
-                <p class="f-testo">{f.testo}</p>
-              </article>
-            ))}
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>L'architettura</h3>
+            <p>La manifestazione ha tre matrici, e ognuna ha il suo tempo e il suo luogo.</p>
+            <dl class="tempi">
+              {architettura.map((a) => (
+                <>
+                  <dt>{a.nome}</dt>
+                  <dd>{a.testo}</dd>
+                </>
+              ))}
+            </dl>
           </div>
         </div>
 
-        <!-- il quadro strumenti: readout di plancia, non elenco puntato -->
-        <div class="quadro" data-reveal>
-          <span class="quadro-label">Il quadro strumenti · gli ambiti</span>
-          <ul class="strumenti">
-            {strumenti.map((s, i) => (
-              <li><span class="s-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="s-voce">{s}</span></li>
-            ))}
-          </ul>
-          <p class="estensione">{estensione}</p>
+        {/* LA STRISCIA DELLE TRE MATRICI: una tabella di marcia, che è
+             esattamente il registro della plancia. L'informazione è già nel
+             testo qui sopra — questa è la sua forma, non la sua unica sede,
+             e per questo il disegno è aria-hidden e porta a fianco la
+             legenda scritta. */}
+        <div class="campo">
+          <div class="c1-12 quadro quadro--marcia" data-reveal>
+            <span class="quadro-label">La tabella di marcia</span>
+            <div class="assi">
+              <span class="a-scala" aria-hidden="true">
+                {Array.from({ length: GIORNI }, (_, i) => <i>{i + 1}</i>)}
+              </span>
+              {marcia.map((m) => (
+                <>
+                  <span class="a-nome"><b>{m.nome}</b><i>{m.dove}</i></span>
+                  <span
+                    class:list={['a-barra', m.tratto && 'a-barra--rada']}
+                    style={`grid-column:${m.da + 1}/${m.a + 1}`}
+                    aria-hidden="true"
+                  ></span>
+                </>
+              ))}
+            </div>
+            <p class="a-nota">Le durate sono quelle dichiarate qui sopra: due giorni, cinque giorni, e il circuito che tiene insieme tutto il periodo — a tratteggio perché è diffuso in città e non concentrato in una sede.</p>
+          </div>
         </div>
 
-        <!-- il pannello delle letture: numeri propri, che invecchiano piano -->
-        <div class="metriche" data-reveal>
-          <span class="quadro-label">Le metriche</span>
-          <dl class="letture">
-            {metriche.map((m) => (
-              <div class="lettura">
-                <dt class="l-num">{m.num}</dt>
-                <dd class="l-desc">{m.label}</dd>
-              </div>
-            ))}
-          </dl>
-          {/* Lo zero è il dato che fa il lavoro, e si lascia spiegare in una
-               riga, senza compiacimento (v3 §2.6). */}
-          <p class="q-nota">Tipicità in Blu non riceve contributi pubblici: è sostenuta dalle imprese del territorio e da investimenti arrivati ad Ancona dal bacino adriatico. È la prova più concreta che i temi trattati generano economia, e non solo conversazione.</p>
+        {/* I FORMATI (v3 §4): la prova, dopo la tesi. Ogni formato ha la sua
+             lastra, in cornice a filo e virata nella cromia della pagina. */}
+        <div class="campo">
+          <div class="c1-12" data-reveal>
+            <h3>I formati</h3>
+            <div class="formati">
+              {formati.map((f) => {
+                const l = lastre[f.nome];
+                return (
+                  <article class="formato">
+                    <figure class="lastra">
+                      <div class="l-img">
+                        {l.src ? (
+                          <img src={l.src} alt="" width="1200" height="800" loading="lazy" decoding="async" />
+                        ) : (
+                          <em aria-hidden="true">in attesa</em>
+                        )}
+                      </div>
+                      <figcaption>
+                        <span class="d-idx">{l.idx}</span>
+                        <span class="d-voce">{l.did[0]}</span>
+                        <span class="d-luogo">{l.did[1]}</span>
+                      </figcaption>
+                    </figure>
+                    <h4>{f.nome}</h4>
+                    <p class="f-dove">{f.dove}</p>
+                    <p class="f-testo">{f.testo}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* IL QUADRO STRUMENTI: la ruota, e a fianco il suo elenco.
+             ⚠️ L'elenco NON è una didascalia del disegno: è la sede
+             dell'informazione. La ruota ha role="img" e una sola etichetta,
+             i settori sono presentazionali, e se il disegno non arriva — CSS
+             spento, SVG bloccato — la pagina dice ancora tutto quello che
+             deve dire. L'accensione reciproca è un di più, e sotto
+             prefers-reduced-motion perde la transizione, non l'effetto. */}
+        <div class="campo campo--ruota">
+          <div class="c1-5 ruota-campo" data-reveal>
+            <svg
+              class="ruota"
+              id="ruota"
+              viewBox="0 0 200 200"
+              role="img"
+              aria-label={`I sette ambiti della manifestazione: ${strumenti.join(', ')}.`}
+            >
+              {strumenti.map((s, i) => (
+                <path d={settore(i, strumenti.length)} fill={TINTE[i]} data-i={i} />
+              ))}
+            </svg>
+          </div>
+          <div class="c7-12 quadro" data-reveal>
+            <span class="quadro-label">Il quadro strumenti · gli ambiti</span>
+            <ul class="strumenti" id="ambiti">
+              {strumenti.map((s, i) => (
+                <li data-i={i}><span class="s-idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="s-voce">{s}</span></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="campo">
+          <p class="estensione c1-8" data-reveal>{estensione}</p>
+        </div>
+
+        {/* IL PANNELLO DELLE LETTURE: numeri propri, che invecchiano piano.
+             Lo zero rompe la regolarità — sei colonne invece di tre, il filo
+             in ciano, il numero a corpo enorme e la spiegazione accanto e non
+             sotto. La rottura della regolarità è il modo di dare peso a un
+             dato senza scrivere che è importante. Una sola per pagina:
+             se se ne aggiunge una seconda, nessuna delle due pesa più. */}
+        <div class="campo">
+          <div class="c1-12 metriche" data-reveal>
+            <span class="quadro-label">Le metriche</span>
+            <dl class="letture">
+              {metriche.map((m) => (
+                <div class:list={['lettura', m.num === '0' && 'lettura--grande']}>
+                  <dt class="l-num">{m.num}</dt>
+                  <dd class="l-desc">{m.label}</dd>
+                </div>
+              ))}
+            </dl>
+            <p class="q-nota">Tipicità in Blu non riceve contributi pubblici: è sostenuta dalle imprese del territorio e da investimenti arrivati ad Ancona dal bacino adriatico. È la prova più concreta che i temi trattati generano economia, e non solo conversazione.</p>
+          </div>
         </div>
 
         {/* Rinominato "Il corridoio": il titolo "La posizione" è passato al
@@ -358,28 +568,78 @@ const structuredData = {
              "La posizione" — è una svista del documento, e due h3 identici
              nella stessa sezione non si possono tenere. Questo blocco parla
              dello spazio geopolitico, non del luogo. */}
-        <div class="blocco" data-reveal>
-          <h3>Il corridoio</h3>
-          <p>Ancona guarda il corridoio adriatico-ionico: due sponde, sette paesi, una strategia europea (EUSAIR) che qui trova uno dei suoi luoghi di lavoro. Il festival opera dentro questa geografia — con la Commissione Europea nelle Blue Economy Days, con i programmi Interreg Italia–Croazia, con gli atenei delle due coste. L'Adriatico non divide due sponde: le tiene insieme.</p>
+        <div class="campo campo--carta">
+          <div class="blocco c1-5" data-reveal>
+            <h3>Il corridoio</h3>
+            <p>Ancona guarda il corridoio adriatico-ionico: due sponde, sette paesi, una strategia europea (EUSAIR) che qui trova uno dei suoi luoghi di lavoro. Il festival opera dentro questa geografia — con la Commissione Europea nelle Blue Economy Days, con i programmi Interreg Italia–Croazia, con gli atenei delle due coste. L'Adriatico non divide due sponde: le tiene insieme.</p>
+          </div>
+
+          {/* IL FRAMMENTO DI CARTA. Il profilo è ricalcato da coordinate
+               reali: vedi la nota su CARTA nel frontmatter. Il disegno non
+               porta informazione che non sia già scritta a fianco, quindi è
+               aria-hidden e non chiede un'etichetta da leggere. */}
+          <div class="c7-12 carta-campo" data-reveal>
+            <svg class="carta" viewBox={CARTA.box} aria-hidden="true" focusable="false">
+              <defs>
+                <pattern id="tib-reticolo" width="32" height="32" patternUnits="userSpaceOnUse">
+                  <path d="M32 0 L0 0 0 32" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.14" />
+                </pattern>
+              </defs>
+              <rect width="420" height="240" fill="url(#tib-reticolo)" />
+              <path class="k-costa" d={CARTA.ovest} />
+              <path class="k-costa" d={CARTA.est} />
+              {/* la rotta: Ancona verso la sponda opposta */}
+              <path class="k-rotta" d={`M${CARTA.ancona[0]} ${CARTA.ancona[1]} L${CARTA.zara[0]} ${CARTA.zara[1]}`} />
+              <g class="k-croce">
+                <line x1={CARTA.ancona[0] - 9} y1={CARTA.ancona[1]} x2={CARTA.ancona[0] + 9} y2={CARTA.ancona[1]} />
+                <line x1={CARTA.ancona[0]} y1={CARTA.ancona[1] - 9} x2={CARTA.ancona[0]} y2={CARTA.ancona[1] + 9} />
+                <circle cx={CARTA.ancona[0]} cy={CARTA.ancona[1]} r="3.5" />
+              </g>
+              <text class="k-targa" x={CARTA.ancona[0] + 13} y={CARTA.ancona[1] - 7}>ANCONA</text>
+              <text class="k-targa k-targa--fioca" x="300" y="78">SPONDA EST</text>
+              <text class="k-targa k-targa--fioca" x="36" y="150">ADRIATICO</text>
+            </svg>
+            <p class="carta-did">Il medio Adriatico, profilo ricalcato da coordinate reali. Il gomito al centro è il Conero: venticinque chilometri di costa che si spingono dentro il mare.</p>
+          </div>
         </div>
 
-        <div class="blocco" data-reveal>
-          <h3>L'equipaggio</h3>
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>L'equipaggio</h3>
           {/* ⚠️ CORREZIONE FATTUALE (v3 §2.8). Fincantieri e MSC sono usciti:
               nel reportage non compaiono fra i partner, e un nome sbagliato
               nell'elenco dei partner è l'errore che un partner vero nota per
               primo. L'elenco è ora per gradi, come nei materiali di casa:
               i soggetti con un ruolo dichiarato prima, la rete convocata
               dopo. Marina Dorica resta, come partner tecnico. */}
-          <p>Partner istituzionali: Comune di Ancona, Camera di Commercio delle Marche, Regione Marche. Partner scientifico: Università Politecnica delle Marche. Project partner: Banco Marchigiano. Partner tecnico: Marina Dorica.</p>
-          <p>E intorno, la rete che il festival convoca ogni anno: atenei e centri di ricerca, poli tecnologici, aziende di servizi pubblici, associazioni di categoria e professionali, sodalizi culturali, imprese leader dei rispettivi comparti, grandi gruppi cooperativi.</p>
+            <p>Partner istituzionali: Comune di Ancona, Camera di Commercio delle Marche, Regione Marche. Partner scientifico: Università Politecnica delle Marche. Project partner: Banco Marchigiano. Partner tecnico: Marina Dorica.</p>
+            <p>E intorno, la rete che il festival convoca ogni anno: atenei e centri di ricerca, poli tecnologici, aziende di servizi pubblici, associazioni di categoria e professionali, sodalizi culturali, imprese leader dei rispettivi comparti, grandi gruppi cooperativi.</p>
+          </div>
         </div>
 
         {/* LA SQUADRA (v3 §2.9, blocco nuovo): chiude .Rotta. Dice l'ascolto
-             come procedura, senza aureola — è la voce di casa già scritta. */}
-        <div class="blocco" data-reveal>
-          <h3>La squadra</h3>
-          <p>Chi sta al tavolo, di solito, non sta allo stesso tavolo. Scienziati e docenti, ricercatori e specialisti, divulgatori e scrittori, chef affermati ed emergenti, pescatori e operatori portuali, viticoltori e ristoratori. Il metodo è dichiarato ed è bottom up: si raccolgono i bisogni delle diverse anime che cooperano, e si lavora perché il confronto non sia verticale. Le contaminazioni che ne escono non sono un effetto collaterale — sono il prodotto.</p>
+             come procedura, senza aureola — è la voce di casa già scritta.
+             A lato l'unica lastra verticale della pagina: 3:4, che è il
+             formato del ritratto di gruppo. */}
+        <div class="campo campo--squadra">
+          <div class="blocco c1-8" data-reveal>
+            <h3>La squadra</h3>
+            <p>Chi sta al tavolo, di solito, non sta allo stesso tavolo. Scienziati e docenti, ricercatori e specialisti, divulgatori e scrittori, chef affermati ed emergenti, pescatori e operatori portuali, viticoltori e ristoratori. Il metodo è dichiarato ed è bottom up: si raccolgono i bisogni delle diverse anime che cooperano, e si lavora perché il confronto non sia verticale. Le contaminazioni che ne escono non sono un effetto collaterale — sono il prodotto.</p>
+          </div>
+          <figure class="lastra lastra--alta c9-12" data-reveal>
+            <div class="l-img">
+              {lastraSquadra.src ? (
+                <img src={lastraSquadra.src} alt="" width="900" height="1200" loading="lazy" decoding="async" />
+              ) : (
+                <em aria-hidden="true">in attesa</em>
+              )}
+            </div>
+            <figcaption>
+              <span class="d-idx">{lastraSquadra.idx}</span>
+              <span class="d-voce">{lastraSquadra.did[0]}</span>
+              <span class="d-luogo">{lastraSquadra.did[1]}</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -399,10 +659,25 @@ const structuredData = {
              NB: commento in stile JSX e non commento HTML, perché quelli
              finiscono nel sorgente pubblicato — e una nota editoriale su
              un errore di attribuzione non deve leggersi in pagina. */}
-        <p class="apertura" data-reveal>The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo Tecnologico Alto Adriatico: un cantiere progettuale fondato su un principio semplice — condivisione. Buone prassi che circolano tra le due sponde dell'Adriatico, talenti che si formano lavorando su problemi veri, risultati di ricerca che non restano nei paper.</p>
+        <div class="campo">
+          <div class="c1-7">
+            <p class="apertura" data-reveal>The Blue Way nasce dalla collaborazione fra Tipicità in Blu e il Polo Tecnologico Alto Adriatico: un cantiere progettuale fondato su un principio semplice — condivisione. Buone prassi che circolano tra le due sponde dell'Adriatico, talenti che si formano lavorando su problemi veri, risultati di ricerca che non restano nei paper.</p>
+          </div>
+          <aside class="c9-12 scheda" data-reveal>
+            <dl>
+              {schedaCantiere.map(([voce, val]) => (
+                <>
+                  <dt>{voce}</dt>
+                  <dd>{val}</dd>
+                </>
+              ))}
+            </dl>
+          </aside>
+        </div>
 
-        <div class="blocco" data-reveal>
-          <h3>Il cantiere aperto</h3>
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>Il cantiere aperto</h3>
           {/* La definizione ufficiale, quella usata a Ecomondo: è la più
                esatta e conviene tenerla testuale (TESTI-TIB §2ter). */}
           <p>La definizione ufficiale, quella usata a Ecomondo, è la più esatta e conviene tenerla: una <b>piattaforma di condivisione fisica e digitale per stimolare un'ampia alleanza di talenti, energie e competenze</b>, sull'area individuata come Polo del Mare Adriatico.</p>
@@ -411,9 +686,11 @@ const structuredData = {
                che è la cosa che mancava. */}
           <p>È un percorso di sviluppo che tiene insieme divulgazione scientifica, creatività e visione territoriale, e che si proietta in contesti nuovi e internazionali. Colloca Tipicità in Blu al centro dello scacchiere adriatico-ionico come modello di cooperazione fra territori uniti dal mare e dalle sfide della transizione blu.</p>
           <p>The Blue Way non coincide con la manifestazione: lavora tutto l'anno, con ricadute sul territorio italiano e oltre. È una piattaforma permanente che collega gli atenei dell'arco adriatico — Politecnica delle Marche, Trieste, Udine, Bari, SISSA — le imprese che pongono le sfide e i giovani che le raccolgono. Il metodo è quello del cantiere: si progetta, si prototipa, si vara. E ogni varo apre il progetto successivo.</p>
+          </div>
         </div>
 
-        <div class="blocco blocco--largo" data-reveal>
+        <div class="campo">
+          <div class="c1-12" data-reveal>
           <h3>Gli specchi del cantiere</h3>
           {/* Cronologia e non schede pari: anno e città in monospazio come
                intestazione di ogni voce, che nel registro della plancia si
@@ -432,13 +709,16 @@ const structuredData = {
               </li>
             ))}
           </ol>
+          </div>
         </div>
 
-        <div class="blocco" data-reveal>
-          <h3>Chi trova cosa</h3>
-          <ul class="trova">
-            {trova.map((t) => <li>{t}</li>)}
-          </ul>
+        <div class="campo">
+          <div class="blocco c1-7" data-reveal>
+            <h3>Chi trova cosa</h3>
+            <ul class="trova">
+              {trova.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -462,7 +742,7 @@ const structuredData = {
   /* ── Token della pagina: una sola curva, durate corte. Stessa curva
        usata su Tipicità, così il sito ha un'unica mano. ── */
   .plancia, .barra, main { --ease: cubic-bezier(0.55, 0.05, 0.18, 1); }
-  .mono, .fix, .quadro-label, .s-idx, .f-idx, .c-idx, .c-quando,
+  .mono, .fix, .quadro-label, .s-idx, .c-idx, .c-quando,
   .barra nav a, .matrici a {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
@@ -611,7 +891,69 @@ const structuredData = {
   /* ══ MATRICI ══ */
   .matrice { padding: clamp(3.4rem, 9vh, 6rem) 0; }
   .matrice--alt { background: var(--bg-deep); }
-  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.6rem; }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 var(--gut); }
+
+  /* ══ LA GRIGLIA: DODICI CAMPI ══
+     Dodici colonne dentro 68rem, gronda 1.6rem, modulo verticale di 64px —
+     che non è un numero scelto a caso: è il passo del reticolo di carta
+     nautica già disegnato in .grigliato. La pagina aveva già la sua griglia
+     addosso, e finora nessun contenuto la usava.
+
+     Regola unica: LA PLANCIA È L'UNICO BLOCCO CENTRATO DELLA PAGINA. Tutto
+     il resto dichiara il campo che occupa. Una plancia non è una colonna: è
+     un pannello con campi di dimensioni diverse, e finché ogni blocco è largo
+     uguale e centrato uguale nessuna gerarchia è possibile. */
+  main { --gut: 1.6rem; --mod: 64px; }
+  .campo {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gut);
+  }
+  .campo + .campo { margin-top: var(--mod); }
+  /* i campi che portano una grafica respirano di un modulo in più: la ruota e
+     la carta hanno bisogno di stare sole per leggersi */
+  .campo--ruota, .campo--carta, .campo--squadra { margin-top: calc(var(--mod) * 1.5); }
+
+  .c1-5 { grid-column: 1 / 6; }
+  .c1-7 { grid-column: 1 / 8; }
+  .c1-8 { grid-column: 1 / 9; }
+  .c1-12 { grid-column: 1 / 13; }
+  .c7-12 { grid-column: 7 / 13; }
+  .c9-12 { grid-column: 9 / 13; }
+
+  /* Un solo punto di rottura, e sotto si collassa tutto a colonna singola.
+     Due punti di rottura si tengono in ordine; quattro no. */
+  @media (max-width: 820px) {
+    .c1-5, .c1-7, .c1-8, .c1-12, .c7-12, .c9-12 { grid-column: 1 / 13; }
+    .campo { row-gap: 2rem; }
+    .campo + .campo,
+    .campo--ruota, .campo--carta, .campo--squadra { margin-top: 2.8rem; }
+  }
+
+  /* ── la scheda tecnica a lato: colonna di fatti, non paragrafo ── */
+  .scheda dl { margin: 0; }
+  .scheda dt {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .scheda dd {
+    margin: 0.3rem 0 0;
+    padding-bottom: 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .scheda dd + dt { margin-top: 0.9rem; }
+  .scheda dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  /* su schermo stretto la scheda sta sotto l'apertura: le serve un filo in
+     testa, o galleggia */
+  @media (max-width: 820px) {
+    .scheda { border-top: 1px solid var(--brand-accent); padding-top: 1rem; }
+  }
 
   h2 {
     font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -640,10 +982,8 @@ const structuredData = {
     margin: 0 0 2.6rem;
   }
   .blocco { margin: 0 0 2.4rem; max-width: 62ch; }
-  /* i blocchi che contengono una griglia interna (i formati, la cronologia)
-     non possono stare in 62ch: la misura di lettura vale per il paragrafo,
-     non per il pannello */
-  .blocco--largo { max-width: none; }
+  /* la misura di lettura è un massimo, non una larghezza: dove il campo è
+     più stretto di 62ch comanda il campo */
   .blocco p { color: var(--text-dim); line-height: 1.75; margin: 0; }
   /* i blocchi con due paragrafi (La visione, Il cantiere aperto) hanno
      bisogno di respiro: senza, le due righe si toccano e sembrano uno */
@@ -668,27 +1008,15 @@ const structuredData = {
   .tempi dt + dd { margin-top: 0.2rem; }
   .tempi dd + dt { margin-top: 0.9rem; }
 
-  /* ── I formati: quattro schede brevi. Filo a sinistra e indice in
-       monospazio — la scheda tecnica, non la card. ── */
-  /* due colonne e non auto-fit: i formati sono quattro, e con auto-fit a
+  /* ── I formati: quattro schede, ciascuna con la sua lastra. ──
+     Due colonne e non auto-fit: i formati sono quattro, e con auto-fit a
      1440 entrano in tre — il quarto resta orfano su una riga sua. 2×2 non
      lascia orfani a nessuna larghezza. */
   .formati {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.8rem 2.2rem;
+    gap: 2.6rem var(--gut);
     margin-top: 1.4rem;
-  }
-  .formato {
-    padding-left: 1.2rem;
-    border-left: 1px solid var(--hairline);
-  }
-  .f-idx {
-    display: block;
-    font-size: 0.66rem;
-    letter-spacing: 0.16em;
-    color: var(--brand-accent);
-    margin-bottom: 0.5rem;
   }
   .formato h4 {
     margin: 0 0 0.25rem;
@@ -708,13 +1036,144 @@ const structuredData = {
     color: var(--text-dim);
   }
 
+  /* ══ LE IMMAGINI: DUE FAMIGLIE, E SOLO DUE ══ */
+
+  /* ── 1. LA LASTRA ──
+     Inserto in cornice a filo, virato nella cromia della pagina.
+     NIENTE raggio d'angolo e NIENTE ombra: sarebbero il depliant.
+     Formato 3:2 — non 16:9. Il 16:9 è il formato dei monitor della moviola
+     di Tipicità: usarlo qui sarebbe un prestito da un'altra fabula. Il 3:2 è
+     il formato della fotografia documentaria, ed è quello giusto per una
+     scheda tecnica. L'unica eccezione è la lastra verticale della squadra.
+     aspect-ratio sul contenitore e width/height sull'immagine: al
+     caricamento non si muove un pixel. */
+  .lastra { margin: 0 0 0.9rem; }
+  .l-img {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+    background: linear-gradient(140deg, #14384a, #1d5468 45%, #2a7f95 70%, #3f6b78);
+    /* la viratura: la fotografia resta perfettamente leggibile, ma
+       APPARTIENE alla pagina invece di sedercisi sopra. È il modo per usare
+       materiale d'archivio molto vario — luci diverse, anni diversi,
+       fotografi diversi — senza che la pagina diventi un collage. */
+    filter: saturate(0.55) contrast(1.05);
+  }
+  .lastra--alta .l-img { aspect-ratio: 3 / 4; }
+  .l-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .l-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(32, 159, 182, 0.18), rgba(10, 26, 43, 0.30));
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+  /* lo stato di riserva: il campo virato con la sua etichetta. Dignitoso, e
+     non sembra un errore — che è meglio di una fotografia sbagliata. */
+  /* la velatura non è un vezzo: sul punto chiaro del gradiente l'etichetta
+     scendeva a 3,35:1, sotto il 4,5:1 richiesto per il testo piccolo. Così
+     sta a 6,8:1 — e per di più il campo in riserva si distingue a colpo
+     d'occhio da una fotografia vera, che è esattamente quello che deve fare.
+     Quando la fotografia arriva, l'etichetta non viene resa e la velatura
+     sparisce con lei. */
+  .l-img em {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(10, 26, 43, 0.42);
+    font-style: normal;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(233, 238, 242, 0.78);
+    z-index: 2;
+  }
+
+  /* la didascalia: SEMPRE presente, mai sovrimpressa, mai decorativa.
+     Se una didascalia non aggiunge un fatto, la lastra non serve. */
+  .lastra figcaption, .banda figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    align-items: baseline;
+    margin-top: 0.7rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .d-idx { color: var(--brand-accent); }
+  .d-voce { color: var(--text-dim); }
+  .d-luogo { color: var(--text-faint); }
+  /* il separatore è generato, così sparisce da solo quando la didascalia va
+     a capo su schermo stretto */
+  .lastra figcaption span + span::before,
+  .banda figcaption span + span::before {
+    content: '·';
+    margin-right: 0.7rem;
+    color: var(--text-faint);
+  }
+
+  /* ── 2. LA BANDA ──
+     L'unica fotografia a colori pieni di tutta la pagina, e l'unica cosa che
+     esce dalla gabbia. È la cerniera fra .Rotta e l'architettura: il punto in
+     cui il lettore ha capito CHE COSA è e sta per scoprire COM'È FATTO.
+     Una banda funziona perché è una: due sono un carosello lento. */
+  .banda {
+    position: relative;
+    margin: clamp(3rem, 7vh, 5rem) 0;
+    padding: 0;
+  }
+  .banda > img, .banda-riserva {
+    display: block;
+    width: 100%;
+    height: 56svh;
+    min-height: 340px;
+    object-fit: cover;
+  }
+  .banda-riserva {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(10, 26, 43, 0.15), rgba(10, 26, 43, 0.75)),
+      linear-gradient(115deg, #1b5f74, #2b8ea6 38%, #7fb3c4 55%, #c8b89a 72%, #8a7f6b);
+  }
+  /* stessa ragione della lastra: al centro della banda il gradiente è
+     chiaro e l'etichetta scendeva a 2,84:1 */
+  .banda-riserva em {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(10, 26, 43, 0.42);
+    font-style: normal;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(233, 238, 242, 0.8);
+  }
+  /* la didascalia della banda torna dentro la gabbia: è l'unica parte della
+     banda che obbedisce alla griglia */
+  .banda figcaption { margin-top: 0.8rem; }
+  /* a 390 la banda non deve mangiare mezzo schermo */
+  @media (max-width: 700px) {
+    .banda > img, .banda-riserva { height: 42svh; min-height: 230px; }
+  }
+
   /* ── il quadro strumenti: readout, due colonne di sigle ── */
+  /* il ritmo verticale lo detta la griglia (.campo + .campo), non i margini
+     dei pannelli: se ce l'hanno anche loro, i due si sommano e il modulo da
+     64px salta */
   .quadro, .metriche {
     border: 1px solid var(--hairline);
     border-left: 2px solid var(--brand-accent);
     background: rgba(233, 238, 242, 0.028);
     padding: 1.5rem 1.6rem 1.4rem;
-    margin: 0 0 2.4rem;
+    margin: 0;
   }
   .quadro-label {
     display: block;
@@ -724,13 +1183,15 @@ const structuredData = {
     color: var(--text-faint);
     margin-bottom: 1.1rem;
   }
+  /* una colonna sola: l'elenco è la lettura della ruota, e sette voci
+     numerate 01–07 in colonna si contano a colpo d'occhio contro i sette
+     settori. Su due colonne il conto si perde. */
   .strumenti {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
-    gap: 0.1rem 1.8rem;
+    grid-template-columns: 1fr;
   }
   .strumenti li {
     display: flex;
@@ -748,14 +1209,35 @@ const structuredData = {
     line-height: 1.4;
   }
 
-  /* ── il pannello metriche ── */
+  /* ── il pannello delle letture ──
+     Tre colonne per lettura su dodici. Lo zero ne occupa sei: non entra
+     nella riga delle altre e scende da solo, che è esattamente quello che
+     deve fare. */
   .letture {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-    gap: 1.8rem 2rem;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.8rem var(--gut);
   }
-  .lettura { margin: 0; }
+  .lettura { margin: 0; grid-column: span 3; }
+  /* LA ROTTURA DELLA REGOLARITÀ è il modo di dare peso a un dato senza
+     scrivere che è importante. Una sola per pagina: con due, nessuna delle
+     due pesa più. */
+  .lettura--grande {
+    grid-column: span 6;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0 1.4rem;
+    padding-left: 1.4rem;
+    border-left: 1px solid var(--brand-accent);
+  }
+  .lettura--grande .l-num {
+    font-size: clamp(4rem, 11vw, 7rem);
+    margin: 0;
+    line-height: 0.9;
+  }
+  .lettura--grande .l-desc { max-width: 20ch; }
   .l-num {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
@@ -772,17 +1254,166 @@ const structuredData = {
     color: var(--text-dim);
     max-width: 26ch;
   }
-  /* l'estensione tematica: corpo minore sotto gli ambiti, non in maiuscoletto
-     — è un paragrafo da leggere, non un'etichetta. 0.82rem con questo colore
-     resta sopra il 4.5:1 sul fondo del pannello. */
+  /* l'estensione tematica: corpo minore sotto la ruota, non in maiuscoletto
+     — è un paragrafo da leggere, non un'etichetta. */
   .estensione {
-    margin: 1.3rem 0 0;
+    margin: 1.6rem 0 0;
     padding-top: 1rem;
-    border-top: 1px solid rgba(233, 238, 242, 0.07);
+    border-top: 1px solid var(--hairline);
     font-size: 0.82rem;
     line-height: 1.7;
     color: var(--text-dim);
-    max-width: 72ch;
+  }
+
+  /* ── LA RUOTA DEGLI AMBITI ──
+     Sette settori su un anello con il quadrante vuoto al centro: legge come
+     un quadrante di strumento, non come un grafico a torta. Passando su un
+     settore si accende la voce corrispondente nell'elenco a fianco, e
+     viceversa: una sola intenzione, 250ms, la curva della pagina. */
+  .ruota-campo { display: grid; align-content: center; }
+  .ruota { display: block; width: 100%; max-width: 21rem; height: auto; }
+  /* a colonna singola la ruota non ha più un vicino a cui allinearsi: cresce
+     e si centra, o resta un disco piccolo in un campo vuoto */
+  @media (max-width: 820px) {
+    .ruota { max-width: 26rem; margin-inline: auto; }
+  }
+  .ruota path {
+    opacity: 0.85;
+    transition: opacity 0.25s var(--ease);
+  }
+  /* l'accensione vive solo mentre si punta qualcosa: la classe sta sul
+     contenitore, così gli altri settori si abbassano INSIEME invece che uno
+     alla volta */
+  .ruota--acceso path { opacity: 0.22; }
+  .ruota--acceso path.on { opacity: 1; }
+  .strumenti li { transition: border-color 0.25s var(--ease); }
+  .strumenti li.on { border-bottom-color: var(--brand-accent); }
+  .strumenti li.on .s-voce { color: var(--text-soft); }
+
+  /* ── LA STRISCIA DELLE TRE MATRICI ──
+     Otto colonne: il nome a sinistra e sette giorni sull'asse. È una tabella
+     di marcia, che è esattamente il registro della plancia. */
+  .assi {
+    display: grid;
+    grid-template-columns: 12rem repeat(7, 1fr);
+    gap: 0.75rem 0.35rem;
+    align-items: center;
+    margin-top: 0.3rem;
+  }
+  /* la scala ricalca le tracce del genitore: stesse 7 colonne, stessa gronda,
+     quindi i numeri cadono esattamente sopra i giorni */
+  .a-scala {
+    grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.35rem;
+  }
+  .a-scala i {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    text-align: center;
+  }
+  .a-nome { grid-column: 1; display: block; padding-right: 0.8rem; }
+  .a-nome b {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    line-height: 1.3;
+  }
+  .a-nome i {
+    display: block;
+    margin-top: 0.15rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-style: normal;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .a-barra {
+    height: 12px;
+    border: 1px solid var(--brand-accent);
+    background: color-mix(in srgb, var(--brand-accent) 62%, transparent);
+  }
+  /* il circuito è diffuso in città, non concentrato in una sede: a tratteggio */
+  .a-barra--rada {
+    background: repeating-linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--brand-accent) 45%, transparent) 0 4px,
+      transparent 4px 9px
+    );
+  }
+  .a-nota {
+    margin: 1.2rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--text-faint);
+    text-wrap: pretty;
+  }
+  /* Sotto i 560 la colonna dei nomi costerebbe metà della striscia e i giorni
+     si ridurrebbero a 24px l'uno. Il nome sale allora sopra la sua barra, a
+     tutta larghezza: la prima colonna si azzera, così le barre continuano a
+     cadere sui giorni giusti senza che gli indici cambino di uno. */
+  @media (max-width: 560px) {
+    .assi { grid-template-columns: 0 repeat(7, 1fr); gap: 0.4rem 0.2rem; }
+    .a-scala { gap: 0.2rem; }
+    .a-nome {
+      grid-column: 1 / -1;
+      padding-right: 0;
+      margin-top: 0.7rem;
+    }
+    .a-nome b { font-size: 0.78rem; }
+    .a-nome i { font-size: 0.6rem; }
+  }
+
+  /* ── IL FRAMMENTO DI CARTA ──
+     Due coste a filo, il reticolo, Ancona con il crocino e la rotta
+     tratteggiata verso la sponda opposta. Il profilo è ricalcato da
+     coordinate reali: vedi la nota nel frontmatter. */
+  .carta-campo { display: grid; align-content: center; }
+  .carta {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--text-soft);
+    border: 1px solid var(--hairline);
+    background: rgba(10, 26, 43, 0.4);
+  }
+  .k-costa {
+    fill: none;
+    stroke: var(--brand-accent);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .k-rotta {
+    fill: none;
+    stroke: var(--text-soft);
+    stroke-width: 1;
+    stroke-dasharray: 5 4;
+    opacity: 0.55;
+  }
+  .k-croce line, .k-croce circle { stroke: var(--text-soft); stroke-width: 1; fill: none; }
+  .k-targa {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    fill: var(--text-soft);
+  }
+  .k-targa--fioca { fill: var(--text-faint); }
+  .carta-did {
+    margin: 0.8rem 0 0;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    color: var(--text-faint);
+    text-wrap: pretty;
   }
   .q-nota {
     margin: 1rem 0 0;
@@ -886,9 +1517,16 @@ const structuredData = {
     border-radius: 1px;
   }
 
-  /* ══ RESPONSIVE: la plancia resta plancia ══ */
-  @media (max-width: 900px) {
-    .strumenti { grid-template-columns: 1fr 1fr; gap: 0.1rem 1.4rem; }
+  /* ══ RESPONSIVE: la plancia resta plancia ══
+     Sotto 820px la griglia è già collassata a colonna singola (vedi su).
+     Qui restano gli aggiustamenti di corpo e di spaziatura della plancia e
+     dei pannelli, che non sono questioni di griglia. */
+  @media (max-width: 820px) {
+    /* le letture tornano in coppia e lo zero si prende tutta la riga: la
+       rottura si legge anche quando le colonne sono due */
+    .lettura { grid-column: span 6; }
+    .lettura--grande { grid-column: span 12; }
+    .formati { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 620px) {
     .plancia { min-height: 78svh; padding: 5rem 1.2rem 3rem; }
@@ -902,32 +1540,26 @@ const structuredData = {
       line-height: 1.5;
     }
     .fix--apertura span + span::before { content: none; margin: 0; }
-    .strumenti { grid-template-columns: 1fr; }
     .s-voce { font-size: 0.78rem; }
-    /* su schermo stretto il filo verticale dei formati costa 1.2rem di
-       misura utile: diventa un filo orizzontale sopra, che non la mangia */
-    .formato {
-      padding-left: 0;
-      padding-top: 0.9rem;
-      border-left: 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .formati { grid-template-columns: 1fr; gap: 1.2rem; }
+    .formati { grid-template-columns: 1fr; gap: 2rem; }
     .estensione { font-size: 0.78rem; }
     .cronologia li { gap: 0.8rem; }
     .c-par { font-size: 0.9rem; }
-    .letture { grid-template-columns: 1fr 1fr; gap: 1.4rem 1.2rem; }
+    .letture { gap: 1.4rem 1.2rem; }
     .l-desc { font-size: 0.78rem; }
     .quadro, .metriche { padding: 1.2rem 1.1rem 1.1rem; }
     .matrici { gap: 1.6rem; }
   }
-  @media (max-width: 380px) {
-    .letture { grid-template-columns: 1fr; }
+  @media (max-width: 420px) {
+    /* a questa larghezza due letture per riga spezzano «oltre 30» a metà */
+    .lettura { grid-column: span 12; }
   }
 
   /* ══ MOTO: solo dissolvenza; sotto reduced-motion sparisce del tutto ══ */
   @media (prefers-reduced-motion: reduce) {
-    .matrici a, .barra nav a, .varco { transition: none; }
+    /* la ruota perde la transizione, non l'accensione: dà fastidio il moto,
+       non il contrasto (GRIGLIA-TIB §7) */
+    .matrici a, .barra nav a, .varco, .ruota path, .strumenti li { transition: none; }
   }
 </style>
 
@@ -936,6 +1568,35 @@ const structuredData = {
   // giustificavano: sui dati nuovi — «2014», «0» — un contatore che sale è un
   // effetto su cifre che non lo meritano (GRIGLIA-TIB §5), e su uno zero è
   // semplicemente un'animazione che non si vede.
+
+  // ── LA RUOTA E IL SUO ELENCO SI ACCENDONO A VICENDA ──
+  // Un di più, non un veicolo: l'informazione sta tutta nell'elenco, che è la
+  // versione accessibile del disegno. Per questo nessun elemento diventa
+  // focalizzabile — sarebbero sette fermate di tabulazione che non portano da
+  // nessuna parte (WCAG 2.4.3) — e se questo blocco non gira la pagina dice
+  // ancora tutto quello che deve dire.
+  // Sotto prefers-reduced-motion sparisce la transizione, non l'accensione:
+  // è il moto a dare fastidio, non il contrasto.
+  const ruota = document.getElementById('ruota');
+  const ambiti = document.getElementById('ambiti');
+  if (ruota && ambiti) {
+    const settori = Array.from(ruota.querySelectorAll('path'));
+    const voci = Array.from(ambiti.querySelectorAll('li'));
+
+    const accendi = (i) => {
+      ruota.classList.toggle('ruota--acceso', i !== null);
+      settori.forEach((p, k) => p.classList.toggle('on', k === i));
+      voci.forEach((l, k) => l.classList.toggle('on', k === i));
+    };
+
+    // la coppia settore/voce condivide l'indice: una sola fonte, nessun
+    // disallineamento possibile se un domani gli ambiti cambiano numero
+    [...settori, ...voci].forEach((el) => {
+      const i = Number(el.dataset.i);
+      el.addEventListener('mouseenter', () => accendi(i));
+      el.addEventListener('mouseleave', () => accendi(null));
+    });
+  }
 
   // ── la barra segna la matrice in cui ci si trova ──
   const voci = Array.from(document.querySelectorAll('.barra nav a'));
