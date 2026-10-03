@@ -33,6 +33,15 @@ export const content = {
         'Grand Tour delle Marche: dal 2014 un laboratorio di comunità a geometria variabile. 73 comuni, 13 edizioni, un solo viaggio tra i borghi marchigiani.',
     },
 
+    // Comandi delle due strisce che scorrono — le tappe e la teca. Sono qui
+    // in alto, fuori da entrambe le sezioni, perché sono gli stessi per
+    // tutte e due: due strisce che si guidano in due modi diversi sarebbero
+    // due cose da imparare invece di una.
+    scorri: {
+      indietro: 'Scorri indietro',
+      avanti: 'Scorri avanti',
+    },
+
     partenza: {
       titolo: 'Grand Tour delle Marche',
       marchioAlt: 'Grand Tour delle Marche',

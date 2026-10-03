@@ -349,10 +349,20 @@ const theme = {
       <div class="wrap">
         <h2 id="h-ediz" data-reveal>{c.edizione.h2}</h2>
         <p class="sotto" data-reveal>{c.edizione.sotto}</p>
+        {/* qui le frecce vanno da sole in fondo alla gabbia: non c'è una
+            riga di pastiglie a cui agganciarsi come nella teca */}
+        <div class="scorri scorri--sola" data-scorre="tappe-lista" hidden>
+          <button class="scorri-b" type="button" data-verso="-1" aria-label={c.scorri.indietro}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" /></svg>
+          </button>
+          <button class="scorri-b" type="button" data-verso="1" aria-label={c.scorri.avanti}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" /></svg>
+          </button>
+        </div>
       </div>
 
       <div class="itinerario" data-reveal>
-        <ol class="tappe" aria-label={c.edizione.aria}>
+        <ol class="tappe" id="tappe-lista" aria-label={c.edizione.aria}>
           {c.edizione.voci.map((t) => (
             <li class="tappa">
               <article>
@@ -443,19 +453,31 @@ const theme = {
              così la prima pastiglia è anche quella accesa. */}
         <div class="annate" data-reveal>
           <span class="nuclei-label" id="lbl-annate">{c.cartoline.annate.label}</span>
-          <div class="chip-lista" role="radiogroup" aria-labelledby="lbl-annate" id="annate">
-            {annate.map((a, i) => (
-              <button
-                class="chip"
-                role="radio"
-                aria-checked={a === annataIniziale ? 'true' : 'false'}
-                tabindex={i === 0 ? '0' : '-1'}
-                data-annata={a}
-              >{a}</button>
-            ))}
-            <button class="chip" role="radio" aria-checked="false" tabindex="-1" data-annata="*">
-              {c.cartoline.annate.tutte}
-            </button>
+          {/* le frecce in coda alla riga delle pastiglie: stanno dove si
+              sceglie l'annata, appena sopra quello che muovono */}
+          <div class="annate-riga">
+            <div class="chip-lista" role="radiogroup" aria-labelledby="lbl-annate" id="annate">
+              {annate.map((a, i) => (
+                <button
+                  class="chip"
+                  role="radio"
+                  aria-checked={a === annataIniziale ? 'true' : 'false'}
+                  tabindex={i === 0 ? '0' : '-1'}
+                  data-annata={a}
+                >{a}</button>
+              ))}
+              <button class="chip" role="radio" aria-checked="false" tabindex="-1" data-annata="*">
+                {c.cartoline.annate.tutte}
+              </button>
+            </div>
+            <div class="scorri" data-scorre="teca-lista" hidden>
+              <button class="scorri-b" type="button" data-verso="-1" aria-label={c.scorri.indietro}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" /></svg>
+              </button>
+              <button class="scorri-b" type="button" data-verso="1" aria-label={c.scorri.avanti}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" /></svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -463,9 +485,14 @@ const theme = {
       {/* Le cartoline ci sono TUTTE nel markup, di ogni annata: è la
           versione che leggono i motori e quella che resta a chi ha il
           JavaScript spento. Il filtro lo mette lo script qui sotto, prima
-          del primo paint. */}
+          del primo paint.
+
+          La lista prende il fuoco (tabindex="0"): dentro non c'è niente di
+          focalizzabile — sono figure, non link — quindi senza questo da
+          tastiera la teca non si scorre affatto. Col fuoco addosso le
+          frecce della tastiera la muovono da sole, senza JavaScript. */}
       <div class="teca" data-reveal>
-        <ul id="teca-lista">
+        <ul id="teca-lista" tabindex="0" role="group" aria-label={c.cartoline.h2}>
           {cartoline.map((k, i) => (
             <li style={`--rot:${(i % 3) - 1}deg`} data-annata={k.a}>
               <figure>
@@ -1003,6 +1030,59 @@ const theme = {
     .esempi { min-height: 4.6rem; }
   }
 
+  /* ══ I COMANDI DELLE STRISCE ══
+     Una striscia che scorre e non lo dice è una striscia che, per chi ha
+     un mouse, non scorre: servirebbe shift+rotella, e nessuno ci prova.
+     Il dito e il trackpad la trovano da soli, la tastiera arriva col fuoco
+     sul contenitore — restava scoperto proprio il caso più comune.
+     Le frecce nascono `hidden` e le accende lo script solo se c'è davvero
+     qualcosa fuori campo: senza JavaScript non resta un comando morto. */
+  .scorri { display: flex; gap: 0.5rem; flex: none; }
+  .scorri[hidden] { display: none; }
+  /* quando non ha una riga di pastiglie accanto si appoggia a destra da sé */
+  .scorri--sola { justify-content: flex-end; margin-top: 1.4rem; }
+
+  .scorri-b {
+    /* 2.75rem = 44px: il bersaglio comodo, ben oltre i 24px minimi */
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease),
+      background-color 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+  .scorri-b svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .scorri-b:hover:not(:disabled) {
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
+  }
+  .scorri-b:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; }
+  /* agli estremi il bottone si spegne e esce dal giro del tabulatore: non
+     c'è niente da raggiungere in quel verso */
+  .scorri-b:disabled { opacity: 0.3; cursor: default; }
+
+  /* il fuoco sul contenitore che scorre deve vedersi, o chi arriva col
+     tabulatore non sa di avere in mano la striscia */
+  .teca ul:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: -2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scorri-b { transition: none; }
+  }
+
   /* ══ TECA DELLE CARTOLINE ══ */
   /* ══ L'EDIZIONE IN CORSO ══
      La striscia è una STRADA: un filo continuo dietro i nodi, uno per
@@ -1107,6 +1187,13 @@ const theme = {
      stessa etichetta dei nuclei tematici */
   .annate { margin-top: 1.8rem; }
   .annate .nuclei-label { display: block; margin-bottom: 0.7rem; }
+  .annate-riga {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.4rem;
+    flex-wrap: wrap;
+  }
 
   .teca { margin-top: 1.2rem; }
   /* una cartolina nascosta è nascosta davvero: senza questo `hidden` non
@@ -1422,6 +1509,52 @@ const theme = {
     });
   }
 
+  // ── LE FRECCE DELLE STRISCE ──
+  // Un solo pezzo di codice per tutte e due le strisce: ognuna dichiara nel
+  // suo `data-scorre` l'id di quella che muove. Il passo è la larghezza di
+  // una scheda più il gap, letti dal vivo — così resta giusto a qualunque
+  // taglia di schermo, senza numeri scritti a mano qui dentro.
+  const rinfrescaStrisce = [];
+  document.querySelectorAll('[data-scorre]').forEach((guida) => {
+    const pista = document.getElementById(guida.dataset.scorre);
+    if (!pista) return;
+    const [indietro, avanti] = guida.querySelectorAll('.scorri-b');
+
+    function passo() {
+      const prima = pista.querySelector('li:not([hidden])');
+      const vuoto = parseFloat(getComputedStyle(pista).columnGap) || 0;
+      return prima ? prima.getBoundingClientRect().width + vuoto : pista.clientWidth * 0.8;
+    }
+
+    // ⚠️ `scrollWidth > clientWidth` NON basta a dire che c'è qualcosa da
+    // raggiungere: la striscia ha una gronda a destra larga quanto il
+    // margine della gabbia, e quella sborda anche quando le schede ci
+    // stanno tutte — con tre cartoline in teca le frecce comparivano per
+    // 47px di vuoto. Le schede sono tutte in vista finché lo sbordo non
+    // supera la gronda destra.
+    // La tolleranza di 4px assorbe gli scrollLeft frazionari degli schermi
+    // a densità alta, che altrimenti lascerebbero un bottone acceso su un
+    // estremo già raggiunto.
+    function rinfresca() {
+      const fuori = pista.scrollWidth - pista.clientWidth;
+      const gronda = parseFloat(getComputedStyle(pista).paddingRight) || 0;
+      guida.hidden = fuori <= gronda + 4;
+      indietro.disabled = pista.scrollLeft <= 4;
+      avanti.disabled = pista.scrollLeft >= fuori - 4;
+    }
+
+    guida.addEventListener('click', (e) => {
+      const b = e.target.closest('.scorri-b');
+      if (!b) return;
+      pista.scrollBy({ left: Number(b.dataset.verso) * passo(), behavior: ridotto ? 'auto' : 'smooth' });
+    });
+
+    pista.addEventListener('scroll', rinfresca, { passive: true });
+    addEventListener('resize', rinfresca);
+    rinfresca();
+    rinfrescaStrisce.push(rinfresca);
+  });
+
   // ── LE ANNATE DELLA TECA ──
   // Stesso gruppo di pastiglie dei nuclei, stesse frecce: chi ha imparato
   // il primo selettore sa già usare il secondo. Qui però la scelta è un
@@ -1439,6 +1572,10 @@ const theme = {
       // la teca è una striscia che scorre: cambiando annata si torna
       // all'inizio, o si resta a guardare il vuoto dove prima c'era il 2015
       teca.scrollTo({ left: 0, behavior: 'instant' });
+      // un'annata con poche cartoline può non sbordare affatto: le frecce
+      // vanno rifatte i conti addosso, e il salto a zero non sempre emette
+      // un evento di scorrimento che le sveglierebbe da solo
+      rinfrescaStrisce.forEach((f) => f());
     }
 
     function scegliAnnata(pastiglia) {
