@@ -56,6 +56,13 @@ const primaTappa = tappe.first;
 
 const cartoline = c.cartoline.voci;
 
+// LE ANNATE DELLE CARTOLINE. Si ricavano dall'elenco e si ordinano dalla
+// più recente: la prima è quella che la teca mostra all'apertura. Nessun
+// anno scritto a mano — quando entra una locandina di un'edizione più
+// recente, il valore predefinito si sposta da solo.
+const annate = [...new Set(cartoline.map((k) => k.a))].sort().reverse();
+const annataIniziale = annate[0];
+
 // ══════════════════════════════════════════════════════════════════════
 // IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08–09/08/2026)
 //
@@ -363,19 +370,64 @@ const theme = {
       <div class="wrap">
         <h2 id="h-cart" data-reveal>{c.cartoline.h2}</h2>
         <p class="sotto" data-reveal>{c.cartoline.sotto}</p>
+
+        {/* IL SELETTORE DELLE ANNATE. Stesso gruppo di pastiglie dei nuclei
+             tematici — è il linguaggio che questa pagina ha già, e due
+             selettori diversi nella stessa pagina sarebbero due cose da
+             imparare invece di una. Le annate scendono dalla più recente,
+             così la prima pastiglia è anche quella accesa. */}
+        <div class="annate" data-reveal>
+          <span class="nuclei-label" id="lbl-annate">{c.cartoline.annate.label}</span>
+          <div class="chip-lista" role="radiogroup" aria-labelledby="lbl-annate" id="annate">
+            {annate.map((a, i) => (
+              <button
+                class="chip"
+                role="radio"
+                aria-checked={a === annataIniziale ? 'true' : 'false'}
+                tabindex={i === 0 ? '0' : '-1'}
+                data-annata={a}
+              >{a}</button>
+            ))}
+            <button class="chip" role="radio" aria-checked="false" tabindex="-1" data-annata="*">
+              {c.cartoline.annate.tutte}
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/* Le cartoline ci sono TUTTE nel markup, di ogni annata: è la
+          versione che leggono i motori e quella che resta a chi ha il
+          JavaScript spento. Il filtro lo mette lo script qui sotto, prima
+          del primo paint. */}
       <div class="teca" data-reveal>
-        <ul>
-          {cartoline.map((c, i) => (
-            <li style={`--rot:${(i % 3) - 1}deg`}>
+        <ul id="teca-lista">
+          {cartoline.map((k, i) => (
+            <li style={`--rot:${(i % 3) - 1}deg`} data-annata={k.a}>
               <figure>
-                <img src={`/gt/cartoline/${c.f}`} alt={c.t} width="900" height="637" loading="lazy" decoding="async" />
-                <figcaption><span class="timbro">{c.a}</span>{c.t}</figcaption>
+                <img src={`/gt/cartoline/${k.f}`} alt={k.t} width="900" height="637" loading="lazy" decoding="async" />
+                <figcaption><span class="timbro">{k.a}</span>{k.t}</figcaption>
               </figure>
             </li>
           ))}
         </ul>
       </div>
+
+      <script is:inline define:vars={{ annataIniziale }}>
+        // Filtra PRIMA del primo paint, come il vocabolario di EVO: senza
+        // questo la teca comparirebbe con tutte le annate e si
+        // accorcerebbe subito dopo, con il salto di layout che ne segue.
+        // Va in coda al markup e non nello script in fondo alla pagina,
+        // che gira troppo tardi.
+        // Se non gira affatto restano visibili tutte: è il ripiego voluto.
+        (function () {
+          var lista = document.getElementById('teca-lista');
+          if (!lista) return;
+          var voci = lista.querySelectorAll('li');
+          for (var i = 0; i < voci.length; i++) {
+            voci[i].hidden = voci[i].dataset.annata !== annataIniziale;
+          }
+        })();
+      </script>
     </section>
 
     <!-- ══ RIPARTENZA ══ -->
@@ -876,7 +928,15 @@ const theme = {
   }
 
   /* ══ TECA DELLE CARTOLINE ══ */
-  .teca { margin-top: 1.6rem; }
+  /* il selettore delle annate: sta nella gabbia, sopra la teca, e usa la
+     stessa etichetta dei nuclei tematici */
+  .annate { margin-top: 1.8rem; }
+  .annate .nuclei-label { display: block; margin-bottom: 0.7rem; }
+
+  .teca { margin-top: 1.2rem; }
+  /* una cartolina nascosta è nascosta davvero: senza questo `hidden` non
+     vince sul display:flex del contenitore */
+  .teca li[hidden] { display: none; }
   .teca ul {
     list-style: none;
     margin: 0;
@@ -1094,7 +1154,11 @@ const theme = {
 
   // ── LA MAPPA CHE RISPONDE: il tema accende i luoghi ──
   const norm = (s) => (s || '').replace(/[’ʼ]/g, "'");
-  const chips = Array.from(document.querySelectorAll('.chip'));
+  // ⚠️ circoscritto a #chips: da quando la teca ha il suo gruppo di
+  // pastiglie, un querySelectorAll('.chip') su tutta la pagina
+  // raccoglierebbe anche quelle delle annate e proverebbe a leggerci
+  // dentro i comuni di un nucleo tematico.
+  const chips = Array.from(document.querySelectorAll('#chips .chip'));
   const esempi = document.getElementById('esempi');
   const paths = Array.from(document.querySelectorAll('.mappa svg path'));
   const perComune = new Map();
@@ -1150,6 +1214,57 @@ const theme = {
       if (scelto) accendi(scelto);
       else { spegni(); if (esempi) esempi.textContent = attesa; }
     });
+  }
+
+  // ── LE ANNATE DELLA TECA ──
+  // Stesso gruppo di pastiglie dei nuclei, stesse frecce: chi ha imparato
+  // il primo selettore sa già usare il secondo. Qui però la scelta è un
+  // filtro e basta — niente accensione al passaggio, perché far cambiare
+  // la teca mentre il dito passa sopra una pastiglia è un dispetto.
+  const pastiglieAnnate = Array.from(document.querySelectorAll('#annate .chip'));
+  const teca = document.getElementById('teca-lista');
+  if (pastiglieAnnate.length && teca) {
+    const cartoline = Array.from(teca.querySelectorAll('li'));
+
+    function filtra(annata) {
+      cartoline.forEach((v) => {
+        v.hidden = annata !== '*' && v.dataset.annata !== annata;
+      });
+      // la teca è una striscia che scorre: cambiando annata si torna
+      // all'inizio, o si resta a guardare il vuoto dove prima c'era il 2015
+      teca.scrollTo({ left: 0, behavior: 'instant' });
+    }
+
+    function scegliAnnata(pastiglia) {
+      pastiglieAnnate.forEach((p) => {
+        const on = p === pastiglia;
+        p.setAttribute('aria-checked', on ? 'true' : 'false');
+        p.tabIndex = on ? 0 : -1;
+      });
+      filtra(pastiglia.dataset.annata);
+    }
+
+    pastiglieAnnate.forEach((p) => {
+      p.addEventListener('click', () => scegliAnnata(p));
+      p.addEventListener('keydown', (e) => {
+        const i = pastiglieAnnate.indexOf(p);
+        let n = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % pastiglieAnnate.length;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + pastiglieAnnate.length) % pastiglieAnnate.length;
+        else if (e.key === 'Home') n = 0;
+        else if (e.key === 'End') n = pastiglieAnnate.length - 1;
+        else return;
+        e.preventDefault();
+        scegliAnnata(pastiglieAnnate[n]);
+        pastiglieAnnate[n].focus();
+      });
+    });
+
+    // la pastiglia accesa all'apertura deve essere anche quella raggiunta
+    // per prima dal tabulatore: il markup la segna con aria-checked, qui
+    // si allinea il tabindex
+    const accesa = pastiglieAnnate.find((p) => p.getAttribute('aria-checked') === 'true');
+    if (accesa) pastiglieAnnate.forEach((p) => { p.tabIndex = p === accesa ? 0 : -1; });
   }
 
   // ── il nome del comune al passaggio, con l'anno della prima tappa ──

@@ -158,9 +158,21 @@ export const content = {
     // Le cartoline: `f` è il nome del file e `a` l'anno — tecnici. `t` è la
     // didascalia, ed è il nome proprio della manifestazione più il luogo:
     // si traduce solo se un giorno si deciderà di glossarlo.
+    //
+    // ⚠️ L'ANNATA MOSTRATA ALL'APERTURA NON È SCRITTA DA NESSUNA PARTE: la
+    // pagina prende l'anno più alto fra quelli presenti qui sotto. Quando
+    // arriveranno le locandine di un'edizione più recente basta aggiungerle
+    // all'elenco con il loro `a`, e diventeranno il valore predefinito da
+    // sole. Non c'è un anno da aggiornare a mano, che è esattamente il
+    // genere di cosa che resta indietro.
     cartoline: {
       h2: 'Cartoline dal viaggio',
       sotto: 'Dall\'archivio: le cartoline ufficiali delle prime edizioni.',
+      annate: {
+        label: 'Le annate',
+        aria: 'Scegli l\'annata',
+        tutte: 'tutte',
+      },
       voci: [
         { f: '2015-montecarotto.jpg', t: 'Verdicchio in Festa & Jazz — Montecarotto', a: '2015' },
         { f: '2015-fermo.jpg', t: 'Made in Marche Gallery — Fermo', a: '2015' },
