@@ -54,14 +54,11 @@ const toccati = tappe.comuni.length;
 const edizioni = Object.keys(tappe.years).length;
 const primaTappa = tappe.first;
 
-const cartoline = c.cartoline.voci;
-
-// LE ANNATE DELLE CARTOLINE. Si ricavano dall'elenco e si ordinano dalla
-// più recente: la prima è quella che la teca mostra all'apertura. Nessun
-// anno scritto a mano — quando entra una locandina di un'edizione più
-// recente, il valore predefinito si sposta da solo.
-const annate = [...new Set(cartoline.map((k) => k.a))].sort().reverse();
-const annataIniziale = annate[0];
+// LE COPERTINE DELLE EDIZIONI PASSATE. Una per anno, in ordine di tempo:
+// si legge da sinistra come una cronologia, perché è quello che è. Niente
+// filtro — le annate sono gli elementi stessi, e le pastiglie qui sopra
+// portano a una di loro invece di nasconderne undici.
+const copertine = c.copertine.voci;
 
 // ══════════════════════════════════════════════════════════════════════
 // IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08–09/08/2026)
@@ -492,35 +489,26 @@ const theme = {
       </div>
     </section>
 
-    <!-- ══ CARTOLINE DAL VIAGGIO ══ -->
-    <section class="sosta sosta--alt" id="cartoline" aria-labelledby="h-cart">
+    <!-- ══ DODICI ANNI DI VIAGGI ══ -->
+    <section class="sosta sosta--alt" id="archivio" aria-labelledby="h-arch">
       <div class="wrap">
-        <h2 id="h-cart" data-reveal>{c.cartoline.h2}</h2>
-        <p class="sotto" data-reveal>{c.cartoline.sotto}</p>
+        <h2 id="h-arch" data-reveal>{c.copertine.h2}</h2>
+        <p class="sotto" data-reveal>{c.copertine.sotto}</p>
 
-        {/* IL SELETTORE DELLE ANNATE. Stesso gruppo di pastiglie dei nuclei
-             tematici — è il linguaggio che questa pagina ha già, e due
-             selettori diversi nella stessa pagina sarebbero due cose da
-             imparare invece di una. Le annate scendono dalla più recente,
-             così la prima pastiglia è anche quella accesa. */}
+        {/* LE PASTIGLIE DELLE ANNATE. Prima filtravano, ora portano: con una
+             copertina per edizione, nascondere undici pezzi per vederne uno
+             sarebbe un dispetto, mentre far scorrere la striscia fino a
+             quell'anno è esattamente quello che uno vuole. Per questo non
+             sono più un radiogroup — non c'è niente da scegliere, c'è un
+             posto dove andare — e sono bottoni normali in fila, tutti
+             raggiungibili col tabulatore. */}
         <div class="annate" data-reveal>
-          <span class="nuclei-label" id="lbl-annate">{c.cartoline.annate.label}</span>
-          {/* le frecce in coda alla riga delle pastiglie: stanno dove si
-              sceglie l'annata, appena sopra quello che muovono */}
+          <span class="nuclei-label" id="lbl-annate">{c.copertine.annate.label}</span>
           <div class="annate-riga">
-            <div class="chip-lista" role="radiogroup" aria-labelledby="lbl-annate" id="annate">
-              {annate.map((a, i) => (
-                <button
-                  class="chip"
-                  role="radio"
-                  aria-checked={a === annataIniziale ? 'true' : 'false'}
-                  tabindex={i === 0 ? '0' : '-1'}
-                  data-annata={a}
-                >{a}</button>
+            <div class="chip-lista" id="annate" role="group" aria-labelledby="lbl-annate">
+              {copertine.map((k) => (
+                <button class="chip" type="button" data-vai={k.a}>{k.a}</button>
               ))}
-              <button class="chip" role="radio" aria-checked="false" tabindex="-1" data-annata="*">
-                {c.cartoline.annate.tutte}
-              </button>
             </div>
             <div class="scorri" data-scorre="teca-lista" hidden>
               <button class="scorri-b" type="button" data-verso="-1" aria-label={c.scorri.indietro}>
@@ -534,44 +522,50 @@ const theme = {
         </div>
       </div>
 
-      {/* Le cartoline ci sono TUTTE nel markup, di ogni annata: è la
-          versione che leggono i motori e quella che resta a chi ha il
-          JavaScript spento. Il filtro lo mette lo script qui sotto, prima
-          del primo paint.
+      {/* NESSUN RITAGLIO. I pezzi hanno proporzioni diverse per nascita — il
+          pieghevole del 2014 è un verticale, il post del 2020 un quadrato,
+          la cartolina del 2024 un orizzontale — e infilarli tutti in una
+          stessa finestra vorrebbe dire tagliare teste e titoli. Sono invece
+          allineati per ALTEZZA, 300px ciascuno, e larghi quanto sono: la
+          `--w` arriva dai testi e la calcola lo script di conversione.
 
-          La lista prende il fuoco (tabindex="0"): dentro non c'è niente di
-          focalizzabile — sono figure, non link — quindi senza questo da
-          tastiera la teca non si scorre affatto. Col fuoco addosso le
-          frecce della tastiera la muovono da sole, senza JavaScript. */}
+          Il bottone attorno all'immagine è un bottone vero: senza JavaScript
+          non apre niente, ma la copertina piccola e la sua didascalia
+          restano in pagina. */}
       <div class="teca" data-reveal>
-        <ul id="teca-lista" tabindex="0" role="group" aria-label={c.cartoline.h2}>
-          {cartoline.map((k, i) => (
-            <li style={`--rot:${(i % 3) - 1}deg`} data-annata={k.a}>
+        <ol id="teca-lista" tabindex="0" role="group" aria-label={c.copertine.aria}>
+          {copertine.map((k, i) => (
+            <li id={`ed-${k.a}`} style={`--rot:${(i % 3) - 1}deg; --w:${k.w}px`}>
               <figure>
-                <img src={`/gt/cartoline/${k.f}`} alt={k.t} width="900" height="637" loading="lazy" decoding="async" />
+                <button
+                  class="t-copertina"
+                  type="button"
+                  data-grande={`/gt/copertine/${k.a}-1400.avif`}
+                  data-titolo={`${k.a} — ${k.t}`}
+                  aria-label={`${c.copertine.apre}: ${k.a}, ${k.t}`}
+                >
+                  <picture>
+                    <source
+                      type="image/avif"
+                      srcset={`/gt/copertine/${k.a}-300.avif 1x, /gt/copertine/${k.a}-600.avif 2x`}
+                    />
+                    <img
+                      src={`/gt/copertine/${k.a}-300.webp`}
+                      srcset={`/gt/copertine/${k.a}-300.webp 1x, /gt/copertine/${k.a}-600.webp 2x`}
+                      alt={k.alt}
+                      width={k.w}
+                      height="300"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                </button>
                 <figcaption><span class="timbro">{k.a}</span>{k.t}</figcaption>
               </figure>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
-
-      <script is:inline define:vars={{ annataIniziale }}>
-        // Filtra PRIMA del primo paint, come il vocabolario di EVO: senza
-        // questo la teca comparirebbe con tutte le annate e si
-        // accorcerebbe subito dopo, con il salto di layout che ne segue.
-        // Va in coda al markup e non nello script in fondo alla pagina,
-        // che gira troppo tardi.
-        // Se non gira affatto restano visibili tutte: è il ripiego voluto.
-        (function () {
-          var lista = document.getElementById('teca-lista');
-          if (!lista) return;
-          var voci = lista.querySelectorAll('li');
-          for (var i = 0; i < voci.length; i++) {
-            voci[i].hidden = voci[i].dataset.annata !== annataIniziale;
-          }
-        })();
-      </script>
     </section>
 
     <!-- ══ RIPARTENZA ══ -->
@@ -963,6 +957,18 @@ const theme = {
   /* le scene sono 3:2, i video 16:9: il telaio cambia proporzione invece
      di incorniciare l'illustrazione di nero su due lati */
   .pr-telaio--scena { aspect-ratio: 3 / 2; background: var(--bg-mid); }
+  /* le copertine d'archivio non hanno UNA proporzione: ce n'è una per
+     edizione. Qui il telaio smette di averne e si adatta al pezzo. */
+  .pr-telaio--libero { aspect-ratio: auto; background: transparent; }
+  .pr-telaio :global(.pr-copertina) {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 76svh;
+    margin: 0 auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  }
   .pr-telaio :global(.pr-scena) {
     position: absolute;
     inset: 0;
@@ -1077,6 +1083,15 @@ const theme = {
     border-color: var(--brand-accent);
     color: #fff;
   }
+  /* L'annata appena raggiunta nell'archivio. È un segnaposto, non una
+     scelta — la striscia resta libera di scorrere via — quindi si segna
+     con il bordo e non riempiendo la pastiglia come fanno i nuclei: un
+     pieno direbbe «stai guardando solo questa», e non è vero. */
+  .chip--qui {
+    border-color: var(--brand-accent);
+    color: var(--text-soft);
+    box-shadow: inset 0 0 0 1px var(--brand-accent);
+  }
   .esempi {
     margin: 1.4rem 0 0;
     font-size: 0.92rem;
@@ -1088,8 +1103,11 @@ const theme = {
   @media (max-width: 900px) {
     .dovecosa { grid-template-columns: 1fr; gap: 1.6rem; }
     .mappa { max-width: 26rem; margin: 0 auto; }
-    /* i nuclei diventano una striscia che scorre, non un muro di chip */
-    .chip-lista {
+    /* I NUCLEI diventano una striscia che scorre, non un muro di chip.
+       ⚠️ Vale solo per #chips. Le annate dell'archivio sono dodici, e una
+       striscia che scorre appena sopra un'altra striscia che scorre è un
+       modo per non far trovare il 2025 a nessuno: quelle vanno a capo. */
+    #chips.chip-lista {
       flex-wrap: nowrap;
       overflow-x: auto;
       scrollbar-width: none;
@@ -1097,8 +1115,8 @@ const theme = {
       -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
       mask-image: linear-gradient(90deg, #000 88%, transparent 100%);
     }
-    .chip-lista::-webkit-scrollbar { display: none; }
-    .chip { flex: 0 0 auto; }
+    #chips.chip-lista::-webkit-scrollbar { display: none; }
+    #chips .chip { flex: 0 0 auto; }
     .esempi { min-height: 4.6rem; }
   }
 
@@ -1149,7 +1167,7 @@ const theme = {
 
   /* il fuoco sul contenitore che scorre deve vedersi, o chi arriva col
      tabulatore non sa di avere in mano la striscia */
-  .teca ul:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: -2px; }
+  .teca ol:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: -2px; }
 
   @media (prefers-reduced-motion: reduce) {
     .scorri-b { transition: none; }
@@ -1268,32 +1286,52 @@ const theme = {
   }
 
   .teca { margin-top: 1.2rem; }
-  /* una cartolina nascosta è nascosta davvero: senza questo `hidden` non
-     vince sul display:flex del contenitore */
-  .teca li[hidden] { display: none; }
-  .teca ul {
+  .teca ol {
     list-style: none;
     margin: 0;
     padding: 1.2rem max(calc((100vw - 70rem) / 2 + 1.6rem), 1.6rem) 1.6rem;
     display: flex;
+    /* allineate in alto, non al centro: i pezzi sono alti uguali, sono le
+       didascalie ad avere lunghezze diverse, e vanno appese sotto il bordo
+       inferiore comune invece di spingere le immagini a quote diverse */
+    align-items: flex-start;
     gap: 1.4rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
-  .teca ul::-webkit-scrollbar { display: none; }
-  .teca li { flex: 0 0 min(74vw, 22rem); scroll-snap-align: center; }
+  .teca ol::-webkit-scrollbar { display: none; }
+  /* ogni pezzo largo quanto è: la `--w` è la sua larghezza a 300px d'altezza.
+     Il minimo di 9rem evita che una didascalia lunga sotto un pezzo stretto
+     diventi una colonna di parole singole. */
+  .teca li {
+    flex: 0 0 max(var(--w), 9rem);
+    scroll-snap-align: center;
+    scroll-margin-inline: max(calc((100vw - 70rem) / 2 + 1.6rem), 1.6rem);
+  }
   .teca figure { margin: 0; transform: rotate(var(--rot)); transition: transform 0.3s var(--ease); }
   .teca figure:hover { transform: rotate(0deg); }
-  .teca img {
-    width: 100%;
-    height: auto;
+  .t-copertina {
     display: block;
-    aspect-ratio: 900 / 637; /* altezza riservata: nessuno scarto al caricamento */
-    object-fit: cover;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    width: 100%;
+  }
+  .t-copertina:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 4px; }
+  .teca img {
+    /* altezza fissa, larghezza libera: è l'opposto di una gabbia, ed è il
+       motivo per cui nessun pezzo viene tagliato */
+    height: 300px;
+    width: auto;
+    max-width: 100%;
+    display: block;
     background: var(--bg-mid);
     box-shadow: 0 6px 22px rgba(43, 29, 22, 0.14);
+    transition: box-shadow 0.3s var(--ease);
   }
+  .t-copertina:hover img { box-shadow: 0 10px 30px rgba(43, 29, 22, 0.22); }
   .teca figcaption {
     font-family: 'Manrope', sans-serif;
     font-size: 0.76rem;
@@ -1467,8 +1505,28 @@ const theme = {
     sipario.addEventListener('close', () => {
       telaio.textContent = '';
       titolo.textContent = '';
-      telaio.classList.remove('pr-telaio--scena');
+      telaio.classList.remove('pr-telaio--scena', 'pr-telaio--libero');
     });
+
+    // Aprire un'immagine grande nel sipario: lo fanno sia le scene
+    // dell'edizione in corso sia le copertine d'archivio, con la sola
+    // differenza della classe del telaio. Scriverlo due volte vorrebbe dire
+    // correggerlo due volte.
+    function proietta(bottone, sorgente, classe) {
+      telaio.textContent = '';
+      const img = document.createElement('img');
+      img.src = sorgente;
+      // l'alt vero è già sulla miniatura: lo si riporta, così chi apre
+      // l'immagine grande non trova una figura muta
+      const dentro = bottone.querySelector('img');
+      img.alt = dentro ? dentro.alt : '';
+      img.className = classe === 'pr-telaio--scena' ? 'pr-scena' : 'pr-copertina';
+      telaio.appendChild(img);
+      telaio.classList.add(classe);
+      titolo.textContent = bottone.dataset.titolo || '';
+      sipario.setAttribute('aria-label', bottone.dataset.titolo || etichettaSipario);
+      sipario.showModal();
+    }
 
     // LE SCENE DELL'EDIZIONE IN CORSO. Stanno qui dentro, e non più in
     // fondo allo script, perché il sipario è una costante di questa
@@ -1478,21 +1536,13 @@ const theme = {
     // nuovo. Senza JavaScript le scene restano in pagina a 800px: si perde
     // l'ingrandimento, non il contenuto.
     document.querySelectorAll('.t-scena').forEach((b) => {
-      b.addEventListener('click', () => {
-        telaio.textContent = '';
-        const img = document.createElement('img');
-        img.src = b.dataset.scena;
-        // l'alt vero è già sulla miniatura: lo si riporta, così chi apre
-        // la scena grande non trova un'immagine muta
-        const dentro = b.querySelector('img');
-        img.alt = dentro ? dentro.alt : '';
-        img.className = 'pr-scena';
-        telaio.appendChild(img);
-        telaio.classList.add('pr-telaio--scena');
-        titolo.textContent = b.dataset.titolo || '';
-        sipario.setAttribute('aria-label', b.dataset.titolo || etichettaSipario);
-        sipario.showModal();
-      });
+      b.addEventListener('click', () => proietta(b, b.dataset.scena, 'pr-telaio--scena'));
+    });
+
+    // LE COPERTINE D'ARCHIVIO. Stesso sipario, telaio senza proporzione: i
+    // dodici pezzi hanno dodici forme e il telaio si adatta a ognuna.
+    document.querySelectorAll('.t-copertina').forEach((b) => {
+      b.addEventListener('click', () => proietta(b, b.dataset.grande, 'pr-telaio--libero'));
     });
   })();
   const percorso = document.getElementById('percorso');
@@ -1627,60 +1677,23 @@ const theme = {
     rinfrescaStrisce.push(rinfresca);
   });
 
-  // ── LE ANNATE DELLA TECA ──
-  // Stesso gruppo di pastiglie dei nuclei, stesse frecce: chi ha imparato
-  // il primo selettore sa già usare il secondo. Qui però la scelta è un
-  // filtro e basta — niente accensione al passaggio, perché far cambiare
-  // la teca mentre il dito passa sopra una pastiglia è un dispetto.
+  // ── LE PASTIGLIE PORTANO ALL'ANNATA ──
+  // Non filtrano più: con una copertina per edizione, nascondere undici
+  // pezzi per vederne uno sarebbe un dispetto. Fanno scorrere la striscia
+  // fino a quell'anno, che è quello che uno vuole davvero.
+  //
+  // `scrollIntoView` con `inline: start` muove SOLO la striscia e non la
+  // pagina, perché la striscia è l'antenato che scorre: lo `scroll-margin`
+  // sulle voci gli fa rispettare la gronda della gabbia.
   const pastiglieAnnate = Array.from(document.querySelectorAll('#annate .chip'));
-  const teca = document.getElementById('teca-lista');
-  if (pastiglieAnnate.length && teca) {
-    const cartoline = Array.from(teca.querySelectorAll('li'));
-
-    function filtra(annata) {
-      cartoline.forEach((v) => {
-        v.hidden = annata !== '*' && v.dataset.annata !== annata;
-      });
-      // la teca è una striscia che scorre: cambiando annata si torna
-      // all'inizio, o si resta a guardare il vuoto dove prima c'era il 2015
-      teca.scrollTo({ left: 0, behavior: 'instant' });
-      // un'annata con poche cartoline può non sbordare affatto: le frecce
-      // vanno rifatte i conti addosso, e il salto a zero non sempre emette
-      // un evento di scorrimento che le sveglierebbe da solo
-      rinfrescaStrisce.forEach((f) => f());
-    }
-
-    function scegliAnnata(pastiglia) {
-      pastiglieAnnate.forEach((p) => {
-        const on = p === pastiglia;
-        p.setAttribute('aria-checked', on ? 'true' : 'false');
-        p.tabIndex = on ? 0 : -1;
-      });
-      filtra(pastiglia.dataset.annata);
-    }
-
-    pastiglieAnnate.forEach((p) => {
-      p.addEventListener('click', () => scegliAnnata(p));
-      p.addEventListener('keydown', (e) => {
-        const i = pastiglieAnnate.indexOf(p);
-        let n = null;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % pastiglieAnnate.length;
-        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + pastiglieAnnate.length) % pastiglieAnnate.length;
-        else if (e.key === 'Home') n = 0;
-        else if (e.key === 'End') n = pastiglieAnnate.length - 1;
-        else return;
-        e.preventDefault();
-        scegliAnnata(pastiglieAnnate[n]);
-        pastiglieAnnate[n].focus();
-      });
+  pastiglieAnnate.forEach((p) => {
+    p.addEventListener('click', () => {
+      const meta = document.getElementById('ed-' + p.dataset.vai);
+      if (!meta) return;
+      meta.scrollIntoView({ behavior: ridotto ? 'auto' : 'smooth', inline: 'start', block: 'nearest' });
+      pastiglieAnnate.forEach((q) => q.classList.toggle('chip--qui', q === p));
     });
-
-    // la pastiglia accesa all'apertura deve essere anche quella raggiunta
-    // per prima dal tabulatore: il markup la segna con aria-checked, qui
-    // si allinea il tabindex
-    const accesa = pastiglieAnnate.find((p) => p.getAttribute('aria-checked') === 'true');
-    if (accesa) pastiglieAnnate.forEach((p) => { p.tabIndex = p === accesa ? 0 : -1; });
-  }
+  });
 
   // ── il nome del comune al passaggio, con l'anno della prima tappa ──
   const tip = document.getElementById('tip');

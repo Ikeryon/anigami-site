@@ -68,8 +68,12 @@ export const content = {
         { id: 'laboratorio-di-comunita', label: 'La comunità' },
         { id: 'geometria-variabile', label: 'La geometria' },
         { id: 'incubatore', label: 'L\'incubatore' },
+        // l'edizione in corso era rimasta fuori dall'indice: è la sezione
+        // più cercata della pagina, e l'ordine qui dentro deve seguire
+        // quello del documento o la barra segna la sosta sbagliata
+        { id: 'edizione', label: 'L’edizione' },
         { id: 'strada-fatta', label: 'La strada' },
-        { id: 'cartoline', label: 'Le cartoline' },
+        { id: 'archivio', label: 'L’archivio' },
       ],
     },
 
@@ -250,38 +254,65 @@ export const content = {
       },
     },
 
-    // Le cartoline: `f` è il nome del file e `a` l'anno — tecnici. `t` è la
-    // didascalia, ed è il nome proprio della manifestazione più il luogo:
-    // si traduce solo se un giorno si deciderà di glossarlo.
+    // `a` è l'anno e dà il nome ai file; `t` è la didascalia, ed è il nome
+    // proprio della manifestazione più il luogo: si traduce solo se un
+    // giorno si deciderà di glossarlo.
     //
-    // ⚠️ L'ANNATA MOSTRATA ALL'APERTURA NON È SCRITTA DA NESSUNA PARTE: la
-    // pagina prende l'anno più alto fra quelli presenti qui sotto. Quando
-    // arriveranno le locandine di un'edizione più recente basta aggiungerle
-    // all'elenco con il loro `a`, e diventeranno il valore predefinito da
-    // sole. Non c'è un anno da aggiornare a mano, che è esattamente il
-    // genere di cosa che resta indietro.
-    cartoline: {
-      h2: 'Cartoline dal viaggio',
-      sotto: 'Dall\'archivio: le cartoline ufficiali delle prime edizioni.',
+    // ⚠️ UNA PER EDIZIONE, E IL CONTO DEVE TORNARE. Il titolo dice «dodici
+    // anni» e qui sotto ci sono esattamente dodici voci, dal 2014 al 2025:
+    // la tredicesima edizione non sta qui, sta in «L'edizione in corso».
+    // Se un giorno si aggiunge il 2026 qui dentro, va cambiato anche il
+    // titolo — un numero scritto in un titolo è una promessa.
+    //
+    // `w` è la larghezza che il pezzo ha quando è alto 300px: serve a
+    // riservargli lo spazio prima che l'immagine arrivi. `gw`/`gh` sono le
+    // misure della versione grande nel sipario. Li calcola e li stampa
+    // scripts/converti-copertine.mjs: non si scrivono a mano.
+    copertine: {
+      h2: 'Dodici anni di viaggi',
+      sotto: 'Dall’archivio: un pezzo per edizione, dal primo pieghevole del 2014 all’ultima cartolina. Dodici anni visti da come il Grand Tour si è annunciato.',
+      aria: 'Le dodici edizioni, dalla prima all’ultima conclusa',
+      apre: 'Guarda il pezzo intero',
       annate: {
-        label: 'Le annate',
-        aria: 'Scegli l\'annata',
-        tutte: 'tutte',
+        label: 'Vai all’edizione',
       },
       voci: [
-        { f: '2015-montecarotto.jpg', t: 'Verdicchio in Festa & Jazz — Montecarotto', a: '2015' },
-        { f: '2015-fermo.jpg', t: 'Made in Marche Gallery — Fermo', a: '2015' },
-        { f: '2015-pollenza.jpg', t: 'Antiquariato e artigianato artistico — Pollenza', a: '2015' },
-        { f: '2016-sefro.jpg', t: 'La Trota e il Verdicchio — Sefro', a: '2016' },
-        { f: '2016-fabriano.jpg', t: 'Fabriano Creative City', a: '2016' },
-        { f: '2016-montedinove.jpg', t: 'Sibillini in Rosa — Montedinove', a: '2016' },
-        { f: '2016-recanati.jpg', t: 'Recanati, città del buon vivere', a: '2016' },
-        { f: '2016-senigallia.jpg', t: 'Pane Nostrum — Senigallia', a: '2016' },
-        { f: '2016-venarotta.jpg', t: 'Le meraviglie del ricamo — Venarotta', a: '2016' },
-        { f: '2017-acquasanta.jpg', t: 'Festa d\'Autunno — Acquasanta Terme', a: '2017' },
-        { f: '2017-apecchio.jpg', t: 'Tartufo e Alogastronomia — Apecchio', a: '2017' },
-        { f: '2017-pesaro.jpg', t: 'Candele sotto le stelle — Pesaro', a: '2017' },
-        { f: '2017-piobbico.jpg', t: 'Sagra del polentone alla carbonara — Piobbico', a: '2017' },
+        { a: '2014', w: 216, gw: 1010, gh: 1400,
+          t: 'Il primo pieghevole',
+          alt: 'Pieghevole del 2014: una mappa disegnata a mano delle Marche, con i luoghi delle tappe illustrati uno per uno e il motto «Il modo migliore per viaggiare nelle Marche è viverle».' },
+        { a: '2015', w: 212, gw: 849, gh: 1200,
+          t: 'Il pieghevole della seconda edizione',
+          alt: 'Pieghevole del 2015 su fondo color carta da pacchi: la sagoma delle Marche con le tappe segnate e piccoli disegni a tratto.' },
+        { a: '2016', w: 210, gw: 980, gh: 1400,
+          t: 'Ascoliva, Festival mondiale dell’oliva ripiena — Ascoli Piceno',
+          alt: 'Cartolina del 2016 su fondo color carta da pacchi: un’oliva incoronata, disegnata a tratto come un’incisione antica.' },
+        { a: '2017', w: 210, gw: 982, gh: 1400,
+          t: 'La trota e il Verdicchio — Sefro',
+          alt: 'Cartolina del 2017 su fondo rosa pallido: una trota azzurra disegnata piatta, con il titolo della festa in giallo.' },
+        { a: '2018', w: 210, gw: 397, gh: 567,
+          t: 'Domus Romana — Sant’Angelo in Vado',
+          alt: 'Cartolina del 2018: due profili affiancati dentro un medaglione circolare, uno chiaro e uno scuro, come un mosaico romano.' },
+        { a: '2019', w: 210, gw: 397, gh: 567,
+          t: 'La piazza del gusto — Cantiano',
+          alt: 'Cartolina del 2019 su fondo grigio chiaro: una visciola e un frutto giallo uniti da un filo che disegna un cuore.' },
+        { a: '2020', w: 300, gw: 1400, gh: 1400,
+          t: 'Sibillini in Rosa — Montedinove',
+          alt: 'Post quadrato del 2020: la sagoma delle Marche riempita di fotografie, con una donna che tiene in mano delle mele rosa.' },
+        { a: '2021', w: 300, gw: 1400, gh: 1400,
+          t: 'Un mare di Brodetto — Porto Recanati',
+          alt: 'Post quadrato del 2021: un pesce bianco dentro un cerchio verde petrolio, su fondo bianco con righe orizzontali sottili.' },
+        { a: '2022', w: 400, gw: 1024, gh: 768,
+          t: 'La scatola: «oltre la destinazione»',
+          alt: 'La scatola di cartone del Grand Tour 2022, stampata in rosa con mongolfiere e il payoff «Oltre la destinazione».' },
+        { a: '2023', w: 300, gw: 1400, gh: 1400,
+          t: 'Oltre la destinazione, dicembre — Cingoli',
+          alt: 'Post quadrato del 2023: una giostra illustrata sopra un nastro arancione, su fondo di carta geografica.' },
+        { a: '2024', w: 416, gw: 1820, gh: 1312,
+          t: 'Senigallia Città Gourmet',
+          alt: 'Cartolina del 2024 su fondo di assi di legno bianche: un nastro arancione con il titolo e una conchiglia disegnata di lato.' },
+        { a: '2025', w: 240, gw: 1120, gh: 1400,
+          t: 'Campanili al futuro — Ripatransone',
+          alt: 'Locandina del 2025: una casa con il campanile che esce da un piatto, con posate e cibo intorno, su fondo bianco.' },
       ],
     },
 
