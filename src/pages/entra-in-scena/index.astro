@@ -27,6 +27,13 @@ const theme = {
   <main class="container" style="padding-top: 6rem;">
     <h1>{c.titolo}</h1>
     <p><a class="trace-link" href={`mailto:${c.email}`}>{c.email}</a></p>
+    <p class="pec">{c.pecEtichetta} {c.pec}</p>
     <p>{c.indirizzo}</p>
   </main>
 </BaseLayout>
+
+<style>
+  /* la PEC un gradino sotto l'indirizzo ordinario: c'è, si legge, ma non
+     compete con quello a cui davvero si scrive */
+  .pec { color: var(--text-dim); }
+</style>

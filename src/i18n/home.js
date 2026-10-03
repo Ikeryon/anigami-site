@@ -122,7 +122,7 @@ export const content = {
         { label: 'Entra in scena', href: '/entra-in-scena/' },
         { label: 'info@anigami.it', href: 'mailto:info@anigami.it' },
       ],
-      piede: 'Viale Giacomo Leopardi, 14 – Camerino (MC) · P.IVA/C.F. IT 01115460436',
+      piede: 'Viale Giacomo Leopardi, 14 – Camerino (MC) · PEC amministrazione@pec.imagina.srl · P.IVA/C.F. IT 01115460436',
     },
 
     // Dati strutturati: fatti anagrafici, non copy. Stanno qui perché la
@@ -250,7 +250,7 @@ export const content = {
         { label: 'Take the stage', href: '/entra-in-scena/' },
         { label: 'info@anigami.it', href: 'mailto:info@anigami.it' },
       ],
-      piede: 'Viale Giacomo Leopardi, 14 – Camerino (MC), Italy · VAT/Tax code IT 01115460436',
+      piede: 'Viale Giacomo Leopardi, 14 – Camerino (MC), Italy · Certified e-mail amministrazione@pec.imagina.srl · VAT/Tax code IT 01115460436',
     },
 
     sd: {
