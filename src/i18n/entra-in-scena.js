@@ -17,6 +17,10 @@ export const content = {
     },
     titolo: 'Entra in scena',
     email: 'info@anigami.it',
+    // etichetta esplicita: senza, «amministrazione@…» sembra un secondo
+    // indirizzo a cui scrivere, e non lo è
+    pecEtichetta: 'PEC',
+    pec: 'amministrazione@pec.imagina.srl',
     indirizzo: 'Viale Giacomo Leopardi, 14 – Camerino (MC)',
   },
 };

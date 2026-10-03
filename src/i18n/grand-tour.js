@@ -106,6 +106,83 @@ export const content = {
       ],
     },
 
+    // ── L'EDIZIONE IN CORSO ──
+    // Le tappe della 13ª edizione, trascritte dal pieghevole ufficiale
+    // 2026 (pannelli 03 e 04 del 210x210): data, nome dell'evento e comune.
+    //
+    // ⚠️ IL NOME VIENE DAL CALENDARIO, NON DALL'INSEGNA DIPINTA NELLA
+    // SCENA. Le due versioni non coincidono — l'insegna abbrevia («Trota &
+    // Verdicchio» per «La Trota e il Verdicchio», «Città Gourmet» per
+    // «Senigallia Città Gourmet»), e soprattutto è incisa nel pixel, quindi
+    // non si traduce. Per questo si usano le scene SENZA insegna e il
+    // titolo si scrive qui.
+    //
+    // `slug` è tecnico: lega la voce ai due file in public/gt/2026/
+    // (tappe/<slug>-800.avif e oggetti/<slug>.avif). Non si traduce.
+    // `alt` descrive la scena a chi non la vede: dice cosa si vede, non
+    // «illustrazione».
+    edizione: {
+      h2: 'L’edizione in corso',
+      sotto: 'La tredicesima edizione, da maggio 2026 a gennaio 2027. Ogni tappa ha la sua scena e il suo oggetto.',
+      aria: 'Le tappe dell’edizione 2026',
+      apre: 'Apri la scena',
+      voci: [
+        { slug: 'ancona', comune: 'Ancona', evento: 'Tipicità in Blu', quando: '16–22 maggio',
+          alt: 'Martino naviga in barca sul mare di Ancona, fra meduse e fondali.' },
+        { slug: 'castelraimondo', comune: 'Castelraimondo', evento: 'Infiorata del Corpus Domini', quando: '6–7 giugno',
+          alt: 'Martino sorvola un borgo dalle cupole fiorite durante l’infiorata.' },
+        { slug: 'civitanova', comune: 'Civitanova Marche', evento: 'GustaPorto', quando: '20 giugno',
+          alt: 'Martino sul pontile accanto a una barca a vela, nel porto di Civitanova.' },
+        { slug: 'porto-recanati', comune: 'Porto Recanati', evento: 'Brodetto Show', quando: '28 giugno',
+          alt: 'Martino sul lungomare di Porto Recanati fra i tavoli e le scodelle del brodetto.' },
+        { slug: 'castignano', comune: 'Castignano', evento: 'Percorso DiVino', quando: '3–4 luglio',
+          alt: 'Martino fra le colline di Castignano, con i calici di vino suoi in alto.' },
+        { slug: 'sefro', comune: 'Sefro', evento: 'La Trota e il Verdicchio', quando: '11–12 luglio',
+          alt: 'Martino nel bosco di Sefro, lungo il torrente dove nuotano le trote.' },
+        { slug: 'visso', comune: 'Visso', evento: 'Le Guaite del Gusto', quando: '18–19 luglio',
+          alt: 'Martino fra le montagne di Visso.' },
+        { slug: 'ascoli-piceno', comune: 'Ascoli Piceno', evento: 'Ascoliva festival', quando: '9–20 agosto',
+          alt: 'Martino sulle torri di Ascoli Piceno, con i cartocci di olive in alto.' },
+        { slug: 'sarnano', comune: 'Sarnano', evento: 'Festa del Ciauscolo e del salame spalmabile', quando: '5–6 settembre',
+          alt: 'Martino sulle colline di Sarnano, con i salumi appesi in alto.' },
+        { slug: 'senigallia', comune: 'Senigallia', evento: 'Senigallia Città Gourmet', quando: '6 settembre',
+          alt: 'Martino sotto i portici di Senigallia.' },
+        { slug: 'potenza-picena', comune: 'Potenza Picena', evento: 'Grappolo d’Oro', quando: '18–27 settembre',
+          alt: 'Martino a cavallo con lo stendardo, fra le botti e i grappoli di Potenza Picena.' },
+        { slug: 'macerata', comune: 'Macerata', evento: 'Evo — i linguaggi del gioco', quando: '24–27 settembre',
+          alt: 'Martino dentro un labirinto, nella scena dedicata ai linguaggi del gioco.' },
+        { slug: 'cagli', comune: 'Cagli', evento: 'Cagli Tutto Fungo', quando: '26–27 settembre',
+          alt: 'Martino sulle colline di Cagli, con i funghi che volano in alto.' },
+        { slug: 'montecassiano', comune: 'Montecassiano', evento: 'Sagra dei Sughitti', quando: '2–4 ottobre',
+          alt: 'Martino fra le botti di Montecassiano.' },
+        { slug: 'appignano', comune: 'Appignano', evento: 'Leguminaria', quando: '16–18 ottobre',
+          alt: 'Martino fra le ceramiche di Appignano, con le scodelle di legumi in alto.' },
+        { slug: 'montedinove', comune: 'Montedinove', evento: 'Sibillini in Rosa', quando: '30 ottobre – 1 novembre',
+          alt: 'Martino si cala fra gli alberi di Montedinove, dove cresce la mela rosa.' },
+        { slug: 'serrapetrona', comune: 'Serrapetrona', evento: 'Appassimenti Aperti', quando: '8 e 15 novembre',
+          alt: 'Martino fra le cassette d’uva messa ad appassire a Serrapetrona.' },
+        { slug: 'serra-de-conti', comune: 'Serra de’ Conti', evento: 'La festa della Cicerchia', quando: '27–29 novembre',
+          alt: 'Martino sotto le arcate di Serra de’ Conti, fra le botti e le scodelle di cicerchia.' },
+        { slug: 'camerino', comune: 'Camerino', evento: 'XXV Festa del Torrone', quando: '6 gennaio 2027',
+          alt: 'Martino a Camerino di sera, fra le luminarie e il torrone.' },
+      ],
+      // ⚠️ IN ATTESA, non dimenticare. Queste voci sono decise ma non
+      // pubblicabili: appena arriva quello che manca si spostano in `voci`,
+      // si rilancia scripts/converti-gt26.mjs e compaiono.
+      //   · Agugliano  — «Libera Repubblica di Castel D'Emilio», evento
+      //     speciale: manca la data. La scena pulita c'è, è già convertita.
+      //   · Pesaro     — «Le Marche e le De.Co. raccontano la comunità»,
+      //     evento speciale: mancano la data E la scena senza insegna
+      //     (in archivio esiste solo la versione con la targa dipinta).
+      //   · Grottammare — «Le Marche delle eccellenze quotidiane dalla
+      //     tradizione al progresso», evento speciale: stessa situazione
+      //     di Pesaro.
+      //   · San Ginesio — evento speciale voluto, ma in archivio ha solo
+      //     l'Oggetto Magico (le maschere del teatro, 83 px): la scena non
+      //     esiste e va disegnata.
+      attesa: [],
+    },
+
     incubatore: {
       h2: 'Incubatore',
       par: [
@@ -158,9 +235,21 @@ export const content = {
     // Le cartoline: `f` è il nome del file e `a` l'anno — tecnici. `t` è la
     // didascalia, ed è il nome proprio della manifestazione più il luogo:
     // si traduce solo se un giorno si deciderà di glossarlo.
+    //
+    // ⚠️ L'ANNATA MOSTRATA ALL'APERTURA NON È SCRITTA DA NESSUNA PARTE: la
+    // pagina prende l'anno più alto fra quelli presenti qui sotto. Quando
+    // arriveranno le locandine di un'edizione più recente basta aggiungerle
+    // all'elenco con il loro `a`, e diventeranno il valore predefinito da
+    // sole. Non c'è un anno da aggiornare a mano, che è esattamente il
+    // genere di cosa che resta indietro.
     cartoline: {
       h2: 'Cartoline dal viaggio',
       sotto: 'Dall\'archivio: le cartoline ufficiali delle prime edizioni.',
+      annate: {
+        label: 'Le annate',
+        aria: 'Scegli l\'annata',
+        tutte: 'tutte',
+      },
       voci: [
         { f: '2015-montecarotto.jpg', t: 'Verdicchio in Festa & Jazz — Montecarotto', a: '2015' },
         { f: '2015-fermo.jpg', t: 'Made in Marche Gallery — Fermo', a: '2015' },
