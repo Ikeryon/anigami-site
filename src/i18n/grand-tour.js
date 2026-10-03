@@ -249,61 +249,145 @@ export const content = {
     // proprio della manifestazione più il luogo: si traduce solo se un
     // giorno si deciderà di glossarlo.
     //
-    // ⚠️ UNA PER EDIZIONE, E IL CONTO DEVE TORNARE. Il titolo dice «dodici
-    // anni» e qui sotto ci sono esattamente dodici voci, dal 2014 al 2025:
-    // la tredicesima edizione non sta qui, sta in «L'edizione in corso».
-    // Se un giorno si aggiunge il 2026 qui dentro, va cambiato anche il
-    // titolo — un numero scritto in un titolo è una promessa.
+    // ⚠️ COSA ENTRA QUI DENTRO. Solo i pezzi del Grand Tour: le cartoline e
+    // le locandine con cui il Grand Tour annuncia una tappa. NON entrano i
+    // materiali degli eventi ospitati — la locandina del Brodetto Show, il
+    // depliant di GustaPorto, il manifesto di un Comune — che portano un
+    // altro marchio e raccontano un'altra cosa; e non entrano i depliant e
+    // i segnalibri del Grand Tour stesso, che sono stampati di servizio.
+    // Regola di Paolo, 3/10/2026.
     //
-    // `w` è la larghezza che il pezzo ha quando è alto 300px: serve a
-    // riservargli lo spazio prima che l'immagine arrivi. `gw`/`gh` sono le
-    // misure della versione grande nel sipario. Li calcola e li stampa
-    // scripts/converti-copertine.mjs: non si scrivono a mano.
-    copertine: {
-      h2: 'Dodici anni di viaggi',
-      sotto: 'Dall’archivio: un pezzo per edizione, dal primo pieghevole del 2014 all’ultima cartolina. Dodici anni visti da come il Grand Tour si è annunciato.',
-      aria: 'Le dodici edizioni, dalla prima all’ultima conclusa',
-      apre: 'Guarda il pezzo intero',
+    // Conseguenza: 2014, 2015 e 2025 non ci sono, perché di quelle edizioni
+    // in archivio restano solo pieghevoli e segnalibri. Il titolo non
+    // promette un numero, quindi il buco non mente — ma se salta fuori una
+    // cartolina di quegli anni, entra senza toccare altro.
+    //
+    // Ogni annata ha PIÙ pezzi e la pagina ne pesca uno a caso a ogni
+    // caricamento: chi torna non rivede la stessa teca. `w` è la larghezza
+    // del pezzo quando è alto 300px e serve a riservargli lo spazio prima
+    // che l'immagine arrivi; `gw`/`gh` sono le misure della versione grande
+    // nel sipario. Li calcola e li stampa scripts/converti-ricordi.mjs: non
+    // si scrivono a mano.
+    ricordi: {
+      h2: 'Ricordi di viaggio',
+      sotto: 'Dall’archivio: le cartoline con cui il Grand Tour ha annunciato le sue tappe, un’edizione alla volta. A ogni visita ne trovi altre.',
+      aria: 'Le cartoline delle edizioni passate, dalla più lontana',
+      apre: 'Guarda la cartolina intera',
       annate: {
         label: 'Vai all’edizione',
       },
       voci: [
-        { a: '2014', w: 216, gw: 1010, gh: 1400,
-          t: 'Il primo pieghevole',
-          alt: 'Pieghevole del 2014: una mappa disegnata a mano delle Marche, con i luoghi delle tappe illustrati uno per uno e il motto «Il modo migliore per viaggiare nelle Marche è viverle».' },
-        { a: '2015', w: 212, gw: 849, gh: 1200,
-          t: 'Il pieghevole della seconda edizione',
-          alt: 'Pieghevole del 2015 su fondo color carta da pacchi: la sagoma delle Marche con le tappe segnate e piccoli disegni a tratto.' },
-        { a: '2016', w: 210, gw: 980, gh: 1400,
-          t: 'Ascoliva, Festival mondiale dell’oliva ripiena — Ascoli Piceno',
-          alt: 'Cartolina del 2016 su fondo color carta da pacchi: un’oliva incoronata, disegnata a tratto come un’incisione antica.' },
-        { a: '2017', w: 210, gw: 982, gh: 1400,
-          t: 'La trota e il Verdicchio — Sefro',
-          alt: 'Cartolina del 2017 su fondo rosa pallido: una trota azzurra disegnata piatta, con il titolo della festa in giallo.' },
-        { a: '2018', w: 210, gw: 397, gh: 567,
-          t: 'Domus Romana — Sant’Angelo in Vado',
-          alt: 'Cartolina del 2018: due profili affiancati dentro un medaglione circolare, uno chiaro e uno scuro, come un mosaico romano.' },
-        { a: '2019', w: 210, gw: 397, gh: 567,
-          t: 'La piazza del gusto — Cantiano',
-          alt: 'Cartolina del 2019 su fondo grigio chiaro: una visciola e un frutto giallo uniti da un filo che disegna un cuore.' },
-        { a: '2020', w: 300, gw: 1400, gh: 1400,
-          t: 'Sibillini in Rosa — Montedinove',
-          alt: 'Post quadrato del 2020: la sagoma delle Marche riempita di fotografie, con una donna che tiene in mano delle mele rosa.' },
-        { a: '2021', w: 300, gw: 1400, gh: 1400,
-          t: 'Un mare di Brodetto — Porto Recanati',
-          alt: 'Post quadrato del 2021: un pesce bianco dentro un cerchio verde petrolio, su fondo bianco con righe orizzontali sottili.' },
-        { a: '2022', w: 400, gw: 1024, gh: 768,
-          t: 'La scatola: «oltre la destinazione»',
-          alt: 'La scatola di cartone del Grand Tour 2022, stampata in rosa con mongolfiere e il payoff «Oltre la destinazione».' },
-        { a: '2023', w: 300, gw: 1400, gh: 1400,
-          t: 'Oltre la destinazione, dicembre — Cingoli',
-          alt: 'Post quadrato del 2023: una giostra illustrata sopra un nastro arancione, su fondo di carta geografica.' },
-        { a: '2024', w: 416, gw: 1820, gh: 1312,
-          t: 'Senigallia Città Gourmet',
-          alt: 'Cartolina del 2024 su fondo di assi di legno bianche: un nastro arancione con il titolo e una conchiglia disegnata di lato.' },
-        { a: '2025', w: 240, gw: 1120, gh: 1400,
-          t: 'Campanili al futuro — Ripatransone',
-          alt: 'Locandina del 2025: una casa con il campanile che esce da un piatto, con posate e cibo intorno, su fondo bianco.' },
+        { a: '2016', pezzi: [
+          { f: '2016-ascoliva', w: 210, gw: 980, gh: 1400,
+            t: 'Ascoliva, Festival mondiale dell’oliva ripiena — Ascoli Piceno',
+            alt: 'Cartolina su fondo color carta da pacchi: un’oliva incoronata, disegnata a tratto come un’incisione antica.' },
+          { f: '2016-pollenza', w: 488, gw: 1366, gh: 840,
+            t: 'Antiquariato, restauro e artigianato artistico — Pollenza',
+            alt: 'Cartolina su fondo color carta da pacchi: un baule antico aperto, disegnato a tratto.' },
+        ] },
+        { a: '2017', pezzi: [
+          { f: '2017-sefro', w: 210, gw: 982, gh: 1400,
+            t: 'La trota e il Verdicchio — Sefro',
+            alt: 'Cartolina su fondo rosa pallido: una trota azzurra disegnata piatta, con il titolo della festa in giallo.' },
+          { f: '2017-castelraimondo', w: 210, gw: 979, gh: 1400,
+            t: 'Infiorata del Corpus Domini — Castelraimondo',
+            alt: 'Cartolina su fondo rosa pallido: due mani aperte che reggono un fiore bianco e azzurro.' },
+          { f: '2017-montappone', w: 210, gw: 397, gh: 567,
+            t: 'Il Cappello di Paglia — Montappone',
+            alt: 'Cartolina su fondo rosa pallido: il volto stilizzato di una donna sotto un grande cappello rosso.' },
+          { f: '2017-visso', w: 428, gw: 567, gh: 397,
+            t: 'Gusto — Visso',
+            alt: 'Cartolina orizzontale su fondo rosa pallido: una forma di pane tonda e sorridente disegnata piatta.' },
+        ] },
+        { a: '2018', pezzi: [
+          { f: '2018-sant-angelo', w: 210, gw: 397, gh: 567,
+            t: 'Domus Romana — Sant’Angelo in Vado',
+            alt: 'Cartolina: due profili affiancati dentro un medaglione circolare, uno chiaro e uno scuro, come un mosaico romano.' },
+        ] },
+        { a: '2019', pezzi: [
+          { f: '2019-montappone', w: 210, gw: 397, gh: 567,
+            t: 'Paje, più di un grano — Montappone',
+            alt: 'Cartolina su fondo grigio chiaro: il volto di una donna sotto un cappello di paglia rosso.' },
+          { f: '2019-cantiano', w: 210, gw: 397, gh: 567,
+            t: 'La piazza del gusto — Cantiano',
+            alt: 'Cartolina su fondo grigio chiaro: una visciola e un frutto giallo uniti da un filo che disegna un cuore.' },
+          { f: '2019-sant-angelo', w: 211, gw: 395, gh: 562,
+            t: 'Domus Romana — Sant’Angelo in Vado',
+            alt: 'Cartolina su fondo grigio chiaro: due profili affiancati dentro un medaglione dorato.' },
+          { f: '2019-monte-rinaldo', w: 210, gw: 397, gh: 567,
+            t: 'Tipicità & Archeologia — Monte Rinaldo',
+            alt: 'Cartolina su fondo grigio chiaro: un capitello ionico giallo con forchetta e coltello ai lati.' },
+        ] },
+        { a: '2020', pezzi: [
+          { f: '2020-apecchio', w: 300, gw: 1400, gh: 1400,
+            t: 'Tartufo & Birra — Apecchio',
+            alt: 'Post quadrato: la sagoma delle Marche riempita di fotografie, con una donna che annusa un tartufo.' },
+          { f: '2020-porto-recanati', w: 300, gw: 1400, gh: 1400,
+            t: 'A tutto Brodetto — Porto Recanati',
+            alt: 'Post quadrato: la sagoma delle Marche riempita di fotografie, con un piatto di brodetto e una donna in riva al mare.' },
+          { f: '2020-montedinove', w: 300, gw: 1400, gh: 1400,
+            t: 'Sibillini in Rosa — Montedinove',
+            alt: 'Post quadrato: la sagoma delle Marche riempita di fotografie, con una donna che tiene in mano delle mele rosa.' },
+          { f: '2020-cagli', w: 300, gw: 1400, gh: 1400,
+            t: 'Festa della Pipa — Cagli',
+            alt: 'Post quadrato: la sagoma delle Marche riempita di fotografie, con una rocca, una pipa e due ritratti.' },
+        ] },
+        { a: '2021', pezzi: [
+          { f: '2021-monte-rinaldo', w: 300, gw: 1400, gh: 1400,
+            t: 'Tipicità e Archeologia — Monte Rinaldo',
+            alt: 'Post quadrato su fondo bianco: un’anfora bruna dentro un cerchio, sopra righe orizzontali sottili.' },
+          { f: '2021-porto-recanati', w: 300, gw: 1400, gh: 1400,
+            t: 'Un mare di Brodetto — Porto Recanati',
+            alt: 'Post quadrato su fondo bianco: un pesce bianco dentro un cerchio verde petrolio.' },
+          { f: '2021-civitanova', w: 300, gw: 1400, gh: 1400,
+            t: 'GustaPorto — Civitanova Marche',
+            alt: 'Post quadrato su fondo bianco: una barca a vela dentro un cerchio blu, sopra un profilo di onde.' },
+          { f: '2021-castelraimondo', w: 300, gw: 1400, gh: 1400,
+            t: 'Infiorata del Corpus Domini — Castelraimondo',
+            alt: 'Post quadrato su fondo bianco: un fiore stilizzato dentro un cerchio magenta.' },
+        ] },
+        { a: '2022', pezzi: [
+          { f: '2022-acqualagna', w: 533, gw: 1200, gh: 675,
+            t: 'Fiera Nazionale del Tartufo Bianco — Acqualagna',
+            alt: 'Cartolina arancione: il profilo bianco del borgo e tre strisce diagonali di fotografie, con tartufi e un calice.' },
+          { f: '2022-frontone', w: 533, gw: 1200, gh: 675,
+            t: 'Mercatini di Natale e la Crescia De.Co. — Frontone',
+            alt: 'Cartolina arancione: il profilo bianco del castello e tre strisce diagonali di fotografie invernali.' },
+          { f: '2022-civitanova', w: 533, gw: 1200, gh: 675,
+            t: 'GustaPorto — Civitanova Marche',
+            alt: 'Cartolina arancione: il profilo bianco del porto e tre strisce diagonali di fotografie, con un piatto di pesce.' },
+          { f: '2022-montedinove', w: 533, gw: 1200, gh: 675,
+            t: 'Sibillini in Rosa — Montedinove',
+            alt: 'Cartolina arancione: il profilo bianco del borgo e tre strisce diagonali di fotografie, con mele rosa.' },
+        ] },
+        { a: '2023', pezzi: [
+          { f: '2023-montedinove', w: 420, gw: 1600, gh: 1143,
+            t: 'Sibillini in Rosa — Montedinove',
+            alt: 'Cartolina orizzontale su fondo di carta geografica: un nastro arancione col titolo e due mele rosa disegnate.' },
+          { f: '2023-ottobre', w: 420, gw: 1600, gh: 1143,
+            t: 'Le tappe di ottobre',
+            alt: 'Cartolina orizzontale su fondo di carta geografica: una giostra illustrata e il nastro «Oltre la destinazione».' },
+          { f: '2023-cingoli', w: 300, gw: 1400, gh: 1400,
+            t: 'Dicembre: oltre la destinazione',
+            alt: 'Post quadrato su fondo di carta geografica: una giostra illustrata sopra un grande nastro arancione.' },
+          { f: '2023-pieve-torina', w: 420, gw: 1737, gh: 1241,
+            t: 'Le Terre del Tartufo — Pieve Torina',
+            alt: 'Cartolina orizzontale su fondo di carta geografica: un nastro rosso scuro col titolo e una tavola imbandita.' },
+        ] },
+        { a: '2024', pezzi: [
+          { f: '2024-montedinove', w: 416, gw: 1819, gh: 1311,
+            t: 'Sibillini in Rosa — Montedinove',
+            alt: 'Cartolina orizzontale su fondo di assi di legno bianche: un nastro arancione col titolo e una mela rosa.' },
+          { f: '2024-potenza-picena', w: 423, gw: 1749, gh: 1241,
+            t: 'Grappolo d’Oro — Potenza Picena',
+            alt: 'Cartolina orizzontale su fondo di assi di legno bianche: un nastro arancione col titolo e un grappolo d’uva.' },
+          { f: '2024-senigallia', w: 416, gw: 1820, gh: 1312,
+            t: 'Senigallia Città Gourmet',
+            alt: 'Cartolina orizzontale su fondo di assi di legno bianche: un nastro arancione col titolo e una conchiglia.' },
+          { f: '2024-civitanova', w: 418, gw: 1952, gh: 1400,
+            t: 'GustaPorto — Civitanova Marche',
+            alt: 'Cartolina orizzontale su fondo di assi di legno bianche: un nastro arancione col titolo e un polpo disegnato.' },
+        ] },
       ],
     },
 

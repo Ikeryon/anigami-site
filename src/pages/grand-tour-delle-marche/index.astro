@@ -58,7 +58,12 @@ const primaTappa = tappe.first;
 // si legge da sinistra come una cronologia, perché è quello che è. Niente
 // filtro — le annate sono gli elementi stessi, e le pastiglie qui sopra
 // portano a una di loro invece di nasconderne undici.
-const copertine = c.copertine.voci;
+// I RICORDI DI VIAGGIO. Una annata per volta, in ordine di tempo: si legge
+// da sinistra come una cronologia, perché è quello che è. Ogni annata porta
+// in pagina TUTTI i suoi pezzi — è la versione che leggono i motori e
+// quella che resta senza JavaScript — e uno script ne accende uno a caso
+// prima del primo paint. Chi torna non rivede la stessa teca.
+const ricordi = c.ricordi.voci;
 
 // ══════════════════════════════════════════════════════════════════════
 // IL COMPENDIO VISUALE DEL RACCONTO — griglia 3×3 (Paolo, 08–09/08/2026)
@@ -437,25 +442,23 @@ const theme = {
       </div>
     </section>
 
-    <!-- ══ DODICI ANNI DI VIAGGI ══ -->
+    <!-- ══ RICORDI DI VIAGGIO ══ -->
     <section class="sosta sosta--alt" id="archivio" aria-labelledby="h-arch">
       <div class="wrap">
-        <h2 id="h-arch" data-reveal>{c.copertine.h2}</h2>
-        <p class="sotto" data-reveal>{c.copertine.sotto}</p>
+        <h2 id="h-arch" data-reveal>{c.ricordi.h2}</h2>
+        <p class="sotto" data-reveal>{c.ricordi.sotto}</p>
 
-        {/* LE PASTIGLIE DELLE ANNATE. Prima filtravano, ora portano: con una
-             copertina per edizione, nascondere undici pezzi per vederne uno
-             sarebbe un dispetto, mentre far scorrere la striscia fino a
-             quell'anno è esattamente quello che uno vuole. Per questo non
-             sono più un radiogroup — non c'è niente da scegliere, c'è un
-             posto dove andare — e sono bottoni normali in fila, tutti
-             raggiungibili col tabulatore. */}
+        {/* LE PASTIGLIE DELLE ANNATE. Non filtrano, portano: fanno scorrere
+             la striscia fino a quell'edizione. Per questo non sono un
+             radiogroup — non c'è niente da scegliere, c'è un posto dove
+             andare — e sono bottoni normali in fila, tutti raggiungibili
+             col tabulatore. */}
         <div class="annate" data-reveal>
-          <span class="nuclei-label" id="lbl-annate">{c.copertine.annate.label}</span>
+          <span class="nuclei-label" id="lbl-annate">{c.ricordi.annate.label}</span>
           <div class="annate-riga">
             <div class="chip-lista" id="annate" role="group" aria-labelledby="lbl-annate">
-              {copertine.map((k) => (
-                <button class="chip" type="button" data-vai={k.a}>{k.a}</button>
+              {ricordi.map((v) => (
+                <button class="chip" type="button" data-vai={v.a}>{v.a}</button>
               ))}
             </div>
             <div class="scorri" data-scorre="teca-lista" hidden>
@@ -470,36 +473,44 @@ const theme = {
         </div>
       </div>
 
-      {/* NESSUN RITAGLIO. I pezzi hanno proporzioni diverse per nascita — il
-          pieghevole del 2014 è un verticale, il post del 2020 un quadrato,
-          la cartolina del 2024 un orizzontale — e infilarli tutti in una
-          stessa finestra vorrebbe dire tagliare teste e titoli. Sono invece
-          allineati per ALTEZZA, 300px ciascuno, e larghi quanto sono: la
-          `--w` arriva dai testi e la calcola lo script di conversione.
+      {/* NESSUN RITAGLIO. Le cartoline hanno proporzioni diverse per nascita
+          — verticali nel 2017, quadrate nel 2020, 16:9 nel 2022 — e
+          infilarle tutte in una stessa finestra vorrebbe dire tagliare teste
+          e titoli. Sono invece allineate per ALTEZZA, 300px ciascuna, e
+          larghe quanto sono: la `--w` arriva dai testi e la calcola lo
+          script di conversione.
 
-          Il bottone attorno all'immagine è un bottone vero: senza JavaScript
-          non apre niente, ma la copertina piccola e la sua didascalia
-          restano in pagina. */}
+          Ci sono TUTTI i pezzi di ogni annata, e lo script qui sotto ne
+          lascia acceso uno per anno. Senza JavaScript restano visibili
+          tutti: è il ripiego voluto — la teca diventa più lunga, non vuota.
+
+          Il bottone attorno all'immagine è un bottone vero: senza
+          JavaScript non apre niente, ma la cartolina piccola e la sua
+          didascalia restano in pagina.
+
+          ⚠️ `--w` viaggia SENZA unità: serve sia come lunghezza, e lì si
+          moltiplica per 1px, sia dentro `aspect-ratio`, che le lunghezze
+          non le accetta e scarterebbe la regola intera. */}
       <div class="teca" data-reveal>
-        <ol id="teca-lista" tabindex="0" role="group" aria-label={c.copertine.aria}>
-          {copertine.map((k, i) => (
-            <li id={`ed-${k.a}`} style={`--rot:${(i % 3) - 1}deg; --w:${k.w}px`}>
+        <ol id="teca-lista" tabindex="0" role="group" aria-label={c.ricordi.aria}>
+          {ricordi.map((v, i) => v.pezzi.map((k) => (
+            <li data-anno={v.a} style={`--rot:${(i % 3) - 1}deg; --w:${k.w}`}>
               <figure>
                 <button
                   class="t-copertina"
                   type="button"
-                  data-grande={`/gt/copertine/${k.a}-1400.avif`}
-                  data-titolo={`${k.a} — ${k.t}`}
-                  aria-label={`${c.copertine.apre}: ${k.a}, ${k.t}`}
+                  data-grande={`/gt/ricordi/${k.f}-1400.avif`}
+                  data-titolo={`${v.a} — ${k.t}`}
+                  aria-label={`${c.ricordi.apre}: ${v.a}, ${k.t}`}
                 >
                   <picture>
                     <source
                       type="image/avif"
-                      srcset={`/gt/copertine/${k.a}-300.avif 1x, /gt/copertine/${k.a}-600.avif 2x`}
+                      srcset={`/gt/ricordi/${k.f}-300.avif 1x, /gt/ricordi/${k.f}-600.avif 2x`}
                     />
                     <img
-                      src={`/gt/copertine/${k.a}-300.webp`}
-                      srcset={`/gt/copertine/${k.a}-300.webp 1x, /gt/copertine/${k.a}-600.webp 2x`}
+                      src={`/gt/ricordi/${k.f}-300.webp`}
+                      srcset={`/gt/ricordi/${k.f}-300.webp 1x, /gt/ricordi/${k.f}-600.webp 2x`}
                       alt={k.alt}
                       width={k.w}
                       height="300"
@@ -508,12 +519,51 @@ const theme = {
                     />
                   </picture>
                 </button>
-                <figcaption><span class="timbro">{k.a}</span>{k.t}</figcaption>
+                <figcaption><span class="timbro">{v.a}</span>{k.t}</figcaption>
               </figure>
             </li>
-          ))}
+          )))}
         </ol>
       </div>
+
+      <script is:inline>
+        // IL SORTEGGIO. Una cartolina per annata, estratta PRIMA del primo
+        // paint: se girasse più tardi la teca comparirebbe con tutti e
+        // trentuno i pezzi e si accorcerebbe sotto gli occhi, con il salto
+        // di layout che ne segue. Per lo stesso motivo sta qui in coda al
+        // markup e non nello script in fondo alla pagina, che gira dopo.
+        //
+        // Nasconde con `hidden`: le immagini degli esclusi non vengono
+        // nemmeno chieste, quindi per il browser è come se la teca avesse
+        // sempre avuto nove pezzi.
+        (function () {
+          var lista = document.getElementById('teca-lista');
+          if (!lista) return;
+          var gruppi = {};
+          var voci = lista.querySelectorAll('li');
+          for (var i = 0; i < voci.length; i++) {
+            var a = voci[i].dataset.anno;
+            (gruppi[a] = gruppi[a] || []).push(voci[i]);
+          }
+          // Un ripescaggio solo, se il caso ha dato due volte di fila la
+          // stessa tappa: il Grand Tour torna negli stessi comuni, quindi
+          // capita, e due medaglioni di Sant'Angelo in Vado affiancati
+          // sembrano un errore di montaggio anche quando non lo sono.
+          // Un tentativo e basta: se l'annata ha quel pezzo solo, resta.
+          var anni = Object.keys(gruppi).sort();
+          var precedente = '';
+          for (var k = 0; k < anni.length; k++) {
+            var g = gruppi[anni[k]];
+            var titolo = function (li) { return li.querySelector('figcaption').textContent; };
+            var scelto = Math.floor(Math.random() * g.length);
+            if (g.length > 1 && titolo(g[scelto]).slice(4) === precedente) {
+              scelto = (scelto + 1 + Math.floor(Math.random() * (g.length - 1))) % g.length;
+            }
+            precedente = titolo(g[scelto]).slice(4);
+            for (var j = 0; j < g.length; j++) g[j].hidden = j !== scelto;
+          }
+        })();
+      </script>
     </section>
 
     <!-- ══ RIPARTENZA ══ -->
@@ -1232,8 +1282,16 @@ const theme = {
   /* ogni pezzo largo quanto è: la `--w` è la sua larghezza a 300px d'altezza.
      Il minimo di 9rem evita che una didascalia lunga sotto un pezzo stretto
      diventi una colonna di parole singole. */
+  /* una cartolina non sorteggiata è nascosta davvero: il `flex` qui sotto
+     la rimetterebbe in riga, e si vedrebbero tutti e trentuno i pezzi */
+  .teca li[hidden] { display: none; }
+  /* ⚠️ il tetto di 86vw non è decorazione: una cartolina 16:9 alta 300px è
+     larga 533px, e su un telefono da 375 non la si vedrebbe mai intera per
+     quanto si scorra. Oltre quel limite il pezzo rimpicciolisce tutto
+     insieme — da qui l'`aspect-ratio` sull'immagine invece di un'altezza
+     fissa. Sul desktop non scatta mai: 533px stanno larghi nella gabbia. */
   .teca li {
-    flex: 0 0 max(var(--w), 9rem);
+    flex: 0 0 min(max(calc(var(--w) * 1px), 9rem), 86vw);
     scroll-snap-align: center;
     scroll-margin-inline: max(calc((100vw - 70rem) / 2 + 1.6rem), 1.6rem);
   }
@@ -1249,11 +1307,14 @@ const theme = {
   }
   .t-copertina:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 4px; }
   .teca img {
-    /* altezza fissa, larghezza libera: è l'opposto di una gabbia, ed è il
-       motivo per cui nessun pezzo viene tagliato */
-    height: 300px;
-    width: auto;
-    max-width: 100%;
+    /* La proporzione è quella vera del pezzo, non una gabbia uguale per
+       tutti: è il motivo per cui nessuna cartolina viene tagliata. A
+       larghezza piena `--w / 300` dà esattamente 300px d'altezza, così la
+       striscia resta allineata; sotto il tetto di 86vw il pezzo scala
+       intero, altezza compresa. */
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--w) / 300;
     display: block;
     background: var(--bg-mid);
     box-shadow: 0 6px 22px rgba(43, 29, 22, 0.14);
@@ -1616,7 +1677,9 @@ const theme = {
   const pastiglieAnnate = Array.from(document.querySelectorAll('#annate .chip'));
   pastiglieAnnate.forEach((p) => {
     p.addEventListener('click', () => {
-      const meta = document.getElementById('ed-' + p.dataset.vai);
+      // di quell'annata in pagina ce n'è più d'una, ma una sola non è
+      // nascosta: è quella sorteggiata al caricamento, ed è lì che si va
+      const meta = document.querySelector(`#teca-lista li[data-anno="${p.dataset.vai}"]:not([hidden])`);
       if (!meta) return;
       meta.scrollIntoView({ behavior: ridotto ? 'auto' : 'smooth', inline: 'start', block: 'nearest' });
       pastiglieAnnate.forEach((q) => q.classList.toggle('chip--qui', q === p));
