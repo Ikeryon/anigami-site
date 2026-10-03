@@ -42,6 +42,15 @@ export const content = {
       avanti: 'Scorri avanti',
     },
 
+    // La fascia d'apertura. Nessuna didascalia sotto l'immagine: il credito
+    // a Simona Pagano la pagina lo dà già nel racconto, e per esteso — «che
+    // firma anche una serie di illustrazioni che raccontano le Marche».
+    // Una riga di testo sotto una fascia a tutto campo le toglierebbe il
+    // fiato per ripetere una cosa che arriva poco più in basso.
+    apertura: {
+      alt: 'Un viandante col bastone, di spalle su un crinale all’alba, guarda i borghi delle Marche sfumare fino all’orizzonte; sopra di lui vola Martino, il picchio del Grand Tour.',
+    },
+
     partenza: {
       titolo: 'Grand Tour delle Marche',
       marchioAlt: 'Grand Tour delle Marche',
